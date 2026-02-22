@@ -4,174 +4,75 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boutique | Info Experts Moroni</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            theme: { extend: { colors: { 'trust-blue': { 50: '#eff6ff', 100: '#dbeafe', 400: '#60a5fa', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a', 950: '#172554', } } } }
+            theme: { extend: { colors: { 'trust-blue': { 900: '#1e3a8a', 800: '#1e40af', 700: '#1d4ed8', 400: '#60a5fa' } } } }
         }
     </script>
 </head>
-<body class="bg-trust-blue-50 text-gray-800 font-sans antialiased leading-relaxed flex flex-col min-h-screen">
+<body class="bg-gray-100 text-gray-800 font-sans flex flex-col min-h-screen">
 
-    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md border-b border-trust-blue-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="index.html" class="flex-shrink-0 flex items-center gap-2 cursor-pointer hover:opacity-80 transition">
-                    <svg class="w-9 h-9 text-trust-blue-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2 2V18z"></path></svg>
-                    <span class="font-bold text-2xl tracking-tight text-white">Info<span class="text-trust-blue-400">Experts</span></span>
-                </a>
-                <nav class="hidden md:flex space-x-8">
-                    <a href="index.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Accueil</a>
-                    <a href="a-propos.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">À propos</a>
-                    <a href="boutique.html" class="text-white font-bold border-b-2 border-trust-blue-400 pb-1">Boutique</a>
-                    <a href="index.html#formulaire" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Contact</a>
-                </nav>
-                <div class="md:hidden flex items-center">
-                    <button id="btn-menu-mobile" class="text-trust-blue-100 hover:text-white focus:outline-none">
-                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div id="menu-mobile" class="hidden md:hidden bg-trust-blue-800 border-t border-trust-blue-700">
-            <div class="px-2 pt-2 pb-4 space-y-1 sm:px-3 shadow-inner">
-                <a href="index.html" class="lien-mobile block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Accueil</a>
-                <a href="a-propos.html" class="lien-mobile block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">À propos</a>
-                <a href="boutique.html" class="lien-mobile block px-3 py-2 rounded-md text-base font-bold text-white bg-trust-blue-700">Boutique</a>
-                <a href="index.html#formulaire" class="lien-mobile block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Contact</a>
-            </div>
+    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md h-20">
+        <div class="max-w-7xl mx-auto px-4 h-full flex justify-between items-center">
+            <a href="index.html" class="font-bold text-2xl text-white">Info<span class="text-trust-blue-400">Experts</span></a>
+            <nav class="space-x-8 text-white font-semibold">
+                <a href="index.html">Accueil</a>
+                <a href="boutique.html" class="border-b-2 border-trust-blue-400">Boutique</a>
+            </nav>
         </div>
     </header>
 
     <main class="flex-grow">
-        <section class="bg-trust-blue-800 py-16 border-b border-trust-blue-700">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-                <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Notre Boutique</h1>
-                <p class="text-xl text-white font-semibold">Commandez facilement via WhatsApp, livraison rapide à Moroni.</p>
-            </div>
+        <section class="bg-trust-blue-800 py-12 text-center">
+            <h1 class="text-4xl font-extrabold text-white mb-4">Notre Boutique</h1>
+            <p class="text-xl text-white font-semibold">Commandez facilement via WhatsApp, livraison rapide à Moroni.</p>
         </section>
 
-        <section class="py-20 bg-trust-blue-50">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    
-                    <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl border border-trust-blue-700 flex flex-col group hover:-translate-y-2 transition duration-300">
-                        <div class="h-64 overflow-hidden relative border-b border-trust-blue-800 bg-white">
-                            <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=800&q=80" alt="Ordinateur Portable Dell" class="w-full h-full object-cover">
-                            <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">En Stock</div>
-                        </div>
-                        <div class="p-6 flex-grow flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-xl font-bold text-white">Laptop Dell Pro</h3>
-                                <p class="text-trust-blue-100 mt-2 text-sm leading-relaxed">Intel Core i5, 8Go RAM, 256Go SSD. Parfait pour la bureautique et les étudiants.</p>
-                                <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">450 € <span class="text-sm text-trust-blue-200 font-normal">/ 220 000 FC</span></p>
-                            </div>
-                            <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Laptop%20Dell%20Pro%20à%20450€." target="_blank" class="w-full text-center bg-[#25D366] text-white font-bold hover:bg-[#128C7E] py-3 rounded-lg transition duration-300 flex justify-center items-center gap-2">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
-                                Commander
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl border border-trust-blue-700 flex flex-col group hover:-translate-y-2 transition duration-300">
-                        <div class="h-64 overflow-hidden relative border-b border-trust-blue-800 bg-white">
-                            <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80" alt="Routeur 4G" class="w-full h-full object-cover">
-                        </div>
-                        <div class="p-6 flex-grow flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-xl font-bold text-white">Routeur Wi-Fi Haut Débit</h3>
-                                <p class="text-trust-blue-100 mt-2 text-sm leading-relaxed">Insérez votre carte SIM et partagez internet avec toute la famille ou le bureau.</p>
-                                <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">65 € <span class="text-sm text-trust-blue-200 font-normal">/ 32 000 FC</span></p>
-                            </div>
-                            <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Routeur%20Wi-Fi%204G%20à%2065€." target="_blank" class="w-full text-center bg-[#25D366] text-white font-bold hover:bg-[#128C7E] py-3 rounded-lg transition duration-300 flex justify-center items-center gap-2">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
-                                Commander
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl border border-trust-blue-700 flex flex-col group hover:-translate-y-2 transition duration-300">
-                        <div class="h-64 overflow-hidden relative border-b border-trust-blue-800 bg-white">
-                            <img src="https://images.unsplash.com/photo-1531492746076-161ca9bcad58?auto=format&fit=crop&w=800&q=80" alt="Disque dur externe" class="w-full h-full object-cover">
-                        </div>
-                        <div class="p-6 flex-grow flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-xl font-bold text-white">Disque Dur Externe 1To</h3>
-                                <p class="text-trust-blue-100 mt-2 text-sm leading-relaxed">Sauvegardez vos photos, vidéos et documents en toute sécurité. Format compact.</p>
-                                <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">55 € <span class="text-sm text-trust-blue-200 font-normal">/ 27 000 FC</span></p>
-                            </div>
-                            <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Disque%20Dur%20Externe%201To%20à%2055€." target="_blank" class="w-full text-center bg-[#25D366] text-white font-bold hover:bg-[#128C7E] py-3 rounded-lg transition duration-300 flex justify-center items-center gap-2">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12z"/></svg>
-                                Commander
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl border border-trust-blue-700 flex flex-col group hover:-translate-y-2 transition duration-300">
-                        <div class="h-64 overflow-hidden relative border-b border-trust-blue-800 bg-white">
-                            <img src="https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?auto=format&fit=crop&w=800&q=80" alt="Imprimante" class="w-full h-full object-cover">
-                            <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-sm">En Stock</div>
-                        </div>
-                        <div class="p-6 flex-grow flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-xl font-bold text-white">Imprimante Multifonction HP</h3>
-                                <p class="text-trust-blue-100 mt-2 text-sm leading-relaxed">Imprimez, scannez et copiez. Idéal pour la maison ou un petit bureau.</p>
-                                <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">90 € <span class="text-sm text-trust-blue-200 font-normal">/ 44 000 FC</span></p>
-                            </div>
-                            <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20l'Imprimante%20HP%20à%2090€." target="_blank" class="w-full text-center bg-[#25D366] text-white font-bold hover:bg-[#128C7E] py-3 rounded-lg transition duration-300 flex justify-center items-center gap-2">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12z"/></svg>
-                                Commander
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl border border-trust-blue-700 flex flex-col group hover:-translate-y-2 transition duration-300">
-                        <div class="h-64 bg-white p-6 relative flex items-center justify-center rounded-t-2xl">
-                            <img src="clavier.png" alt="Clavier" class="w-full h-full object-cover">
-                        </div>
-                        <div class="p-6 flex-grow flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-xl font-bold text-white">Pack Clavier + Souris Sans Fil</h3>
-                                <p class="text-trust-blue-100 mt-2 text-sm leading-relaxed">Design élégant et silencieux. Libérez votre bureau des câbles.</p>
-                                <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">35 € <span class="text-sm text-trust-blue-200 font-normal">/ 17 000 FC</span></p>
-                            </div>
-                            <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Pack%20Clavier%2BSouris%20à%2035€." target="_blank" class="w-full text-center bg-[#25D366] text-white font-bold hover:bg-[#128C7E] py-3 rounded-lg transition duration-300 flex justify-center items-center gap-2">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/>
-        </svg>
-                            </a>
-                        </div>
-                    </div>
-
-                    <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl border border-trust-blue-700 flex flex-col group hover:-translate-y-2 transition duration-300">
-                        <div class="h-64 bg-white p-6 relative flex items-center justify-center rounded-t-2xl">
-                            <img src="cleusb.png" alt="Clé USB 64Go" class="w-full h-full object-cover">
-                        </div>
-                        <div class="p-6 flex-grow flex flex-col justify-between">
-                            <div>
-                                <h3 class="text-xl font-bold text-white">Clé USB 64Go 3.0</h3>
-                                <p class="text-trust-blue-100 mt-2 text-sm leading-relaxed">Transférez vos données rapidement. Indispensable au quotidien.</p>
-                                <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">15 € <span class="text-sm text-trust-blue-200 font-normal">/ 7 500 FC</span></p>
-                            </div>
-                            <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20la%20Clé%20USB%2064Go%20à%2015€." target="_blank" class="w-full text-center bg-[#25D366] text-white font-bold hover:bg-[#128C7E] py-3 rounded-lg transition duration-300 flex justify-center items-center gap-2">
-                                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/>
-        </svg>
-                            </a>
-                        </div>
-                    </div>
-
+        <section class="py-16 px-4 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-1 transition">
+                <div class="h-56 bg-white flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500" class="max-h-full object-contain">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white">Laptop Dell Pro</h3>
+                    <p class="text-blue-100 text-sm mt-2">Intel Core i5, 8Go RAM, 256Go SSD.</p>
+                    <p class="text-2xl font-bold text-trust-blue-400 mt-4">450 €</p>
+                    <a href="https://wa.me/33667491345" class="block mt-6 bg-green-500 hover:bg-green-600 text-white text-center py-3 rounded-lg font-bold transition">Commander</a>
                 </div>
             </div>
-        </section>
 
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-1 transition">
+                <div class="h-56 bg-white flex items-center justify-center">
+                    <img src="clavier.jpg" alt="Pack Clavier" class="max-h-full object-contain">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white">Pack Clavier + Souris</h3>
+                    <p class="text-blue-100 text-sm mt-2">Design ergonomique et robuste.</p>
+                    <p class="text-2xl font-bold text-trust-blue-400 mt-4">35 €</p>
+                    <a href="https://wa.me/33667491345" class="block mt-6 bg-green-500 hover:bg-green-600 text-white text-center py-3 rounded-lg font-bold transition">Commander</a>
+                </div>
+            </div>
+
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-1 transition">
+                <div class="h-56 bg-white flex items-center justify-center">
+                    <img src="cle-usb.jpg" alt="Clé USB" class="max-h-full object-contain p-4">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white">Clé USB 64Go 3.0</h3>
+                    <p class="text-blue-100 text-sm mt-2">Transfert ultra-rapide SanDisk.</p>
+                    <p class="text-2xl font-bold text-trust-blue-400 mt-4">15 €</p>
+                    <a href="https://wa.me/33667491345" class="block mt-6 bg-green-500 hover:bg-green-600 text-white text-center py-3 rounded-lg font-bold transition">Commander</a>
+                </div>
+            </div>
+
+        </section>
     </main>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const btnMenu = document.getElementById('btn-menu-mobile');
-            const menu = document.getElementById('menu-mobile');
-            btnMenu.addEventListener('click', () => menu.classList.toggle('hidden'));
-        });
-    </script>
+    <footer class="bg-trust-blue-900 text-blue-100 py-8 text-center text-sm border-t border-trust-blue-800">
+        <p>© 2026 Info Experts Moroni. Tous droits réservés.</p>
+    </footer>
+
 </body>
 </html>
