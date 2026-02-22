@@ -5,150 +5,153 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Boutique Informatique Moroni | Ordinateurs et Accessoires - Info Experts</title>
-    <meta name="description" content="Découvrez notre sélection de laptops, routeurs, tablettes et accessoires à Moroni. Commandez facilement via WhatsApp.">
-    
+    <meta name="description" content="Découvrez notre sélection de laptops, routeurs et disques durs à Moroni. Commandez facilement via WhatsApp et bénéficiez d'une livraison rapide aux Comores.">
+    <meta name="keywords" content="Acheter ordinateur Moroni, Routeur 4G Comores, Disque dur externe, Info Experts Boutique">
+    <meta property="og:title" content="Boutique Info Experts | Vente de Matériel Informatique">
+    <meta property="og:description" content="Découvrez notre sélection de laptops, routeurs et accessoires à Moroni. Commandez facilement via WhatsApp.">
+    <meta property="og:url" content="https://info-experts.vercel.app/boutique.html">
+
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            theme: {
-                fontFamily: { sans: ['Inter', 'sans-serif'], },
-                extend: {
-                    colors: { primary: { 50: '#eff6ff', 100: '#dbeafe', 500: '#3b82f6', 600: '#2563eb', 700: '#1d4ed8', 900: '#1e3a8a', } },
-                    boxShadow: { 'soft': '0 4px 20px -2px rgba(0, 0, 0, 0.05)', 'glow': '0 0 20px rgba(37, 99, 235, 0.15)', }
-                }
-            }
+            theme: { extend: { colors: { 'trust-blue': { 50: '#eff6ff', 100: '#dbeafe', 400: '#60a5fa', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a', 950: '#172554', } } } }
         }
     </script>
 </head>
-<body class="bg-slate-50 text-slate-800 font-sans antialiased flex flex-col min-h-screen">
+<body class="bg-trust-blue-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen">
 
-    <header class="fixed top-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 transition-all duration-300">
+    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md border-b border-trust-blue-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
-                <a href="index.html" class="flex-shrink-0 flex items-center group">
-                    <img src="logo.png" alt="Info Experts Logo" class="h-12 w-auto transition-transform group-hover:scale-105">
+                <a href="index.html" class="flex-shrink-0 flex items-center gap-2 cursor-pointer hover:opacity-80 transition">
+                    <svg class="w-9 h-9 text-trust-blue-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2 2V18z"></path></svg>
+                    <span class="font-bold text-2xl tracking-tight text-white">Info<span class="text-trust-blue-400">Experts</span></span>
                 </a>
-                <nav class="hidden md:flex space-x-8 items-center">
-                    <a href="index.html" class="text-slate-600 hover:text-primary-600 font-medium transition-colors">Accueil</a>
-                    <a href="a-propos.html" class="text-slate-600 hover:text-primary-600 font-medium transition-colors">À propos</a>
-                    <a href="boutique.html" class="text-primary-600 font-semibold">Boutique</a>
+                
+                <nav class="hidden md:flex space-x-8">
+                    <a href="index.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Accueil</a>
+                    <a href="a-propos.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">À propos</a>
+                    <a href="boutique.html" class="text-white font-bold border-b-2 border-trust-blue-400 pb-1">Boutique</a>
                 </nav>
+
                 <div class="md:hidden flex items-center">
-                    <button id="btn-menu-mobile" class="text-slate-600 focus:outline-none">
+                    <button id="btn-menu-mobile" class="text-trust-blue-100 hover:text-white focus:outline-none">
                         <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                     </button>
                 </div>
             </div>
         </div>
-        <div id="menu-mobile" class="hidden md:hidden bg-white border-t border-slate-100 absolute w-full shadow-lg">
-            <div class="px-4 pt-2 pb-6 space-y-2">
-                <a href="index.html" class="block px-3 py-3 rounded-xl text-base font-medium text-slate-600">Accueil</a>
-                <a href="a-propos.html" class="block px-3 py-3 rounded-xl text-base font-medium text-slate-600">À propos</a>
-                <a href="boutique.html" class="block px-3 py-3 rounded-xl text-base font-semibold text-primary-600 bg-primary-50">Boutique</a>
+
+        <div id="menu-mobile" class="hidden md:hidden bg-trust-blue-800 border-t border-trust-blue-700">
+            <div class="px-2 pt-2 pb-4 space-y-1 sm:px-3 shadow-inner">
+                <a href="index.html" class="lien-mobile block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Accueil</a>
+                <a href="a-propos.html" class="lien-mobile block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">À propos</a>
+                <a href="boutique.html" class="lien-mobile block px-3 py-2 rounded-md text-base font-bold text-white bg-trust-blue-700">Boutique</a>
             </div>
         </div>
     </header>
 
-    <main class="flex-grow pt-32 pb-20">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-16">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-slate-900 mb-4">Notre Boutique</h1>
-            <p class="text-lg text-slate-600">Commandez facilement via WhatsApp, livraison rapide à Moroni.</p>
-        </div>
+    <main class="flex-grow">
+        <section class="bg-trust-blue-800 py-16 text-center border-b border-trust-blue-700">
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Notre Boutique</h1>
+            <p class="text-xl text-white font-semibold italic">Commandez facilement via WhatsApp, livraison rapide à Moroni.</p>
+        </section>
 
-        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-3 gap-8">
+        <section class="py-20 px-4 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
             
-            <div class="bg-white rounded-3xl overflow-hidden shadow-soft border border-slate-100 flex flex-col group hover:-translate-y-1 transition-all duration-300">
-                <div class="h-64 bg-slate-50 p-6 flex items-center justify-center relative">
-                    <div class="absolute top-4 right-4 bg-primary-600 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm z-10">Nouveau</div>
-                    <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=800&q=80" alt="PC Portable Lenovo" class="max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition duration-500">
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
+                <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm z-10">Nouveau</div>
+                <div class="h-64 bg-white p-6 flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=800&q=80" alt="PC Portable Lenovo" class="max-h-full object-contain">
                 </div>
-                <div class="p-6 border-t border-slate-50 flex-grow flex flex-col">
-                    <h3 class="text-xl font-bold text-slate-900">PC Portable Lenovo</h3>
-                    <p class="text-slate-500 mt-2 text-sm flex-grow">Windows en français, clavier AZERTY. Un ordinateur robuste pour vos tâches.</p>
-                    <p class="text-3xl font-extrabold text-primary-600 mt-4 mb-6">390 €</p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20PC%20Portable%20Lenovo." target="_blank" class="w-full block text-center bg-slate-900 text-white font-semibold py-3 rounded-xl hover:bg-primary-600 transition">Commander</a>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-3xl overflow-hidden shadow-soft border border-slate-100 flex flex-col group hover:-translate-y-1 transition-all duration-300">
-                <div class="h-64 bg-slate-50 p-6 flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?auto=format&fit=crop&w=800&q=80" alt="Tablette Lenovo" class="max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition duration-500">
-                </div>
-                <div class="p-6 border-t border-slate-50 flex-grow flex flex-col">
-                    <h3 class="text-xl font-bold text-slate-900">Tablette Lenovo IdeaTab</h3>
-                    <p class="text-slate-500 mt-2 text-sm flex-grow">Écran tactile haute définition et fluidité. Idéale pour le multimédia.</p>
-                    <p class="text-3xl font-extrabold text-primary-600 mt-4 mb-6">190 €</p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20la%20Tablette%20Lenovo%20IdeaTab." target="_blank" class="w-full block text-center bg-slate-900 text-white font-semibold py-3 rounded-xl hover:bg-primary-600 transition">Commander</a>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white uppercase">PC Portable Lenovo</h3>
+                    <p class="text-trust-blue-100 mt-2 text-sm">Windows en français, clavier AZERTY. Robuste et performant.</p>
+                    <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">390 €</p>
+                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20PC%20Portable%20Lenovo." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
                 </div>
             </div>
 
-            <div class="bg-white rounded-3xl overflow-hidden shadow-soft border border-slate-100 flex flex-col group hover:-translate-y-1 transition-all duration-300">
-                <div class="h-64 bg-slate-50 p-6 flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80" alt="Clavier et Souris sans fil" class="max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition duration-500">
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
+                 <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm z-10">Nouveau</div>
+                <div class="h-64 bg-white p-6 flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?auto=format&fit=crop&w=800&q=80" alt="Tablette Lenovo" class="max-h-full object-contain">
                 </div>
-                <div class="p-6 border-t border-slate-50 flex-grow flex flex-col">
-                    <h3 class="text-xl font-bold text-slate-900">Ensemble Clavier Souris</h3>
-                    <p class="text-slate-500 mt-2 text-sm flex-grow">Pack sans fil ergonomique et rechargeable. Confort de frappe optimal pour le bureau.</p>
-                    <p class="text-3xl font-extrabold text-primary-600 mt-4 mb-6">45 €</p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20l'Ensemble%20Clavier%20Souris%20sans%20fil." target="_blank" class="w-full block text-center bg-slate-900 text-white font-semibold py-3 rounded-xl hover:bg-primary-600 transition">Commander</a>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-3xl overflow-hidden shadow-soft border border-slate-100 flex flex-col group hover:-translate-y-1 transition-all duration-300">
-                <div class="h-64 bg-slate-50 p-6 flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=800&q=80" alt="Laptop Dell" class="max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition duration-500">
-                </div>
-                <div class="p-6 border-t border-slate-50 flex-grow flex flex-col">
-                    <h3 class="text-xl font-bold text-slate-900">Laptop Dell Pro</h3>
-                    <p class="text-slate-500 mt-2 text-sm flex-grow">Intel Core i5, 8Go RAM, 256Go SSD. La référence bureautique.</p>
-                    <p class="text-3xl font-extrabold text-primary-600 mt-4 mb-6">450 €</p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Laptop%20Dell%20Pro." target="_blank" class="w-full block text-center bg-slate-900 text-white font-semibold py-3 rounded-xl hover:bg-primary-600 transition">Commander</a>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white uppercase">Tablette Lenovo IdeaTab</h3>
+                    <p class="text-trust-blue-100 mt-2 text-sm">Écran tactile haute définition, fluide. Idéale pour le multimédia.</p>
+                    <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">190 €</p>
+                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20la%20Tablette%20Lenovo." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
                 </div>
             </div>
 
-            <div class="bg-white rounded-3xl overflow-hidden shadow-soft border border-slate-100 flex flex-col group hover:-translate-y-1 transition-all duration-300">
-                <div class="h-64 bg-slate-50 p-6 flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80" alt="Routeur 4G" class="max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition duration-500">
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
+                 <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm z-10">Nouveau</div>
+                <div class="h-64 bg-white p-6 flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80" alt="Ensemble Clavier Souris" class="max-h-full object-contain">
                 </div>
-                <div class="p-6 border-t border-slate-50 flex-grow flex flex-col">
-                    <h3 class="text-xl font-bold text-slate-900">Routeur Wi-Fi 4G</h3>
-                    <p class="text-slate-500 mt-2 text-sm flex-grow">Internet haut débit pour la maison ou le bureau.</p>
-                    <p class="text-3xl font-extrabold text-primary-600 mt-4 mb-6">65 €</p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Routeur%20Wi-Fi%204G." target="_blank" class="w-full block text-center bg-slate-900 text-white font-semibold py-3 rounded-xl hover:bg-primary-600 transition">Commander</a>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white uppercase">Pack Clavier & Souris</h3>
+                    <p class="text-trust-blue-100 mt-2 text-sm">Ensemble sans fil ergonomique et rechargeable ProtoArc.</p>
+                    <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">45 €</p>
+                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Pack%20Clavier%20Souris." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
                 </div>
             </div>
 
-            <div class="bg-white rounded-3xl overflow-hidden shadow-soft border border-slate-100 flex flex-col group hover:-translate-y-1 transition-all duration-300">
-                <div class="h-64 bg-slate-50 p-6 flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1531492746076-161ca9bcad58?auto=format&fit=crop&w=800&q=80" alt="Disque dur externe" class="max-h-full object-contain mix-blend-multiply group-hover:scale-105 transition duration-500">
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300">
+                <div class="h-64 bg-white p-6 flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=800&q=80" alt="Laptop" class="max-h-full object-contain">
                 </div>
-                <div class="p-6 border-t border-slate-50 flex-grow flex flex-col">
-                    <h3 class="text-xl font-bold text-slate-900">Disque Dur 1To</h3>
-                    <p class="text-slate-500 mt-2 text-sm flex-grow">Sauvegarde sécurisée pour votre entreprise.</p>
-                    <p class="text-3xl font-extrabold text-primary-600 mt-4 mb-6">55 €</p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Disque%20Dur%201To." target="_blank" class="w-full block text-center bg-slate-900 text-white font-semibold py-3 rounded-xl hover:bg-primary-600 transition">Commander</a>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white uppercase">Laptop Dell Pro</h3>
+                    <p class="text-trust-blue-100 mt-2 text-sm">Intel Core i5, 8Go RAM, 256Go SSD.</p>
+                    <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">450 €</p>
+                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Laptop%20Dell%20Pro." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
+                </div>
+            </div>
+
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300">
+                <div class="h-64 bg-white p-6 flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80" alt="Routeur" class="max-h-full object-contain">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white uppercase">Routeur Wi-Fi 4G</h3>
+                    <p class="text-trust-blue-100 mt-2 text-sm">Internet haut débit pour la maison.</p>
+                    <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">65 €</p>
+                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Routeur%20Wi-Fi%204G." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
+                </div>
+            </div>
+
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300">
+                <div class="h-64 bg-white p-6 flex items-center justify-center">
+                    <img src="https://images.unsplash.com/photo-1531492746076-161ca9bcad58?auto=format&fit=crop&w=800&q=80" alt="Disque dur" class="max-h-full object-contain">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white uppercase">Disque Dur 1To</h3>
+                    <p class="text-trust-blue-100 mt-2 text-sm">Sauvegarde sécurisée de vos fichiers.</p>
+                    <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">55 €</p>
+                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Disque%20Dur%201To." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
                 </div>
             </div>
 
         </section>
     </main>
 
-    <footer class="bg-white border-t border-slate-200 pt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <img src="logo.png" alt="Info Experts Logo" class="h-12 w-auto mx-auto mb-6">
-            <p class="text-slate-400 text-sm">© 2026 Info Experts Moroni. Tous droits réservés.</p>
-        </div>
+    <footer class="bg-trust-blue-950 text-trust-blue-100 py-12 text-center border-t border-trust-blue-800">
+        <span class="font-bold text-2xl tracking-tight text-white block mb-4">Info<span class="text-trust-blue-400">Experts</span></span>
+        <p>© 2026 Info Experts Moroni. Tous droits réservés.</p>
     </footer>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const btnMenu = document.getElementById('btn-menu-mobile');
             const menu = document.getElementById('menu-mobile');
-            btnMenu.addEventListener('click', () => menu.classList.toggle('hidden'));
+            if (btnMenu && menu) {
+                btnMenu.addEventListener('click', () => menu.classList.toggle('hidden'));
+            }
         });
     </script>
+
 </body>
 </html>
