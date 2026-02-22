@@ -1,44 +1,39 @@
 <!DOCTYPE html>
 <html lang="fr" class="scroll-smooth">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Info Experts | Vente, Maintenance Informatique et Création Web à Moroni</title>
-    <meta name="description" content="Info Experts Moroni : Vente d'ordinateurs portables, imprimantes et matériel informatique de qualité aux Comores. Service de maintenance et création de sites web.">
-    <meta name="keywords" content="Informatique Moroni, Vente ordinateur Comores, Maintenance PC Moroni, Création site web Comores, Info Experts">
-    
-    <meta property="og:title" content="Info Experts | Informatique à Moroni">
-    <meta property="og:description" content="Matériel informatique, maintenance et création de sites internet aux Comores.">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
-    <meta property="og:url" content="https://info-experts.vercel.app/">
-    
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'trust-blue': {
-                            50: '#eff6ff', 100: '#dbeafe', 400: '#60a5fa', 600: '#2563eb',
-                            700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a', 950: '#172554',
-                        }
-                    },
-                    animation: {
-                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
-                        'bounce-slow': 'bounce 3s infinite',
-                    },
-                    keyframes: {
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
+   <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md border-b border-trust-blue-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-24">
+                <a href="index.html" class="flex-shrink-0 flex items-center">
+                    <img src="logo.png" alt="Info Experts Logo" class="h-20 w-auto">
+                </a>
+                
+                <nav class="hidden md:flex space-x-8 items-center">
+                    <a href="index.html" class="text-white font-bold border-b-2 border-trust-blue-400 pb-1">Accueil</a>
+                    <a href="a-propos.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">À propos</a>
+                    <a href="#services" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Nos Services</a>
+                    <a href="boutique.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Boutique</a>
+                    <a href="#formulaire" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Contact</a>
+                </nav>
+
+                <div class="md:hidden flex items-center">
+                    <button id="btn-menu-mobile" class="text-trust-blue-100 hover:text-white focus:outline-none">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="menu-mobile" class="hidden md:hidden bg-trust-blue-800 border-t border-trust-blue-700">
+            <div class="px-2 pt-2 pb-4 space-y-1 sm:px-3 shadow-inner">
+                <a href="index.html" class="lien-mobile block px-3 py-2 rounded-md text-base font-bold text-white bg-trust-blue-700">Accueil</a>
+                <a href="a-propos.html" class="lien-mobile block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">À propos</a>
+                <a href="#services" class="lien-mobile block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Nos Services</a>
+                <a href="boutique.html" class="lien-mobile block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Boutique</a>
+                <a href="#formulaire" class="lien-mobile block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Contact</a>
+            </div>
+        </div>
+    </header>
 </head>
 <body class="bg-trust-blue-50 text-gray-800 font-sans antialiased leading-relaxed relative">
 
@@ -292,3 +287,4 @@
     </script>
 </body>
 </html>
+
