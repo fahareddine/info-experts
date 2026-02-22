@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <title>Boutique Informatique Moroni | Ordinateurs et Accessoires - Info Experts</title>
-    <meta name="description" content="Découvrez notre sélection de laptops, routeurs et disques durs à Moroni. Commandez facilement via WhatsApp et bénéficiez d'une livraison rapide aux Comores.">
-    <meta name="keywords" content="Acheter ordinateur Moroni, Routeur 4G Comores, Disque dur externe, Info Experts Boutique">
+    <meta name="description" content="Découvrez notre sélection de laptops, routeurs et disques durs à Moroni. Commandez facilement via WhatsApp. Livraison gratuite pour le stock local.">
+    <meta name="keywords" content="Acheter ordinateur Moroni, Routeur 4G Comores, Disque dur externe, Imprimante, Info Experts Boutique">
     <meta property="og:title" content="Boutique Info Experts | Vente de Matériel Informatique">
-    <meta property="og:description" content="Découvrez notre sélection de laptops, routeurs et accessoires à Moroni. Commandez facilement via WhatsApp.">
+    <meta property="og:description" content="Découvrez notre sélection à Moroni. Livraison gratuite sur les produits en stock !">
     <meta property="og:url" content="https://info-experts.vercel.app/boutique.html">
 
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
@@ -21,117 +21,139 @@
 </head>
 <body class="bg-trust-blue-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen">
 
-    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md border-b border-trust-blue-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="index.html" class="flex-shrink-0 flex items-center gap-2 cursor-pointer hover:opacity-80 transition">
-                    <svg class="w-9 h-9 text-trust-blue-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2 2V18z"></path></svg>
-                    <span class="font-bold text-2xl tracking-tight text-white">Info<span class="text-trust-blue-400">Experts</span></span>
-                </a>
-                
-                <nav class="hidden md:flex space-x-8">
-                    <a href="index.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Accueil</a>
-                    <a href="a-propos.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">À propos</a>
-                    <a href="boutique.html" class="text-white font-bold border-b-2 border-trust-blue-400 pb-1">Boutique</a>
-                </nav>
-
-                <div class="md:hidden flex items-center">
-                    <button id="btn-menu-mobile" class="text-trust-blue-100 hover:text-white focus:outline-none">
-                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <div id="menu-mobile" class="hidden md:hidden bg-trust-blue-800 border-t border-trust-blue-700">
-            <div class="px-2 pt-2 pb-4 space-y-1 sm:px-3 shadow-inner">
-                <a href="index.html" class="lien-mobile block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Accueil</a>
-                <a href="a-propos.html" class="lien-mobile block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">À propos</a>
-                <a href="boutique.html" class="lien-mobile block px-3 py-2 rounded-md text-base font-bold text-white bg-trust-blue-700">Boutique</a>
-            </div>
+    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md h-20">
+        <div class="max-w-7xl mx-auto px-4 h-full flex justify-between items-center">
+            <a href="index.html" class="flex-shrink-0 flex items-center gap-2 cursor-pointer hover:opacity-80 transition">
+                <svg class="w-9 h-9 text-trust-blue-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2 2V18z"></path></svg>
+                <span class="font-bold text-2xl tracking-tight text-white">Info<span class="text-trust-blue-400">Experts</span></span>
+            </a>
+            <nav class="space-x-8 text-white font-semibold">
+                <a href="index.html" class="hover:text-trust-blue-200 transition">Accueil</a>
+                <a href="boutique.html" class="border-b-2 border-trust-blue-400 pb-1">Boutique</a>
+            </nav>
         </div>
     </header>
 
     <main class="flex-grow">
         <section class="bg-trust-blue-800 py-16 text-center border-b border-trust-blue-700">
             <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Notre Boutique</h1>
-            <p class="text-xl text-white font-semibold italic">Commandez facilement via WhatsApp, livraison rapide à Moroni.</p>
+            <p class="text-xl text-trust-blue-100 mb-8">Découvrez notre matériel de qualité, livré chez vous.</p>
+            
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 px-4">
+                <div class="bg-green-600/20 border border-green-500 px-6 py-3 rounded-full shadow-lg">
+                    <p class="text-green-400 font-bold text-sm md:text-base">
+                        ✅ <span class="text-white">Stock à Moroni :</span> Livraison Gratuite
+                    </p>
+                </div>
+                <div class="bg-trust-blue-900 border border-trust-blue-400 px-6 py-3 rounded-full shadow-lg">
+                    <p class="text-trust-blue-300 font-bold text-sm md:text-base">
+                        ✈️ <span class="text-white">Sur Commande :</span> Frais de port (10 € / kg)
+                    </p>
+                </div>
+            </div>
         </section>
 
         <section class="py-20 px-4 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
             
             <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
-                <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm z-10">Nouveau</div>
-                <div class="h-64 bg-white p-6 flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=800&q=80" alt="PC Portable Lenovo" class="max-h-full object-contain">
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-white uppercase">PC Portable Lenovo</h3>
-                    <p class="text-trust-blue-100 mt-2 text-sm">Windows en français, clavier AZERTY. Robuste et performant.</p>
-                    <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">390 €</p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20PC%20Portable%20Lenovo." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
-                </div>
-            </div>
-
-            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
-                 <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm z-10">Nouveau</div>
-                <div class="h-64 bg-white p-6 flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1585790050230-5dd28404ccb9?auto=format&fit=crop&w=800&q=80" alt="Tablette Lenovo" class="max-h-full object-contain">
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-white uppercase">Tablette Lenovo IdeaTab</h3>
-                    <p class="text-trust-blue-100 mt-2 text-sm">Écran tactile haute définition, fluide. Idéale pour le multimédia.</p>
-                    <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">190 €</p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20la%20Tablette%20Lenovo." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
-                </div>
-            </div>
-
-            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
-                 <div class="absolute top-4 right-4 bg-red-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-sm z-10">Nouveau</div>
-                <div class="h-64 bg-white p-6 flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=80" alt="Ensemble Clavier Souris" class="max-h-full object-contain">
-                </div>
-                <div class="p-6">
-                    <h3 class="text-xl font-bold text-white uppercase">Pack Clavier & Souris</h3>
-                    <p class="text-trust-blue-100 mt-2 text-sm">Ensemble sans fil ergonomique et rechargeable ProtoArc.</p>
-                    <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">45 €</p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Pack%20Clavier%20Souris." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
-                </div>
-            </div>
-
-            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300">
-                <div class="h-64 bg-white p-6 flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=800&q=80" alt="Laptop" class="max-h-full object-contain">
+                <div class="h-64 bg-white p-6 flex items-center justify-center relative">
+                    <span class="absolute top-4 right-4 bg-trust-blue-600 border border-trust-blue-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow">✈️ Sur commande</span>
+                    <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=800&q=80" alt="Laptop Dell Pro" class="max-h-full object-contain">
                 </div>
                 <div class="p-6">
                     <h3 class="text-xl font-bold text-white uppercase">Laptop Dell Pro</h3>
                     <p class="text-trust-blue-100 mt-2 text-sm">Intel Core i5, 8Go RAM, 256Go SSD.</p>
-                    <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">450 €</p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Laptop%20Dell%20Pro." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
+                    <div class="mt-4 mb-4">
+                        <p class="text-2xl font-extrabold text-trust-blue-400">563 €</p>
+                        <p class="text-lg font-semibold text-trust-blue-200">soit 277 000 KMF</p>
+                        <p class="text-xs text-trust-blue-200 mt-1 italic opacity-80">+ frais de port (10€/kg)</p>
+                    </div>
+                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Laptop%20Dell%20Pro%20à%20563€%20(Sur%20commande)." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
                 </div>
             </div>
 
-            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300">
-                <div class="h-64 bg-white p-6 flex items-center justify-center">
-                    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80" alt="Routeur" class="max-h-full object-contain">
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
+                <div class="h-64 bg-white p-6 flex items-center justify-center relative">
+                    <span class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">✅ En stock à Moroni</span>
+                    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80" alt="Routeur Wi-Fi" class="max-h-full object-contain">
                 </div>
                 <div class="p-6">
                     <h3 class="text-xl font-bold text-white uppercase">Routeur Wi-Fi 4G</h3>
                     <p class="text-trust-blue-100 mt-2 text-sm">Internet haut débit pour la maison.</p>
-                    <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">65 €</p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Routeur%20Wi-Fi%204G." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
+                    <div class="mt-4 mb-4">
+                        <p class="text-2xl font-extrabold text-trust-blue-400">81 €</p>
+                        <p class="text-lg font-semibold text-trust-blue-200">soit 39 850 KMF</p>
+                        <p class="text-xs text-green-400 mt-1 italic font-semibold">Livraison Gratuite</p>
+                    </div>
+                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Routeur%20Wi-Fi%204G%20à%2081€%20(En%20stock%20Moroni)." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
                 </div>
             </div>
 
-            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300">
-                <div class="h-64 bg-white p-6 flex items-center justify-center">
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
+                <div class="h-64 bg-white p-6 flex items-center justify-center relative">
+                     <span class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">✅ En stock à Moroni</span>
                     <img src="https://images.unsplash.com/photo-1531492746076-161ca9bcad58?auto=format&fit=crop&w=800&q=80" alt="Disque dur" class="max-h-full object-contain">
                 </div>
                 <div class="p-6">
                     <h3 class="text-xl font-bold text-white uppercase">Disque Dur 1To</h3>
                     <p class="text-trust-blue-100 mt-2 text-sm">Sauvegarde sécurisée de vos fichiers.</p>
-                    <p class="text-2xl font-extrabold text-trust-blue-400 mt-4 mb-6">55 €</p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Disque%20Dur%201To." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
+                    <div class="mt-4 mb-4">
+                        <p class="text-2xl font-extrabold text-trust-blue-400">69 €</p>
+                        <p class="text-lg font-semibold text-trust-blue-200">soit 33 950 KMF</p>
+                        <p class="text-xs text-green-400 mt-1 italic font-semibold">Livraison Gratuite</p>
+                    </div>
+                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Disque%20Dur%201To%20à%2069€%20(En%20stock%20Moroni)." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
+                </div>
+            </div>
+
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
+                <div class="h-64 bg-white p-6 flex items-center justify-center relative">
+                     <span class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">✅ En stock à Moroni</span>
+                    <img src="https://images.unsplash.com/photo-1606149463566-414841804f86?auto=format&fit=crop&w=800&q=80" alt="Clé USB SanDisk" class="max-h-full object-contain">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white uppercase">Clé USB SanDisk 128Go</h3>
+                    <p class="text-trust-blue-100 mt-2 text-sm">Format compact 3.0. Vitesse de transfert jusqu'à 130 Mo/s.</p>
+                    <div class="mt-4 mb-4">
+                        <p class="text-2xl font-extrabold text-trust-blue-400">31 €</p>
+                        <p class="text-lg font-semibold text-trust-blue-200">soit 15 250 KMF</p>
+                        <p class="text-xs text-green-400 mt-1 italic font-semibold">Livraison Gratuite</p>
+                    </div>
+                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20la%20Clé%20USB%20SanDisk%20128Go%20à%2031€%20(En%20stock%20Moroni)." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
+                </div>
+            </div>
+
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
+                <div class="h-64 bg-white p-6 flex items-center justify-center relative">
+                    <span class="absolute top-4 right-4 bg-trust-blue-600 border border-trust-blue-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow">✈️ Sur commande</span>
+                    <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=800&q=80" alt="Lenovo PC Portable" class="max-h-full object-contain">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white uppercase">PC Portable Lenovo</h3>
+                    <p class="text-trust-blue-100 mt-2 text-sm">Windows en français. Fiable, robuste et parfait pour le bureau.</p>
+                    <div class="mt-4 mb-4">
+                        <p class="text-2xl font-extrabold text-trust-blue-400">438 €</p>
+                        <p class="text-lg font-semibold text-trust-blue-200">soit 215 500 KMF</p>
+                        <p class="text-xs text-trust-blue-200 mt-1 italic opacity-80">+ frais de port (10€/kg)</p>
+                    </div>
+                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20PC%20Portable%20Lenovo%20à%20438€%20(Sur%20commande)." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
+                </div>
+            </div>
+
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
+                <div class="h-64 bg-white p-6 flex items-center justify-center relative">
+                    <span class="absolute top-4 right-4 bg-trust-blue-600 border border-trust-blue-400 text-white text-xs font-bold px-3 py-1 rounded-full shadow">✈️ Sur commande</span>
+                    <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=800&q=80" alt="Tablette Lenovo" class="max-h-full object-contain">
+                </div>
+                <div class="p-6">
+                    <h3 class="text-xl font-bold text-white uppercase">Tablette Lenovo IdeaTab</h3>
+                    <p class="text-trust-blue-100 mt-2 text-sm">Processeur Dimensity, Bluetooth. Idéale pour le multimédia.</p>
+                    <div class="mt-4 mb-4">
+                        <p class="text-2xl font-extrabold text-trust-blue-400">225 €</p>
+                        <p class="text-lg font-semibold text-trust-blue-200">soit 110 700 KMF</p>
+                        <p class="text-xs text-trust-blue-200 mt-1 italic opacity-80">+ frais de port (10€/kg)</p>
+                    </div>
+                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20la%20Tablette%20Lenovo%20IdeaTab%20à%20225€%20(Sur%20commande)." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
                 </div>
             </div>
 
@@ -142,16 +164,6 @@
         <span class="font-bold text-2xl tracking-tight text-white block mb-4">Info<span class="text-trust-blue-400">Experts</span></span>
         <p>© 2026 Info Experts Moroni. Tous droits réservés.</p>
     </footer>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const btnMenu = document.getElementById('btn-menu-mobile');
-            const menu = document.getElementById('menu-mobile');
-            if (btnMenu && menu) {
-                btnMenu.addEventListener('click', () => menu.classList.toggle('hidden'));
-            }
-        });
-    </script>
 
 </body>
 </html>
