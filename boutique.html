@@ -3,52 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <title>Boutique Informatique Moroni | Ordinateurs et Accessoires - Info Experts</title>
-    <meta name="description" content="Découvrez notre sélection de laptops, routeurs et disques durs à Moroni. Commandez facilement via WhatsApp. Livraison gratuite pour le stock local.">
-    <meta name="keywords" content="Acheter ordinateur Moroni, Routeur 4G Comores, Disque dur externe ORICO, Clavier PINKCAT, Info Experts Boutique">
-    <meta property="og:title" content="Boutique Info Experts | Vente de Matériel Informatique">
-    <meta property="og:description" content="Découvrez notre sélection à Moroni. Livraison gratuite sur les produits en stock !">
-    <meta property="og:url" content="https://info-experts.vercel.app/boutique.html">
-
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
+    <title>Boutique Info Experts | Moroni</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            theme: { extend: { colors: { 'trust-blue': { 50: '#eff6ff', 100: '#dbeafe', 400: '#60a5fa', 600: '#2563eb', 700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a', 950: '#172554', } } } }
+            theme: { extend: { colors: { 'trust-blue': { 900: '#1e3a8a', 800: '#1e40af', 700: '#1d4ed8', 400: '#60a5fa' } } } }
         }
     </script>
 </head>
-<body class="bg-trust-blue-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen">
+<body class="bg-blue-50 font-sans antialiased flex flex-col min-h-screen">
 
     <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md h-20">
         <div class="max-w-7xl mx-auto px-4 h-full flex justify-between items-center">
-            <a href="index.html" class="flex-shrink-0 flex items-center gap-2 cursor-pointer hover:opacity-80 transition">
-                <svg class="w-9 h-9 text-trust-blue-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2 2V18z"></path></svg>
-                <span class="font-bold text-2xl tracking-tight text-white">Info<span class="text-trust-blue-400">Experts</span></span>
+            <a href="index.html" class="flex items-center gap-2 text-white">
+                <span class="font-bold text-2xl tracking-tight">Info<span class="text-trust-blue-400">Experts</span></span>
             </a>
             <nav class="space-x-8 text-white font-semibold">
-                <a href="index.html" class="hover:text-trust-blue-200 transition">Accueil</a>
-                <a href="boutique.html" class="border-b-2 border-trust-blue-400 pb-1">Boutique</a>
+                <a href="index.html">Accueil</a>
+                <a href="boutique.html" class="border-b-2 border-trust-blue-400">Boutique</a>
             </nav>
         </div>
     </header>
 
     <main class="flex-grow">
         <section class="bg-trust-blue-800 py-16 text-center border-b border-trust-blue-700">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Notre Boutique</h1>
-            <p class="text-xl text-white font-semibold italic mb-8">Découvrez notre matériel de qualité, livré chez vous.</p>
-            
+            <h1 class="text-4xl font-extrabold text-white mb-8">Notre Boutique</h1>
             <div class="flex flex-col sm:flex-row justify-center items-center gap-4 px-4">
                 <div class="bg-green-600 px-6 py-3 rounded-full shadow-lg border-2 border-green-400">
-                    <p class="text-white font-bold text-sm md:text-base">
-                        ✅ Stock à Moroni : Livraison Gratuite
-                    </p>
+                    <p class="text-white font-bold">✅ Stock à Moroni : Livraison Gratuite</p>
                 </div>
                 <div class="bg-blue-600 px-6 py-3 rounded-full shadow-lg border-2 border-blue-400">
-                    <p class="text-white font-bold text-sm md:text-base">
-                        ✈️ Sur Commande : Frais de port (10 € / kg)
-                    </p>
+                    <p class="text-white font-bold">✈️ Sur Commande : 10 € / kg</p>
                 </div>
             </div>
         </section>
@@ -57,113 +42,20 @@
             
             <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
                 <div class="h-64 bg-white p-6 flex items-center justify-center relative">
-                    <span class="absolute top-4 right-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">✈️ Sur commande</span>
-                    <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=800&q=80" alt="Laptop Dell Pro" class="max-h-full object-contain">
+                    <span class="absolute top-4 right-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">✈️ Sur commande</span>
+                    <img src="ordinateur.jpg" alt="Laptop Dell Pro" class="max-h-full object-contain">
                 </div>
-                <div class="p-6 text-white">
+                <div class="p-6 text-white text-center">
                     <h3 class="text-xl font-bold uppercase">Laptop Dell Pro</h3>
-                    <p class="mt-2 text-sm opacity-90">Intel Core i5, 8Go RAM, 256Go SSD.</p>
                     <div class="mt-4 mb-4">
                         <p class="text-2xl font-extrabold text-white">563 €</p>
-                        <p class="text-lg font-semibold text-white">soit 277 000 KMF</p>
-                        <p class="text-xs mt-1 italic opacity-80">+ frais de port (10€/kg)</p>
+                        <p class="text-lg font-semibold text-trust-blue-400">277 000 KMF</p>
                     </div>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Laptop%20Dell%20Pro." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
+                    <a href="https://wa.me/33667491345" class="w-full block bg-[#25D366] text-white font-bold py-3 rounded-lg">Commander</a>
                 </div>
             </div>
 
-            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
-                <div class="h-64 bg-white p-6 flex items-center justify-center relative">
-                    <span class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">✅ En stock à Moroni</span>
-                    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=800&q=80" alt="Routeur Wi-Fi" class="max-h-full object-contain">
-                </div>
-                <div class="p-6 text-white">
-                    <h3 class="text-xl font-bold uppercase">Routeur Wi-Fi 4G</h3>
-                    <p class="mt-2 text-sm opacity-90">Internet haut débit pour la maison.</p>
-                    <div class="mt-4 mb-4">
-                        <p class="text-2xl font-extrabold text-white">81 €</p>
-                        <p class="text-lg font-semibold text-white">soit 39 850 KMF</p>
-                        <p class="text-xs text-green-400 mt-1 italic font-semibold">Livraison Gratuite</p>
-                    </div>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Routeur%20Wi-Fi%204G." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
-                </div>
-            </div>
-
-            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
-                <div class="h-64 bg-white p-6 flex items-center justify-center relative">
-                     <span class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">✅ En stock à Moroni</span>
-                    <img src="https://images-eu.ssl-images-amazon.com/images/P/B0CPS6TP2Y.01.LZZZZZZZ.jpg" alt="Disque dur externe ORICO" class="max-h-full object-contain">
-                </div>
-                <div class="p-6 text-white">
-                    <h3 class="text-xl font-bold uppercase">Disque Dur ORICO</h3>
-                    <p class="mt-2 text-sm opacity-90">Portable, ultra-rapide. Compatible PC et Smartphone.</p>
-                    <div class="mt-4 mb-4">
-                        <p class="text-2xl font-extrabold text-white">50 €</p>
-                        <p class="text-lg font-semibold text-white">soit 24 600 KMF</p>
-                        <p class="text-xs text-green-400 mt-1 italic font-semibold">Livraison Gratuite</p>
-                    </div>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Disque%20Dur%20ORICO." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
-                </div>
-            </div>
-
-            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
-                <div class="h-64 bg-white p-6 flex items-center justify-center relative">
-                     <span class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">✅ En stock à Moroni</span>
-                    <img src="https://images-eu.ssl-images-amazon.com/images/P/B0B9G2X4JW.01.LZZZZZZZ.jpg" alt="Pack Clavier et Souris" class="max-h-full object-contain">
-                </div>
-                <div class="p-6 text-white">
-                    <h3 class="text-xl font-bold uppercase">Pack Clavier PINKCAT</h3>
-                    <p class="mt-2 text-sm opacity-90">Ensemble clavier + souris. Sans fil, silencieux et design portable.</p>
-                    <div class="mt-4 mb-4">
-                        <p class="text-2xl font-extrabold text-white">38 €</p>
-                        <p class="text-lg font-semibold text-white">soit 18 700 KMF</p>
-                        <p class="text-xs text-green-400 mt-1 italic font-semibold">Livraison Gratuite</p>
-                    </div>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20Pack%20Clavier%20PINKCAT." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
-                </div>
-            </div>
-
-            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
-                <div class="h-64 bg-white p-6 flex items-center justify-center relative">
-                    <span class="absolute top-4 right-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">✈️ Sur commande</span>
-                    <img src="https://images.unsplash.com/photo-1588872657578-7efd1f1555ed?auto=format&fit=crop&w=800&q=80" alt="Lenovo PC Portable" class="max-h-full object-contain">
-                </div>
-                <div class="p-6 text-white">
-                    <h3 class="text-xl font-bold uppercase">PC Portable Lenovo</h3>
-                    <p class="mt-2 text-sm opacity-90">Windows en français. Fiable, robuste et parfait pour le bureau.</p>
-                    <div class="mt-4 mb-4">
-                        <p class="text-2xl font-extrabold text-white">438 €</p>
-                        <p class="text-lg font-semibold text-white">soit 215 500 KMF</p>
-                        <p class="text-xs mt-1 italic opacity-80">+ frais de port (10€/kg)</p>
-                    </div>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20le%20PC%20Portable%20Lenovo." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
-                </div>
-            </div>
-
-            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
-                <div class="h-64 bg-white p-6 flex items-center justify-center relative">
-                    <span class="absolute top-4 right-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md z-10">✈️ Sur commande</span>
-                    <img src="https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?auto=format&fit=crop&w=800&q=80" alt="Tablette Lenovo" class="max-h-full object-contain">
-                </div>
-                <div class="p-6 text-white">
-                    <h3 class="text-xl font-bold uppercase">Tablette Lenovo IdeaTab</h3>
-                    <p class="mt-2 text-sm opacity-90">Processeur Dimensity, Bluetooth. Idéale pour le multimédia.</p>
-                    <div class="mt-4 mb-4">
-                        <p class="text-2xl font-extrabold text-white">225 €</p>
-                        <p class="text-lg font-semibold text-white">soit 110 700 KMF</p>
-                        <p class="text-xs mt-1 italic opacity-80">+ frais de port (10€/kg)</p>
-                    </div>
-                    <a href="https://wa.me/33667491345?text=Bonjour%20Info%20Experts,%20je%20souhaite%20commander%20la%20Tablette%20Lenovo%20IdeaTab." target="_blank" class="w-full block text-center bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#128C7E] transition">Commander</a>
-                </div>
-            </div>
-
-        </section>
+            </section>
     </main>
-
-    <footer class="bg-trust-blue-950 text-trust-blue-100 py-12 text-center border-t border-trust-blue-800">
-        <span class="font-bold text-2xl tracking-tight text-white block mb-4">Info<span class="text-trust-blue-400">Experts</span></span>
-        <p>© 2026 Info Experts Moroni. Tous droits réservés.</p>
-    </footer>
-
 </body>
 </html>
