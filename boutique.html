@@ -1,21 +1,22 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boutique Info Experts | Moroni</title>
+    <title>Boutique Info Experts | Paiement Sécurisé</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://js.stripe.com/v3/"></script>
     <script>
         tailwind.config = {
             theme: { extend: { colors: { 'trust-blue': { 900: '#1e3a8a', 800: '#1e40af', 700: '#1d4ed8', 400: '#60a5fa' } } } }
         }
     </script>
 </head>
-<body class="bg-blue-50 font-sans antialiased flex flex-col min-h-screen text-white">
+<body class="bg-blue-50 font-sans antialiased flex flex-col min-h-screen">
 
-    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md h-20 flex items-center">
-        <div class="max-w-7xl mx-auto px-4 w-full flex justify-between items-center">
-            <a href="index.html" class="font-bold text-2xl tracking-tight">Info<span class="text-trust-blue-400">Experts</span></a>
+    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md h-20 text-white">
+        <div class="max-w-7xl mx-auto px-4 h-full flex justify-between items-center">
+            <span class="font-bold text-2xl">Info<span class="text-trust-blue-400">Experts</span></span>
             <nav class="space-x-8 font-semibold">
                 <a href="index.html">Accueil</a>
                 <a href="boutique.html" class="border-b-2 border-trust-blue-400">Boutique</a>
@@ -24,57 +25,49 @@
     </header>
 
     <main class="flex-grow">
-        <section class="bg-trust-blue-800 py-16 text-center border-b border-trust-blue-700">
-            <h1 class="text-4xl font-extrabold mb-8">Notre Boutique</h1>
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 px-4">
-                <div class="bg-green-600 px-6 py-3 rounded-full shadow-lg border-2 border-green-400 font-bold">✅ Stock à Moroni : Livraison Gratuite</div>
-                <div class="bg-blue-600 px-6 py-3 rounded-full shadow-lg border-2 border-blue-400 font-bold">✈️ Sur Commande : 10 € / kg</div>
+        <section class="bg-trust-blue-800 py-16 text-center text-white border-b border-trust-blue-700">
+            <h1 class="text-4xl font-extrabold mb-4">Notre Boutique</h1>
+            <p class="text-xl mb-8">Paiement sécurisé par carte ou livraison à Moroni.</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <div class="bg-green-600 px-6 py-2 rounded-full border border-green-400 font-bold">✅ Stock Moroni : Gratuit</div>
+                <div class="bg-blue-600 px-6 py-2 rounded-full border border-blue-400 font-bold">✈️ Commande : 10 € / kg</div>
             </div>
         </section>
 
         <section class="py-20 px-4 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
             
-            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300">
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col relative text-white">
                 <div class="h-64 bg-white p-6 flex items-center justify-center relative">
+                    <span class="absolute top-4 right-4 bg-green-500 px-3 py-1 rounded-full text-xs font-bold shadow">✅ Stock Moroni</span>
                     <img src="clavier.jpg" alt="Pack Clavier" class="max-h-full object-contain">
                 </div>
-                <div class="p-6 text-center">
-                    <h3 class="text-xl font-bold uppercase mb-4">Pack Clavier PINKCAT</h3>
-                    <p class="text-2xl font-extrabold">38 €</p>
-                    <p class="text-lg font-semibold text-trust-blue-400 mb-6">18 700 KMF</p>
-                    <a href="https://wa.me/33667491345" class="w-full block bg-[#25D366] py-3 rounded-lg font-bold">Commander via WhatsApp</a>
+                <div class="p-6 flex flex-col gap-4">
+                    <h3 class="text-xl font-bold uppercase">Pack Clavier PINKCAT</h3>
+                    <div>
+                        <p class="text-2xl font-extrabold text-white">38 €</p>
+                        <p class="text-lg font-semibold text-trust-blue-400">soit 18 700 KMF</p>
+                    </div>
+                    <button onclick="payer('price_VOTRE_ID_CLAVIER')" class="w-full bg-blue-500 hover:bg-blue-600 py-3 rounded-lg font-bold transition">Payer par Carte</button>
+                    <a href="https://wa.me/33667491345?text=Je%20souhaite%20commander%20le%20clavier" class="w-full bg-[#25D366] text-center py-3 rounded-lg font-bold hover:bg-[#128C7E]">WhatsApp (Payer à livraison)</a>
                 </div>
             </div>
 
-            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300">
-                <div class="h-64 bg-white p-6 flex items-center justify-center relative">
-                    <img src="disque.jpg" alt="Disque Dur" class="max-h-full object-contain">
-                </div>
-                <div class="p-6 text-center">
-                    <h3 class="text-xl font-bold uppercase mb-4">Disque Dur ORICO</h3>
-                    <p class="text-2xl font-extrabold">25 €</p>
-                    <p class="text-lg font-semibold text-trust-blue-400 mb-6">12 300 KMF</p>
-                    <a href="https://wa.me/33667491345" class="w-full block bg-[#25D366] py-3 rounded-lg font-bold">Commander via WhatsApp</a>
-                </div>
-            </div>
-
-            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300">
-                <div class="h-64 bg-white p-6 flex items-center justify-center relative">
-                    <img src="ordinateur.jpg" alt="PC Dell" class="max-h-full object-contain">
-                </div>
-                <div class="p-6 text-center">
-                    <h3 class="text-xl font-bold uppercase mb-4">Laptop Dell Pro</h3>
-                    <p class="text-2xl font-extrabold">563 €</p>
-                    <p class="text-lg font-semibold text-trust-blue-400 mb-6">277 000 KMF</p>
-                    <a href="https://wa.me/33667491345" class="w-full block bg-[#25D366] py-3 rounded-lg font-bold">Commander via WhatsApp</a>
-                </div>
-            </div>
-
-        </section>
+            </section>
     </main>
 
-    <footer class="bg-trust-blue-900 py-8 text-center text-sm border-t border-trust-blue-800">
-        <p>© 2026 Info Experts Moroni.</p>
-    </footer>
+    <script>
+        const stripe = Stripe('pk_live_TZS7wrdzwCeqLrwrSfoKXH4i');
+
+        function payer(priceId) {
+            stripe.redirectToCheckout({
+                lineItems: [{ price: priceId, quantity: 1 }],
+                mode: 'payment',
+                successUrl: 'https://info-experts.vercel.app/index.html',
+                cancelUrl: 'https://info-experts.vercel.app/boutique.html',
+            }).then(function (result) {
+                if (result.error) alert(result.error.message);
+            });
+        }
+    </script>
 </body>
 </html>
