@@ -14,13 +14,11 @@
 <body class="bg-blue-50 font-sans antialiased flex flex-col min-h-screen">
 
     <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md h-20">
-        <div class="max-w-7xl mx-auto px-4 h-full flex justify-between items-center">
-            <a href="index.html" class="flex items-center gap-2 text-white">
-                <span class="font-bold text-2xl tracking-tight">Info<span class="text-trust-blue-400">Experts</span></span>
-            </a>
-            <nav class="space-x-8 text-white font-semibold">
-                <a href="index.html">Accueil</a>
-                <a href="boutique.html" class="border-b-2 border-trust-blue-400">Boutique</a>
+        <div class="max-w-7xl mx-auto px-4 h-full flex justify-between items-center text-white">
+            <a href="index.html" class="font-bold text-2xl tracking-tight">Info<span class="text-trust-blue-400">Experts</span></a>
+            <nav class="space-x-8 font-semibold">
+                <a href="index.html" class="hover:text-trust-blue-400 transition">Accueil</a>
+                <a href="boutique.html" class="border-b-2 border-trust-blue-400 text-trust-blue-400">Boutique</a>
             </nav>
         </div>
     </header>
@@ -29,33 +27,74 @@
         <section class="bg-trust-blue-800 py-16 text-center border-b border-trust-blue-700">
             <h1 class="text-4xl font-extrabold text-white mb-8">Notre Boutique</h1>
             <div class="flex flex-col sm:flex-row justify-center items-center gap-4 px-4">
-                <div class="bg-green-600 px-6 py-3 rounded-full shadow-lg border-2 border-green-400">
-                    <p class="text-white font-bold">✅ Stock à Moroni : Livraison Gratuite</p>
+                <div class="bg-green-600 px-6 py-3 rounded-full shadow-lg border-2 border-green-400 text-white font-bold">
+                    ✅ Stock à Moroni : Livraison Gratuite
                 </div>
-                <div class="bg-blue-600 px-6 py-3 rounded-full shadow-lg border-2 border-blue-400">
-                    <p class="text-white font-bold">✈️ Sur Commande : 10 € / kg</p>
+                <div class="bg-blue-600 px-6 py-3 rounded-full shadow-lg border-2 border-blue-400 text-white font-bold">
+                    ✈️ Sur Commande : 10 € / kg
                 </div>
             </div>
         </section>
 
         <section class="py-20 px-4 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
             
-            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-2 transition duration-300 relative">
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-1 transition duration-300">
                 <div class="h-64 bg-white p-6 flex items-center justify-center relative">
-                    <span class="absolute top-4 right-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">✈️ Sur commande</span>
-                    <img src="ordinateur.jpg" alt="Laptop Dell Pro" class="max-h-full object-contain">
+                    <span class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">En Stock</span>
+                    <img src="https://images.unsplash.com/photo-1595225476474-87563907a212?auto=format&fit=crop&w=400&q=80" alt="Clavier et Souris" class="max-h-full object-contain rounded">
                 </div>
-                <div class="p-6 text-white text-center">
-                    <h3 class="text-xl font-bold uppercase">Laptop Dell Pro</h3>
-                    <div class="mt-4 mb-4">
-                        <p class="text-2xl font-extrabold text-white">563 €</p>
-                        <p class="text-lg font-semibold text-trust-blue-400">277 000 KMF</p>
+                <div class="p-6 text-white text-center flex flex-col flex-grow justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold uppercase mb-2">Pack Clavier PINKCAT</h3>
+                        <p class="text-3xl font-extrabold mb-1">38 €</p>
+                        <p class="text-lg font-semibold text-trust-blue-400 mb-6">18 700 KMF</p>
                     </div>
-                    <a href="https://wa.me/33667491345" class="w-full block bg-[#25D366] text-white font-bold py-3 rounded-lg">Commander</a>
+                    <a href="https://wa.me/33667491345?text=Bonjour,%20je%20souhaite%20commander%20le%20Pack%20Clavier%20PINKCAT" target="_blank" class="w-full block bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#1ebe5d] transition">
+                        Commander via WhatsApp
+                    </a>
                 </div>
             </div>
 
-            </section>
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-1 transition duration-300">
+                <div class="h-64 bg-white p-6 flex items-center justify-center relative">
+                    <span class="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow">En Stock</span>
+                    <img src="https://images.unsplash.com/photo-1531492746076-161ca9bcad58?auto=format&fit=crop&w=400&q=80" alt="Disque Dur Externe" class="max-h-full object-contain rounded">
+                </div>
+                <div class="p-6 text-white text-center flex flex-col flex-grow justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold uppercase mb-2">Disque Dur ORICO</h3>
+                        <p class="text-3xl font-extrabold mb-1">25 €</p>
+                        <p class="text-lg font-semibold text-trust-blue-400 mb-6">12 300 KMF</p>
+                    </div>
+                    <a href="https://wa.me/33667491345?text=Bonjour,%20je%20souhaite%20commander%20le%20Disque%20Dur%20ORICO" target="_blank" class="w-full block bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#1ebe5d] transition">
+                        Commander via WhatsApp
+                    </a>
+                </div>
+            </div>
+
+            <div class="bg-trust-blue-900 rounded-2xl overflow-hidden shadow-xl flex flex-col group hover:-translate-y-1 transition duration-300">
+                <div class="h-64 bg-white p-6 flex items-center justify-center relative">
+                    <span class="absolute top-4 right-4 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow">✈️ Sur commande</span>
+                    <img src="https://images.unsplash.com/photo-1593642632823-8f785ba67e45?auto=format&fit=crop&w=400&q=80" alt="PC Portable Dell" class="max-h-full object-contain rounded">
+                </div>
+                <div class="p-6 text-white text-center flex flex-col flex-grow justify-between">
+                    <div>
+                        <h3 class="text-xl font-bold uppercase mb-2">Laptop Dell Pro</h3>
+                        <p class="text-3xl font-extrabold mb-1">563 €</p>
+                        <p class="text-lg font-semibold text-trust-blue-400 mb-6">277 000 KMF</p>
+                    </div>
+                    <a href="https://wa.me/33667491345?text=Bonjour,%20je%20souhaite%20commander%20le%20Laptop%20Dell%20Pro" target="_blank" class="w-full block bg-[#25D366] text-white font-bold py-3 rounded-lg hover:bg-[#1ebe5d] transition">
+                        Commander via WhatsApp
+                    </a>
+                </div>
+            </div>
+
+        </section>
     </main>
+
+    <footer class="bg-trust-blue-900 py-8 text-center text-trust-blue-400 text-sm border-t border-trust-blue-800">
+        <p>© 2026 Info Experts. Tous droits réservés.</p>
+    </footer>
+
 </body>
 </html>
