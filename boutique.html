@@ -1,36 +1,33 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boutique | Info Experts</title>
+    <title>Boutique Info Experts | Matériel Informatique Moroni</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { 'trust-blue': { 50: '#eff6ff', 900: '#1e3a8a', 950: '#172554', 400: '#60a5fa' } } } }
+        }
+    </script>
 </head>
-<body class="bg-slate-50 flex flex-col min-h-screen">
+<body class="bg-trust-blue-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen">
 
-    <header class="bg-trust-blue-900 h-20 shadow-md flex items-center">
-        <div class="max-w-7xl mx-auto px-4 w-full flex justify-between items-center">
-            <a href="index.html" class="flex items-center gap-2">
-                <span class="text-white font-bold text-2xl">Info</span>
-                <span class="text-black font-bold text-2xl">Experts</span>
+    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md h-20">
+        <div class="max-w-7xl mx-auto px-4 h-full flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 font-bold text-2xl">
+                <span class="text-white">Info</span><span class="text-black">Experts</span>
             </a>
             <nav class="space-x-8 text-white font-semibold">
-                <a href="index.html">Accueil</a>
-                <a href="boutique.html" class="border-b-2 border-white">Boutique</a>
+                <a href="index.html" class="hover:text-trust-blue-400">Accueil</a>
+                <a href="boutique.html" class="text-trust-blue-400">Boutique</a>
+                <a href="a-propos.html" class="hover:text-trust-blue-400">À propos</a>
             </nav>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto py-16 px-4 flex-grow">
-        <h1 class="text-4xl font-bold text-center mb-12 text-blue-950">Notre Boutique</h1>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-            <div class="bg-white p-6 rounded-xl shadow border border-gray-100 flex flex-col text-center">
-                <img src="pc-portable-lenovo.PNG" alt="PC Lenovo" class="h-48 object-contain mb-4">
-                <h3 class="text-lg font-bold">PC Portable Lenovo</h3>
-                <p class="text-xl font-bold text-blue-900 mb-4">438 € (215 500 KMF)</p>
-                <a href="https://wa.me/33667491345" class="bg-[#25D366] text-white py-3 rounded-lg font-bold">Commander WhatsApp</a>
-            </div>
-            </div>
-    </main>
+    <main class="max-w-7xl mx-auto py-12 px-4 flex-grow">
+        <h1 class="text-3xl font-bold text-center text-trust-blue-950 mb-12">Notre Matériel Disponible</h1>
+        </main>
 </body>
 </html>
