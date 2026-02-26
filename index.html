@@ -3,67 +3,80 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Info Experts | Matériel & Web Moroni</title>
+    <title>Info Experts | Matériel Informatique & Création Web à Moroni</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
-            theme: { extend: { colors: { 'trust-blue': { 900: '#1e3a8a', 950: '#172554' } } } }
+            theme: {
+                extend: {
+                    colors: {
+                        'trust-blue': {
+                            50: '#eff6ff', 900: '#1e3a8a', 950: '#172554', 400: '#60a5fa'
+                        }
+                    }
+                }
+            }
         }
     </script>
 </head>
-<body class="bg-slate-50 text-gray-800 font-sans flex flex-col min-h-screen">
+<body class="bg-trust-blue-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen">
 
-    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md h-20 flex items-center">
-        <div class="max-w-7xl mx-auto px-4 h-full flex justify-between items-center w-full">
-            <a href="index.html" class="flex items-center gap-2">
-                <span class="text-white font-bold text-2xl">Info</span>
-                <span class="text-black font-bold text-2xl">Experts</span>
+    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md h-20">
+        <div class="max-w-7xl mx-auto px-4 h-full flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 font-bold text-2xl">
+                <span class="text-white">Info</span><span class="text-black">Experts</span>
             </a>
-            <nav class="space-x-8 text-white font-semibold">
-                <a href="index.html" class="border-b-2 border-white">Accueil</a>
-                <a href="boutique.html" class="hover:text-gray-200">Boutique</a>
-                <a href="a-propos.html" class="hover:text-gray-200">À propos</a>
+            <nav class="hidden md:flex space-x-8 text-white font-semibold">
+                <a href="index.html" class="text-trust-blue-400">Accueil</a>
+                <a href="boutique.html" class="hover:text-trust-blue-400">Boutique</a>
+                <a href="a-propos.html" class="hover:text-trust-blue-400">À propos</a>
             </nav>
         </div>
     </header>
 
     <main class="flex-grow">
-        <section class="bg-trust-blue-950 text-white py-24 px-4 text-center">
-            <h1 class="text-5xl font-extrabold mb-6">Expertise Technologique <br>aux Comores</h1>
-            <p class="text-xl max-w-2xl mx-auto mb-10 text-gray-200">Vente de matériel, maintenance informatique et création de sites web à Moroni.</p>
-            <div class="flex justify-center gap-4">
-                <a href="boutique.html" class="bg-white text-trust-blue-950 px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-100 transition shadow">Voir la boutique</a>
-            </div>
+        <section class="bg-trust-blue-950 text-white py-20 px-4 text-center">
+            <h1 class="text-4xl md:text-5xl font-extrabold mb-6">Expertise Technologique aux Comores</h1>
+            <p class="text-xl max-w-2xl mx-auto mb-10 text-trust-blue-100">Vente de matériel, maintenance informatique et création de sites web à Moroni.</p>
+            <a href="boutique.html" class="bg-white text-trust-blue-950 px-8 py-3 rounded-full font-bold text-lg hover:bg-trust-blue-50 transition shadow-lg">Voir la boutique</a>
         </section>
 
-        <section class="py-16 bg-white border-y border-gray-100">
+        <section class="py-16 bg-trust-blue-900">
             <div class="max-w-7xl mx-auto px-4 text-center">
-                <h2 class="text-2xl font-bold text-trust-blue-950 mb-10 uppercase tracking-widest">Ils nous font confiance</h2>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center font-black text-gray-400 text-xl">
-                    <div>Comores Telecom</div>
-                    <div>Comores Hydrocarbures</div>
-                    <div>Comores Cable</div>
-                    <div>Comoro Gulf Holding</div>
+                <h2 class="text-2xl font-bold text-white mb-12 uppercase tracking-widest">Ils nous font confiance</h2>
+                
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center mb-16">
+                    <div class="text-xl font-black text-trust-blue-400">Comores Telecom</div>
+                    <div class="text-xl font-black text-trust-blue-400">Comores Hydrocarbures</div>
+                    <div class="text-xl font-black text-trust-blue-400">Comores Cable</div>
+                    <div class="text-xl font-black text-trust-blue-400">Comoro Gulf Holding</div>
+                </div>
+
+                <div class="max-w-3xl mx-auto bg-trust-blue-950 p-8 rounded-2xl border border-trust-blue-800 shadow-xl">
+                    <p class="text-white italic text-lg">
+                        "Un partenaire de confiance pour la fourniture de matériel et l'optimisation de nos infrastructures à Moroni. L'expertise d'Info Experts est un atout pour le développement technologique des Comores."
+                    </p>
+                    <p class="mt-4 font-bold text-trust-blue-400">— Direction Technique</p>
                 </div>
             </div>
         </section>
 
         <section id="contact" class="py-20 px-4 max-w-3xl mx-auto">
-            <h2 class="text-3xl font-bold text-center text-trust-blue-950 mb-10">Formulaire de Contact</h2>
+            <h2 class="text-3xl font-bold text-center text-trust-blue-950 mb-10">Contactez-nous</h2>
             <form action="https://formspree.io/f/xbdazagj" method="POST" class="space-y-6">
-                <input type="text" name="_honey" style="display:none"> <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <input type="text" name="nom" placeholder="Votre nom" required class="p-4 border border-gray-200 rounded-lg outline-none focus:border-trust-blue-900">
-                    <input type="email" name="email" placeholder="Votre email" required class="p-4 border border-gray-200 rounded-lg outline-none focus:border-trust-blue-900">
+                <input type="text" name="_honey" style="display:none">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <input type="text" name="nom" placeholder="Votre nom" required class="p-4 border border-gray-200 rounded-xl outline-none focus:border-trust-blue-600">
+                    <input type="email" name="email" placeholder="Votre email" required class="p-4 border border-gray-200 rounded-xl outline-none focus:border-trust-blue-600">
                 </div>
-                <textarea name="message" placeholder="Votre message..." rows="6" required class="w-full p-4 border border-gray-200 rounded-lg outline-none focus:border-trust-blue-900"></textarea>
-                <button type="submit" class="w-full bg-trust-blue-950 text-white font-bold py-4 rounded-lg hover:bg-trust-blue-900 transition shadow">Envoyer le message</button>
+                <textarea name="message" placeholder="Votre message..." rows="5" required class="w-full p-4 border border-gray-200 rounded-xl outline-none focus:border-trust-blue-600"></textarea>
+                <button type="submit" class="w-full bg-trust-blue-900 text-white font-bold py-4 rounded-xl hover:bg-trust-blue-800 transition shadow-md">Envoyer le message</button>
             </form>
         </section>
     </main>
 
-    <footer class="bg-trust-blue-950 text-white py-12 text-center mt-auto">
+    <footer class="bg-trust-blue-950 text-white py-10 text-center">
         <p>© 2026 Info Experts Moroni. Tous droits réservés.</p>
     </footer>
-
 </body>
 </html>
