@@ -3,31 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>À propos | Info Experts</title>
+    <title>À propos de nous | Info Experts Moroni</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: { extend: { colors: { 'trust-blue': { 900: '#1e3a8a', 950: '#172554' } } } }
+        }
+    </script>
 </head>
-<body class="bg-slate-50 flex flex-col min-h-screen text-gray-800 font-sans">
+<body class="bg-trust-blue-50 text-gray-800 font-sans flex flex-col min-h-screen">
 
-    <header class="bg-trust-blue-900 h-20 shadow-md flex items-center px-4">
-        <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
-            <a href="index.html" class="flex items-center gap-2">
-                <span class="text-white font-bold text-2xl">Info</span>
-                <span class="text-black font-bold text-2xl">Experts</span>
+    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md h-20">
+        <div class="max-w-7xl mx-auto px-4 h-full flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2 font-bold text-2xl">
+                <span class="text-white">Info</span><span class="text-black">Experts</span>
             </a>
             <nav class="space-x-8 text-white font-semibold">
                 <a href="index.html">Accueil</a>
-                <a href="a-propos.html" class="border-b-2 border-white">À propos</a>
+                <a href="a-propos.html" class="text-trust-blue-400">À propos</a>
             </nav>
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto py-20 px-4 flex-grow">
-        <h1 class="text-4xl font-bold text-blue-950 mb-8">Notre Histoire</h1>
-        <p class="text-lg leading-relaxed mb-6">Info Experts accompagne la transformation digitale des Comores en travaillant avec des partenaires majeurs tels que <strong>Comores Telecom</strong> et <strong>Comores Cable</strong>.</p>
+    <main class="max-w-4xl mx-auto py-16 px-4 flex-grow text-lg leading-relaxed">
+        <h1 class="text-3xl font-bold text-trust-blue-950 mb-6">Votre Partenaire Technologique</h1>
+        <p>Info Experts s'engage à fournir le meilleur matériel et support informatique à Moroni...</p>
     </main>
-
-    <footer class="bg-trust-blue-950 text-white py-12 text-center mt-auto">
-        <p>© 2026 Info Experts Moroni. Tous droits réservés.</p>
-    </footer>
 </body>
 </html>
