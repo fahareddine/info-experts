@@ -5,72 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boutique | Info Experts</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: { extend: { colors: { 'trust-blue': { 950: '#172554' } } } }
-        }
-    </script>
 </head>
-<body class="bg-slate-50 text-gray-800">
+<body class="bg-slate-50 flex flex-col min-h-screen">
 
-    <header class="bg-trust-blue-950 h-24 flex items-center shadow-lg">
-        <div class="max-w-7xl mx-auto px-6 w-full flex justify-between items-center">
-            <a href="index.html" class="text-3xl font-extrabold text-white">Info<span class="text-cyan-300">Experts</span></a>
-            <nav class="flex gap-8 text-white">
-                <a href="index.html" class="hover:text-cyan-300 font-semibold transition">Accueil</a>
-                <a href="boutique.html" class="font-bold border-b-2 border-cyan-400">Boutique</a>
+    <header class="bg-trust-blue-900 h-20 shadow-md flex items-center">
+        <div class="max-w-7xl mx-auto px-4 w-full flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2">
+                <span class="text-white font-bold text-2xl">Info</span>
+                <span class="text-black font-bold text-2xl">Experts</span>
+            </a>
+            <nav class="space-x-8 text-white font-semibold">
+                <a href="index.html">Accueil</a>
+                <a href="boutique.html" class="border-b-2 border-white">Boutique</a>
             </nav>
         </div>
     </header>
 
-    <main class="max-w-7xl mx-auto py-16 px-6">
-        <h1 class="text-4xl font-black text-center mb-12">Notre Catalogue Complet</h1>
-        
+    <main class="max-w-7xl mx-auto py-16 px-4 flex-grow">
+        <h1 class="text-4xl font-bold text-center mb-12 text-blue-950">Notre Boutique</h1>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-            
-            <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col hover:scale-105 transition">
-                <div class="h-48 flex items-center justify-center mb-6"><img src="pc-portable-lenovo.PNG" alt="PC Lenovo" class="max-h-full object-contain"></div>
-                <h3 class="text-xl font-bold mb-2">PC Portable Lenovo</h3>
-                <p class="text-2xl font-black text-blue-900 mb-6">438 € <span class="text-sm font-normal text-gray-400">(215 500 KMF)</span></p>
-                <a href="https://wa.me/33667491345" class="mt-auto block text-center bg-[#25D366] text-white py-4 rounded-2xl font-bold">Commander WhatsApp</a>
+            <div class="bg-white p-6 rounded-xl shadow border border-gray-100 flex flex-col text-center">
+                <img src="pc-portable-lenovo.PNG" alt="PC Lenovo" class="h-48 object-contain mb-4">
+                <h3 class="text-lg font-bold">PC Portable Lenovo</h3>
+                <p class="text-xl font-bold text-blue-900 mb-4">438 € (215 500 KMF)</p>
+                <a href="https://wa.me/33667491345" class="bg-[#25D366] text-white py-3 rounded-lg font-bold">Commander WhatsApp</a>
             </div>
-
-            <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col hover:scale-105 transition">
-                <div class="h-48 flex items-center justify-center mb-6"><img src="ordinateur.PNG" alt="Laptop Dell" class="max-h-full object-contain"></div>
-                <h3 class="text-xl font-bold mb-2">Laptop Dell Pro</h3>
-                <p class="text-2xl font-black text-blue-900 mb-6">563 € <span class="text-sm font-normal text-gray-400">(277 000 KMF)</span></p>
-                <a href="https://wa.me/33667491345" class="mt-auto block text-center bg-[#25D366] text-white py-4 rounded-2xl font-bold">Commander WhatsApp</a>
             </div>
-
-            <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col hover:scale-105 transition">
-                <div class="h-48 flex items-center justify-center mb-6"><img src="routeur.PNG" alt="Routeur" class="max-h-full object-contain"></div>
-                <h3 class="text-xl font-bold mb-2">Routeur Wi-Fi 4G</h3>
-                <p class="text-2xl font-black text-blue-900 mb-6">81 € <span class="text-sm font-normal text-gray-400">(39 850 KMF)</span></p>
-                <a href="https://wa.me/33667491345" class="mt-auto block text-center bg-[#25D366] text-white py-4 rounded-2xl font-bold">Commander WhatsApp</a>
-            </div>
-
-            <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col hover:scale-105 transition">
-                <div class="h-48 flex items-center justify-center mb-6"><img src="disque.PNG" alt="Disque Dur" class="max-h-full object-contain"></div>
-                <h3 class="text-xl font-bold mb-2">Disque Dur Orico</h3>
-                <p class="text-2xl font-black text-blue-900 mb-6">50 € <span class="text-sm font-normal text-gray-400">(24 600 KMF)</span></p>
-                <a href="https://wa.me/33667491345" class="mt-auto block text-center bg-[#25D366] text-white py-4 rounded-2xl font-bold">Commander WhatsApp</a>
-            </div>
-
-            <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col hover:scale-105 transition">
-                <div class="h-48 flex items-center justify-center mb-6"><img src="clavier.PNG" alt="Clavier" class="max-h-full object-contain"></div>
-                <h3 class="text-xl font-bold mb-2">Pack Clavier Gamer</h3>
-                <p class="text-2xl font-black text-blue-900 mb-6">38 € <span class="text-sm font-normal text-gray-400">(18 700 KMF)</span></p>
-                <a href="https://wa.me/33667491345" class="mt-auto block text-center bg-[#25D366] text-white py-4 rounded-2xl font-bold">Commander WhatsApp</a>
-            </div>
-
-            <div class="bg-white p-8 rounded-3xl shadow-lg border border-slate-100 flex flex-col hover:scale-105 transition">
-                <div class="h-48 flex items-center justify-center mb-6"><img src="tablette.PNG" alt="Tablette" class="max-h-full object-contain"></div>
-                <h3 class="text-xl font-bold mb-2">Tablette IdeaTab</h3>
-                <p class="text-2xl font-black text-blue-900 mb-6">225 € <span class="text-sm font-normal text-gray-400">(110 700 KMF)</span></p>
-                <a href="https://wa.me/33667491345" class="mt-auto block text-center bg-[#25D366] text-white py-4 rounded-2xl font-bold">Commander WhatsApp</a>
-            </div>
-
-        </div>
     </main>
 </body>
 </html>
