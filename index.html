@@ -35,6 +35,57 @@
             }
         }
     </script>
+    <style>
+        /* ── ANIMATIONS AU SCROLL ── */
+        .anim {
+            opacity: 0;
+            transform: translateY(28px);
+            transition: opacity 0.65s ease, transform 0.65s ease;
+        }
+        .anim.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .anim-d1 { transition-delay: 0.1s; }
+        .anim-d2 { transition-delay: 0.2s; }
+        .anim-d3 { transition-delay: 0.3s; }
+        .anim-d4 { transition-delay: 0.4s; }
+        .anim-d5 { transition-delay: 0.5s; }
+
+        /* ── MACHINE À ÉCRIRE ── */
+        #typewriter-text {
+            border-right: 3px solid #60a5fa;
+            padding-right: 3px;
+            animation: blink-cursor 0.75s step-end infinite;
+        }
+        @keyframes blink-cursor {
+            0%, 100% { border-color: #60a5fa; }
+            50%       { border-color: transparent; }
+        }
+
+        /* ── DÉFILEMENT MARQUES (remplace la grille statique) ── */
+        .brands-scroll-wrap { overflow: hidden; }
+        .brands-scroll-track {
+            display: flex;
+            gap: 4rem;
+            animation: marquee 18s linear infinite;
+            width: max-content;
+        }
+        .brands-scroll-track:hover { animation-play-state: paused; }
+        @keyframes marquee {
+            from { transform: translateX(0); }
+            to   { transform: translateX(-50%); }
+        }
+        .brand-scroll-item {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: rgba(255,255,255,0.7);
+            white-space: nowrap;
+            transition: color 0.3s;
+            cursor: default;
+        }
+        .brand-scroll-item:hover { color: #ffffff; }
+    </style>
 </head>
 <body class="bg-trust-blue-50 text-gray-800 font-sans antialiased leading-relaxed relative">
 
@@ -79,14 +130,14 @@
             <div class="absolute inset-0 bg-trust-blue-900/90"></div>
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <h1 class="animate-fade-in-up text-4xl md:text-6xl font-extrabold mb-6 leading-tight text-white">
+            <h1 class="animate-fade-in-up text-4xl md:text-6xl font-extrabold mb-6 leading-tight text-white anim">
                 Votre partenaire technologique <br>
-                <span class="text-trust-blue-400">de confiance aux Comores</span>
+                <span class="text-trust-blue-400" id="typewriter-text"></span>
             </h1>
-            <p class="animate-fade-in-up mt-6 text-xl text-trust-blue-100 max-w-3xl mx-auto mb-10">
+            <p class="animate-fade-in-up mt-6 text-xl text-trust-blue-100 max-w-3xl mx-auto mb-10 anim anim-d2">
                 Nous combinons expertise humaine et technologie de pointe. Vente de matériel, maintenance et création de sites internet sur mesure à Moroni.
             </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <div class="flex flex-col sm:flex-row justify-center gap-4 anim anim-d3">
                 <a href="boutique.html" class="inline-block bg-trust-blue-600 hover:bg-trust-blue-500 text-white font-bold py-4 px-8 rounded-full shadow-lg transition duration-300 text-center border border-trust-blue-500">
                     Découvrir notre Boutique
                 </a>
@@ -100,11 +151,11 @@
     <section id="services" class="py-20 bg-white border-t border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-16">
-                <h2 class="text-3xl font-extrabold text-trust-blue-900">Ce que nous faisons</h2>
-                <p class="mt-4 text-lg text-gray-600">Une expertise complète à votre service</p>
+                <h2 class="text-3xl font-extrabold text-trust-blue-900 anim">Ce que nous faisons</h2>
+                <p class="mt-4 text-lg text-gray-600 anim anim-d1">Une expertise complète à votre service</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-                <div class="bg-trust-blue-50 rounded-2xl p-8 text-center border border-trust-blue-100 hover:shadow-lg transition duration-300">
+                <div class="bg-trust-blue-50 rounded-2xl p-8 text-center border border-trust-blue-100 hover:shadow-lg transition duration-300 anim anim-d1">
                     <div class="flex justify-center mb-6">
                         <div class="bg-trust-blue-600 p-4 rounded-full">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
@@ -113,7 +164,7 @@
                     <h3 class="text-xl font-bold text-trust-blue-900 mb-3">Vente de Matériel</h3>
                     <p class="text-gray-600">Ordinateurs portables, PC de bureau, composants et accessoires sélectionnés pour leur fiabilité.</p>
                 </div>
-                <div class="bg-trust-blue-50 rounded-2xl p-8 text-center border border-trust-blue-100 hover:shadow-lg transition duration-300">
+                <div class="bg-trust-blue-50 rounded-2xl p-8 text-center border border-trust-blue-100 hover:shadow-lg transition duration-300 anim anim-d2">
                     <div class="flex justify-center mb-6">
                         <div class="bg-trust-blue-600 p-4 rounded-full">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
@@ -122,7 +173,7 @@
                     <h3 class="text-xl font-bold text-trust-blue-900 mb-3">Maintenance & Support</h3>
                     <p class="text-gray-600">Réparation rapide, optimisation système et sécurisation de vos données et réseaux.</p>
                 </div>
-                <div class="bg-trust-blue-50 rounded-2xl p-8 text-center border border-trust-blue-100 hover:shadow-lg transition duration-300">
+                <div class="bg-trust-blue-50 rounded-2xl p-8 text-center border border-trust-blue-100 hover:shadow-lg transition duration-300 anim anim-d3">
                     <div class="flex justify-center mb-6">
                         <div class="bg-trust-blue-600 p-4 rounded-full">
                             <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"></path></svg>
@@ -138,12 +189,20 @@
     <section class="py-12 bg-trust-blue-900 border-y border-trust-blue-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <p class="text-center text-white text-sm font-semibold uppercase tracking-widest mb-8">Les marques que nous maîtrisons</p>
-            <div class="flex flex-wrap justify-center items-center gap-8 md:gap-16">
-                <span class="text-2xl font-black text-white opacity-70 hover:opacity-100 transition">HP</span>
-                <span class="text-2xl font-black text-white opacity-70 hover:opacity-100 transition">DELL</span>
-                <span class="text-2xl font-black text-white opacity-70 hover:opacity-100 transition">Lenovo</span>
-                <span class="text-2xl font-black text-white opacity-70 hover:opacity-100 transition">ASUS</span>
-                <span class="text-2xl font-black text-white opacity-70 hover:opacity-100 transition">CISCO</span>
+            <div class="brands-scroll-wrap">
+                <div class="brands-scroll-track">
+                    <span class="brand-scroll-item">HP</span>
+                    <span class="brand-scroll-item">DELL</span>
+                    <span class="brand-scroll-item">Lenovo</span>
+                    <span class="brand-scroll-item">ASUS</span>
+                    <span class="brand-scroll-item">CISCO</span>
+                    <!-- doublon pour boucle infinie -->
+                    <span class="brand-scroll-item">HP</span>
+                    <span class="brand-scroll-item">DELL</span>
+                    <span class="brand-scroll-item">Lenovo</span>
+                    <span class="brand-scroll-item">ASUS</span>
+                    <span class="brand-scroll-item">CISCO</span>
+                </div>
             </div>
         </div>
     </section>
@@ -151,11 +210,11 @@
     <section class="py-20 bg-white border-t border-gray-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-extrabold text-trust-blue-900">Populaire en ce moment</h2>
-                <p class="mt-4 text-lg text-gray-600">Découvrez un aperçu de nos produits.</p>
+                <h2 class="text-3xl font-extrabold text-trust-blue-900 anim">Populaire en ce moment</h2>
+                <p class="mt-4 text-lg text-gray-600 anim anim-d1">Découvrez un aperçu de nos produits.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col">
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col anim anim-d1">
                     <div class="h-56 overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Femme africaine utilisant un ordinateur portable" class="w-full h-full object-cover hover:scale-105 transition duration-500">
                     </div>
@@ -168,7 +227,7 @@
                         <a href="https://wa.me/33667491345?text=Bonjour,%20je%20souhaite%20des%20informations%20sur%20vos%20Laptops%20Professionnels." rel="noopener noreferrer" target="_blank" class="block text-center bg-[#25D366] text-white py-3 rounded-xl font-bold hover:bg-[#128C7E] transition">Demander sur WhatsApp</a>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col">
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col anim anim-d2">
                     <div class="h-56 overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Processeur et composants" class="w-full h-full object-cover hover:scale-105 transition duration-500">
                     </div>
@@ -180,7 +239,7 @@
                         <a href="https://wa.me/33667491345?text=Bonjour,%20je%20cherche%20des%20composants%20PC%20(RAM,%20Disque%20dur...)" rel="noopener noreferrer" target="_blank" class="block text-center bg-[#25D366] text-white py-3 rounded-xl font-bold hover:bg-[#128C7E] transition">Demander un prix</a>
                     </div>
                 </div>
-                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col">
+                <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col anim anim-d3">
                     <div class="h-56 overflow-hidden">
                         <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Équipement réseau" class="w-full h-full object-cover hover:scale-105 transition duration-500">
                     </div>
@@ -202,20 +261,16 @@
     <section class="py-20 bg-trust-blue-50 border-t border-blue-100">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-3xl font-extrabold text-trust-blue-900">Ils nous font confiance</h2>
-                <p class="mt-4 text-lg text-gray-600">L'avis de nos partenaires aux Comores.</p>
+                <h2 class="text-3xl font-extrabold text-trust-blue-900 anim">Ils nous font confiance</h2>
+                <p class="mt-4 text-lg text-gray-600 anim anim-d1">L'avis de nos partenaires aux Comores.</p>
             </div>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-                <div class="bg-trust-blue-50 p-8 rounded-2xl border border-trust-blue-100 relative">
+                <div class="bg-trust-blue-50 p-8 rounded-2xl border border-trust-blue-100 relative anim anim-d2">
                     <svg class="absolute top-4 left-4 w-8 h-8 text-trust-blue-200" fill="currentColor" viewBox="0 0 32 32"><path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.896 3.456-8.352 9.12-8.352 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z"/></svg>
                     <p class="text-gray-600 italic mt-6">"Une équipe réactive et un matériel de très bonne qualité. Notre réseau fonctionne parfaitement depuis leur intervention."</p>
                     <p class="mt-4 font-bold text-trust-blue-900">- Comores Hydrocarbures</p>
                 </div>
-                <div class="bg-trust-blue-50 p-8 rounded-2xl border border-trust-blue-100 relative">
-                    <svg class="absolute top-4 left-4 w-8 h-8 text-trust-blue-200" fill="currentColor" viewBox="0 0 32 32"><path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.896 3.456-8.352 9.12-8.352 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z"/></svg>
-                    <p class="text-gray-600 italic mt-6">"Info Experts a créé notre site internet en un temps record. Le résultat est très professionnel, je recommande !"</p>
-                    <p class="mt-4 font-bold text-trust-blue-900">- Comores Telecom</p>
-                </div>
+                <div class="bg-trust-blue-50 p-8 rounded-2xl border border-trust-blue-100 relative anim anim-d3">
             </div>
         </div>
     </section>
@@ -224,10 +279,10 @@
     <section id="formulaire" class="py-20 bg-trust-blue-50 border-t border-blue-100">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-10">
-                <h2 class="text-3xl font-extrabold text-trust-blue-900">Contactez Info Experts</h2>
-                <p class="mt-4 text-lg text-gray-600">Une question, un devis ou un besoin urgent ? Écrivez-nous directement.</p>
+                <h2 class="text-3xl font-extrabold text-trust-blue-900 anim">Contactez Info Experts</h2>
+                <p class="mt-4 text-lg text-gray-600 anim anim-d1">Une question, un devis ou un besoin urgent ? Écrivez-nous directement.</p>
             </div>
-            <div class="bg-white rounded-2xl p-8 md:p-10 shadow-lg border border-trust-blue-100">
+            <div class="bg-white rounded-2xl p-8 md:p-10 shadow-lg border border-trust-blue-100 anim anim-d2">
                 <form id="contact-form" action="https://formspree.io/f/xbdazagj" method="POST" class="space-y-6" novalidate>
                     
                     <!-- Honeypot anti-bot (invisible pour les humains) -->
@@ -310,6 +365,32 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+
+            // ── Machine à écrire ─────────────────────────────────────────
+            const words = ['de confiance aux Comores', 'en informatique', 'pour vos projets web', 'à Moroni'];
+            let wi = 0, ci = 0, deleting = false;
+            const tw = document.getElementById('typewriter-text');
+            function type() {
+                if (!tw) return;
+                const word = words[wi];
+                if (!deleting) {
+                    tw.textContent = word.slice(0, ++ci);
+                    if (ci === word.length) { deleting = true; setTimeout(type, 1800); return; }
+                } else {
+                    tw.textContent = word.slice(0, --ci);
+                    if (ci === 0) { deleting = false; wi = (wi + 1) % words.length; }
+                }
+                setTimeout(type, deleting ? 50 : 90);
+            }
+            type();
+
+            // ── Scroll reveal ────────────────────────────────────────────
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(e => {
+                    if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); }
+                });
+            }, { threshold: 0.1 });
+            document.querySelectorAll('.anim').forEach(el => observer.observe(el));
 
             // ── Menu mobile ──────────────────────────────────────────────
             const btnMenu = document.getElementById('btn-menu-mobile');
