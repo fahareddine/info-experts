@@ -3,36 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>À propos | Info Experts Moroni</title>
+    <title>À propos | Info Experts</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-50">
+<body class="bg-slate-50 flex flex-col min-h-screen text-gray-800 font-sans">
 
-    <header class="bg-[#172554] h-24 flex items-center shadow-lg">
-        <div class="max-w-7xl mx-auto px-6 w-full flex justify-between items-center">
-            <a href="index.html" class="text-3xl font-extrabold text-white">Info<span class="text-cyan-300">Experts</span></a>
-            <nav class="flex gap-8 text-white">
-                <a href="index.html" class="hover:text-cyan-300 font-semibold transition">Accueil</a>
-                <a href="a-propos.html" class="font-bold border-b-2 border-cyan-400">À propos</a>
+    <header class="bg-trust-blue-900 h-20 shadow-md flex items-center px-4">
+        <div class="max-w-7xl mx-auto w-full flex justify-between items-center">
+            <a href="index.html" class="flex items-center gap-2">
+                <span class="text-white font-bold text-2xl">Info</span>
+                <span class="text-black font-bold text-2xl">Experts</span>
+            </a>
+            <nav class="space-x-8 text-white font-semibold">
+                <a href="index.html">Accueil</a>
+                <a href="a-propos.html" class="border-b-2 border-white">À propos</a>
             </nav>
         </div>
     </header>
 
-    <main class="max-w-4xl mx-auto py-20 px-6">
-        <h1 class="text-4xl font-black text-blue-950 mb-8">L'Expertise Informatique au Cœur des Comores</h1>
-        <div class="text-lg text-slate-700 space-y-6 leading-relaxed">
-            <p>Fondée à Moroni, <strong>Info Experts</strong> est née de la vision de Fahar : proposer un service technologique de standard international adapté aux réalités locales.</p>
-            <p>Nous ne nous contentons pas de vendre du matériel. Nous accompagnons la transformation digitale des Comores en travaillant avec des partenaires majeurs tels que <strong>Comores Telecom</strong> et <strong>Comores Cable</strong>.</p>
-            
-            <div class="mt-12 p-8 bg-blue-900 text-white rounded-3xl shadow-xl">
-                <h2 class="text-2xl font-bold mb-4 text-cyan-300">Nos Engagements</h2>
-                <ul class="list-disc ml-6 space-y-2">
-                    <li>Réactivité maximale pour vos besoins urgents à Moroni.</li>
-                    <li>Sécurité et fiabilité des sites internet que nous développons.</li>
-                    <li>Matériel professionnel certifié et garanti.</li>
-                </ul>
-            </div>
-        </div>
+    <main class="max-w-4xl mx-auto py-20 px-4 flex-grow">
+        <h1 class="text-4xl font-bold text-blue-950 mb-8">Notre Histoire</h1>
+        <p class="text-lg leading-relaxed mb-6">Info Experts accompagne la transformation digitale des Comores en travaillant avec des partenaires majeurs tels que <strong>Comores Telecom</strong> et <strong>Comores Cable</strong>.</p>
     </main>
+
+    <footer class="bg-trust-blue-950 text-white py-12 text-center mt-auto">
+        <p>© 2026 Info Experts Moroni. Tous droits réservés.</p>
+    </footer>
 </body>
 </html>
