@@ -11,79 +11,59 @@
         }
     </script>
 </head>
-<body class="bg-slate-50 text-gray-800 font-sans">
+<body class="bg-slate-50 text-gray-800 font-sans flex flex-col min-h-screen">
 
-    <header class="bg-trust-blue-950 sticky top-0 z-50 shadow-xl h-24 flex items-center">
-        <div class="max-w-7xl mx-auto px-6 w-full flex justify-between items-center">
-            <a href="index.html" class="flex items-center gap-1 group">
-                <span class="text-3xl font-extrabold text-white">Info<span class="text-cyan-300">Experts</span></span>
+    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md h-20 flex items-center">
+        <div class="max-w-7xl mx-auto px-4 h-full flex justify-between items-center w-full">
+            <a href="index.html" class="flex items-center gap-2">
+                <span class="text-white font-bold text-2xl">Info</span>
+                <span class="text-black font-bold text-2xl">Experts</span>
             </a>
-            <nav class="hidden md:flex items-center gap-8 text-white">
-                <a href="index.html" class="font-bold border-b-2 border-cyan-400">Accueil</a>
-                <a href="boutique.html" class="hover:text-cyan-300 transition font-semibold">Boutique</a>
-                <a href="a-propos.html" class="hover:text-cyan-300 transition font-semibold">À propos</a>
-                <a href="#formulaire" class="bg-white text-trust-blue-950 px-6 py-2 rounded-full font-bold hover:scale-105 transition">Contact</a>
+            <nav class="space-x-8 text-white font-semibold">
+                <a href="index.html" class="border-b-2 border-white">Accueil</a>
+                <a href="boutique.html" class="hover:text-gray-200">Boutique</a>
+                <a href="a-propos.html" class="hover:text-gray-200">À propos</a>
             </nav>
         </div>
     </header>
 
-    <section class="py-20 bg-trust-blue-900 text-white text-center">
-        <h1 class="text-5xl font-black mb-6">Expertise technologique <br><span class="text-cyan-400">aux Comores</span></h1>
-        <p class="text-xl max-w-2xl mx-auto mb-10 text-slate-200">Vente de matériel, maintenance et création de sites internet à Moroni.</p>
-        <a href="boutique.html" class="bg-cyan-500 hover:bg-cyan-400 text-white font-bold py-4 px-10 rounded-full shadow-lg transition">Voir la Boutique</a>
-    </section>
+    <main class="flex-grow">
+        <section class="bg-trust-blue-950 text-white py-24 px-4 text-center">
+            <h1 class="text-5xl font-extrabold mb-6">Expertise Technologique <br>aux Comores</h1>
+            <p class="text-xl max-w-2xl mx-auto mb-10 text-gray-200">Vente de matériel, maintenance informatique et création de sites web à Moroni.</p>
+            <div class="flex justify-center gap-4">
+                <a href="boutique.html" class="bg-white text-trust-blue-950 px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-100 transition shadow">Voir la boutique</a>
+            </div>
+        </section>
 
-    <section id="services" class="py-20 max-w-7xl mx-auto px-6">
-        <h2 class="text-3xl font-bold text-center mb-12 text-trust-blue-950">Nos Services</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-cyan-400 text-center">
-                <h3 class="text-xl font-bold mb-4">Vente de Matériel</h3>
-                <p class="text-slate-600">Laptops, serveurs et accessoires de marques HP, Dell et Lenovo pour professionnels.</p>
-            </div>
-            <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-cyan-400 text-center">
-                <h3 class="text-xl font-bold mb-4">Maintenance Réseau</h3>
-                <p class="text-slate-600">Installation et dépannage de vos infrastructures réseau et Wi-Fi partout aux Comores.</p>
-            </div>
-            <div class="bg-white p-8 rounded-2xl shadow-md border-t-4 border-cyan-400 text-center">
-                <h3 class="text-xl font-bold mb-4">Création Web</h3>
-                <p class="text-slate-600">Développement de sites vitrines et e-commerce sur mesure pour votre entreprise.</p>
-            </div>
-        </div>
-    </section>
-
-    <section class="py-16 bg-white border-y border-slate-100">
-        <div class="max-w-7xl mx-auto px-6 text-center">
-            <h2 class="text-2xl font-bold text-trust-blue-950 mb-10 uppercase tracking-widest">Ils nous font confiance</h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center font-black text-slate-400 text-xl">
-                <div>COMORES TELECOM</div>
-                <div>COMORES HYDROCARBURES</div>
-                <div>COMORES CABLE</div>
-                <div>COMORO GULF HOLDING</div>
-            </div>
-        </div>
-    </section>
-
-    <section id="formulaire" class="py-20 px-4 bg-slate-50">
-        <div class="max-w-3xl mx-auto bg-white p-10 rounded-3xl shadow-2xl">
-            <h2 class="text-3xl font-bold text-center mb-8 text-trust-blue-900">Contactez-nous</h2>
-            <form action="https://formspree.io/f/xbdazagj" method="POST" class="space-y-6">
-                <input type="text" name="_honey" style="display:none">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <input type="text" name="nom" placeholder="Votre Nom" required class="w-full p-4 bg-slate-50 rounded-xl border border-slate-200 outline-none focus:border-cyan-500">
-                    <input type="email" name="email" placeholder="Votre Email" required class="w-full p-4 bg-slate-50 rounded-xl border border-slate-200 outline-none focus:border-cyan-500">
+        <section class="py-16 bg-white border-y border-gray-100">
+            <div class="max-w-7xl mx-auto px-4 text-center">
+                <h2 class="text-2xl font-bold text-trust-blue-950 mb-10 uppercase tracking-widest">Ils nous font confiance</h2>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-8 items-center font-black text-gray-400 text-xl">
+                    <div>Comores Telecom</div>
+                    <div>Comores Hydrocarbures</div>
+                    <div>Comores Cable</div>
+                    <div>Comoro Gulf Holding</div>
                 </div>
-                <textarea name="message" placeholder="Votre message..." rows="5" required class="w-full p-4 bg-slate-50 rounded-xl border border-slate-200 outline-none focus:border-cyan-500"></textarea>
-                <button type="submit" class="w-full bg-trust-blue-900 text-white font-bold py-4 rounded-xl hover:bg-trust-blue-800 transition shadow-lg">Envoyer le message</button>
-            </form>
-        </div>
-    </section>
+            </div>
+        </section>
 
-    <footer class="bg-trust-blue-950 text-white py-12 text-center">
+        <section id="contact" class="py-20 px-4 max-w-3xl mx-auto">
+            <h2 class="text-3xl font-bold text-center text-trust-blue-950 mb-10">Formulaire de Contact</h2>
+            <form action="https://formspree.io/f/xbdazagj" method="POST" class="space-y-6">
+                <input type="text" name="_honey" style="display:none"> <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <input type="text" name="nom" placeholder="Votre nom" required class="p-4 border border-gray-200 rounded-lg outline-none focus:border-trust-blue-900">
+                    <input type="email" name="email" placeholder="Votre email" required class="p-4 border border-gray-200 rounded-lg outline-none focus:border-trust-blue-900">
+                </div>
+                <textarea name="message" placeholder="Votre message..." rows="6" required class="w-full p-4 border border-gray-200 rounded-lg outline-none focus:border-trust-blue-900"></textarea>
+                <button type="submit" class="w-full bg-trust-blue-950 text-white font-bold py-4 rounded-lg hover:bg-trust-blue-900 transition shadow">Envoyer le message</button>
+            </form>
+        </section>
+    </main>
+
+    <footer class="bg-trust-blue-950 text-white py-12 text-center mt-auto">
         <p>© 2026 Info Experts Moroni. Tous droits réservés.</p>
     </footer>
 
-    <a href="https://wa.me/33667491345" class="fixed bottom-6 right-6 bg-[#25D366] p-4 rounded-full shadow-2xl hover:scale-110 transition z-50">
-        <svg class="w-8 h-8 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
-    </a>
 </body>
 </html>
