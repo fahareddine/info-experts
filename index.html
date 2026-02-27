@@ -10,6 +10,8 @@
     <meta property="og:image" content="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
     <meta property="og:url" content="https://info-experts.vercel.app/">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://images.unsplash.com">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -106,7 +108,7 @@
                 </nav>
 
                 <div class="md:hidden flex items-center">
-                    <button id="btn-menu-mobile" class="text-trust-blue-100 hover:text-white focus:outline-none">
+                    <button id="btn-menu-mobile" aria-label="Ouvrir le menu de navigation" class="text-trust-blue-100 hover:text-white focus:outline-none">
                         <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                     </button>
                 </div>
@@ -124,9 +126,10 @@
         </div>
     </header>
 
+    <main>
     <section id="accueil" class="relative py-20 lg:py-32 overflow-hidden bg-trust-blue-900">
         <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1770&q=80" alt="Professionnels africains en informatique" class="w-full h-full object-cover"/>
+            <img src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=60&fm=webp" alt="Professionnels africains en informatique" class="w-full h-full object-cover" loading="eager" fetchpriority="high"/>
             <div class="absolute inset-0 bg-trust-blue-900/90"></div>
         </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
@@ -216,7 +219,7 @@
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                 <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col anim anim-d1">
                     <div class="h-56 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Femme africaine utilisant un ordinateur portable" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                        <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60&fm=webp" alt="Femme africaine utilisant un ordinateur portable" class="w-full h-full object-cover hover:scale-105 transition duration-500" loading="lazy">
                     </div>
                     <div class="p-6 flex-grow">
                         <span class="inline-block bg-trust-blue-100 text-trust-blue-800 text-xs font-bold px-3 py-1 rounded-full mb-3">Populaire</span>
@@ -229,7 +232,7 @@
                 </div>
                 <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col anim anim-d2">
                     <div class="h-56 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Processeur et composants" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                        <img src="https://images.unsplash.com/photo-1555680202-c86f0e12f086?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60&fm=webp" alt="Processeur et composants" class="w-full h-full object-cover hover:scale-105 transition duration-500" loading="lazy">
                     </div>
                     <div class="p-6 flex-grow">
                         <h3 class="font-bold text-xl text-gray-900 mb-2">Composants PC</h3>
@@ -241,7 +244,7 @@
                 </div>
                 <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col anim anim-d3">
                     <div class="h-56 overflow-hidden">
-                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Équipement réseau" class="w-full h-full object-cover hover:scale-105 transition duration-500">
+                        <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60&fm=webp" alt="Équipement réseau" class="w-full h-full object-cover hover:scale-105 transition duration-500" loading="lazy">
                     </div>
                     <div class="p-6 flex-grow">
                         <h3 class="font-bold text-xl text-gray-900 mb-2">Solutions Réseau</h3>
@@ -336,6 +339,8 @@
         </div>
     </section>
 
+    </main>
+
     <footer class="bg-trust-blue-950 text-trust-blue-100 py-12 border-t border-trust-blue-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 gap-12">
             <div>
@@ -361,7 +366,7 @@
     </footer>
 
     <!-- Bouton WhatsApp flottant -->
-    <a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" class="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:bg-[#128C7E] transition duration-300 z-50 flex items-center justify-center animate-bounce-slow" title="Contactez-nous sur WhatsApp">
+    <a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" aria-label="Contactez-nous sur WhatsApp" class="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:bg-[#128C7E] transition duration-300 z-50 flex items-center justify-center animate-bounce-slow">
         <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/>
         </svg>
