@@ -10,84 +10,8 @@
     <meta property="og:image" content="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
     <meta property="og:url" content="https://info-experts.vercel.app/">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>">
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="preconnect" href="https://images.unsplash.com">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'trust-blue': {
-                            50: '#eff6ff', 100: '#dbeafe', 400: '#60a5fa', 600: '#2563eb',
-                            700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a', 950: '#172554',
-                        }
-                    },
-                    animation: {
-                        'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
-                        'bounce-slow': 'bounce 3s infinite',
-                    },
-                    keyframes: {
-                        fadeInUp: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        }
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* ── ANIMATIONS AU SCROLL ── */
-        .anim {
-            opacity: 0;
-            transform: translateY(28px);
-            transition: opacity 0.65s ease, transform 0.65s ease;
-        }
-        .anim.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .anim-d1 { transition-delay: 0.1s; }
-        .anim-d2 { transition-delay: 0.2s; }
-        .anim-d3 { transition-delay: 0.3s; }
-        .anim-d4 { transition-delay: 0.4s; }
-        .anim-d5 { transition-delay: 0.5s; }
-
-        /* ── MACHINE À ÉCRIRE ── */
-        #typewriter-text {
-            border-right: 3px solid #60a5fa;
-            padding-right: 3px;
-            animation: blink-cursor 0.75s step-end infinite;
-        }
-        @keyframes blink-cursor {
-            0%, 100% { border-color: #60a5fa; }
-            50%       { border-color: transparent; }
-        }
-
-        /* ── DÉFILEMENT MARQUES (remplace la grille statique) ── */
-        .brands-scroll-wrap { overflow: hidden; }
-        .brands-scroll-track {
-            display: flex;
-            gap: 4rem;
-            animation: marquee 18s linear infinite;
-            width: max-content;
-        }
-        .brands-scroll-track:hover { animation-play-state: paused; }
-        @keyframes marquee {
-            from { transform: translateX(0); }
-            to   { transform: translateX(-50%); }
-        }
-        .brand-scroll-item {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: rgba(255,255,255,0.7);
-            white-space: nowrap;
-            transition: color 0.3s;
-            cursor: default;
-        }
-        .brand-scroll-item:hover { color: #ffffff; }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body class="bg-trust-blue-50 text-gray-800 font-sans antialiased leading-relaxed relative">
 
