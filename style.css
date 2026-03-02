@@ -197,6 +197,21 @@ img,video{max-width:100%;height:auto}
 .focus\:ring-trust-blue-600:focus{--tw-ring-color:#2563eb}
 .focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}
 
+/* ── UTILITIES SUPPLÉMENTAIRES ── */
+.min-h-screen{min-height:100vh}
+.items-start{align-items:flex-start}
+.mr-3{margin-right:.75rem}
+.mt-1{margin-top:.25rem}
+.mt-8{margin-top:2rem}
+.h-64{height:16rem}
+.object-contain{object-fit:contain}
+.font-black{font-weight:900}
+.font-normal{font-weight:400}
+.py-8{padding-top:2rem;padding-bottom:2rem}
+.py-16{padding-top:4rem;padding-bottom:4rem}
+.mt-auto{margin-top:auto}
+.scroll-smooth{scroll-behavior:smooth}
+
 /* ── HOVER ── */
 .hover\:opacity-80:hover{opacity:.8}
 .hover\:shadow-lg:hover{box-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1)}
@@ -223,6 +238,7 @@ img,video{max-width:100%;height:auto}
   .md\:justify-end{justify-content:flex-end}
   .md\:p-10{padding:2.5rem}
   .md\:text-right{text-align:right}
+  .md\:text-5xl{font-size:3rem;line-height:1}
   .md\:text-6xl{font-size:3.75rem;line-height:1}
 }
 @media(min-width:1024px){

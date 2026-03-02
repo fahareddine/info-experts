@@ -3,24 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>À propos de nous | Info Experts Moroni - Comores</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'trust-blue': {
-                            50: '#eff6ff', 100: '#dbeafe', 400: '#60a5fa', 600: '#2563eb',
-                            700: '#1d4ed8', 800: '#1e40af', 900: '#1e3a8a', 950: '#172554',
-                        }
-                    },
-                    fontFamily: {
-                        sans: ['"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
-                    }
-                }
-            }
+    <title>À propos d'Info Experts | Boutique Informatique Moroni, Comores depuis 2015</title>
+    <meta name="description" content="Info Experts, votre expert en informatique à Moroni depuis 2015. Découvrez notre histoire, notre mission et nos engagements pour la technologie aux Comores.">
+    <meta name="keywords" content="informatique Moroni, informatique Comores, boutique informatique Moroni, technicien informatique Comores, Info Experts Moroni, réparation informatique Comores">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://info-experts.vercel.app/a-propos.html">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="À propos d'Info Experts | Informatique Moroni, Comores">
+    <meta property="og:description" content="Votre expert en informatique à Moroni depuis 2015. Vente, réparation et création web aux Comores.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80">
+    <meta property="og:url" content="https://info-experts.vercel.app/a-propos.html">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:site_name" content="Info Experts Moroni">
+    <link rel="stylesheet" href="style.css">
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "AboutPage",
+      "name": "À propos d'Info Experts",
+      "description": "Info Experts, boutique informatique à Moroni, Comores depuis 2015.",
+      "url": "https://info-experts.vercel.app/a-propos.html",
+      "mainEntity": {
+        "@type": "LocalBusiness",
+        "@id": "https://info-experts.vercel.app/#business",
+        "name": "Info Experts",
+        "foundingDate": "2015",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Moroni",
+          "addressRegion": "Grande Comore",
+          "addressCountry": "KM"
         }
+      }
+    }
     </script>
 </head>
 <body class="bg-trust-blue-50 text-gray-800 font-sans antialiased leading-relaxed flex flex-col min-h-screen">
@@ -37,8 +52,25 @@
                     <a href="index.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Accueil</a>
                     <a href="a-propos.html" class="text-white font-bold border-b-2 border-trust-blue-400 pb-1">À propos de nous</a>
                     <a href="index.html#services" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Nos Services</a>
+                    <a href="boutique.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Boutique</a>
                     <a href="index.html#formulaire" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Contact</a>
                 </nav>
+
+                <div class="md:hidden flex items-center">
+                    <button id="btn-menu-mobile" aria-label="Ouvrir le menu de navigation" class="text-trust-blue-100 hover:text-white focus:outline-none">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div id="menu-mobile" class="hidden md:hidden bg-trust-blue-800 border-t border-trust-blue-700">
+            <div class="px-2 pt-2 pb-4 space-y-1 sm:px-3 shadow-inner">
+                <a href="index.html" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Accueil</a>
+                <a href="a-propos.html" class="block px-3 py-2 rounded-md text-base font-bold text-white bg-trust-blue-700">À propos de nous</a>
+                <a href="index.html#services" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Nos Services</a>
+                <a href="boutique.html" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Boutique</a>
+                <a href="index.html#formulaire" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Contact</a>
             </div>
         </div>
     </header>
@@ -53,8 +85,8 @@
 
         <section class="py-20 bg-white">
             <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="prose prose-lg text-gray-600">
-                    <h2 class="text-3xl font-bold text-trust-blue-900 mb-6">Notre Histoire</h2>
+                <div class="text-gray-600">
+                    <h2 class="text-3xl font-bold text-trust-blue-900 mb-6">Notre Histoire – Informatique aux Comores depuis 2015</h2>
                     <p class="mb-6 leading-relaxed">
                         Fondée en 2015 à Moroni, <strong>Info Experts</strong> est née d'une vision simple : rendre la technologie de pointe accessible, fiable et performante pour toutes les entreprises et les particuliers aux Comores.
                     </p>
@@ -66,7 +98,7 @@
                     </p>
 
                     <div class="bg-trust-blue-50 p-8 rounded-2xl border border-trust-blue-100 mb-10">
-                        <h3 class="text-2xl font-bold text-trust-blue-800 mb-4">Notre Mission aux Comores</h3>
+                        <h3 class="text-2xl font-bold text-trust-blue-800 mb-4">Notre Mission en Informatique aux Comores</h3>
                         <ul class="space-y-4">
                             <li class="flex items-start">
                                 <svg class="w-6 h-6 text-trust-blue-600 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
@@ -122,11 +154,22 @@
     </footer>
 
     <script>
-        // ✅ SÉCURITÉ : Protection email anti-spambot
-        document.querySelectorAll('.email-protect').forEach(function(el) {
-            el.addEventListener('click', function(e) {
-                e.preventDefault();
-                window.location.href = 'mailto:' + this.dataset.u + '@' + this.dataset.d;
+        document.addEventListener('DOMContentLoaded', () => {
+            // Menu mobile
+            const btnMenu = document.getElementById('btn-menu-mobile');
+            const menuMobile = document.getElementById('menu-mobile');
+            if (btnMenu && menuMobile) {
+                btnMenu.addEventListener('click', () => menuMobile.classList.toggle('hidden'));
+                menuMobile.querySelectorAll('a').forEach(link => {
+                    link.addEventListener('click', () => menuMobile.classList.add('hidden'));
+                });
+            }
+            // Protection email anti-spambot
+            document.querySelectorAll('.email-protect').forEach(function(el) {
+                el.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    window.location.href = 'mailto:' + this.dataset.u + '@' + this.dataset.d;
+                });
             });
         });
     </script>
