@@ -214,6 +214,15 @@ img,video{max-width:100%;height:auto}
 .py-16{padding-top:4rem;padding-bottom:4rem}
 .mt-auto{margin-top:auto}
 .scroll-smooth{scroll-behavior:smooth}
+.max-w-6xl{max-width:72rem}
+.text-gray-400{color:#9ca3af}
+.text-trust-blue-500{color:#3b82f6}
+.gap-x-6{column-gap:1.5rem}
+.gap-y-2{row-gap:.5rem}
+.py-24{padding-top:6rem;padding-bottom:6rem}
+.mb-14{margin-bottom:3.5rem}
+.flex-wrap{flex-wrap:wrap}
+@media(min-width:640px){.sm\:inline{display:inline}}
 
 /* ── HOVER ── */
 .hover\:opacity-80:hover{opacity:.8}
@@ -277,18 +286,19 @@ img,video{max-width:100%;height:auto}
 .brand-scroll-item:hover{color:#fff}
 
 /* ── FAQ ACCORDÉON MODERNE ── */
-.faq-item{border:none;border-radius:1rem;overflow:hidden;background:#fff;box-shadow:0 2px 10px rgba(30,58,138,.06);transition:box-shadow .3s,transform .3s}
-.faq-item+.faq-item{margin-top:.875rem}
-.faq-item:hover{box-shadow:0 6px 24px rgba(30,58,138,.12);transform:translateY(-1px)}
-details[open].faq-item{box-shadow:0 6px 24px rgba(30,58,138,.12)}
-.faq-question{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;font-weight:700;font-size:1rem;color:#1e3a8a;cursor:pointer;list-style:none;gap:1rem}
+.faq-item{border:none;border-radius:1.25rem;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.05),0 4px 16px rgba(30,58,138,.04);transition:box-shadow .3s,transform .3s}
+.faq-item:hover{box-shadow:0 4px 24px rgba(30,58,138,.1);transform:translateY(-2px)}
+details[open].faq-item{box-shadow:0 4px 24px rgba(30,58,138,.1)}
+.faq-question{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 2rem;font-weight:700;font-size:1.05rem;color:#111827;cursor:pointer;list-style:none;gap:1rem}
 .faq-question::-webkit-details-marker{display:none}
-.faq-question::after{content:'';display:block;width:1.5rem;height:1.5rem;flex-shrink:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2360a5fa'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");background-repeat:no-repeat;background-size:contain;transition:transform .35s ease}
+.faq-question::after{content:'';display:block;width:1.5rem;height:1.5rem;flex-shrink:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%232563eb'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");background-repeat:no-repeat;background-size:contain;transition:transform .35s ease}
 details[open]>.faq-question::after{transform:rotate(180deg)}
-.faq-answer{padding:0 1.5rem 1.5rem;color:#4b5563;line-height:1.75;border-top:1px solid #eff6ff;padding-top:1rem;font-size:.95rem}
+.faq-answer{padding:0 2rem 1.75rem;color:#6b7280;line-height:1.85;font-size:.975rem}
 
 /* ── STATS CARDS ── */
-.stat-card{background:#fff;border:1px solid #e0e7ff;border-radius:1.25rem;padding:2rem 1.25rem;text-align:center;box-shadow:0 2px 12px rgba(30,58,138,.06);transition:transform .3s ease,box-shadow .3s ease;position:relative;overflow:hidden}
-.stat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,#2563eb,#60a5fa)}
-.stat-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(30,58,138,.14)}
-.stat-icon{font-size:2rem;margin-bottom:.75rem}
+.stat-card{background:#fff;border-radius:1.5rem;padding:2.5rem 1.5rem;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.05),0 4px 20px rgba(30,58,138,.05);transition:transform .35s ease,box-shadow .35s ease;border:1px solid rgba(224,231,255,.6)}
+.stat-card:hover{transform:translateY(-8px);box-shadow:0 20px 48px rgba(30,58,138,.12)}
+.stat-icon-wrap{width:3.25rem;height:3.25rem;border-radius:1rem;background:linear-gradient(135deg,#eff6ff,#dbeafe);display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem}
+.stat-number{font-size:2.75rem;font-weight:900;background:linear-gradient(135deg,#1d4ed8,#60a5fa);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:.5rem}
+.stat-label{font-weight:700;color:#111827;font-size:.95rem;margin-bottom:.25rem}
+.stat-sub{color:#9ca3af;font-size:.8rem}
