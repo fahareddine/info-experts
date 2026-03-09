@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://info-experts.vercel.app/sitemap.xml
+Sitemap: https://info-experts.fr/sitemap.xml
