@@ -219,6 +219,7 @@ img,video{max-width:100%;height:auto}
 .text-trust-blue-300{color:#93c5fd}
 .text-trust-blue-500{color:#3b82f6}
 .gap-x-6{column-gap:1.5rem}
+.gap-x-10{column-gap:2.5rem}
 .gap-y-2{row-gap:.5rem}
 .py-24{padding-top:6rem;padding-bottom:6rem}
 .mb-14{margin-bottom:3.5rem}
