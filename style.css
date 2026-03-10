@@ -170,6 +170,7 @@ img,video{max-width:100%;height:auto}
 .outline-none{outline:2px solid transparent;outline-offset:2px}
 .resize-none{resize:none}
 .transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:150ms}
+.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:150ms}
 .duration-300{transition-duration:300ms}
 .duration-500{transition-duration:500ms}
 .transform{transform:translateX(var(--tw-translate-x,0)) translateY(var(--tw-translate-y,0)) rotate(var(--tw-rotate,0)) skewX(var(--tw-skew-x,0)) skewY(var(--tw-skew-y,0)) scaleX(var(--tw-scale-x,1)) scaleY(var(--tw-scale-y,1))}
@@ -276,8 +277,9 @@ img,video{max-width:100%;height:auto}
 .anim-d5{transition-delay:.5s}
 
 /* ── MACHINE À ÉCRIRE ── */
-#typewriter-text{border-right:3px solid #60a5fa;padding-right:3px;animation:blink-cursor .75s step-end infinite}
-@keyframes blink-cursor{0%,100%{border-color:#60a5fa}50%{border-color:transparent}}
+#typewriter-text{border-right:3px solid #60a5fa;padding-right:3px}
+.blink-cursor{animation:blink-cursor .75s step-end infinite}
+@keyframes blink-cursor{0%,100%{opacity:1}50%{opacity:0}}
 
 /* ── DÉFILEMENT MARQUES ── */
 .brands-scroll-wrap{overflow:hidden}
@@ -288,7 +290,7 @@ img,video{max-width:100%;height:auto}
 .brand-scroll-item:hover{color:#fff}
 
 /* ── FAQ ACCORDÉON MODERNE ── */
-.faq-item{border:none;border-radius:1.25rem;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.05),0 4px 16px rgba(30,58,138,.04);transition:box-shadow .3s,transform .3s}
+.faq-item{border:none;border-radius:1.25rem;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.05),0 4px 16px rgba(30,58,138,.04);transition:transform .3s}
 .faq-item:hover{box-shadow:0 4px 24px rgba(30,58,138,.1);transform:translateY(-2px)}
 details[open].faq-item{box-shadow:0 4px 24px rgba(30,58,138,.1)}
 .faq-question{display:flex;justify-content:space-between;align-items:center;padding:1.5rem 2rem;font-weight:700;font-size:1.05rem;color:#111827;cursor:pointer;list-style:none;gap:1rem}
