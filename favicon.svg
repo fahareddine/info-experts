@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="g" x1="0.35" y1="0.05" x2="0.65" y2="0.95">
+      <stop offset="0%" stop-color="#1e3a8a"/>
+      <stop offset="100%" stop-color="#16a34a"/>
+    </linearGradient>
+  </defs>
+
+  <!-- fond gris très clair -->
+  <rect width="100" height="100" fill="#f5f5f5"/>
+
+  <!-- cercle extérieur, ouverture bas-droite -->
+  <circle cx="50" cy="50" r="43" fill="none" stroke="url(#g)"
+    stroke-width="5.5" stroke-linecap="round"
+    stroke-dasharray="248 22" stroke-dashoffset="-214"/>
+
+  <!-- lettre i : point + tige -->
+  <circle cx="26" cy="26" r="4.5" fill="url(#g)"/>
+  <line x1="26" y1="34" x2="26" y2="69"
+    stroke="url(#g)" stroke-width="8" stroke-linecap="round"/>
+
+  <!-- lettre e : barre médiane + arc grand (CCW, ouverture droite) -->
+  <line x1="45" y1="50" x2="81" y2="50"
+    stroke="url(#g)" stroke-width="7" stroke-linecap="round"/>
+  <path d="M 81,46 A 18,18 0 1 0 81,54"
+    fill="none" stroke="url(#g)" stroke-width="7" stroke-linecap="round"/>
+</svg>

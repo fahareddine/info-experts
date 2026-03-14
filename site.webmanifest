@@ -1,0 +1,21 @@
+{
+  "name": "Info Experts",
+  "short_name": "Info Experts",
+  "description": "Informatique Moroni, Comores – Vente, Réparation & Maintenance",
+  "icons": [
+    {
+      "src": "/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#1e1b4b",
+  "background_color": "#1e1b4b",
+  "display": "browser",
+  "start_url": "/"
+}
