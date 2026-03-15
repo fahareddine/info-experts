@@ -278,8 +278,7 @@ img,video{max-width:100%;height:auto}
 .anim-d5{transition-delay:.5s}
 
 /* ── MACHINE À ÉCRIRE ── */
-#typewriter-text{border-right:3px solid #60a5fa;padding-right:3px}
-.blink-cursor{animation:blink-cursor .75s step-end infinite}
+.blink-cursor{display:inline-block;border-right:3px solid #60a5fa;margin-left:2px;animation:blink-cursor .75s step-end infinite}
 @keyframes blink-cursor{0%,100%{border-right-color:#60a5fa}50%{border-right-color:transparent}}
 
 /* ── DÉFILEMENT MARQUES ── */
