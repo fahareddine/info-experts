@@ -3,22 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Boutique Informatique Moroni | Onduleur, Routeur 4G, SSD, Écran – Info Experts Comores</title>
-    <meta name="description" content="Achetez votre matériel informatique à Moroni : onduleurs APC, routeurs 4G double SIM, SSD externes, écrans Full HD, switchs réseau et protection électrique. Livraison aux Comores.">
-    <meta name="keywords" content="onduleur Moroni, routeur 4G Comores, SSD externe Comores, écran PC Moroni, switch réseau Comores, multiprise parasurtenseur Moroni, boutique informatique Moroni, matériel informatique Comores">
+    <title>Boutique Informatique Moroni | Onduleur APC, Routeur 4G, SSD Samsung – Info Experts Comores</title>
+    <meta name="description" content="Achetez votre matériel informatique à Moroni : Onduleur APC BX1200MI, Routeur TP-Link MR600 4G+, SSD Samsung T7, Switch réseau, PC et écran reconditionnés. Livraison aux Comores.">
+    <meta name="keywords" content="onduleur APC Moroni, routeur 4G TP-Link Comores, SSD Samsung T7 Comores, switch réseau Moroni, PC reconditionné Comores, écran reconditionné Moroni, multiprise parafoudre Comores, boutique informatique Moroni">
     <meta name="robots" content="index, follow">
     <link rel="canonical" href="https://info-experts.fr/boutique.html">
     <meta property="og:type" content="website">
-    <meta property="og:title" content="Boutique Informatique Moroni | Onduleur, Routeur 4G, SSD – Info Experts Comores">
-    <meta property="og:description" content="Achetez votre matériel informatique à Moroni : onduleurs APC, routeurs 4G double SIM, SSD externes, écrans Full HD et protection électrique.">
-    <meta property="og:image" content="https://info-experts.fr/onduleur-apc-principal.webp">
+    <meta property="og:title" content="Boutique Informatique Moroni | Onduleur APC, Routeur 4G, SSD Samsung – Info Experts">
+    <meta property="og:description" content="Onduleur APC BX1200MI, Routeur TP-Link MR600 4G+, SSD Samsung T7 1To, Switch Gigabit, PC et écran reconditionnés Grade A. Commandez via WhatsApp, livraison aux Comores.">
+    <meta property="og:image" content="https://info-experts.fr/onduleur-apc-bx1200mi-1200va-comores.webp">
     <meta property="og:url" content="https://info-experts.fr/boutique.html">
     <meta property="og:locale" content="fr_FR">
     <meta property="og:site_name" content="Info Experts Moroni">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Boutique Informatique Moroni | Info Experts Comores">
-    <meta name="twitter:description" content="Onduleurs, routeurs 4G double SIM, SSD, écrans Full HD et switchs réseau à Moroni, Comores.">
-    <meta name="twitter:image" content="https://info-experts.fr/onduleur-apc-principal.webp">
+    <meta name="twitter:description" content="Onduleur APC, Routeur 4G TP-Link, SSD Samsung T7, Switch réseau, PC et écran reconditionnés à Moroni, Comores.">
+    <meta name="twitter:image" content="https://info-experts.fr/onduleur-apc-bx1200mi-1200va-comores.webp">
     <link rel="alternate" hreflang="fr" href="https://info-experts.fr/boutique.html">
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
@@ -29,18 +29,144 @@
     <link rel="manifest" href="/site.webmanifest">
     <meta name="theme-color" content="#1e1b4b">
     <link rel="stylesheet" href="style.css">
+
     <style>
-      .product-gallery { position: relative; }
-      .gallery-main { transition: opacity 0.3s ease; }
-      .gallery-main.fading { opacity: 0.3; }
-      .gallery-thumbs { display: flex; gap: 8px; justify-content: center; padding: 8px 16px 0; }
-      .gallery-thumb {
-        width: 56px; height: 42px; object-fit: cover;
-        border-radius: 6px; cursor: pointer; border: 2px solid transparent;
-        opacity: 0.7; transition: opacity 0.2s, border-color 0.2s;
+      /* ── Animations ── */
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(28px); }
+        to   { opacity: 1; transform: translateY(0); }
       }
-      .gallery-thumb:hover, .gallery-thumb.active { opacity: 1; border-color: #4f46e5; }
+      @keyframes waPulse {
+        0%   { box-shadow: 0 0 0 0 rgba(37,211,102,.5); }
+        70%  { box-shadow: 0 0 0 10px rgba(37,211,102,0); }
+        100% { box-shadow: 0 0 0 0 rgba(37,211,102,0); }
+      }
+
+      /* ── Cards ── */
+      .product-card {
+        opacity: 0;
+        transition: transform .25s ease, box-shadow .25s ease;
+      }
+      .product-card.visible {
+        animation: fadeInUp .5s ease forwards;
+      }
+      .product-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 40px rgba(30,27,75,.13);
+      }
+
+      /* ── Galerie ── */
+      .gallery-main-wrap {
+        overflow: hidden;
+        border-radius: 10px;
+        background: #f8f9fc;
+      }
+      .gallery-main {
+        display: block;
+        width: 100%;
+        height: 220px;
+        object-fit: contain;
+        padding: 12px;
+        transition: opacity .25s ease, transform .3s ease;
+        transform-origin: center;
+      }
+      .gallery-main:hover { transform: scale(1.03); }
+      .gallery-main.fading { opacity: .15; transform: scale(.97); }
+
+      .gallery-thumbs {
+        display: flex;
+        gap: 8px;
+        justify-content: center;
+        padding: 8px 12px 12px;
+        background: #f8f9fc;
+      }
+      .gallery-thumb {
+        width: 62px;
+        height: 48px;
+        object-fit: cover;
+        border-radius: 7px;
+        cursor: pointer;
+        border: 2px solid transparent;
+        opacity: .6;
+        transition: opacity .2s, border-color .2s, transform .15s;
+      }
+      .gallery-thumb:hover { opacity: .9; transform: scale(1.06); }
+      .gallery-thumb.active {
+        opacity: 1;
+        border-color: var(--badge-color, #4f46e5);
+        transform: scale(1.06);
+      }
+
+      /* ── Points forts ── */
+      .feature-list { list-style: none; padding: 0; margin: 0 0 14px; }
+      .feature-list li {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: .8rem;
+        color: #374151;
+        padding: 3px 0;
+      }
+      .feature-list li::before {
+        content: '✓';
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 18px;
+        height: 18px;
+        border-radius: 50%;
+        background: #dcfce7;
+        color: #16a34a;
+        font-size: .7rem;
+        font-weight: 700;
+      }
+
+      /* ── Badge ── */
+      .product-badge {
+        display: inline-block;
+        font-size: .68rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        border-radius: 20px;
+        padding: 3px 10px;
+        margin-bottom: 10px;
+        color: #fff;
+        background-color: var(--badge-color, #4f46e5);
+      }
+
+      /* ── Sous-titre ── */
+      .product-subtitle {
+        font-size: .75rem;
+        color: #6b7280;
+        margin-bottom: 8px;
+        font-weight: 500;
+        letter-spacing: .02em;
+      }
+
+      /* ── WhatsApp button ── */
+      .btn-whatsapp {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 14px;
+        background: #25D366;
+        color: #fff;
+        padding: 12px 16px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: .92rem;
+        text-decoration: none;
+        transition: background .2s;
+      }
+      .btn-whatsapp:hover {
+        background: #128C7E;
+        animation: waPulse .8s ease;
+      }
+      .btn-whatsapp svg { flex-shrink: 0; }
     </style>
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -51,6 +177,7 @@
       ]
     }
     </script>
+
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -61,75 +188,92 @@
       "itemListElement": [
         {
           "@type": "ListItem", "position": 1,
-          "item": { "@type": "Product", "name": "Onduleur APC BX 1000VA",
-            "description": "Protège votre PC des coupures de courant et surtensions fréquentes aux Comores.",
-            "image": "https://info-experts.fr/onduleur-apc-principal.webp",
+          "item": {
+            "@type": "Product",
+            "name": "Onduleur APC Back-UPS BX1200MI",
+            "description": "Protège votre PC des coupures de courant et surtensions fréquentes aux Comores. 1200VA/720W, autonomie 15 min, 8 prises IEC, régulation AVR.",
+            "image": "https://info-experts.fr/onduleur-apc-bx1200mi-1200va-comores.webp",
+            "brand": { "@type": "Brand", "name": "APC" },
             "offers": { "@type": "Offer", "priceCurrency": "EUR", "price": "284",
               "availability": "https://schema.org/InStock",
-              "seller": { "@type": "LocalBusiness", "name": "Info Experts Moroni" } } }
+              "seller": { "@type": "LocalBusiness", "name": "Info Experts Moroni" } }
+          }
         },
         {
           "@type": "ListItem", "position": 2,
-          "item": { "@type": "Product", "name": "Routeur 4G LTE Double SIM",
-            "description": "Double SIM pour basculer automatiquement entre opérateurs comoriens.",
-            "image": "https://info-experts.fr/routeur-4g-double-sim-principal.webp",
+          "item": {
+            "@type": "Product",
+            "name": "Routeur TP-Link Archer MR600 4G+",
+            "description": "Connexion internet 4G+ jusqu'à 300 Mbps. Compatible toutes SIM comoriens. WiFi Dual Band AC1200, 4 ports LAN Gigabit.",
+            "image": "https://info-experts.fr/routeur-4g-tp-link-archer-mr600-comores.webp",
+            "brand": { "@type": "Brand", "name": "TP-Link" },
             "offers": { "@type": "Offer", "priceCurrency": "EUR", "price": "74",
               "availability": "https://schema.org/InStock",
-              "seller": { "@type": "LocalBusiness", "name": "Info Experts Moroni" } } }
+              "seller": { "@type": "LocalBusiness", "name": "Info Experts Moroni" } }
+          }
         },
         {
           "@type": "ListItem", "position": 3,
-          "item": { "@type": "Product", "name": "SSD Externe Portable 1 To",
-            "description": "Sauvegardez et transportez vos données en toute sécurité. Ultra-rapide, résistant aux chocs.",
-            "image": "https://info-experts.fr/ssd-externe-1to-principal.webp",
+          "item": {
+            "@type": "Product",
+            "name": "SSD Externe Samsung T7 1 To",
+            "description": "Vitesse de transfert jusqu'à 1050 Mo/s, coque aluminium résistante aux chocs, USB-C et USB-A inclus.",
+            "image": "https://info-experts.fr/ssd-externe-samsung-t7-1to-comores.webp",
+            "brand": { "@type": "Brand", "name": "Samsung" },
             "offers": { "@type": "Offer", "priceCurrency": "EUR", "price": "51",
               "availability": "https://schema.org/InStock",
-              "seller": { "@type": "LocalBusiness", "name": "Info Experts Moroni" } } }
+              "seller": { "@type": "LocalBusiness", "name": "Info Experts Moroni" } }
+          }
         },
         {
           "@type": "ListItem", "position": 4,
-          "item": { "@type": "Product", "name": "Kit CPL 1000 Mbps",
-            "description": "Étendez votre réseau via le câblage électrique existant. Plug & play, sans configuration.",
-            "image": "https://info-experts.fr/kit-cpl-1000mbps-principal.webp",
-            "offers": { "@type": "Offer", "priceCurrency": "EUR", "price": "48",
+          "item": {
+            "@type": "Product",
+            "name": "Multiprise Belkin BSV603 Parafoudre",
+            "description": "6 prises secteur + 2 ports USB, parafoudre certifié 900 joules. Protège vos équipements informatiques des surtensions à Moroni.",
+            "image": "https://info-experts.fr/multiprise-belkin-bsv603-parafoudre-comores.webp",
+            "brand": { "@type": "Brand", "name": "Belkin" },
+            "offers": { "@type": "Offer", "priceCurrency": "EUR", "price": "34",
               "availability": "https://schema.org/InStock",
-              "seller": { "@type": "LocalBusiness", "name": "Info Experts Moroni" } } }
+              "seller": { "@type": "LocalBusiness", "name": "Info Experts Moroni" } }
+          }
         },
         {
           "@type": "ListItem", "position": 5,
-          "item": { "@type": "Product", "name": "PC Portable Reconditionné",
-            "description": "Ordinateur portable reconditionné certifié, testé et garanti 6 mois.",
-            "image": "https://info-experts.fr/pc-portable-reconditionne-principal.webp",
+          "item": {
+            "@type": "Product",
+            "name": "PC Portable Reconditionné Grade A",
+            "description": "Ordinateur portable reconditionné certifié Grade A, testé et garanti 6 mois par les techniciens Info Experts.",
+            "image": "https://info-experts.fr/pc-portable-reconditionne-grade-a-comores.webp",
             "offers": { "@type": "Offer", "priceCurrency": "EUR", "price": "333",
               "availability": "https://schema.org/InStock",
-              "seller": { "@type": "LocalBusiness", "name": "Info Experts Moroni" } } }
+              "seller": { "@type": "LocalBusiness", "name": "Info Experts Moroni" } }
+          }
         },
         {
           "@type": "ListItem", "position": 6,
-          "item": { "@type": "Product", "name": "Multiprise Parasurtenseur 6 prises",
-            "description": "Protège tous vos équipements informatiques des surtensions. 6 prises + 2 ports USB.",
-            "image": "https://info-experts.fr/multiprise-parasurtenseur-principal.webp",
-            "offers": { "@type": "Offer", "priceCurrency": "EUR", "price": "34",
+          "item": {
+            "@type": "Product",
+            "name": "Écran PC Reconditionné 24 pouces Full HD",
+            "description": "Moniteur 24 pouces Full HD IPS reconditionné Grade A, HDMI + VGA, garanti 6 mois.",
+            "image": "https://info-experts.fr/ecran-pc-reconditionne-24-pouces-comores.webp",
+            "offers": { "@type": "Offer", "priceCurrency": "EUR", "price": "252",
               "availability": "https://schema.org/InStock",
-              "seller": { "@type": "LocalBusiness", "name": "Info Experts Moroni" } } }
+              "seller": { "@type": "LocalBusiness", "name": "Info Experts Moroni" } }
+          }
         },
         {
           "@type": "ListItem", "position": 7,
-          "item": { "@type": "Product", "name": "Écran PC 24\" Full HD",
-            "description": "Moniteur 24 pouces Full HD 1080p, dalle IPS, compatible HDMI et VGA.",
-            "image": "https://info-experts.fr/ecran-pc-24-fullhd-principal.webp",
-            "offers": { "@type": "Offer", "priceCurrency": "EUR", "price": "252",
-              "availability": "https://schema.org/InStock",
-              "seller": { "@type": "LocalBusiness", "name": "Info Experts Moroni" } } }
-        },
-        {
-          "@type": "ListItem", "position": 8,
-          "item": { "@type": "Product", "name": "Switch Réseau 8 ports Gigabit",
-            "description": "Switch Gigabit 8 ports pour connecter tous vos ordinateurs et équipements réseau.",
-            "image": "https://info-experts.fr/switch-reseau-8ports-principal.webp",
+          "item": {
+            "@type": "Product",
+            "name": "Switch TP-Link TL-SG108 8 ports Gigabit",
+            "description": "Switch Gigabit 8 ports, boîtier métal robuste, plug & play, économie énergie -72%. Indispensable pour réseau d'entreprise à Moroni.",
+            "image": "https://info-experts.fr/switch-reseau-tp-link-tl-sg108-8-ports.webp",
+            "brand": { "@type": "Brand", "name": "TP-Link" },
             "offers": { "@type": "Offer", "priceCurrency": "EUR", "price": "52",
               "availability": "https://schema.org/InStock",
-              "seller": { "@type": "LocalBusiness", "name": "Info Experts Moroni" } } }
+              "seller": { "@type": "LocalBusiness", "name": "Info Experts Moroni" } }
+          }
         }
       ]
     }
@@ -174,7 +318,8 @@
         </div>
     </header>
 
-    <main class="flex-grow py-12 px-4 max-w-7xl mx-auto">
+    <main class="flex-grow py-12 px-4 max-w-7xl mx-auto w-full">
+
         <nav aria-label="Fil d'Ariane" class="mb-6 text-sm text-gray-500">
             <ol class="flex items-center gap-2">
                 <li><a href="index.html" class="hover:text-trust-blue-600 transition">Accueil</a></li>
@@ -182,242 +327,298 @@
                 <li class="text-trust-blue-900 font-semibold" aria-current="page">Boutique Informatique</li>
             </ol>
         </nav>
-        <h1 class="text-4xl font-extrabold text-center text-trust-blue-900 mb-4">Matériel Informatique à Moroni – Comores</h1>
-        <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">Onduleurs APC, routeurs 4G double SIM, SSD externes, écrans Full HD, switchs réseau et protection électrique. Commandez facilement via WhatsApp, livraison aux Comores.</p>
+
+        <h1 class="text-4xl font-extrabold text-center text-trust-blue-900 mb-3">Matériel Informatique à Moroni</h1>
+        <p class="text-center text-gray-600 max-w-2xl mx-auto mb-12">Onduleur APC, Routeur 4G TP-Link, SSD Samsung T7, switch réseau, PC et écran reconditionnés Grade A. Matériel sélectionné pour les Comores. Commandez en 1 clic via WhatsApp.</p>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
 
-            <!-- Produit 1 : Onduleur APC BX 1000VA -->
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col">
-                <div class="product-gallery bg-gray-50">
-                    <div class="h-56 p-4 flex items-center justify-center">
-                        <img src="onduleur-apc-principal.webp" alt="Onduleur APC BX 1000VA – protection coupures courant Comores"
-                             class="gallery-main max-h-full object-contain" width="800" height="533" loading="lazy">
+            <!-- ── Produit 1 : Onduleur APC BX1200MI ── -->
+            <article class="product-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col"
+                     style="--badge-color:#e74c3c">
+                <div class="product-gallery">
+                    <div class="gallery-main-wrap">
+                        <img src="onduleur-apc-bx1200mi-1200va-comores.webp"
+                             alt="Onduleur APC Back-UPS BX1200MI 1200VA – protection coupures courant Comores"
+                             class="gallery-main" width="800" height="533" loading="eager">
                     </div>
-                    <div class="gallery-thumbs pb-3">
-                        <img src="onduleur-apc-principal.webp" alt="Onduleur APC BX 1000VA vue principale"
-                             class="gallery-thumb active" width="56" height="42" loading="lazy">
-                        <img src="onduleur-apc-arriere.webp" alt="Onduleur APC BX 1000VA vue arrière"
-                             class="gallery-thumb" width="56" height="42" loading="lazy">
-                        <img src="onduleur-apc-usage.webp" alt="Onduleur APC BX 1000VA en utilisation"
-                             class="gallery-thumb" width="56" height="42" loading="lazy">
+                    <div class="gallery-thumbs">
+                        <img src="onduleur-apc-bx1200mi-1200va-comores.webp"
+                             alt="Onduleur APC BX1200MI vue principale" class="gallery-thumb active"
+                             width="62" height="48" loading="lazy">
+                        <img src="onduleur-apc-bx1200mi-prises-iec.webp"
+                             alt="Onduleur APC BX1200MI 8 prises IEC" class="gallery-thumb"
+                             width="62" height="48" loading="lazy">
+                        <img src="onduleur-apc-protection-pc-moroni.webp"
+                             alt="Onduleur APC protection PC Moroni" class="gallery-thumb"
+                             width="62" height="48" loading="lazy">
                     </div>
                 </div>
-                <div class="p-6 flex flex-col flex-grow">
-                    <span class="inline-block mb-2 text-xs font-bold uppercase tracking-wider bg-red-100 text-red-700 rounded-full px-3 py-1 self-start">Protection électrique</span>
-                    <h3 class="font-bold text-xl mb-2">Onduleur APC BX 1000VA</h3>
-                    <p class="text-sm text-gray-500 mb-3 flex-grow">Protège votre PC des coupures de courant et surtensions fréquentes aux Comores. Autonomie batterie 15 min pour sauvegarder et éteindre proprement.</p>
-                    <p class="text-2xl font-black text-trust-blue-900">284 € <span class="text-sm font-normal text-gray-500">(139 600 KMF)</span></p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20l%27Onduleur%20APC%20BX%201000VA"
-                       rel="noopener noreferrer" target="_blank"
-                       class="mt-4 block text-center bg-[#25D366] text-white py-3 rounded-xl font-bold hover:bg-[#128C7E] transition">
+                <div class="p-5 flex flex-col flex-grow">
+                    <span class="product-badge">Protection électrique</span>
+                    <h3 class="font-bold text-lg leading-tight mb-1">Onduleur APC Back-UPS BX1200MI</h3>
+                    <p class="product-subtitle">1200VA / 230V / AVR / 8 prises IEC</p>
+                    <p class="text-sm text-gray-500 mb-3 flex-grow">Protège votre PC, écran et box internet des coupures de courant fréquentes aux Comores. Batterie intégrée, régulation automatique de tension (AVR), arrêt automatique via USB.</p>
+                    <ul class="feature-list">
+                        <li>1200VA / 720W</li>
+                        <li>Autonomie ~15 min</li>
+                        <li>8 prises IEC protégées</li>
+                        <li>Compatible PowerChute</li>
+                    </ul>
+                    <p class="text-2xl font-black text-trust-blue-900 mt-auto">284 € <span class="text-sm font-normal text-gray-400">(139 600 KMF)</span></p>
+                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20l%27Onduleur%20APC%20Back-UPS%20BX1200MI"
+                       rel="noopener noreferrer" target="_blank" class="btn-whatsapp">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
                         Commander via WhatsApp
                     </a>
                 </div>
-            </div>
+            </article>
 
-            <!-- Produit 2 : Routeur 4G LTE Double SIM -->
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col">
-                <div class="product-gallery bg-gray-50">
-                    <div class="h-56 p-4 flex items-center justify-center">
-                        <img src="routeur-4g-double-sim-principal.webp" alt="Routeur 4G LTE Double SIM pour Comores"
-                             class="gallery-main max-h-full object-contain" width="800" height="533" loading="lazy">
+            <!-- ── Produit 2 : Routeur TP-Link Archer MR600 ── -->
+            <article class="product-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col"
+                     style="--badge-color:#2980b9">
+                <div class="product-gallery">
+                    <div class="gallery-main-wrap">
+                        <img src="routeur-4g-tp-link-archer-mr600-comores.webp"
+                             alt="Routeur TP-Link Archer MR600 4G+ Cat6 pour Comores"
+                             class="gallery-main" width="800" height="533" loading="lazy">
                     </div>
-                    <div class="gallery-thumbs pb-3">
-                        <img src="routeur-4g-double-sim-principal.webp" alt="Routeur 4G Double SIM vue principale"
-                             class="gallery-thumb active" width="56" height="42" loading="lazy">
-                        <img src="routeur-4g-double-sim-ports.webp" alt="Routeur 4G Double SIM ports"
-                             class="gallery-thumb" width="56" height="42" loading="lazy">
-                        <img src="routeur-4g-double-sim-usage.webp" alt="Routeur 4G Double SIM en utilisation"
-                             class="gallery-thumb" width="56" height="42" loading="lazy">
+                    <div class="gallery-thumbs">
+                        <img src="routeur-4g-tp-link-archer-mr600-comores.webp"
+                             alt="Routeur TP-Link MR600 vue principale" class="gallery-thumb active"
+                             width="62" height="48" loading="lazy">
+                        <img src="routeur-tp-link-mr600-ports-antennes.webp"
+                             alt="Routeur TP-Link MR600 ports et antennes" class="gallery-thumb"
+                             width="62" height="48" loading="lazy">
+                        <img src="routeur-4g-wifi-moroni-carte-sim.webp"
+                             alt="Routeur 4G WiFi Moroni carte SIM" class="gallery-thumb"
+                             width="62" height="48" loading="lazy">
                     </div>
                 </div>
-                <div class="p-6 flex flex-col flex-grow">
-                    <span class="inline-block mb-2 text-xs font-bold uppercase tracking-wider bg-blue-100 text-blue-700 rounded-full px-3 py-1 self-start">Réseau</span>
-                    <h3 class="font-bold text-xl mb-2">Routeur 4G LTE Double SIM</h3>
-                    <p class="text-sm text-gray-500 mb-3 flex-grow">Double SIM pour basculer automatiquement entre opérateurs comoriens. Connexion internet stable et continue pour votre bureau ou domicile.</p>
-                    <p class="text-2xl font-black text-trust-blue-900">74 € <span class="text-sm font-normal text-gray-500">(36 400 KMF)</span></p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20le%20Routeur%204G%20LTE%20Double%20SIM"
-                       rel="noopener noreferrer" target="_blank"
-                       class="mt-4 block text-center bg-[#25D366] text-white py-3 rounded-xl font-bold hover:bg-[#128C7E] transition">
+                <div class="p-5 flex flex-col flex-grow">
+                    <span class="product-badge">Réseau</span>
+                    <h3 class="font-bold text-lg leading-tight mb-1">Routeur TP-Link Archer MR600</h3>
+                    <p class="product-subtitle">4G+ Cat6 / Dual Band WiFi AC1200 / SIM</p>
+                    <p class="text-sm text-gray-500 mb-3 flex-grow">Connexion internet 4G+ stable jusqu'à 300 Mbps. Compatible toutes cartes SIM des opérateurs comoriens. WiFi Dual Band 2.4GHz + 5GHz pour toute la maison ou le bureau.</p>
+                    <ul class="feature-list">
+                        <li>4G+ Cat.6 300 Mbps</li>
+                        <li>WiFi AC1200 Dual Band</li>
+                        <li>4 ports LAN Gigabit</li>
+                        <li>Compatible Comores Telecom / Telma</li>
+                    </ul>
+                    <p class="text-2xl font-black text-trust-blue-900 mt-auto">74 € <span class="text-sm font-normal text-gray-400">(36 400 KMF)</span></p>
+                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20le%20Routeur%20TP-Link%20Archer%20MR600%204G%2B"
+                       rel="noopener noreferrer" target="_blank" class="btn-whatsapp">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
                         Commander via WhatsApp
                     </a>
                 </div>
-            </div>
+            </article>
 
-            <!-- Produit 3 : SSD Externe 1 To -->
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col">
-                <div class="product-gallery bg-gray-50">
-                    <div class="h-56 p-4 flex items-center justify-center">
-                        <img src="ssd-externe-1to-principal.webp" alt="SSD Externe Portable 1 To – stockage données Comores"
-                             class="gallery-main max-h-full object-contain" width="800" height="533" loading="lazy">
+            <!-- ── Produit 3 : SSD Samsung T7 1 To ── -->
+            <article class="product-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col"
+                     style="--badge-color:#27ae60">
+                <div class="product-gallery">
+                    <div class="gallery-main-wrap">
+                        <img src="ssd-externe-samsung-t7-1to-comores.webp"
+                             alt="SSD Externe Samsung T7 1 To USB 3.2 – stockage portable Comores"
+                             class="gallery-main" width="800" height="533" loading="lazy">
                     </div>
-                    <div class="gallery-thumbs pb-3">
-                        <img src="ssd-externe-1to-principal.webp" alt="SSD Externe 1 To vue principale"
-                             class="gallery-thumb active" width="56" height="42" loading="lazy">
-                        <img src="ssd-externe-1to-cable.webp" alt="SSD Externe 1 To avec câble USB"
-                             class="gallery-thumb" width="56" height="42" loading="lazy">
-                        <img src="ssd-externe-1to-usage.webp" alt="SSD Externe 1 To en utilisation"
-                             class="gallery-thumb" width="56" height="42" loading="lazy">
+                    <div class="gallery-thumbs">
+                        <img src="ssd-externe-samsung-t7-1to-comores.webp"
+                             alt="SSD Samsung T7 1 To vue principale" class="gallery-thumb active"
+                             width="62" height="48" loading="lazy">
+                        <img src="ssd-externe-samsung-t7-cable-usb-c.webp"
+                             alt="SSD Samsung T7 câble USB-C inclus" class="gallery-thumb"
+                             width="62" height="48" loading="lazy">
+                        <img src="ssd-samsung-t7-stockage-portable-moroni.webp"
+                             alt="SSD Samsung T7 stockage portable Moroni" class="gallery-thumb"
+                             width="62" height="48" loading="lazy">
                     </div>
                 </div>
-                <div class="p-6 flex flex-col flex-grow">
-                    <span class="inline-block mb-2 text-xs font-bold uppercase tracking-wider bg-purple-100 text-purple-700 rounded-full px-3 py-1 self-start">Stockage</span>
-                    <h3 class="font-bold text-xl mb-2">SSD Externe Portable 1 To</h3>
-                    <p class="text-sm text-gray-500 mb-3 flex-grow">Sauvegardez et transportez vos données en toute sécurité. Ultra-rapide, résistant aux chocs, compatible USB 3.0. Idéal pour remplacer un HDD défaillant.</p>
-                    <p class="text-2xl font-black text-trust-blue-900">51 € <span class="text-sm font-normal text-gray-500">(25 100 KMF)</span></p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20le%20SSD%20Externe%20Portable%201%20To"
-                       rel="noopener noreferrer" target="_blank"
-                       class="mt-4 block text-center bg-[#25D366] text-white py-3 rounded-xl font-bold hover:bg-[#128C7E] transition">
+                <div class="p-5 flex flex-col flex-grow">
+                    <span class="product-badge">Stockage</span>
+                    <h3 class="font-bold text-lg leading-tight mb-1">SSD Externe Samsung T7 1 To</h3>
+                    <p class="product-subtitle">USB 3.2 Gen2 / 1050 Mo/s / Aluminium</p>
+                    <p class="text-sm text-gray-500 mb-3 flex-grow">Sauvegardez et transportez toutes vos données professionnelles en toute sécurité. Vitesse jusqu'à 1050 Mo/s, coque aluminium résistante aux chocs, taille carte de crédit.</p>
+                    <ul class="feature-list">
+                        <li>1050 Mo/s en lecture</li>
+                        <li>1 To de stockage</li>
+                        <li>Résistant aux chocs</li>
+                        <li>USB-C + USB-A inclus</li>
+                    </ul>
+                    <p class="text-2xl font-black text-trust-blue-900 mt-auto">51 € <span class="text-sm font-normal text-gray-400">(25 100 KMF)</span></p>
+                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20le%20SSD%20Externe%20Samsung%20T7%201%20To"
+                       rel="noopener noreferrer" target="_blank" class="btn-whatsapp">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
                         Commander via WhatsApp
                     </a>
                 </div>
-            </div>
+            </article>
 
-            <!-- Produit 4 : Kit CPL 1000 Mbps -->
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col">
-                <div class="product-gallery bg-gray-50">
-                    <div class="h-56 p-4 flex items-center justify-center">
-                        <img src="kit-cpl-1000mbps-principal.webp" alt="Kit CPL 1000 Mbps réseau via électricité Comores"
-                             class="gallery-main max-h-full object-contain" width="800" height="533" loading="lazy">
+            <!-- ── Produit 4 : Multiprise Belkin BSV603 ── -->
+            <article class="product-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col"
+                     style="--badge-color:#e74c3c">
+                <div class="product-gallery">
+                    <div class="gallery-main-wrap">
+                        <img src="multiprise-belkin-bsv603-parafoudre-comores.webp"
+                             alt="Multiprise Belkin BSV603 parafoudre 6 prises protection Moroni"
+                             class="gallery-main" width="800" height="533" loading="lazy">
                     </div>
-                    <div class="gallery-thumbs pb-3">
-                        <img src="kit-cpl-1000mbps-principal.webp" alt="Kit CPL 1000 Mbps vue principale"
-                             class="gallery-thumb active" width="56" height="42" loading="lazy">
-                        <img src="kit-cpl-1000mbps-prise.webp" alt="Kit CPL 1000 Mbps branchement prise"
-                             class="gallery-thumb" width="56" height="42" loading="lazy">
-                        <img src="kit-cpl-1000mbps-installation.webp" alt="Kit CPL 1000 Mbps installation"
-                             class="gallery-thumb" width="56" height="42" loading="lazy">
+                    <div class="gallery-thumbs">
+                        <img src="multiprise-belkin-bsv603-parafoudre-comores.webp"
+                             alt="Multiprise Belkin BSV603 vue principale" class="gallery-thumb active"
+                             width="62" height="48" loading="lazy">
+                        <img src="multiprise-belkin-6-prises-2-usb-protection.webp"
+                             alt="Multiprise Belkin 6 prises 2 USB détail" class="gallery-thumb"
+                             width="62" height="48" loading="lazy">
+                        <img src="multiprise-parafoudre-protection-pc-moroni.webp"
+                             alt="Multiprise parafoudre protection PC Moroni" class="gallery-thumb"
+                             width="62" height="48" loading="lazy">
                     </div>
                 </div>
-                <div class="p-6 flex flex-col flex-grow">
-                    <span class="inline-block mb-2 text-xs font-bold uppercase tracking-wider bg-blue-100 text-blue-700 rounded-full px-3 py-1 self-start">Réseau</span>
-                    <h3 class="font-bold text-xl mb-2">Kit CPL 1000 Mbps</h3>
-                    <p class="text-sm text-gray-500 mb-3 flex-grow">Étendez votre réseau informatique via le câblage électrique existant. Solution fiable là où le WiFi est trop faible. Plug & play, sans configuration.</p>
-                    <p class="text-2xl font-black text-trust-blue-900">48 € <span class="text-sm font-normal text-gray-500">(23 600 KMF)</span></p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20le%20Kit%20CPL%201000%20Mbps"
-                       rel="noopener noreferrer" target="_blank"
-                       class="mt-4 block text-center bg-[#25D366] text-white py-3 rounded-xl font-bold hover:bg-[#128C7E] transition">
+                <div class="p-5 flex flex-col flex-grow">
+                    <span class="product-badge">Protection électrique</span>
+                    <h3 class="font-bold text-lg leading-tight mb-1">Multiprise Belkin BSV603</h3>
+                    <p class="product-subtitle">6 prises + 2 USB / Parafoudre 900 Joules</p>
+                    <p class="text-sm text-gray-500 mb-3 flex-grow">Protège tous vos équipements informatiques des surtensions lors des reprises de courant brutales à Moroni. 6 prises secteur + 2 ports USB, parafoudre certifié 900 joules.</p>
+                    <ul class="feature-list">
+                        <li>900 Joules de protection</li>
+                        <li>6 prises + 2 USB</li>
+                        <li>Câble 2m</li>
+                        <li>Garantie équipements connectés</li>
+                    </ul>
+                    <p class="text-2xl font-black text-trust-blue-900 mt-auto">34 € <span class="text-sm font-normal text-gray-400">(16 700 KMF)</span></p>
+                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20la%20Multiprise%20Belkin%20BSV603%20Parafoudre"
+                       rel="noopener noreferrer" target="_blank" class="btn-whatsapp">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
                         Commander via WhatsApp
                     </a>
                 </div>
-            </div>
+            </article>
 
-            <!-- Produit 5 : PC Portable Reconditionné -->
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col">
-                <div class="product-gallery bg-gray-50">
-                    <div class="h-56 p-4 flex items-center justify-center">
-                        <img src="pc-portable-reconditionne-principal.webp" alt="PC Portable Reconditionné certifié garanti 6 mois Comores"
-                             class="gallery-main max-h-full object-contain" width="800" height="533" loading="lazy">
+            <!-- ── Produit 5 : PC Portable Reconditionné Grade A ── -->
+            <article class="product-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col"
+                     style="--badge-color:#8e44ad">
+                <div class="product-gallery">
+                    <div class="gallery-main-wrap">
+                        <img src="pc-portable-reconditionne-grade-a-comores.webp"
+                             alt="PC Portable Reconditionné Grade A certifié – ordinateur Comores"
+                             class="gallery-main" width="800" height="533" loading="lazy">
                     </div>
-                    <div class="gallery-thumbs pb-3">
-                        <img src="pc-portable-reconditionne-principal.webp" alt="PC Portable Reconditionné vue principale"
-                             class="gallery-thumb active" width="56" height="42" loading="lazy">
-                        <img src="pc-portable-reconditionne-clavier.webp" alt="PC Portable Reconditionné clavier"
-                             class="gallery-thumb" width="56" height="42" loading="lazy">
-                        <img src="pc-portable-reconditionne-usage.webp" alt="PC Portable Reconditionné en utilisation"
-                             class="gallery-thumb" width="56" height="42" loading="lazy">
+                    <div class="gallery-thumbs">
+                        <img src="pc-portable-reconditionne-grade-a-comores.webp"
+                             alt="PC Portable Reconditionné Grade A vue principale" class="gallery-thumb active"
+                             width="62" height="48" loading="lazy">
+                        <img src="pc-portable-reconditionne-clavier-ecran.webp"
+                             alt="PC Portable Reconditionné clavier et écran" class="gallery-thumb"
+                             width="62" height="48" loading="lazy">
+                        <img src="ordinateur-portable-reconditionne-moroni.webp"
+                             alt="Ordinateur portable reconditionné Moroni" class="gallery-thumb"
+                             width="62" height="48" loading="lazy">
                     </div>
                 </div>
-                <div class="p-6 flex flex-col flex-grow">
-                    <span class="inline-block mb-2 text-xs font-bold uppercase tracking-wider bg-green-100 text-green-700 rounded-full px-3 py-1 self-start">Bon plan</span>
-                    <h3 class="font-bold text-xl mb-2">PC Portable Reconditionné</h3>
-                    <p class="text-sm text-gray-500 mb-3 flex-grow">Ordinateur portable reconditionné certifié, testé et garanti 6 mois. Performance fiable pour étudiants et professionnels, à prix accessible aux Comores.</p>
-                    <p class="text-2xl font-black text-trust-blue-900">333 € <span class="text-sm font-normal text-gray-500">(163 700 KMF)</span></p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20le%20PC%20Portable%20Reconditionn%C3%A9"
-                       rel="noopener noreferrer" target="_blank"
-                       class="mt-4 block text-center bg-[#25D366] text-white py-3 rounded-xl font-bold hover:bg-[#128C7E] transition">
+                <div class="p-5 flex flex-col flex-grow">
+                    <span class="product-badge">Bon plan</span>
+                    <h3 class="font-bold text-lg leading-tight mb-1">PC Portable Reconditionné Grade A</h3>
+                    <p class="product-subtitle">Testé · Garanti 6 mois · Certifié</p>
+                    <p class="text-sm text-gray-500 mb-3 flex-grow">Ordinateur portable reconditionné certifié Grade A, testé et vérifié par nos techniciens. Performances fiables pour les étudiants et professionnels comoriens, à prix accessible.</p>
+                    <ul class="feature-list">
+                        <li>Grade A certifié</li>
+                        <li>Garanti 6 mois</li>
+                        <li>Testé par nos techniciens</li>
+                        <li>Batterie contrôlée</li>
+                    </ul>
+                    <p class="text-2xl font-black text-trust-blue-900 mt-auto">333 € <span class="text-sm font-normal text-gray-400">(163 700 KMF)</span></p>
+                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20le%20PC%20Portable%20Reconditionn%C3%A9%20Grade%20A"
+                       rel="noopener noreferrer" target="_blank" class="btn-whatsapp">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
                         Commander via WhatsApp
                     </a>
                 </div>
-            </div>
+            </article>
 
-            <!-- Produit 6 : Multiprise Parasurtenseur -->
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col">
-                <div class="product-gallery bg-gray-50">
-                    <div class="h-56 p-4 flex items-center justify-center">
-                        <img src="multiprise-parasurtenseur-principal.webp" alt="Multiprise Parasurtenseur 6 prises protection Moroni"
-                             class="gallery-main max-h-full object-contain" width="800" height="533" loading="lazy">
+            <!-- ── Produit 6 : Écran PC Reconditionné 24" ── -->
+            <article class="product-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col"
+                     style="--badge-color:#8e44ad">
+                <div class="product-gallery">
+                    <div class="gallery-main-wrap">
+                        <img src="ecran-pc-reconditionne-24-pouces-comores.webp"
+                             alt="Écran PC Reconditionné 24 pouces Full HD IPS Grade A – moniteur Moroni"
+                             class="gallery-main" width="800" height="533" loading="lazy">
                     </div>
-                    <div class="gallery-thumbs pb-3">
-                        <img src="multiprise-parasurtenseur-principal.webp" alt="Multiprise Parasurtenseur vue principale"
-                             class="gallery-thumb active" width="56" height="42" loading="lazy">
-                        <img src="multiprise-parasurtenseur-prises.webp" alt="Multiprise Parasurtenseur détail prises"
-                             class="gallery-thumb" width="56" height="42" loading="lazy">
-                        <img src="multiprise-parasurtenseur-bureau.webp" alt="Multiprise Parasurtenseur sur bureau"
-                             class="gallery-thumb" width="56" height="42" loading="lazy">
+                    <div class="gallery-thumbs">
+                        <img src="ecran-pc-reconditionne-24-pouces-comores.webp"
+                             alt="Écran reconditionné 24 pouces vue principale" class="gallery-thumb active"
+                             width="62" height="48" loading="lazy">
+                        <img src="ecran-reconditionne-ports-hdmi-vga.webp"
+                             alt="Écran reconditionné ports HDMI et VGA" class="gallery-thumb"
+                             width="62" height="48" loading="lazy">
+                        <img src="moniteur-reconditionne-bureau-moroni.webp"
+                             alt="Moniteur reconditionné sur bureau Moroni" class="gallery-thumb"
+                             width="62" height="48" loading="lazy">
                     </div>
                 </div>
-                <div class="p-6 flex flex-col flex-grow">
-                    <span class="inline-block mb-2 text-xs font-bold uppercase tracking-wider bg-red-100 text-red-700 rounded-full px-3 py-1 self-start">Protection électrique</span>
-                    <h3 class="font-bold text-xl mb-2">Multiprise Parasurtenseur 6 prises</h3>
-                    <p class="text-sm text-gray-500 mb-3 flex-grow">Protège tous vos équipements informatiques des surtensions lors des reprises de courant à Moroni. 6 prises secteur + 2 ports USB intégrés.</p>
-                    <p class="text-2xl font-black text-trust-blue-900">34 € <span class="text-sm font-normal text-gray-500">(16 700 KMF)</span></p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20la%20Multiprise%20Parasurtenseur%206%20prises"
-                       rel="noopener noreferrer" target="_blank"
-                       class="mt-4 block text-center bg-[#25D366] text-white py-3 rounded-xl font-bold hover:bg-[#128C7E] transition">
+                <div class="p-5 flex flex-col flex-grow">
+                    <span class="product-badge">Bon plan</span>
+                    <h3 class="font-bold text-lg leading-tight mb-1">Écran PC Reconditionné 24&quot;</h3>
+                    <p class="product-subtitle">Full HD 1080p · HDMI · VGA · Grade A</p>
+                    <p class="text-sm text-gray-500 mb-3 flex-grow">Moniteur 24 pouces Full HD reconditionné Grade A, dalle IPS, compatible HDMI et VGA. Idéal pour un poste de travail professionnel ou étudiant à Moroni. Testé et garanti.</p>
+                    <ul class="feature-list">
+                        <li>24 pouces Full HD IPS</li>
+                        <li>HDMI + VGA</li>
+                        <li>Grade A reconditionné</li>
+                        <li>Garanti 6 mois</li>
+                    </ul>
+                    <p class="text-2xl font-black text-trust-blue-900 mt-auto">252 € <span class="text-sm font-normal text-gray-400">(123 800 KMF)</span></p>
+                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20l%27%C3%89cran%20PC%20Reconditionn%C3%A9%2024%20pouces"
+                       rel="noopener noreferrer" target="_blank" class="btn-whatsapp">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
                         Commander via WhatsApp
                     </a>
                 </div>
-            </div>
+            </article>
 
-            <!-- Produit 7 : Écran PC 24" Full HD -->
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col">
-                <div class="product-gallery bg-gray-50">
-                    <div class="h-56 p-4 flex items-center justify-center">
-                        <img src="ecran-pc-24-fullhd-principal.webp" alt="Écran PC 24 pouces Full HD IPS – poste travail Moroni"
-                             class="gallery-main max-h-full object-contain" width="800" height="533" loading="lazy">
+            <!-- ── Produit 7 : Switch TP-Link TL-SG108 ── -->
+            <article class="product-card bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col"
+                     style="--badge-color:#2980b9">
+                <div class="product-gallery">
+                    <div class="gallery-main-wrap">
+                        <img src="switch-reseau-tp-link-tl-sg108-8-ports.webp"
+                             alt="Switch TP-Link TL-SG108 8 ports Gigabit réseau entreprise Moroni"
+                             class="gallery-main" width="800" height="533" loading="lazy">
                     </div>
-                    <div class="gallery-thumbs pb-3">
-                        <img src="ecran-pc-24-fullhd-principal.webp" alt="Écran PC 24 Full HD vue principale"
-                             class="gallery-thumb active" width="56" height="42" loading="lazy">
-                        <img src="ecran-pc-24-fullhd-cote.webp" alt="Écran PC 24 Full HD vue de côté"
-                             class="gallery-thumb" width="56" height="42" loading="lazy">
-                        <img src="ecran-pc-24-fullhd-usage.webp" alt="Écran PC 24 Full HD en utilisation"
-                             class="gallery-thumb" width="56" height="42" loading="lazy">
+                    <div class="gallery-thumbs">
+                        <img src="switch-reseau-tp-link-tl-sg108-8-ports.webp"
+                             alt="Switch TP-Link TL-SG108 vue principale" class="gallery-thumb active"
+                             width="62" height="48" loading="lazy">
+                        <img src="switch-gigabit-tp-link-ports-ethernet.webp"
+                             alt="Switch Gigabit TP-Link ports Ethernet" class="gallery-thumb"
+                             width="62" height="48" loading="lazy">
+                        <img src="switch-reseau-8-ports-installation-moroni.webp"
+                             alt="Switch réseau 8 ports installation Moroni" class="gallery-thumb"
+                             width="62" height="48" loading="lazy">
                     </div>
                 </div>
-                <div class="p-6 flex flex-col flex-grow">
-                    <span class="inline-block mb-2 text-xs font-bold uppercase tracking-wider bg-yellow-100 text-yellow-700 rounded-full px-3 py-1 self-start">Périphérique</span>
-                    <h3 class="font-bold text-xl mb-2">Écran PC 24&quot; Full HD</h3>
-                    <p class="text-sm text-gray-500 mb-3 flex-grow">Moniteur 24 pouces Full HD 1080p, dalle IPS, compatible HDMI et VGA. Parfait pour un poste de travail professionnel ou étudiant à Moroni.</p>
-                    <p class="text-2xl font-black text-trust-blue-900">252 € <span class="text-sm font-normal text-gray-500">(123 800 KMF)</span></p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20l%27%C3%89cran%20PC%2024%20pouces%20Full%20HD"
-                       rel="noopener noreferrer" target="_blank"
-                       class="mt-4 block text-center bg-[#25D366] text-white py-3 rounded-xl font-bold hover:bg-[#128C7E] transition">
+                <div class="p-5 flex flex-col flex-grow">
+                    <span class="product-badge">Réseau</span>
+                    <h3 class="font-bold text-lg leading-tight mb-1">Switch TP-Link TL-SG108</h3>
+                    <p class="product-subtitle">8 ports Gigabit / Boîtier métal / Plug &amp; Play</p>
+                    <p class="text-sm text-gray-500 mb-3 flex-grow">Connectez jusqu'à 8 ordinateurs et équipements réseau en Gigabit. Boîtier métal robuste, silencieux, plug & play. Indispensable pour tout réseau d'entreprise ou école à Moroni.</p>
+                    <ul class="feature-list">
+                        <li>8 ports Gigabit 1000 Mbps</li>
+                        <li>Boîtier métal robuste</li>
+                        <li>Plug &amp; Play sans config</li>
+                        <li>Économie énergie -72%</li>
+                    </ul>
+                    <p class="text-2xl font-black text-trust-blue-900 mt-auto">52 € <span class="text-sm font-normal text-gray-400">(25 600 KMF)</span></p>
+                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20le%20Switch%20TP-Link%20TL-SG108%208%20ports%20Gigabit"
+                       rel="noopener noreferrer" target="_blank" class="btn-whatsapp">
+                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
                         Commander via WhatsApp
                     </a>
                 </div>
-            </div>
-
-            <!-- Produit 8 : Switch Réseau 8 ports Gigabit -->
-            <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col">
-                <div class="product-gallery bg-gray-50">
-                    <div class="h-56 p-4 flex items-center justify-center">
-                        <img src="switch-reseau-8ports-principal.webp" alt="Switch Réseau 8 ports Gigabit entreprise Moroni"
-                             class="gallery-main max-h-full object-contain" width="800" height="533" loading="lazy">
-                    </div>
-                    <div class="gallery-thumbs pb-3">
-                        <img src="switch-reseau-8ports-principal.webp" alt="Switch Réseau 8 ports vue principale"
-                             class="gallery-thumb active" width="56" height="42" loading="lazy">
-                        <img src="switch-reseau-8ports-ports.webp" alt="Switch Réseau 8 ports détail ports"
-                             class="gallery-thumb" width="56" height="42" loading="lazy">
-                        <img src="switch-reseau-8ports-installation.webp" alt="Switch Réseau 8 ports installation"
-                             class="gallery-thumb" width="56" height="42" loading="lazy">
-                    </div>
-                </div>
-                <div class="p-6 flex flex-col flex-grow">
-                    <span class="inline-block mb-2 text-xs font-bold uppercase tracking-wider bg-blue-100 text-blue-700 rounded-full px-3 py-1 self-start">Réseau</span>
-                    <h3 class="font-bold text-xl mb-2">Switch Réseau 8 ports Gigabit</h3>
-                    <p class="text-sm text-gray-500 mb-3 flex-grow">Switch Gigabit 8 ports pour connecter tous vos ordinateurs et équipements réseau. Indispensable pour l'installation réseau d'entreprise à Moroni.</p>
-                    <p class="text-2xl font-black text-trust-blue-900">52 € <span class="text-sm font-normal text-gray-500">(25 600 KMF)</span></p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20le%20Switch%20R%C3%A9seau%208%20ports%20Gigabit"
-                       rel="noopener noreferrer" target="_blank"
-                       class="mt-4 block text-center bg-[#25D366] text-white py-3 rounded-xl font-bold hover:bg-[#128C7E] transition">
-                        Commander via WhatsApp
-                    </a>
-                </div>
-            </div>
+            </article>
 
         </div>
     </main>
@@ -444,47 +645,71 @@
     </a>
 
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Menu mobile
-            const btnMenu = document.getElementById('btn-menu-mobile');
-            const menuMobile = document.getElementById('menu-mobile');
-            if (btnMenu && menuMobile) {
-                btnMenu.addEventListener('click', () => menuMobile.classList.toggle('hidden'));
-                menuMobile.querySelectorAll('a').forEach(link => {
-                    link.addEventListener('click', () => menuMobile.classList.add('hidden'));
-                });
-            }
+      document.addEventListener('DOMContentLoaded', () => {
 
-            // Email protect
-            document.querySelectorAll('.email-protect').forEach(function(el) {
-                el.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    window.location.href = 'mailto:' + this.dataset.u + '@' + this.dataset.d;
-                });
-            });
+        /* ── Menu mobile ── */
+        const btnMenu = document.getElementById('btn-menu-mobile');
+        const menuMobile = document.getElementById('menu-mobile');
+        if (btnMenu && menuMobile) {
+          btnMenu.addEventListener('click', () => menuMobile.classList.toggle('hidden'));
+          menuMobile.querySelectorAll('a').forEach(l => l.addEventListener('click', () => menuMobile.classList.add('hidden')));
+        }
 
-            // Galerie produits
-            document.querySelectorAll('.product-gallery').forEach(function(gallery) {
-                const mainImg = gallery.querySelector('.gallery-main');
-                const thumbs = gallery.querySelectorAll('.gallery-thumb');
-
-                thumbs.forEach(function(thumb) {
-                    thumb.addEventListener('click', function() {
-                        if (this.src === mainImg.src) return;
-
-                        mainImg.classList.add('fading');
-                        setTimeout(function() {
-                            mainImg.src = thumb.src;
-                            mainImg.alt = thumb.alt.replace(' vue principale', '').replace(' détail', '').replace(' en utilisation', '');
-                            mainImg.classList.remove('fading');
-                        }, 150);
-
-                        thumbs.forEach(t => t.classList.remove('active'));
-                        this.classList.add('active');
-                    });
-                });
-            });
+        /* ── Email protect ── */
+        document.querySelectorAll('.email-protect').forEach(el => {
+          el.addEventListener('click', e => {
+            e.preventDefault();
+            window.location.href = 'mailto:' + el.dataset.u + '@' + el.dataset.d;
+          });
         });
+
+        /* ── Galerie produits ── */
+        document.querySelectorAll('.product-gallery').forEach(gallery => {
+          const mainImg = gallery.querySelector('.gallery-main');
+          const thumbs  = gallery.querySelectorAll('.gallery-thumb');
+
+          thumbs.forEach(thumb => {
+            thumb.addEventListener('click', function () {
+              if (this.src === mainImg.src) return;
+              mainImg.classList.add('fading');
+              const newSrc = this.src;
+              const newAlt = this.alt;
+              setTimeout(() => {
+                mainImg.src = newSrc;
+                mainImg.alt = newAlt;
+                mainImg.classList.remove('fading');
+              }, 130);
+              thumbs.forEach(t => t.classList.remove('active'));
+              this.classList.add('active');
+            });
+          });
+        });
+
+        /* ── Apparition des cards au scroll (fadeInUp) ── */
+        if ('IntersectionObserver' in window) {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const idx = parseInt(entry.target.dataset.cardIdx, 10) || 0;
+                entry.target.style.animationDelay = (idx % 3) * 0.1 + 's';
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.08 });
+
+          document.querySelectorAll('.product-card').forEach((card, i) => {
+            card.dataset.cardIdx = i;
+            observer.observe(card);
+          });
+        } else {
+          /* Fallback : affiche tout immédiatement */
+          document.querySelectorAll('.product-card').forEach(card => {
+            card.style.opacity = '1';
+          });
+        }
+
+      });
     </script>
 
 </body>
