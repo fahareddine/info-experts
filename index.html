@@ -281,7 +281,7 @@
         <div id="carousel-track" class="carousel-track" aria-live="polite" aria-atomic="false">
 
             <!-- ── Slide 1 — Vente de matériel informatique ─────────── -->
-            <div class="carousel-slide" role="group" aria-roledescription="diapositive" aria-label="1 sur 4 — Vente de matériel informatique">
+            <div class="carousel-slide is-active" role="group" aria-roledescription="diapositive" aria-label="1 sur 4 — Vente de matériel informatique">
                 <div class="carousel-bg">
                     <img src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=70&fm=webp"
                          srcset="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60&fm=webp 800w,
@@ -742,6 +742,12 @@
         var DELAY   = 5500;
         var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+        /* Charge l'image d'une slide si elle attend encore (data-src) */
+        function loadSlide(index) {
+            var img = slides[index].querySelector('img[data-src]');
+            if (img) { img.src = img.getAttribute('data-src'); img.removeAttribute('data-src'); }
+        }
+
         function activate(index) {
             var prev = current;
             current = ((index % total) + total) % total;
@@ -754,10 +760,8 @@
                 d.classList.toggle('is-active', i === current);
                 d.setAttribute('aria-selected', i === current ? 'true' : 'false');
             });
-            /* Lazy-load l'image de la slide suivante */
-            var next = (current + 1) % total;
-            var lazy = slides[next].querySelector('img[data-src]');
-            if (lazy) { lazy.src = lazy.getAttribute('data-src'); lazy.removeAttribute('data-src'); }
+            /* Charge uniquement la slide suivante, à la demande */
+            loadSlide((current + 1) % total);
             resetProgress();
         }
 
@@ -783,10 +787,10 @@
             if (bar) bar.style.transition = 'none';
         }
 
-        var prev = document.querySelector('.carousel-prev');
-        var next = document.querySelector('.carousel-next');
-        if (prev) prev.addEventListener('click', function () { stop(); activate(current - 1); start(); });
-        if (next) next.addEventListener('click', function () { stop(); activate(current + 1); start(); });
+        var btnPrev = document.querySelector('.carousel-prev');
+        var btnNext = document.querySelector('.carousel-next');
+        if (btnPrev) btnPrev.addEventListener('click', function () { stop(); activate(current - 1); start(); });
+        if (btnNext) btnNext.addEventListener('click', function () { stop(); activate(current + 1); start(); });
         dots.forEach(function (d, i) { d.addEventListener('click', function () { stop(); activate(i); start(); }); });
 
         var section = document.querySelector('.hero-carousel');
@@ -801,16 +805,11 @@
             section.addEventListener('focusout', start);
         }
 
-        /* Lazy-load toutes les images restantes après chargement complet */
-        window.addEventListener('load', function () {
-            slides.forEach(function (slide) {
-                var img = slide.querySelector('img[data-src]');
-                if (img) { img.src = img.getAttribute('data-src'); img.removeAttribute('data-src'); }
-            });
-        });
+        /* Pré-charge seulement la slide 2 après que la page soit prête */
+        requestAnimationFrame(function () { loadSlide(1); });
 
-        activate(0);
         start();
+        resetProgress();
     })();
     </script>
 
