@@ -75,16 +75,16 @@
     .carousel-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(30,58,138,.95) 0%,rgba(30,58,138,.82) 55%,rgba(23,37,84,.93) 100%)}
     .carousel-content{position:relative;z-index:10;max-width:80rem;margin:0 auto;padding:0 1.5rem;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
     /* Animations d'entrée par slide active */
-    .carousel-tag{display:inline-block;background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.35);color:#93c5fd;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem 1rem;border-radius:9999px;margin-bottom:1.25rem;opacity:0;transform:translateY(10px);transition:opacity .5s .1s,transform .5s .1s}
-    .carousel-slide.is-active .carousel-tag{opacity:1;transform:translateY(0)}
-    .carousel-heading{font-size:clamp(1.9rem,4.5vw,3.5rem);font-weight:900;line-height:1.1;color:#fff;margin-bottom:1.25rem;opacity:0;transform:translateY(16px);transition:opacity .55s .2s,transform .55s .2s}
-    .carousel-slide.is-active .carousel-heading{opacity:1;transform:translateY(0)}
+    .carousel-tag{display:inline-block;background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.35);color:#93c5fd;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem 1rem;border-radius:9999px;margin-bottom:1.25rem;opacity:0;transition:opacity .5s .1s}
+    .carousel-slide.is-active .carousel-tag{opacity:1}
+    .carousel-heading{font-size:clamp(1.9rem,4.5vw,3.5rem);font-weight:900;line-height:1.1;color:#fff;margin-bottom:1.25rem;opacity:0;transition:opacity .55s .2s}
+    .carousel-slide.is-active .carousel-heading{opacity:1}
     .carousel-heading span{color:#60a5fa}
-    .carousel-sub{font-size:1.075rem;color:#dbeafe;max-width:40rem;margin:0 auto 2rem;line-height:1.75;opacity:0;transform:translateY(12px);transition:opacity .55s .3s,transform .55s .3s}
-    .carousel-slide.is-active .carousel-sub{opacity:1;transform:translateY(0)}
-    .carousel-actions{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .5s .4s,transform .5s .4s}
-    .carousel-slide.is-active .carousel-actions{opacity:1;transform:translateY(0)}
-    @media(prefers-reduced-motion:reduce){.carousel-tag,.carousel-heading,.carousel-sub,.carousel-actions{transition:opacity .2s!important;transform:none!important}}
+    .carousel-sub{font-size:1.075rem;color:#dbeafe;max-width:40rem;margin:0 auto 2rem;line-height:1.75;opacity:0;transition:opacity .55s .3s}
+    .carousel-slide.is-active .carousel-sub{opacity:1}
+    .carousel-actions{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;opacity:0;transition:opacity .5s .4s}
+    .carousel-slide.is-active .carousel-actions{opacity:1}
+    @media(prefers-reduced-motion:reduce){.carousel-tag,.carousel-heading,.carousel-sub,.carousel-actions{transition:opacity .2s!important}}
     /* Boutons CTA */
     .btn-hero-primary{display:inline-block;background:#2563eb;border:1px solid #3b82f6;color:#fff;font-weight:700;font-size:1rem;padding:.875rem 2rem;border-radius:9999px;text-decoration:none;transition:background .25s,transform .2s}
     .btn-hero-primary:hover,.btn-hero-primary:focus-visible{background:#3b82f6;transform:translateY(-2px);outline:2px solid #60a5fa;outline-offset:3px}
@@ -105,8 +105,8 @@
     @media(max-width:640px){.hero-carousel{height:100svh;max-height:640px;min-height:500px}.carousel-content{padding:0 1rem}}
     </style>
     <link rel="preload" as="image" fetchpriority="high" href="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=60&fm=webp"
-          imagesrcset="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=60&fm=webp 640w, https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1024&q=60&fm=webp 1024w, https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1280&q=65&fm=webp 1280w"
-          imagesizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1280px">
+          imagesrcset="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=60&fm=webp 640w, https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60&fm=webp 800w, https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1024&q=60&fm=webp 1024w, https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1280&q=65&fm=webp 1280w"
+          imagesizes="(max-width: 640px) 640px, (max-width: 800px) 800px, (max-width: 1024px) 1024px, 1280px">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -313,9 +313,10 @@
                 <div class="carousel-bg">
                     <img src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=60&fm=webp"
                          srcset="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=60&fm=webp 640w,
+                                 https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60&fm=webp 800w,
                                  https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1024&q=60&fm=webp 1024w,
                                  https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1280&q=65&fm=webp 1280w"
-                         sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1280px"
+                         sizes="(max-width: 640px) 640px, (max-width: 800px) 800px, (max-width: 1024px) 1024px, 1280px"
                          alt="Matériel informatique disponible chez Info Experts à Moroni, Comores"
                          width="1200" height="800" loading="eager" fetchpriority="high">
                     <div class="carousel-overlay"></div>
@@ -334,9 +335,9 @@
             <!-- ── Slide 2 — Maintenance informatique ───────────────── -->
             <div class="carousel-slide" role="group" aria-roledescription="diapositive" aria-label="2 sur 4 — Maintenance informatique" aria-hidden="true">
                 <div class="carousel-bg">
-                    <img data-src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=45&fm=webp"
-                         data-srcset="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=45&fm=webp 640w, https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1024&q=50&fm=webp 1024w, https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1280&q=50&fm=webp 1280w"
-                         data-sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1280px"
+                    <img data-src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=30&fm=webp"
+                         data-srcset="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=30&fm=webp 640w, https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=30&fm=webp 800w, https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1024&q=35&fm=webp 1024w, https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1280&q=35&fm=webp 1280w"
+                         data-sizes="(max-width: 640px) 640px, (max-width: 800px) 800px, (max-width: 1024px) 1024px, 1280px"
                          src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
                          alt="Technicien en maintenance et réparation informatique aux Comores"
                          width="1200" height="800" loading="lazy">
@@ -356,9 +357,9 @@
             <!-- ── Slide 3 — Création de sites web ──────────────────── -->
             <div class="carousel-slide" role="group" aria-roledescription="diapositive" aria-label="3 sur 4 — Création de sites web" aria-hidden="true">
                 <div class="carousel-bg">
-                    <img data-src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=45&fm=webp"
-                         data-srcset="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=45&fm=webp 640w, https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1024&q=50&fm=webp 1024w, https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1280&q=50&fm=webp 1280w"
-                         data-sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1280px"
+                    <img data-src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=30&fm=webp"
+                         data-srcset="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=30&fm=webp 640w, https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=30&fm=webp 800w, https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1024&q=35&fm=webp 1024w, https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1280&q=35&fm=webp 1280w"
+                         data-sizes="(max-width: 640px) 640px, (max-width: 800px) 800px, (max-width: 1024px) 1024px, 1280px"
                          src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
                          alt="Création de site web moderne pour entreprises comoriennes"
                          width="1200" height="800" loading="lazy">
@@ -378,9 +379,9 @@
             <!-- ── Slide 4 — Conseil informatique ───────────────────── -->
             <div class="carousel-slide" role="group" aria-roledescription="diapositive" aria-label="4 sur 4 — Conseil informatique" aria-hidden="true">
                 <div class="carousel-bg">
-                    <img data-src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=45&fm=webp"
-                         data-srcset="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=45&fm=webp 640w, https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=1024&q=50&fm=webp 1024w, https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=1280&q=50&fm=webp 1280w"
-                         data-sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1280px"
+                    <img data-src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=30&fm=webp"
+                         data-srcset="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=640&q=30&fm=webp 640w, https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=30&fm=webp 800w, https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=1024&q=35&fm=webp 1024w, https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=1280&q=35&fm=webp 1280w"
+                         data-sizes="(max-width: 640px) 640px, (max-width: 800px) 800px, (max-width: 1024px) 1024px, 1280px"
                          src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
                          alt="Conseil informatique et stratégie numérique pour entreprises aux Comores"
                          width="1200" height="800" loading="lazy">
