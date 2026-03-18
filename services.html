@@ -106,9 +106,9 @@
     }
     </script>
 </head>
-<body class="nm-body text-gray-800 font-sans antialiased leading-relaxed flex flex-col min-h-screen">
+<body class="bg-trust-blue-50 text-gray-800 font-sans antialiased leading-relaxed flex flex-col min-h-screen">
 
-    <header class="nm-header sticky top-0 z-50">
+    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md border-b border-trust-blue-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <a href="index.html" class="flex-shrink-0 flex items-center gap-2 cursor-pointer hover:opacity-80 transition">
@@ -123,17 +123,9 @@
                     <a href="boutique.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Boutique</a>
                     <a href="blog/index.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Blog</a>
                     <a href="index.html#formulaire" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Contact</a>
-                    <button class="nm-theme-btn nm-theme-toggle" aria-label="Basculer thème clair / sombre">
-                        <svg class="nm-icon-sun-el" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-                        <svg class="nm-icon-moon-el" style="display:none" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-                    </button>
                 </nav>
 
-                <div class="md:hidden flex items-center gap-3">
-                    <button class="nm-theme-btn nm-theme-toggle" aria-label="Basculer thème clair / sombre">
-                        <svg class="nm-icon-sun-el" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><path stroke-linecap="round" d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-                        <svg class="nm-icon-moon-el" style="display:none" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
-                    </button>
+                <div class="md:hidden flex items-center">
                     <button id="btn-menu-mobile" aria-label="Ouvrir le menu de navigation" class="text-trust-blue-100 hover:text-white focus:outline-none">
                         <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" /></svg>
                     </button>
@@ -175,11 +167,11 @@
         </section>
 
         <!-- Service 1 : Réparation -->
-        <section id="reparation" class="py-20 nm-section">
+        <section id="reparation" class="py-20 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
-                        <div class="nm-icon-wrap mb-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-trust-blue-100 rounded-2xl mb-6">
                             <svg class="w-8 h-8 text-trust-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><circle cx="12" cy="12" r="3" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></circle></svg>
                         </div>
                         <h2 class="text-3xl font-extrabold text-trust-blue-900 mb-4">Réparation Informatique à Moroni</h2>
@@ -196,9 +188,9 @@
                             <li class="flex items-start gap-3"><svg class="w-5 h-5 text-trust-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Réinstallation et mise à jour du système d'exploitation</span></li>
                             <li class="flex items-start gap-3"><svg class="w-5 h-5 text-trust-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Intervention rapide à Moroni et dans toute la Grande Comore</span></li>
                         </ul>
-                        <a href="index.html#formulaire" class="btn-premium">Demander une réparation</a>
+                        <a href="index.html#formulaire" class="inline-block bg-trust-blue-600 hover:bg-trust-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">Demander une réparation</a>
                     </div>
-                    <div class="surface-raised p-8">
+                    <div class="bg-trust-blue-50 rounded-2xl p-8 border border-trust-blue-100">
                         <h3 class="text-xl font-bold text-trust-blue-800 mb-4">Pannes les plus courantes</h3>
                         <div class="space-y-4">
                             <div class="flex items-center gap-4 p-4 bg-white rounded-xl shadow-sm border border-trust-blue-100">
@@ -236,10 +228,10 @@
         </section>
 
         <!-- Service 2 : Maintenance -->
-        <section id="maintenance" class="py-20 nm-section-alt">
+        <section id="maintenance" class="py-20 bg-trust-blue-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <div class="order-2 lg:order-1 surface-raised p-8">
+                    <div class="order-2 lg:order-1 bg-white rounded-2xl p-8 border border-trust-blue-100 shadow-sm">
                         <h3 class="text-xl font-bold text-trust-blue-800 mb-6">Nos formules de maintenance</h3>
                         <div class="space-y-4">
                             <div class="p-5 border-2 border-trust-blue-200 rounded-xl">
@@ -260,7 +252,7 @@
                         </div>
                     </div>
                     <div class="order-1 lg:order-2">
-                        <div class="nm-icon-wrap mb-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-trust-blue-100 rounded-2xl mb-6">
                             <svg class="w-8 h-8 text-trust-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
                         </div>
                         <h2 class="text-3xl font-extrabold text-trust-blue-900 mb-4">Maintenance Informatique aux Comores</h2>
@@ -276,18 +268,18 @@
                             <li class="flex items-start gap-3"><svg class="w-5 h-5 text-trust-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Support technique prioritaire sous 24h à Moroni</span></li>
                             <li class="flex items-start gap-3"><svg class="w-5 h-5 text-trust-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Rapport d'intervention et suivi documenté</span></li>
                         </ul>
-                        <a href="index.html#formulaire" class="btn-premium">Obtenir un contrat de maintenance</a>
+                        <a href="index.html#formulaire" class="inline-block bg-trust-blue-600 hover:bg-trust-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">Obtenir un contrat de maintenance</a>
                     </div>
                 </div>
             </div>
         </section>
 
         <!-- Service 3 : Réseau -->
-        <section id="reseau" class="py-20 nm-section">
+        <section id="reseau" class="py-20 bg-white">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                     <div>
-                        <div class="nm-icon-wrap mb-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-trust-blue-100 rounded-2xl mb-6">
                             <svg class="w-8 h-8 text-trust-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path></svg>
                         </div>
                         <h2 class="text-3xl font-extrabold text-trust-blue-900 mb-4">Installation Réseau à Moroni, Comores</h2>
@@ -305,9 +297,9 @@
                             <li class="flex items-start gap-3"><svg class="w-5 h-5 text-trust-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Dépannage connexion Internet et réseau local à Moroni</span></li>
                         </ul>
                         <a href="boutique.html" class="inline-block border-2 border-trust-blue-600 text-trust-blue-700 hover:bg-trust-blue-600 hover:text-white font-bold py-3 px-6 rounded-lg transition duration-300 mr-4">Voir nos routeurs</a>
-                        <a href="index.html#formulaire" class="btn-premium">Demander un devis réseau</a>
+                        <a href="index.html#formulaire" class="inline-block bg-trust-blue-600 hover:bg-trust-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">Demander un devis réseau</a>
                     </div>
-                    <div class="surface-raised p-8">
+                    <div class="bg-trust-blue-50 rounded-2xl p-8 border border-trust-blue-100">
                         <h3 class="text-xl font-bold text-trust-blue-800 mb-6">Pourquoi un bon réseau est crucial aux Comores ?</h3>
                         <div class="space-y-5 text-gray-600">
                             <p class="leading-relaxed">Aux Comores, la connexion internet est souvent instable. Un réseau bien configuré permet de <strong>maximiser la stabilité</strong> et la vitesse disponible, même avec une connexion limitée.</p>
@@ -320,10 +312,10 @@
         </section>
 
         <!-- Service 4 : Création web -->
-        <section id="creation-web" class="py-20 nm-section-alt">
+        <section id="creation-web" class="py-20 bg-trust-blue-50">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                    <div class="order-2 lg:order-1 surface-raised p-8">
+                    <div class="order-2 lg:order-1 bg-white rounded-2xl p-8 border border-trust-blue-100 shadow-sm">
                         <h3 class="text-xl font-bold text-trust-blue-800 mb-6">Ce qu'un site web peut faire pour vous aux Comores</h3>
                         <div class="space-y-4">
                             <div class="flex items-start gap-4">
@@ -365,7 +357,7 @@
                         </div>
                     </div>
                     <div class="order-1 lg:order-2">
-                        <div class="nm-icon-wrap mb-6">
+                        <div class="inline-flex items-center justify-center w-16 h-16 bg-trust-blue-100 rounded-2xl mb-6">
                             <svg class="w-8 h-8 text-trust-blue-700" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                         </div>
                         <h2 class="text-3xl font-extrabold text-trust-blue-900 mb-4">Création de Sites Web aux Comores</h2>
@@ -382,7 +374,7 @@
                             <li class="flex items-start gap-3"><svg class="w-5 h-5 text-trust-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Hébergement, nom de domaine et maintenance inclus</span></li>
                             <li class="flex items-start gap-3"><svg class="w-5 h-5 text-trust-blue-600 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg><span>Livraison rapide, formation et support continu à Moroni</span></li>
                         </ul>
-                        <a href="index.html#formulaire" class="btn-premium">Créer mon site web aux Comores</a>
+                        <a href="index.html#formulaire" class="inline-block bg-trust-blue-600 hover:bg-trust-blue-700 text-white font-bold py-3 px-6 rounded-lg transition duration-300">Créer mon site web aux Comores</a>
                     </div>
                 </div>
             </div>
@@ -402,7 +394,7 @@
 
     </main>
 
-    <footer class="nm-footer py-6">
+    <footer class="bg-trust-blue-950 border-t border-trust-blue-900 py-6">
         <div class="max-w-4xl mx-auto px-6 text-center">
             <div class="flex flex-col sm:flex-row justify-center items-center mb-4">
                 <a href="tel:002693312722" class="text-white text-base font-semibold hover:text-trust-blue-400 transition py-2 px-6">📞 +269 331 27 22</a>
@@ -446,32 +438,5 @@
         });
     </script>
 
-<script>
-(function() {
-    const root = document.documentElement;
-    const saved = localStorage.getItem('ie-theme');
-    if (saved === 'dark') {
-        root.setAttribute('data-theme', 'dark');
-        document.querySelectorAll('.nm-icon-sun-el').forEach(el => el.style.display = 'none');
-        document.querySelectorAll('.nm-icon-moon-el').forEach(el => el.style.display = 'block');
-    }
-    document.querySelectorAll('.nm-theme-toggle').forEach(btn => {
-        btn.addEventListener('click', () => {
-            const isDark = root.getAttribute('data-theme') === 'dark';
-            if (isDark) {
-                root.removeAttribute('data-theme');
-                localStorage.setItem('ie-theme', 'light');
-                document.querySelectorAll('.nm-icon-sun-el').forEach(el => el.style.display = '');
-                document.querySelectorAll('.nm-icon-moon-el').forEach(el => el.style.display = 'none');
-            } else {
-                root.setAttribute('data-theme', 'dark');
-                localStorage.setItem('ie-theme', 'dark');
-                document.querySelectorAll('.nm-icon-sun-el').forEach(el => el.style.display = 'none');
-                document.querySelectorAll('.nm-icon-moon-el').forEach(el => el.style.display = 'block');
-            }
-        });
-    });
-})();
-</script>
 </body>
 </html>
