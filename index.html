@@ -35,6 +35,47 @@
     <link rel="manifest" href="/site.webmanifest">
     <meta name="theme-color" content="#1e1b4b">
     <link rel="stylesheet" href="style.css">
+    <style>
+    /* ── Carousel Hero ───────────────────────────────────────────────── */
+    .hero-carousel{position:relative;overflow:hidden;background:#1e3a8a;min-height:520px;height:85vh;max-height:760px}
+    .carousel-track{display:flex;height:100%;transition:transform .65s cubic-bezier(.25,.46,.45,.94);will-change:transform}
+    @media(prefers-reduced-motion:reduce){.carousel-track{transition:none!important}}
+    .carousel-slide{flex:0 0 100%;width:100%;position:relative;overflow:hidden}
+    .carousel-bg{position:absolute;inset:0}
+    .carousel-bg img{width:100%;height:100%;object-fit:cover;object-position:center}
+    /* Overlay identique à bg-trust-blue-900/90 utilisé sur le hero actuel */
+    .carousel-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(30,58,138,.95) 0%,rgba(30,58,138,.82) 55%,rgba(23,37,84,.93) 100%)}
+    .carousel-content{position:relative;z-index:10;max-width:80rem;margin:0 auto;padding:0 1.5rem;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+    /* Animations d'entrée par slide active */
+    .carousel-tag{display:inline-block;background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.35);color:#93c5fd;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem 1rem;border-radius:9999px;margin-bottom:1.25rem;opacity:0;transform:translateY(10px);transition:opacity .5s .1s,transform .5s .1s}
+    .carousel-slide.is-active .carousel-tag{opacity:1;transform:translateY(0)}
+    .carousel-heading{font-size:clamp(1.9rem,4.5vw,3.5rem);font-weight:900;line-height:1.1;color:#fff;margin-bottom:1.25rem;opacity:0;transform:translateY(16px);transition:opacity .55s .2s,transform .55s .2s}
+    .carousel-slide.is-active .carousel-heading{opacity:1;transform:translateY(0)}
+    .carousel-heading span{color:#60a5fa}
+    .carousel-sub{font-size:1.075rem;color:#dbeafe;max-width:40rem;margin:0 auto 2rem;line-height:1.75;opacity:0;transform:translateY(12px);transition:opacity .55s .3s,transform .55s .3s}
+    .carousel-slide.is-active .carousel-sub{opacity:1;transform:translateY(0)}
+    .carousel-actions{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;opacity:0;transform:translateY(10px);transition:opacity .5s .4s,transform .5s .4s}
+    .carousel-slide.is-active .carousel-actions{opacity:1;transform:translateY(0)}
+    @media(prefers-reduced-motion:reduce){.carousel-tag,.carousel-heading,.carousel-sub,.carousel-actions{transition:opacity .2s!important;transform:none!important}}
+    /* Boutons CTA */
+    .btn-hero-primary{display:inline-block;background:#2563eb;border:1px solid #3b82f6;color:#fff;font-weight:700;font-size:1rem;padding:.875rem 2rem;border-radius:9999px;text-decoration:none;transition:background .25s,transform .2s}
+    .btn-hero-primary:hover,.btn-hero-primary:focus-visible{background:#3b82f6;transform:translateY(-2px);outline:2px solid #60a5fa;outline-offset:3px}
+    .btn-hero-secondary{display:inline-block;background:transparent;border:1.5px solid rgba(255,255,255,.45);color:#fff;font-weight:700;font-size:1rem;padding:.875rem 2rem;border-radius:9999px;text-decoration:none;transition:background .25s,transform .2s}
+    .btn-hero-secondary:hover,.btn-hero-secondary:focus-visible{background:rgba(255,255,255,.1);transform:translateY(-2px);outline:2px solid rgba(255,255,255,.5);outline-offset:3px}
+    /* Barre de progression */
+    .carousel-progressbar{position:absolute;bottom:0;left:0;height:3px;background:#60a5fa;width:0%;z-index:25;transition:none}
+    /* Flèches */
+    .carousel-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:20;background:rgba(30,58,138,.5);border:1px solid rgba(96,165,250,.25);color:#fff;width:3rem;height:3rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .25s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+    .carousel-arrow:hover,.carousel-arrow:focus-visible{background:rgba(30,58,138,.9);outline:2px solid #60a5fa;outline-offset:2px}
+    .carousel-prev{left:1.25rem}.carousel-next{right:1.25rem}
+    /* Dots */
+    .carousel-dots{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);display:flex;gap:.4rem;z-index:20;align-items:center}
+    .carousel-dot{height:.4rem;width:.4rem;border-radius:9999px;background:rgba(255,255,255,.35);border:none;padding:0;cursor:pointer;transition:background .3s,width .35s cubic-bezier(.4,0,.2,1)}
+    .carousel-dot.is-active{background:#60a5fa;width:2rem}
+    .carousel-dot:focus-visible{outline:2px solid #60a5fa;outline-offset:3px}
+    @media(max-width:479px){.carousel-arrow{width:2.5rem;height:2.5rem}.carousel-prev{left:.75rem}.carousel-next{right:.75rem}}
+    @media(max-width:640px){.hero-carousel{height:100svh;max-height:640px;min-height:500px}.carousel-content{padding:0 1rem}}
+    </style>
     <link rel="preload" as="image" fetchpriority="high" href="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60&fm=webp"
           imagesrcset="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60&fm=webp 800w, https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=60&fm=webp 1200w"
           imagesizes="100vw">
@@ -231,32 +272,118 @@
     </header>
 
     <main>
-    <section id="accueil" class="relative py-20 lg:py-32 overflow-hidden bg-trust-blue-900">
-        <div class="absolute inset-0 z-0">
-            <img src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60&fm=webp"
-                 srcset="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60&fm=webp 800w,
-                         https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=60&fm=webp 1200w"
-                 sizes="100vw"
-                 alt="Boutique informatique Info Experts à Moroni, Comores" class="w-full h-full object-cover" width="1200" height="800" loading="eager" fetchpriority="high"/>
-            <div class="absolute inset-0 bg-trust-blue-900/90"></div>
-        </div>
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <h1 class="text-4xl md:text-6xl font-extrabold mb-6 leading-tight text-white anim">
-                Société Informatique<br>
-                <span class="text-trust-blue-400" id="typewriter-text">de confiance aux Comores</span><span class="blink-cursor" aria-hidden="true"></span>
-            </h1>
-            <p class="mt-6 text-xl text-trust-blue-100 max-w-3xl mx-auto mb-10 anim anim-d2">
-                N°1 de l'informatique aux Comores. Vente de matériel informatique, réparation, maintenance et création de sites web à Moroni.
-            </p>
-            <div class="flex flex-col sm:flex-row justify-center gap-4 anim anim-d3">
-                <a href="boutique.html" class="inline-block bg-trust-blue-600 hover:bg-trust-blue-500 text-white font-bold py-4 px-8 rounded-full shadow-lg transition duration-300 text-center border border-trust-blue-500">
-                    Découvrir notre Boutique
-                </a>
-                <a href="#formulaire" class="inline-block bg-transparent hover:bg-white/10 text-white font-bold py-4 px-8 rounded-full shadow-lg transition duration-300 text-center border border-white/50">
-                    Nous contacter
-                </a>
+    <!-- ═══════════════════════════════════════════════════════════════
+         CAROUSEL HERO — Info Experts, Moroni, Comores
+         4 slides : Vente · Maintenance · Création web · Conseil
+    ════════════════════════════════════════════════════════════════ -->
+    <section id="accueil" class="hero-carousel" aria-label="Présentation des services Info Experts" tabindex="0">
+
+        <div id="carousel-track" class="carousel-track" aria-live="polite" aria-atomic="false">
+
+            <!-- ── Slide 1 — Vente de matériel informatique ─────────── -->
+            <div class="carousel-slide" role="group" aria-roledescription="diapositive" aria-label="1 sur 4 — Vente de matériel informatique">
+                <div class="carousel-bg">
+                    <img src="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=70&fm=webp"
+                         srcset="https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=60&fm=webp 800w,
+                                 https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=70&fm=webp 1200w"
+                         sizes="100vw"
+                         alt="Matériel informatique disponible chez Info Experts à Moroni, Comores"
+                         width="1200" height="800" loading="eager" fetchpriority="high">
+                    <div class="carousel-overlay"></div>
+                </div>
+                <div class="carousel-content">
+                    <span class="carousel-tag">Boutique Informatique</span>
+                    <h1 class="carousel-heading">Matériel Informatique<br><span>Fiable &amp; Disponible</span></h1>
+                    <p class="carousel-sub">Ordinateurs portables, PC de bureau, composants réseau et accessoires. Tout le matériel dont vous avez besoin, disponible à Moroni.</p>
+                    <div class="carousel-actions">
+                        <a href="boutique.html" class="btn-hero-primary">Voir la Boutique</a>
+                        <a href="#formulaire" class="btn-hero-secondary">Nous contacter</a>
+                    </div>
+                </div>
             </div>
+
+            <!-- ── Slide 2 — Maintenance informatique ───────────────── -->
+            <div class="carousel-slide" role="group" aria-roledescription="diapositive" aria-label="2 sur 4 — Maintenance informatique" aria-hidden="true">
+                <div class="carousel-bg">
+                    <img data-src="https://images.unsplash.com/photo-1517430816045-df4b7de11d1d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=70&fm=webp"
+                         src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+                         alt="Technicien en maintenance et réparation informatique aux Comores"
+                         width="1200" height="800" loading="lazy">
+                    <div class="carousel-overlay"></div>
+                </div>
+                <div class="carousel-content">
+                    <span class="carousel-tag">Maintenance &amp; Réparation</span>
+                    <p class="carousel-heading">Assistance Technique<br><span>Rapide &amp; Efficace</span></p>
+                    <p class="carousel-sub">Dépannage, réparation et entretien de vos équipements informatiques. Une équipe réactive au service des particuliers et entreprises dans tout l'archipel.</p>
+                    <div class="carousel-actions">
+                        <a href="services.html" class="btn-hero-primary">Nos Services</a>
+                        <a href="tel:+2693312722" class="btn-hero-secondary">Appeler maintenant</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Slide 3 — Création de sites web ──────────────────── -->
+            <div class="carousel-slide" role="group" aria-roledescription="diapositive" aria-label="3 sur 4 — Création de sites web" aria-hidden="true">
+                <div class="carousel-bg">
+                    <img data-src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=70&fm=webp"
+                         src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+                         alt="Création de site web moderne pour entreprises comoriennes"
+                         width="1200" height="800" loading="lazy">
+                    <div class="carousel-overlay"></div>
+                </div>
+                <div class="carousel-content">
+                    <span class="carousel-tag">Création Web</span>
+                    <p class="carousel-heading">Sites Web Modernes<br><span>Pour les Comores</span></p>
+                    <p class="carousel-sub">Conception de sites vitrines rapides, optimisés SEO et adaptés à votre marché. De la conception à la mise en ligne, nous gérons tout.</p>
+                    <div class="carousel-actions">
+                        <a href="services.html" class="btn-hero-primary">Découvrir nos offres</a>
+                        <a href="#formulaire" class="btn-hero-secondary">Demander un devis</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ── Slide 4 — Conseil informatique ───────────────────── -->
+            <div class="carousel-slide" role="group" aria-roledescription="diapositive" aria-label="4 sur 4 — Conseil informatique" aria-hidden="true">
+                <div class="carousel-bg">
+                    <img data-src="https://images.unsplash.com/photo-1553877522-43269d4ea984?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=70&fm=webp"
+                         src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
+                         alt="Conseil informatique et stratégie numérique pour entreprises aux Comores"
+                         width="1200" height="800" loading="lazy">
+                    <div class="carousel-overlay"></div>
+                </div>
+                <div class="carousel-content">
+                    <span class="carousel-tag">Conseil Informatique</span>
+                    <p class="carousel-heading">Accompagnement<br><span>Sur Mesure</span></p>
+                    <p class="carousel-sub">Audit de votre infrastructure, stratégie numérique et conseil en équipement. Un expert à vos côtés pour accélérer la croissance de votre activité.</p>
+                    <div class="carousel-actions">
+                        <a href="services.html" class="btn-hero-primary">Nos Services</a>
+                        <a href="#formulaire" class="btn-hero-secondary">Prendre rendez-vous</a>
+                    </div>
+                </div>
+            </div>
+
+        </div><!-- /carousel-track -->
+
+        <!-- Flèche précédent -->
+        <button class="carousel-arrow carousel-prev" aria-label="Diapositive précédente">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <!-- Flèche suivant -->
+        <button class="carousel-arrow carousel-next" aria-label="Diapositive suivante">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+        </button>
+
+        <!-- Indicateurs (dots) -->
+        <div class="carousel-dots" role="tablist" aria-label="Sélectionner une diapositive">
+            <button class="carousel-dot is-active" role="tab" aria-selected="true"  aria-label="Diapositive 1 sur 4"></button>
+            <button class="carousel-dot"            role="tab" aria-selected="false" aria-label="Diapositive 2 sur 4"></button>
+            <button class="carousel-dot"            role="tab" aria-selected="false" aria-label="Diapositive 3 sur 4"></button>
+            <button class="carousel-dot"            role="tab" aria-selected="false" aria-label="Diapositive 4 sur 4"></button>
         </div>
+
+        <!-- Barre de progression (durée de la slide active) -->
+        <div class="carousel-progressbar" id="carousel-progressbar" aria-hidden="true"></div>
+
     </section>
 
     <section id="services" class="py-20 bg-white border-t border-gray-100">
@@ -600,6 +727,92 @@
             <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/>
         </svg>
     </a>
+
+    <!-- ── Carousel Hero JS (léger, sans dépendance) ─────────────────── -->
+    <script>
+    (function () {
+        var track = document.getElementById('carousel-track');
+        if (!track) return;
+        var slides  = Array.from(track.querySelectorAll('.carousel-slide'));
+        var dots    = Array.from(document.querySelectorAll('.carousel-dot'));
+        var bar     = document.getElementById('carousel-progressbar');
+        var total   = slides.length;
+        var current = 0;
+        var timer   = null;
+        var DELAY   = 5500;
+        var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        function activate(index) {
+            var prev = current;
+            current = ((index % total) + total) % total;
+            slides[prev].classList.remove('is-active');
+            slides[prev].setAttribute('aria-hidden', 'true');
+            slides[current].classList.add('is-active');
+            slides[current].removeAttribute('aria-hidden');
+            track.style.transform = 'translateX(-' + (current * 100) + '%)';
+            dots.forEach(function (d, i) {
+                d.classList.toggle('is-active', i === current);
+                d.setAttribute('aria-selected', i === current ? 'true' : 'false');
+            });
+            /* Lazy-load l'image de la slide suivante */
+            var next = (current + 1) % total;
+            var lazy = slides[next].querySelector('img[data-src]');
+            if (lazy) { lazy.src = lazy.getAttribute('data-src'); lazy.removeAttribute('data-src'); }
+            resetProgress();
+        }
+
+        function resetProgress() {
+            if (!bar || reduced) return;
+            bar.style.transition = 'none';
+            bar.style.width = '0%';
+            requestAnimationFrame(function () {
+                requestAnimationFrame(function () {
+                    bar.style.transition = 'width ' + DELAY + 'ms linear';
+                    bar.style.width = '100%';
+                });
+            });
+        }
+
+        function start() {
+            if (reduced) return;
+            timer = setInterval(function () { activate(current + 1); }, DELAY);
+            resetProgress();
+        }
+        function stop() {
+            clearInterval(timer); timer = null;
+            if (bar) bar.style.transition = 'none';
+        }
+
+        var prev = document.querySelector('.carousel-prev');
+        var next = document.querySelector('.carousel-next');
+        if (prev) prev.addEventListener('click', function () { stop(); activate(current - 1); start(); });
+        if (next) next.addEventListener('click', function () { stop(); activate(current + 1); start(); });
+        dots.forEach(function (d, i) { d.addEventListener('click', function () { stop(); activate(i); start(); }); });
+
+        var section = document.querySelector('.hero-carousel');
+        if (section) {
+            section.addEventListener('keydown', function (e) {
+                if (e.key === 'ArrowLeft')  { stop(); activate(current - 1); start(); }
+                if (e.key === 'ArrowRight') { stop(); activate(current + 1); start(); }
+            });
+            section.addEventListener('mouseenter', stop);
+            section.addEventListener('mouseleave', start);
+            section.addEventListener('focusin',  stop);
+            section.addEventListener('focusout', start);
+        }
+
+        /* Lazy-load toutes les images restantes après chargement complet */
+        window.addEventListener('load', function () {
+            slides.forEach(function (slide) {
+                var img = slide.querySelector('img[data-src]');
+                if (img) { img.src = img.getAttribute('data-src'); img.removeAttribute('data-src'); }
+            });
+        });
+
+        activate(0);
+        start();
+    })();
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
