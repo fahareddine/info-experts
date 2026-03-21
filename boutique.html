@@ -166,6 +166,96 @@
         animation: waPulse .8s ease;
       }
       .btn-whatsapp svg { flex-shrink: 0; }
+
+      /* ── Groupe de 3 boutons par produit ── */
+      .product-actions { margin-top: 14px; display: flex; flex-direction: column; gap: 8px; }
+
+      .btn-pay {
+        display: flex; align-items: center; justify-content: center;
+        gap: 8px; padding: 11px 16px; border-radius: 12px;
+        font-weight: 700; font-size: .88rem; cursor: pointer; border: none;
+        text-decoration: none; transition: background .2s, transform .1s;
+        width: 100%;
+      }
+      .btn-pay:active { transform: scale(.97); }
+      .btn-pay-mobile { background: #1e3a8a; color: #fff; }
+      .btn-pay-mobile:hover { background: #1e40af; }
+      .btn-pay-cash   { background: #15803d; color: #fff; }
+      .btn-pay-cash:hover   { background: #166534; }
+      .btn-pay-wa     { background: #25D366; color: #fff; }
+      .btn-pay-wa:hover     { background: #128C7E; animation: waPulse .8s ease; }
+
+      /* ── Modal overlay ── */
+      #pay-modal {
+        display: none; position: fixed; inset: 0; z-index: 1000;
+        background: rgba(0,0,0,.55); backdrop-filter: blur(3px);
+        align-items: center; justify-content: center; padding: 16px;
+      }
+      #pay-modal.open { display: flex; }
+      .modal-box {
+        background: #fff; border-radius: 20px; padding: 28px 24px;
+        max-width: 420px; width: 100%; box-shadow: 0 24px 60px rgba(0,0,0,.25);
+        position: relative; max-height: 90vh; overflow-y: auto;
+      }
+      .modal-close {
+        position: absolute; top: 14px; right: 14px; background: #f1f5f9;
+        border: none; border-radius: 50%; width: 32px; height: 32px;
+        cursor: pointer; font-size: 1.1rem; color: #64748b;
+        display: flex; align-items: center; justify-content: center;
+      }
+      .modal-close:hover { background: #e2e8f0; }
+      .modal-title { font-size: 1.1rem; font-weight: 800; color: #1e293b; margin-bottom: 4px; }
+      .modal-product { font-size: .8rem; color: #64748b; margin-bottom: 16px; }
+      .modal-tabs { display: flex; gap: 6px; margin-bottom: 18px; }
+      .modal-tab {
+        flex: 1; padding: 9px; border-radius: 10px; border: 2px solid #e2e8f0;
+        background: #f8fafc; font-size: .8rem; font-weight: 700; cursor: pointer;
+        color: #64748b; transition: all .15s;
+      }
+      .modal-tab.active { border-color: #1e3a8a; background: #eff6ff; color: #1e3a8a; }
+      .modal-tab.cash-active { border-color: #15803d; background: #f0fdf4; color: #15803d; }
+
+      .form-group { margin-bottom: 14px; }
+      .form-label { display: block; font-size: .8rem; font-weight: 600; color: #374151; margin-bottom: 5px; }
+      .form-input {
+        width: 100%; border: 2px solid #e2e8f0; border-radius: 10px;
+        padding: 10px 12px; font-size: .9rem; outline: none; box-sizing: border-box;
+        transition: border-color .2s;
+      }
+      .form-input:focus { border-color: #1e3a8a; }
+      .operator-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; }
+      .op-btn {
+        padding: 10px 4px; border: 2px solid #e2e8f0; border-radius: 10px;
+        background: #f8fafc; font-size: .78rem; font-weight: 700; cursor: pointer;
+        text-align: center; transition: all .15s; color: #374151;
+      }
+      .op-btn:hover { border-color: #94a3b8; }
+      .op-btn.selected { border-color: #1e3a8a; background: #eff6ff; color: #1e3a8a; }
+
+      .modal-info-box {
+        background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px;
+        padding: 12px; font-size: .8rem; color: #166534; margin-bottom: 14px;
+      }
+      .modal-submit {
+        width: 100%; padding: 13px; border-radius: 12px; border: none;
+        font-size: .95rem; font-weight: 800; cursor: pointer; transition: background .2s;
+      }
+      .modal-submit.mobile { background: #1e3a8a; color: #fff; }
+      .modal-submit.mobile:hover { background: #1e40af; }
+      .modal-submit.cash { background: #15803d; color: #fff; }
+      .modal-submit.cash:hover { background: #166534; }
+      .modal-submit:disabled { opacity: .5; cursor: not-allowed; }
+
+      /* État confirmation */
+      .modal-confirm { text-align: center; padding: 8px 0; }
+      .modal-confirm .confirm-icon { font-size: 3rem; margin-bottom: 10px; }
+      .modal-confirm h3 { font-size: 1rem; font-weight: 800; color: #1e293b; margin-bottom: 6px; }
+      .modal-confirm p { font-size: .82rem; color: #64748b; margin-bottom: 4px; }
+      .modal-confirm .confirm-ref {
+        display: inline-block; background: #eff6ff; color: #1e3a8a;
+        font-family: monospace; font-weight: 700; font-size: .85rem;
+        padding: 5px 12px; border-radius: 7px; margin: 8px 0;
+      }
     </style>
 
     <script type="application/ld+json">
@@ -367,11 +457,20 @@
                         <li>Compatible PowerChute</li>
                     </ul>
                     <p class="text-2xl font-black text-trust-blue-900 mt-auto">422 € <span class="text-sm font-normal text-gray-400">(207 200 KMF)</span></p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20l%27Onduleur%20APC%20Back-UPS%20BX1200MI"
-                       rel="noopener noreferrer" target="_blank" class="btn-whatsapp">
-                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
-                        Commander via WhatsApp
-                    </a>
+                    <div class="product-actions">
+                        <button class="btn-pay btn-pay-mobile" onclick="openPayModal('Onduleur APC Back-UPS BX1200MI', 207200)">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                            Payer par mobile money
+                        </button>
+                        <button class="btn-pay btn-pay-cash" onclick="openCashModal('Onduleur APC Back-UPS BX1200MI', 207200)">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+                            Payer en espèces
+                        </button>
+                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20l%27Onduleur%20APC%20Back-UPS%20BX1200MI" rel="noopener noreferrer" target="_blank" class="btn-pay btn-pay-wa">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
+                            Demander des infos
+                        </a>
+                    </div>
                 </div>
             </article>
 
@@ -408,11 +507,20 @@
                         <li>Compatible Comores Telecom / Telma</li>
                     </ul>
                     <p class="text-2xl font-black text-trust-blue-900 mt-auto">102 € <span class="text-sm font-normal text-gray-400">(50 100 KMF)</span></p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20le%20Routeur%20TP-Link%20Archer%20MR600%204G%2B"
-                       rel="noopener noreferrer" target="_blank" class="btn-whatsapp">
-                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
-                        Commander via WhatsApp
-                    </a>
+                    <div class="product-actions">
+                        <button class="btn-pay btn-pay-mobile" onclick="openPayModal('Routeur TP-Link Archer MR600 4G+', 50100)">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                            Payer par mobile money
+                        </button>
+                        <button class="btn-pay btn-pay-cash" onclick="openCashModal('Routeur TP-Link Archer MR600 4G+', 50100)">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+                            Payer en espèces
+                        </button>
+                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20le%20Routeur%20TP-Link%20Archer%20MR600%204G%2B" rel="noopener noreferrer" target="_blank" class="btn-pay btn-pay-wa">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
+                            Demander des infos
+                        </a>
+                    </div>
                 </div>
             </article>
 
@@ -449,11 +557,20 @@
                         <li>USB-C + USB-A inclus</li>
                     </ul>
                     <p class="text-2xl font-black text-trust-blue-900 mt-auto">63 € <span class="text-sm font-normal text-gray-400">(30 900 KMF)</span></p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20le%20SSD%20Externe%20Samsung%20T7%201%20To"
-                       rel="noopener noreferrer" target="_blank" class="btn-whatsapp">
-                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
-                        Commander via WhatsApp
-                    </a>
+                    <div class="product-actions">
+                        <button class="btn-pay btn-pay-mobile" onclick="openPayModal('SSD Externe Samsung T7 1 To', 30900)">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                            Payer par mobile money
+                        </button>
+                        <button class="btn-pay btn-pay-cash" onclick="openCashModal('SSD Externe Samsung T7 1 To', 30900)">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+                            Payer en espèces
+                        </button>
+                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20le%20SSD%20Externe%20Samsung%20T7%201%20To" rel="noopener noreferrer" target="_blank" class="btn-pay btn-pay-wa">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
+                            Demander des infos
+                        </a>
+                    </div>
                 </div>
             </article>
 
@@ -490,11 +607,20 @@
                         <li>Garantie équipements connectés</li>
                     </ul>
                     <p class="text-2xl font-black text-trust-blue-900 mt-auto">50 € <span class="text-sm font-normal text-gray-400">(24 600 KMF)</span></p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20la%20Multiprise%20Belkin%20BSV603%20Parafoudre"
-                       rel="noopener noreferrer" target="_blank" class="btn-whatsapp">
-                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
-                        Commander via WhatsApp
-                    </a>
+                    <div class="product-actions">
+                        <button class="btn-pay btn-pay-mobile" onclick="openPayModal('Multiprise Belkin BSV603 Parafoudre', 24600)">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                            Payer par mobile money
+                        </button>
+                        <button class="btn-pay btn-pay-cash" onclick="openCashModal('Multiprise Belkin BSV603 Parafoudre', 24600)">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+                            Payer en espèces
+                        </button>
+                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20la%20Multiprise%20Belkin%20BSV603%20Parafoudre" rel="noopener noreferrer" target="_blank" class="btn-pay btn-pay-wa">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
+                            Demander des infos
+                        </a>
+                    </div>
                 </div>
             </article>
 
@@ -531,11 +657,20 @@
                         <li>USB-C · HDMI · WiFi · Bluetooth</li>
                     </ul>
                     <p class="text-2xl font-black text-trust-blue-900 mt-auto">430 € <span class="text-sm font-normal text-gray-400">(211 100 KMF)</span></p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20le%20PC%20Portable%20Reconditionn%C3%A9%20Grade%20A"
-                       rel="noopener noreferrer" target="_blank" class="btn-whatsapp">
-                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
-                        Commander via WhatsApp
-                    </a>
+                    <div class="product-actions">
+                        <button class="btn-pay btn-pay-mobile" onclick="openPayModal('PC Portable Reconditionné Grade A', 211100)">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                            Payer par mobile money
+                        </button>
+                        <button class="btn-pay btn-pay-cash" onclick="openCashModal('PC Portable Reconditionné Grade A', 211100)">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+                            Payer en espèces
+                        </button>
+                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20le%20PC%20Portable%20Reconditionn%C3%A9%20Grade%20A" rel="noopener noreferrer" target="_blank" class="btn-pay btn-pay-wa">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
+                            Demander des infos
+                        </a>
+                    </div>
                 </div>
             </article>
 
@@ -572,11 +707,20 @@
                         <li>Garanti 6 mois</li>
                     </ul>
                     <p class="text-2xl font-black text-trust-blue-900 mt-auto">362 € <span class="text-sm font-normal text-gray-400">(177 700 KMF)</span></p>
-                    <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20l%27%C3%89cran%20PC%20Reconditionn%C3%A9%2024%20pouces"
-                       rel="noopener noreferrer" target="_blank" class="btn-whatsapp">
-                        <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
-                        Commander via WhatsApp
-                    </a>
+                    <div class="product-actions">
+                        <button class="btn-pay btn-pay-mobile" onclick="openPayModal('Écran PC Reconditionné 24 pouces', 177700)">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
+                            Payer par mobile money
+                        </button>
+                        <button class="btn-pay btn-pay-cash" onclick="openCashModal('Écran PC Reconditionné 24 pouces', 177700)">
+                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
+                            Payer en espèces
+                        </button>
+                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20l%27%C3%89cran%20PC%20Reconditionn%C3%A9%2024%20pouces" rel="noopener noreferrer" target="_blank" class="btn-pay btn-pay-wa">
+                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
+                            Demander des infos
+                        </a>
+                    </div>
                 </div>
             </article>
 
@@ -608,12 +752,215 @@
         </div>
     </footer>
 
+    <!-- ── Modal paiement ── -->
+    <div id="pay-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <div class="modal-box">
+        <button class="modal-close" onclick="closePayModal()" aria-label="Fermer">✕</button>
+
+        <!-- Vue formulaire mobile -->
+        <div id="modal-view-mobile">
+          <div class="modal-title" id="modal-title">Paiement mobile money</div>
+          <div class="modal-product" id="modal-product-name-m"></div>
+          <div class="modal-info-box">
+            📲 Effectuez un virement vers notre numéro, puis remplissez ce formulaire. Nous confirmons sous <strong>15 minutes</strong>.
+          </div>
+          <div class="form-group">
+            <label class="form-label">Votre nom complet *</label>
+            <input type="text" id="m-nom" class="form-input" placeholder="Ex : Ali Mohamed" autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Votre numéro de téléphone *</label>
+            <input type="tel" id="m-tel" class="form-input" placeholder="+269 321 00 00" autocomplete="tel">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Opérateur utilisé *</label>
+            <div class="operator-grid">
+              <button type="button" class="op-btn" data-op="Huri" onclick="selectOp(this)">📱 Huri</button>
+              <button type="button" class="op-btn" data-op="MVola" onclick="selectOp(this)">📱 MVola</button>
+              <button type="button" class="op-btn" data-op="Telma" onclick="selectOp(this)">📱 Telma</button>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Référence de transaction (optionnel)</label>
+            <input type="text" id="m-ref" class="form-input" placeholder="Numéro de confirmation reçu par SMS">
+          </div>
+          <button class="modal-submit mobile" id="m-submit-btn" onclick="submitMobile()">
+            Confirmer mon paiement
+          </button>
+          <p id="m-error" style="color:#dc2626;font-size:.8rem;margin-top:8px;display:none"></p>
+        </div>
+
+        <!-- Vue confirmation mobile -->
+        <div id="modal-view-mobile-ok" style="display:none">
+          <div class="modal-confirm">
+            <div class="confirm-icon">✅</div>
+            <h3>Demande enregistrée !</h3>
+            <p>Notre équipe vérifie votre paiement.</p>
+            <div class="confirm-ref" id="m-confirm-ref"></div>
+            <p style="margin-top:8px">Vous serez contacté(e) dans les <strong>15 minutes</strong>.</p>
+            <button class="modal-submit mobile" style="margin-top:16px" onclick="closePayModal()">Fermer</button>
+          </div>
+        </div>
+
+        <!-- Vue espèces -->
+        <div id="modal-view-cash" style="display:none">
+          <div class="modal-title">Paiement en espèces</div>
+          <div class="modal-product" id="modal-product-name-c"></div>
+          <div class="modal-info-box" style="background:#f0fdf4;border-color:#bbf7d0;color:#166534">
+            🏪 Vous réglez en espèces lors du retrait de votre commande à notre boutique à Moroni.
+          </div>
+          <div class="form-group">
+            <label class="form-label">Votre nom complet *</label>
+            <input type="text" id="c-nom" class="form-input" placeholder="Ex : Ali Mohamed" autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Votre numéro de téléphone *</label>
+            <input type="tel" id="c-tel" class="form-input" placeholder="+269 321 00 00" autocomplete="tel">
+          </div>
+          <button class="modal-submit cash" id="c-submit-btn" onclick="submitCash()">
+            Réserver ma commande
+          </button>
+          <p id="c-error" style="color:#dc2626;font-size:.8rem;margin-top:8px;display:none"></p>
+        </div>
+
+        <!-- Vue confirmation espèces -->
+        <div id="modal-view-cash-ok" style="display:none">
+          <div class="modal-confirm">
+            <div class="confirm-icon">🛒</div>
+            <h3>Commande réservée !</h3>
+            <p>Vous réglez en espèces à notre boutique.</p>
+            <div class="confirm-ref" id="c-confirm-ref"></div>
+            <p style="margin-top:8px">Nous vous contacterons pour confirmer la disponibilité.</p>
+            <button class="modal-submit cash" style="margin-top:16px" onclick="closePayModal()">Fermer</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
     <!-- Bouton WhatsApp flottant -->
     <a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" aria-label="Contactez-nous sur WhatsApp" class="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:bg-[#128C7E] transition duration-300 z-50 flex items-center justify-center animate-bounce-slow">
         <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/>
         </svg>
     </a>
+
+    <script>
+      /* ── Variables modal ── */
+      let _currentProduct = '';
+      let _currentMontant = 0;
+      let _selectedOp     = '';
+
+      function showView(id) {
+        ['modal-view-mobile','modal-view-mobile-ok','modal-view-cash','modal-view-cash-ok']
+          .forEach(v => document.getElementById(v).style.display = 'none');
+        document.getElementById(id).style.display = 'block';
+      }
+
+      function openPayModal(produit, montant) {
+        _currentProduct = produit;
+        _currentMontant = montant;
+        _selectedOp = '';
+        document.getElementById('modal-product-name-m').textContent = produit + ' — ' + montant.toLocaleString('fr-FR') + ' KMF';
+        document.getElementById('m-nom').value = '';
+        document.getElementById('m-tel').value = '';
+        document.getElementById('m-ref').value = '';
+        document.getElementById('m-error').style.display = 'none';
+        document.querySelectorAll('.op-btn').forEach(b => b.classList.remove('selected'));
+        showView('modal-view-mobile');
+        document.getElementById('pay-modal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function openCashModal(produit, montant) {
+        _currentProduct = produit;
+        _currentMontant = montant;
+        document.getElementById('modal-product-name-c').textContent = produit + ' — ' + montant.toLocaleString('fr-FR') + ' KMF';
+        document.getElementById('c-nom').value = '';
+        document.getElementById('c-tel').value = '';
+        document.getElementById('c-error').style.display = 'none';
+        showView('modal-view-cash');
+        document.getElementById('pay-modal').classList.add('open');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closePayModal() {
+        document.getElementById('pay-modal').classList.remove('open');
+        document.body.style.overflow = '';
+      }
+
+      function selectOp(btn) {
+        document.querySelectorAll('.op-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        _selectedOp = btn.dataset.op;
+      }
+
+      async function submitMobile() {
+        const nom = document.getElementById('m-nom').value.trim();
+        const tel = document.getElementById('m-tel').value.trim();
+        const err = document.getElementById('m-error');
+        if (!nom)        { err.textContent = 'Le nom est requis.';       err.style.display='block'; return; }
+        if (!tel)        { err.textContent = 'Le téléphone est requis.'; err.style.display='block'; return; }
+        if (!_selectedOp){ err.textContent = 'Choisissez un opérateur.'; err.style.display='block'; return; }
+        err.style.display = 'none';
+        const btn = document.getElementById('m-submit-btn');
+        btn.disabled = true; btn.textContent = 'Envoi…';
+        try {
+          const res = await fetch('/api/order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              type: 'mobile_payment', nom, telephone: tel,
+              produit: _currentProduct, montant: _currentMontant,
+              operateur: _selectedOp,
+              referenceClient: document.getElementById('m-ref').value.trim() || null,
+              source: 'boutique'
+            })
+          });
+          const data = await res.json();
+          document.getElementById('m-confirm-ref').textContent = data.ref || 'IE-???';
+          showView('modal-view-mobile-ok');
+        } catch(e) {
+          err.textContent = 'Erreur réseau. Réessayez.'; err.style.display='block';
+          btn.disabled = false; btn.textContent = 'Confirmer mon paiement';
+        }
+      }
+
+      async function submitCash() {
+        const nom = document.getElementById('c-nom').value.trim();
+        const tel = document.getElementById('c-tel').value.trim();
+        const err = document.getElementById('c-error');
+        if (!nom){ err.textContent = 'Le nom est requis.';       err.style.display='block'; return; }
+        if (!tel){ err.textContent = 'Le téléphone est requis.'; err.style.display='block'; return; }
+        err.style.display = 'none';
+        const btn = document.getElementById('c-submit-btn');
+        btn.disabled = true; btn.textContent = 'Envoi…';
+        try {
+          const res = await fetch('/api/order', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              type: 'cash_payment', nom, telephone: tel,
+              produit: _currentProduct, montant: _currentMontant,
+              source: 'boutique'
+            })
+          });
+          const data = await res.json();
+          document.getElementById('c-confirm-ref').textContent = data.ref || 'IE-CASH-???';
+          showView('modal-view-cash-ok');
+        } catch(e) {
+          err.textContent = 'Erreur réseau. Réessayez.'; err.style.display='block';
+          btn.disabled = false; btn.textContent = 'Réserver ma commande';
+        }
+      }
+
+      /* Fermer modal en cliquant sur l'overlay */
+      document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById('pay-modal').addEventListener('click', function(e) {
+          if (e.target === this) closePayModal();
+        });
+      });
+    </script>
 
     <script>
       document.addEventListener('DOMContentLoaded', () => {

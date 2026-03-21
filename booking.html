@@ -45,8 +45,23 @@
     .mbr-card:hover { border-color:#bfdbfe; }
     .mbr-card.picked { border-color:#1e3a8a; background:#eff6ff; }
 
-    .bk-input { border:1.5px solid #e2e8f0; border-radius:8px; padding:10px 14px; width:100%; font-size:14px; transition:.15s; outline:none; font-family:inherit; }
+    .bk-input { border:1.5px solid #e2e8f0; border-radius:8px; padding:10px 14px; width:100%; font-size:14px; transition:.15s; outline:none; font-family:inherit; box-sizing:border-box; }
     .bk-input:focus { border-color:#1e3a8a; box-shadow:0 0 0 3px rgba(30,58,138,.1); }
+
+    .bk-pay-choice {
+      border:2px solid #e2e8f0; border-radius:12px; padding:14px 8px; text-align:center;
+      background:#f8fafc; cursor:pointer; transition:.15s; font-family:inherit; width:100%;
+    }
+    .bk-pay-choice:hover { border-color:#bfdbfe; background:#f0f9ff; }
+    .bk-pay-choice.picked { border-color:#1e3a8a; background:#eff6ff; }
+
+    .bk-op-btn {
+      padding:10px 4px; border:2px solid #e2e8f0; border-radius:10px;
+      background:#f8fafc; font-size:.78rem; font-weight:700; cursor:pointer;
+      text-align:center; transition:.15s; color:#374151; font-family:inherit;
+    }
+    .bk-op-btn:hover { border-color:#94a3b8; }
+    .bk-op-btn.selected { border-color:#1e3a8a; background:#eff6ff; color:#1e3a8a; }
 
     .bk-btn { width:100%; background:#1e3a8a; color:#fff; border:none; border-radius:12px; padding:13px; font-size:14px; font-weight:700; cursor:pointer; transition:.15s; display:flex; align-items:center; justify-content:center; gap:8px; font-family:inherit; }
     .bk-btn:hover:not(:disabled) { background:#1d4ed8; }
@@ -369,6 +384,7 @@
         </div>
 
         <div id="paymentBlock">
+          <!-- Récapitulatif du montant -->
           <div style="padding:14px;background:#f9fafb;border-radius:12px;font-size:13px;margin-bottom:16px">
             <div style="display:flex;justify-content:space-between;margin-bottom:6px">
               <span style="color:#6b7280" id="payServiceLabel">–</span>
@@ -379,40 +395,51 @@
               <span id="payDeposit">–</span>
             </div>
             <div style="border-top:1px solid #e5e7eb;padding-top:8px;display:flex;justify-content:space-between;font-weight:700;color:#111827">
-              <span>À régler aujourd'hui</span>
+              <span>À régler</span>
               <span id="payDue">–</span>
             </div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:10px">
-            <div>
-              <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:5px">Numéro de carte</label>
-              <div class="bk-input" style="display:flex;align-items:center;gap:8px;cursor:text">
-                <svg width="32" height="20" viewBox="0 0 38 24" fill="none"><rect width="38" height="24" rx="3" fill="#1A1F71"/><path d="M14 7h10l-2 10H12L14 7z" fill="#F7B600"/></svg>
-                <span style="color:#9ca3af;font-size:14px;flex:1">4242 4242 4242 4242</span>
-                <svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-              </div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-              <div>
-                <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:5px">Expiration</label>
-                <input class="bk-input" placeholder="MM / AA" maxlength="7">
-              </div>
-              <div>
-                <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:5px">CVC</label>
-                <input class="bk-input" placeholder="···" maxlength="4" type="password">
-              </div>
-            </div>
+
+          <!-- Choix du mode de paiement -->
+          <p style="font-size:12px;font-weight:700;color:#374151;margin-bottom:8px">Mode de paiement *</p>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px">
+            <button id="bk-pay-mobile-btn" class="bk-pay-choice" type="button" onclick="selectBkPay('mobile')">
+              <span style="font-size:1.4rem">📱</span>
+              <strong style="display:block;margin:4px 0 2px;font-size:13px">Mobile money</strong>
+              <span style="font-size:11px;color:#6b7280">Huri · MVola · Telma</span>
+            </button>
+            <button id="bk-pay-cash-btn" class="bk-pay-choice" type="button" onclick="selectBkPay('cash')">
+              <span style="font-size:1.4rem">💵</span>
+              <strong style="display:block;margin:4px 0 2px;font-size:13px">En espèces</strong>
+              <span style="font-size:11px;color:#6b7280">À notre boutique</span>
+            </button>
           </div>
-          <div style="margin-top:10px;display:flex;align-items:center;gap:6px;font-size:11px;color:#9ca3af">
-            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-            Paiement sécurisé via Stripe · Vos données ne sont jamais stockées.
+
+          <!-- Formulaire mobile money -->
+          <div id="bk-mobile-form" style="display:none">
+            <p style="font-size:12px;font-weight:700;color:#374151;margin-bottom:8px">Opérateur *</p>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
+              <button type="button" class="bk-op-btn" data-op="Huri"  onclick="selectBkOp(this)">📱 Huri</button>
+              <button type="button" class="bk-op-btn" data-op="MVola" onclick="selectBkOp(this)">📱 MVola</button>
+              <button type="button" class="bk-op-btn" data-op="Telma" onclick="selectBkOp(this)">📱 Telma</button>
+            </div>
+            <input id="bk-tx-ref" class="bk-input" placeholder="Référence transaction (optionnel)">
+            <p style="font-size:11px;color:#6b7280;margin-top:6px">📲 Envoyez le montant à notre numéro, puis validez ici.</p>
           </div>
+
+          <!-- Info espèces -->
+          <div id="bk-cash-info" style="display:none;padding:12px;background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;font-size:13px;color:#166534">
+            🏪 Vous réglez en espèces directement lors de votre rendez-vous. Aucun acompte requis à l'avance.
+          </div>
+
+          <p id="bk-pay-error" style="color:#dc2626;font-size:12px;margin-top:8px;display:none"></p>
         </div>
 
         <button id="payBtn" onclick="confirmBooking()" class="bk-btn" style="margin-top:18px">
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           <span id="payBtnLabel">Confirmer le rendez-vous</span>
         </button>
+        <p id="bk-confirm-err" style="color:#dc2626;font-size:12px;margin-top:6px;display:none"></p>
       </div>
 
       <!-- ────────── CONFIRMATION ────────── -->
@@ -715,58 +742,136 @@ document.getElementById('tos').addEventListener('change', validateStep5);
 document.getElementById('s5next').addEventListener('click', ()=>goStep(6));
 
 // ── Paiement ────────────────────────────────────────────
+let bkPayMode = '';   // 'mobile' | 'cash' | ''
+let bkOpSelected = '';
+
+function selectBkPay(mode) {
+  bkPayMode = mode;
+  document.getElementById('bk-pay-mobile-btn').classList.toggle('picked', mode === 'mobile');
+  document.getElementById('bk-pay-cash-btn').classList.toggle('picked', mode === 'cash');
+  document.getElementById('bk-mobile-form').style.display = mode === 'mobile' ? 'block' : 'none';
+  document.getElementById('bk-cash-info').style.display   = mode === 'cash'   ? 'block' : 'none';
+  document.getElementById('bk-pay-error').style.display = 'none';
+  const svc = services[state.service];
+  const dep = Math.round(svc.price / 2);
+  if (mode === 'mobile') {
+    document.getElementById('payBtnLabel').textContent = 'Confirmer le paiement mobile — ' + dep.toLocaleString('fr-FR') + ' KMF';
+  } else {
+    document.getElementById('payBtnLabel').textContent = 'Confirmer — Payer en espèces';
+  }
+}
+
+function selectBkOp(btn) {
+  document.querySelectorAll('.bk-op-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  bkOpSelected = btn.dataset.op;
+}
+
 function renderPayment() {
   const svc = services[state.service];
   const freeNotice = document.getElementById('freeNotice');
-  const payBlock = document.getElementById('paymentBlock');
-  const payBtn = document.getElementById('payBtnLabel');
+  const payBlock   = document.getElementById('paymentBlock');
+  bkPayMode = ''; bkOpSelected = '';
+  document.querySelectorAll('.bk-pay-choice').forEach(b => b.classList.remove('picked'));
+  document.querySelectorAll('.bk-op-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('bk-mobile-form').style.display = 'none';
+  document.getElementById('bk-cash-info').style.display   = 'none';
+  document.getElementById('bk-pay-error').style.display   = 'none';
+  document.getElementById('bk-confirm-err').style.display = 'none';
   if (svc.price === 0) {
     freeNotice.style.display = 'flex';
-    payBlock.style.display = 'none';
-    payBtn.textContent = 'Confirmer le rendez-vous — Gratuit';
+    payBlock.style.display   = 'none';
+    document.getElementById('payBtnLabel').textContent = 'Confirmer le rendez-vous — Gratuit';
   } else {
     freeNotice.style.display = 'none';
-    payBlock.style.display = 'block';
+    payBlock.style.display   = 'block';
     const dep = Math.round(svc.price / 2);
     document.getElementById('payServiceLabel').textContent = svc.name + ' · ' + svc.duration;
-    document.getElementById('payAmount').textContent = svc.price.toLocaleString('fr-FR') + ' FC';
-    document.getElementById('payDeposit').textContent = dep.toLocaleString('fr-FR') + ' FC';
-    document.getElementById('payDue').textContent = dep.toLocaleString('fr-FR') + ' FC';
-    payBtn.textContent = 'Payer l\'acompte — ' + dep.toLocaleString('fr-FR') + ' FC';
+    document.getElementById('payAmount').textContent  = svc.price.toLocaleString('fr-FR') + ' KMF';
+    document.getElementById('payDeposit').textContent = dep.toLocaleString('fr-FR') + ' KMF';
+    document.getElementById('payDue').textContent     = dep.toLocaleString('fr-FR') + ' KMF';
+    document.getElementById('payBtnLabel').textContent = 'Choisissez un mode de paiement';
   }
 }
 
 // ── Confirmation ────────────────────────────────────────
-function confirmBooking() {
+async function confirmBooking() {
+  const svc = services[state.service];
+  const errEl = document.getElementById('bk-confirm-err');
+
+  // Validation paiement pour les services payants
+  if (svc.price > 0) {
+    if (!bkPayMode) {
+      errEl.textContent = 'Veuillez choisir un mode de paiement.';
+      errEl.style.display = 'block';
+      return;
+    }
+    if (bkPayMode === 'mobile' && !bkOpSelected) {
+      errEl.textContent = 'Veuillez choisir un opérateur mobile.';
+      errEl.style.display = 'block';
+      return;
+    }
+  }
+  errEl.style.display = 'none';
+
   const btn = document.getElementById('payBtn');
   btn.innerHTML = '<svg width="16" height="16" class="animate-spin" fill="none" viewBox="0 0 24 24"><circle opacity=".25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path opacity=".75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Traitement en cours…';
   btn.disabled = true;
 
-  setTimeout(()=>{
-    const svc = services[state.service];
-    const d = state.date;
-    const jours = ['dim','lun','mar','mer','jeu','ven','sam'];
-    const mois = ['jan','fév','mar','avr','mai','juin','juil','août','sep','oct','nov','déc'];
-    const ref = 'IE-' + new Date().getFullYear() + '-' + Math.random().toString(36).substr(2,6).toUpperCase();
+  const nom      = (document.getElementById('fname').value + ' ' + document.getElementById('lname').value).trim();
+  const telephone = document.getElementById('phone').value.trim();
+  const dep      = Math.round(svc.price / 2);
 
-    document.getElementById('confRef').textContent = ref;
-    document.getElementById('confService').textContent = svc.name + ' · ' + svc.duration;
-    document.getElementById('confMember').textContent = members[state.member];
-    document.getElementById('confDateTime').textContent = jours[d.getDay()]+' '+d.getDate()+' '+mois[d.getMonth()]+' à '+state.slot;
-    document.getElementById('confLocation').textContent = svc.location;
+  let apiRef = null;
+  if (svc.price > 0) {
+    try {
+      const res = await fetch('/api/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type:            bkPayMode === 'mobile' ? 'mobile_payment' : 'cash_payment',
+          nom,
+          telephone,
+          produit:         svc.name,
+          montant:         dep,
+          operateur:       bkOpSelected || null,
+          referenceClient: document.getElementById('bk-tx-ref')?.value.trim() || null,
+          source:          'booking'
+        })
+      });
+      const data = await res.json();
+      apiRef = data.ref;
+    } catch(e) {
+      errEl.textContent = 'Erreur réseau. Réessayez.';
+      errEl.style.display = 'block';
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span id="payBtnLabel">Confirmer le rendez-vous</span>';
+      return;
+    }
+  }
 
-    document.getElementById('step6').style.display = 'none';
-    state.step = 7;
-    const panel = document.getElementById('step7');
-    panel.style.display = 'block';
-    panel.classList.add('bk-panel');
-    document.getElementById('progressBar').style.width = '100%';
-    document.getElementById('progressBar').style.background = '#16a34a';
-    document.getElementById('stepLabel').textContent = 'Rendez-vous confirmé !';
-    const dots = document.getElementById('stepDots').children;
-    for (let i=0;i<dots.length;i++) dots[i].style.background = '#16a34a';
-    spawnConfetti();
-  }, 1800);
+  const d = state.date;
+  const jours = ['dim','lun','mar','mer','jeu','ven','sam'];
+  const mois = ['jan','fév','mar','avr','mai','juin','juil','août','sep','oct','nov','déc'];
+  const ref = apiRef || ('IE-' + new Date().getFullYear() + '-' + Math.random().toString(36).substr(2,6).toUpperCase());
+
+  document.getElementById('confRef').textContent = ref;
+  document.getElementById('confService').textContent = svc.name + ' · ' + svc.duration;
+  document.getElementById('confMember').textContent = members[state.member];
+  document.getElementById('confDateTime').textContent = jours[d.getDay()]+' '+d.getDate()+' '+mois[d.getMonth()]+' à '+state.slot;
+  document.getElementById('confLocation').textContent = svc.location;
+
+  document.getElementById('step6').style.display = 'none';
+  state.step = 7;
+  const panel = document.getElementById('step7');
+  panel.style.display = 'block';
+  panel.classList.add('bk-panel');
+  document.getElementById('progressBar').style.width = '100%';
+  document.getElementById('progressBar').style.background = '#16a34a';
+  document.getElementById('stepLabel').textContent = 'Rendez-vous confirmé !';
+  const dots = document.getElementById('stepDots').children;
+  for (let i=0;i<dots.length;i++) dots[i].style.background = '#16a34a';
+  spawnConfetti();
 }
 
 function spawnConfetti() {
@@ -783,6 +888,7 @@ function spawnConfetti() {
 
 function resetDemo() {
   state.step=1; state.service=null; state.member=null; state.date=null; state.slot=null; state.tab='AM';
+  bkPayMode=''; bkOpSelected='';
   document.querySelectorAll('.svc-card,.mbr-card').forEach(c=>c.classList.remove('picked'));
   ['fname','lname','email','phone','notes'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('tos').checked=false;
