@@ -406,7 +406,7 @@
             <button id="bk-pay-mobile-btn" class="bk-pay-choice" type="button" onclick="selectBkPay('mobile')">
               <span style="font-size:1.4rem">📱</span>
               <strong style="display:block;margin:4px 0 2px;font-size:13px">Mobile money</strong>
-              <span style="font-size:11px;color:#6b7280">Huri · MVola · Telma</span>
+              <span style="font-size:11px;color:#6b7280">Huri Money · MVola</span>
             </button>
             <button id="bk-pay-cash-btn" class="bk-pay-choice" type="button" onclick="selectBkPay('cash')">
               <span style="font-size:1.4rem">💵</span>
@@ -418,10 +418,9 @@
           <!-- Formulaire mobile money -->
           <div id="bk-mobile-form" style="display:none">
             <p style="font-size:12px;font-weight:700;color:#374151;margin-bottom:8px">Opérateur *</p>
-            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:12px">
-              <button type="button" class="bk-op-btn" data-op="Huri"  onclick="selectBkOp(this)">📱 Huri</button>
-              <button type="button" class="bk-op-btn" data-op="MVola" onclick="selectBkOp(this)">📱 MVola</button>
-              <button type="button" class="bk-op-btn" data-op="Telma" onclick="selectBkOp(this)">📱 Telma</button>
+            <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">
+              <button type="button" class="bk-op-btn" data-op="Huri Money" onclick="selectBkOp(this)">📱 Huri Money</button>
+              <button type="button" class="bk-op-btn" data-op="MVola"      onclick="selectBkOp(this)">📱 MVola</button>
             </div>
             <input id="bk-tx-ref" class="bk-input" placeholder="Référence transaction (optionnel)">
             <p style="font-size:11px;color:#6b7280;margin-top:6px">📲 Envoyez le montant à notre numéro, puis validez ici.</p>
@@ -815,7 +814,7 @@ async function confirmBooking() {
   errEl.style.display = 'none';
 
   const btn = document.getElementById('payBtn');
-  btn.innerHTML = '<svg width="16" height="16" class="animate-spin" fill="none" viewBox="0 0 24 24"><circle opacity=".25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path opacity=".75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Traitement en cours…';
+  btn.innerHTML = '<svg width="16" height="16" class="animate-spin" fill="none" viewBox="0 0 24 24"><circle opacity=".25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path opacity=".75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Confirmation en cours…';
   btn.disabled = true;
 
   const nom      = (document.getElementById('fname').value + ' ' + document.getElementById('lname').value).trim();
@@ -840,9 +839,14 @@ async function confirmBooking() {
         })
       });
       const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Erreur serveur');
+      }
       apiRef = data.ref;
     } catch(e) {
-      errEl.textContent = 'Erreur réseau. Réessayez.';
+      errEl.textContent = e.message && e.message !== 'Failed to fetch'
+        ? e.message
+        : 'Erreur réseau, veuillez réessayer.';
       errEl.style.display = 'block';
       btn.disabled = false;
       btn.innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span id="payBtnLabel">Confirmer le rendez-vous</span>';
