@@ -49,6 +49,13 @@
 
     ::-webkit-scrollbar { width:5px; }
     ::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:3px; }
+
+    /* Force SVG sizes — Tailwind CDN may miss fractional or custom classes */
+    svg { display:block; flex-shrink:0; }
+    .svg-xs  { width:12px!important; height:12px!important; }
+    .svg-sm  { width:16px!important; height:16px!important; }
+    .svg-md  { width:20px!important; height:20px!important; }
+    .svg-lg  { width:24px!important; height:24px!important; }
   </style>
 </head>
 <body class="bg-white text-gray-900">
@@ -57,8 +64,8 @@
 <nav class="fixed inset-x-0 top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
   <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
     <div class="flex items-center gap-2.5">
-      <div class="w-8 h-8 rounded-xl bg-blue-600 flex items-center justify-center">
-        <svg class="w-4.5 h-4.5 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+      <div width="32" height="32" class="rounded-xl bg-blue-600 flex items-center justify-center">
+        <svg width="18" height="18" class="text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
       </div>
       <span class="font-bold text-gray-900 text-lg tracking-tight">BookFlow</span>
     </div>
@@ -114,63 +121,63 @@
     <div class="grid md:grid-cols-3 gap-5">
       <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
         <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
-          <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <svg width="20" height="20" class="text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         </div>
         <h3 class="font-semibold text-gray-900 mb-2">Smart Availability</h3>
         <p class="text-sm text-gray-500 leading-relaxed">Define working hours, buffer times, blackout dates, and custom rules per service or team member.</p>
       </div>
       <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
         <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center mb-4">
-          <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
+          <svg width="20" height="20" class="text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
         </div>
         <h3 class="font-semibold text-gray-900 mb-2">Stripe Payments</h3>
         <p class="text-sm text-gray-500 leading-relaxed">Accept deposits or full payments at booking. Per-service pricing, refund policies, and no-show fees.</p>
       </div>
       <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
         <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
-          <svg class="w-5 h-5 text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+          <svg width="20" height="20" class="text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
         </div>
         <h3 class="font-semibold text-gray-900 mb-2">Automated Reminders</h3>
         <p class="text-sm text-gray-500 leading-relaxed">Confirmation, 24h & 1h reminder, follow-up. Email via Resend, SMS via Twilio. Calendar invites included.</p>
       </div>
       <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
         <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
-          <svg class="w-5 h-5 text-orange-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <svg width="20" height="20" class="text-orange-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         </div>
         <h3 class="font-semibold text-gray-900 mb-2">Google Calendar Sync</h3>
         <p class="text-sm text-gray-500 leading-relaxed">Two-way sync blocks slots automatically. Supports Google Meet and Zoom link generation per booking.</p>
       </div>
       <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
         <div class="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center mb-4">
-          <svg class="w-5 h-5 text-pink-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          <svg width="20" height="20" class="text-pink-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
         </div>
         <h3 class="font-semibold text-gray-900 mb-2">Client Management</h3>
         <p class="text-sm text-gray-500 leading-relaxed">Full client profiles, appointment history, notes, tags, and rescheduling requests — all in one place.</p>
       </div>
       <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
         <div class="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center mb-4">
-          <svg class="w-5 h-5 text-cyan-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
+          <svg width="20" height="20" class="text-cyan-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
         </div>
         <h3 class="font-semibold text-gray-900 mb-2">Analytics & Revenue</h3>
         <p class="text-sm text-gray-500 leading-relaxed">Conversion rate, peak times, no-show rate, revenue by service, client retention — all visualized.</p>
       </div>
       <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
         <div class="w-10 h-10 bg-yellow-100 rounded-xl flex items-center justify-center mb-4">
-          <svg class="w-5 h-5 text-yellow-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          <svg width="20" height="20" class="text-yellow-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
         </div>
         <h3 class="font-semibold text-gray-900 mb-2">Smart Automation</h3>
         <p class="text-sm text-gray-500 leading-relaxed">Auto-accept or manual approval, waitlist management, automatic rescheduling, and post-visit feedback.</p>
       </div>
       <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
         <div class="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
-          <svg class="w-5 h-5 text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/></svg>
+          <svg width="20" height="20" class="text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/></svg>
         </div>
         <h3 class="font-semibold text-gray-900 mb-2">Multi-timezone</h3>
         <p class="text-sm text-gray-500 leading-relaxed">Detect client timezone automatically. Show slots in local time. Your calendar stays in your timezone.</p>
       </div>
       <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
         <div class="w-10 h-10 bg-rose-100 rounded-xl flex items-center justify-center mb-4">
-          <svg class="w-5 h-5 text-rose-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
+          <svg width="20" height="20" class="text-rose-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
         </div>
         <h3 class="font-semibold text-gray-900 mb-2">Embed Anywhere</h3>
         <p class="text-sm text-gray-500 leading-relaxed">One-line embed code for your website, or share your public booking link directly with clients.</p>
@@ -434,7 +441,7 @@
               <div class="stripe-input flex items-center gap-2 cursor-text">
                 <svg class="w-6 h-4 shrink-0" viewBox="0 0 38 24" fill="none"><rect width="38" height="24" rx="3" fill="#1A1F71"/><path d="M14 7h10l-2 10H12L14 7z" fill="#F7B600"/></svg>
                 <span class="text-gray-400 text-sm flex-1">4242 4242 4242 4242</span>
-                <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                <svg width="16" height="16" class="text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
               </div>
             </div>
             <div class="grid grid-cols-2 gap-3">
@@ -449,7 +456,7 @@
             </div>
           </div>
           <div class="mt-3 flex items-center gap-2 text-xs text-gray-400">
-            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            <svg width="14" height="14" class=""fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
             Secured by Stripe. We never store your card details.
           </div>
         </div>
@@ -463,7 +470,7 @@
       <div id="step7" class="step-panel p-8 hidden text-center relative overflow-hidden">
         <div id="confettiContainer" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
         <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <svg width="32" height="32" class="text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </div>
         <h3 class="text-2xl font-bold text-gray-900 mb-1">You're booked! 🎉</h3>
         <p class="text-sm text-gray-500 mb-5">Check your email for confirmation &amp; calendar invite</p>
@@ -487,7 +494,7 @@
           <div class="flex items-center justify-between text-sm">
             <span class="text-gray-500">Location</span>
             <span class="font-medium text-blue-600 flex items-center gap-1">
-              <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
+              <svg width="14" height="14" class=""fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
               Zoom link sent by email
             </span>
           </div>
@@ -535,31 +542,31 @@
           </div>
           <nav class="space-y-1">
             <div class="flex items-center gap-2.5 px-3 py-2 bg-blue-600/20 border border-blue-600/30 rounded-lg">
-              <div class="w-4 h-4 bg-blue-400 rounded-sm"></div>
+              <div width="16" height="16" class="bg-blue-400 rounded-sm"></div>
               <span class="text-blue-300 text-xs font-medium">Dashboard</span>
             </div>
             <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg">
-              <div class="w-4 h-4 bg-gray-600 rounded-sm"></div>
+              <div width="16" height="16" class="bg-gray-600 rounded-sm"></div>
               <span class="text-gray-400 text-xs">Calendar</span>
             </div>
             <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg">
-              <div class="w-4 h-4 bg-gray-600 rounded-sm"></div>
+              <div width="16" height="16" class="bg-gray-600 rounded-sm"></div>
               <span class="text-gray-400 text-xs">Appointments</span>
             </div>
             <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg">
-              <div class="w-4 h-4 bg-gray-600 rounded-sm"></div>
+              <div width="16" height="16" class="bg-gray-600 rounded-sm"></div>
               <span class="text-gray-400 text-xs">Clients</span>
             </div>
             <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg">
-              <div class="w-4 h-4 bg-gray-600 rounded-sm"></div>
+              <div width="16" height="16" class="bg-gray-600 rounded-sm"></div>
               <span class="text-gray-400 text-xs">Services</span>
             </div>
             <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg">
-              <div class="w-4 h-4 bg-gray-600 rounded-sm"></div>
+              <div width="16" height="16" class="bg-gray-600 rounded-sm"></div>
               <span class="text-gray-400 text-xs">Analytics</span>
             </div>
             <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg">
-              <div class="w-4 h-4 bg-gray-600 rounded-sm"></div>
+              <div width="16" height="16" class="bg-gray-600 rounded-sm"></div>
               <span class="text-gray-400 text-xs">Payments</span>
             </div>
           </nav>
@@ -604,7 +611,7 @@
             </div>
             <div class="divide-y divide-gray-700/50">
               <div class="px-4 py-3 flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white text-xs font-bold shrink-0">JR</div>
+                <div width="32" height="32" class="rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white text-xs font-bold shrink-0">JR</div>
                 <div class="flex-1 min-w-0">
                   <div class="text-white text-xs font-medium">James Rodriguez</div>
                   <div class="text-gray-400 text-xs">Consultation · 1h · Zoom</div>
@@ -615,7 +622,7 @@
                 </div>
               </div>
               <div class="px-4 py-3 flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0">ML</div>
+                <div width="32" height="32" class="rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0">ML</div>
                 <div class="flex-1 min-w-0">
                   <div class="text-white text-xs font-medium">Marie Lambert</div>
                   <div class="text-gray-400 text-xs">Strategy Session · 2h · Google Meet</div>
@@ -626,7 +633,7 @@
                 </div>
               </div>
               <div class="px-4 py-3 flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-xs font-bold shrink-0">SK</div>
+                <div width="32" height="32" class="rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-xs font-bold shrink-0">SK</div>
                 <div class="flex-1 min-w-0">
                   <div class="text-white text-xs font-medium">Sofia Kim</div>
                   <div class="text-gray-400 text-xs">VIP Day · 4h · Zoom</div>
@@ -735,12 +742,12 @@
         <p class="text-sm text-gray-500 mb-5">Perfect for freelancers & individuals</p>
         <button class="w-full border border-gray-200 text-gray-700 py-2.5 rounded-xl text-sm font-semibold hover:bg-gray-50 transition mb-5">Get started free</button>
         <ul class="space-y-2.5 text-sm text-gray-600">
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Up to 50 bookings/mo</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>2 service types</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Email confirmations</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Public booking page</li>
-          <li class="flex items-center gap-2 text-gray-300"><svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>Stripe payments</li>
-          <li class="flex items-center gap-2 text-gray-300"><svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>SMS reminders</li>
+          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Up to 50 bookings/mo</li>
+          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>2 service types</li>
+          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Email confirmations</li>
+          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Public booking page</li>
+          <li class="flex items-center gap-2 text-gray-300"><svg width="16" height="16" class="shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>Stripe payments</li>
+          <li class="flex items-center gap-2 text-gray-300"><svg width="16" height="16" class="shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>SMS reminders</li>
         </ul>
       </div>
       <div class="border-2 border-blue-600 rounded-2xl p-6 relative bg-blue-50/30">
@@ -750,12 +757,12 @@
         <p class="text-sm text-gray-500 mb-5">For growing businesses</p>
         <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-sm font-semibold transition mb-5">Start 14-day trial</button>
         <ul class="space-y-2.5 text-sm text-gray-600">
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Unlimited bookings</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Unlimited services</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Stripe payments + deposits</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>SMS &amp; Email reminders</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Google Calendar sync</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Analytics dashboard</li>
+          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Unlimited bookings</li>
+          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Unlimited services</li>
+          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Stripe payments + deposits</li>
+          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>SMS &amp; Email reminders</li>
+          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Google Calendar sync</li>
+          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Analytics dashboard</li>
         </ul>
       </div>
       <div class="border border-gray-200 rounded-2xl p-6 bg-gray-900 text-white">
@@ -764,12 +771,12 @@
         <p class="text-sm text-gray-400 mb-5">For teams & agencies</p>
         <button class="w-full border border-gray-700 hover:bg-gray-800 text-white py-2.5 rounded-xl text-sm font-semibold transition mb-5">Contact sales</button>
         <ul class="space-y-2.5 text-sm text-gray-400">
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Everything in Pro</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Up to 10 team members</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>White-label branding</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Waitlist management</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Priority support</li>
-          <li class="flex items-center gap-2"><svg class="w-4 h-4 text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Custom integrations</li>
+          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Everything in Pro</li>
+          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Up to 10 team members</li>
+          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>White-label branding</li>
+          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Waitlist management</li>
+          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Priority support</li>
+          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Custom integrations</li>
         </ul>
       </div>
     </div>
@@ -782,7 +789,7 @@
     <div class="flex flex-col md:flex-row items-center justify-between gap-4">
       <div class="flex items-center gap-2.5">
         <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
-          <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+          <svg width="16" height="16" class="text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
         </div>
         <span class="text-white font-bold">BookFlow</span>
       </div>
@@ -1068,7 +1075,7 @@ function renderPayment() {
 // ── Confirm ────────────────────────────────────────────
 function confirmBooking() {
   const btn = document.getElementById('payBtn');
-  btn.innerHTML = '<svg class="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Processing...';
+  btn.innerHTML = '<svg width="16" height="16" class="animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Processing...';
   btn.disabled = true;
 
   setTimeout(() => {
