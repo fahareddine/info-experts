@@ -1,1171 +1,801 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>BookFlow — Complete Appointment Booking System</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
-    *, body { font-family: 'Inter', sans-serif; }
+  <title>Prendre rendez-vous | Info Experts – Informatique Moroni, Comores</title>
+  <meta name="description" content="Réservez un rendez-vous avec un expert Info Experts : diagnostic, consultation informatique ou visite technique à Moroni, Comores.">
+  <meta name="robots" content="noindex, follow">
+  <link rel="canonical" href="https://info-experts.fr/booking.html">
 
-    .step-panel { animation: stepIn .3s ease forwards; }
-    @keyframes stepIn { from { opacity:0; transform:translateX(18px); } to { opacity:1; transform:translateX(0); } }
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#1e1b4b">
+
+  <!-- style.css du projet (trust-blue, nav, footer…) -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Tailwind CDN uniquement pour les classes du widget de réservation -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* ── Styles spécifiques au widget de réservation ── */
+    .bk-panel { animation: bkIn .3s ease forwards; }
+    @keyframes bkIn { from { opacity:0; transform:translateX(16px); } to { opacity:1; transform:translateX(0); } }
 
     .cal-day { width:36px; height:36px; display:flex; align-items:center; justify-content:center; border-radius:50%; font-size:13px; cursor:pointer; transition:.15s; }
-    .cal-day.avail:hover { background:#dbeafe; color:#1d4ed8; }
-    .cal-day.selected { background:#2563eb; color:#fff !important; font-weight:600; }
-    .cal-day.today { border:2px solid #2563eb; color:#2563eb; font-weight:600; }
-    .cal-day.past, .cal-day.closed { color:#d1d5db; cursor:default; }
+    .cal-day.avail:hover { background:#dbeafe; color:#1e3a8a; }
+    .cal-day.selected { background:#1e3a8a; color:#fff !important; font-weight:700; }
+    .cal-day.today { border:2px solid #1e3a8a; color:#1e3a8a; font-weight:700; }
+    .cal-day.past, .cal-day.closed { color:#d1d5db; cursor:default; pointer-events:none; }
     .cal-day.busy { position:relative; }
     .cal-day.busy::after { content:''; position:absolute; bottom:3px; left:50%; transform:translateX(-50%); width:4px; height:4px; border-radius:50%; background:#f59e0b; }
 
-    .slot { transition:.15s; cursor:pointer; }
-    .slot:hover:not(.taken) { background:#dbeafe; border-color:#2563eb; color:#1d4ed8; }
-    .slot.picked { background:#2563eb; border-color:#2563eb; color:#fff; font-weight:600; }
+    .slot { transition:.15s; cursor:pointer; border:1.5px solid #e5e7eb; border-radius:10px; padding:10px 4px; font-size:12px; font-weight:600; color:#374151; text-align:center; background:#fff; }
+    .slot:hover:not(.taken) { background:#dbeafe; border-color:#1e3a8a; color:#1e3a8a; }
+    .slot.picked { background:#1e3a8a; border-color:#1e3a8a; color:#fff; }
     .slot.taken { background:#f9fafb; color:#d1d5db; cursor:not-allowed; text-decoration:line-through; }
 
-    .service-card { cursor:pointer; transition:.15s; border:2px solid transparent; }
-    .service-card:hover { border-color:#bfdbfe; background:#f0f9ff; }
-    .service-card.picked { border-color:#2563eb; background:#eff6ff; }
+    .svc-card { cursor:pointer; transition:.15s; border:2px solid transparent; border-radius:14px; padding:14px; background:#fff; }
+    .svc-card:hover { border-color:#bfdbfe; background:#f0f9ff; }
+    .svc-card.picked { border-color:#1e3a8a; background:#eff6ff; }
 
-    .member-card { cursor:pointer; transition:.15s; border:2px solid transparent; }
-    .member-card:hover { border-color:#bfdbfe; }
-    .member-card.picked { border-color:#2563eb; background:#eff6ff; }
+    .mbr-card { cursor:pointer; transition:.15s; border:2px solid transparent; border-radius:14px; padding:14px; text-align:center; background:#fff; }
+    .mbr-card:hover { border-color:#bfdbfe; }
+    .mbr-card.picked { border-color:#1e3a8a; background:#eff6ff; }
 
-    .feature-card { transition:.2s; }
-    .feature-card:hover { transform:translateY(-3px); box-shadow:0 12px 32px rgba(0,0,0,.08); }
+    .bk-input { border:1.5px solid #e2e8f0; border-radius:8px; padding:10px 14px; width:100%; font-size:14px; transition:.15s; outline:none; font-family:inherit; }
+    .bk-input:focus { border-color:#1e3a8a; box-shadow:0 0 0 3px rgba(30,58,138,.1); }
 
-    .stripe-input { border:1.5px solid #e2e8f0; border-radius:8px; padding:10px 14px; width:100%; font-size:14px; transition:.15s; outline:none; }
-    .stripe-input:focus { border-color:#6366f1; box-shadow:0 0 0 3px rgba(99,102,241,.12); }
+    .bk-btn { width:100%; background:#1e3a8a; color:#fff; border:none; border-radius:12px; padding:13px; font-size:14px; font-weight:700; cursor:pointer; transition:.15s; display:flex; align-items:center; justify-content:center; gap:8px; font-family:inherit; }
+    .bk-btn:hover:not(:disabled) { background:#1d4ed8; }
+    .bk-btn:disabled { opacity:.4; cursor:not-allowed; }
+    .bk-btn-outline { background:#fff; color:#1e3a8a; border:2px solid #1e3a8a; }
+    .bk-btn-outline:hover { background:#eff6ff; }
 
-    .confetti { position:absolute; border-radius:50%; animation:pop .8s ease forwards; }
-    @keyframes pop { to { transform:translateY(-90px) rotate(720deg); opacity:0; } }
+    .bk-back { background:none; border:none; cursor:pointer; font-size:13px; color:#9ca3af; display:flex; align-items:center; gap:4px; margin-bottom:16px; padding:0; font-family:inherit; transition:.15s; }
+    .bk-back:hover { color:#374151; }
 
     .progress-fill { transition:width .4s cubic-bezier(.4,0,.2,1); }
-    .tag { display:inline-flex; align-items:center; gap:4px; font-size:12px; font-weight:500; padding:2px 8px; border-radius:999px; }
 
-    .analytics-bar { transition:height 1s cubic-bezier(.4,0,.2,1); }
+    .confetti-dot { position:absolute; border-radius:50%; animation:cfpop .85s ease forwards; }
+    @keyframes cfpop { to { transform:translateY(-90px) rotate(720deg); opacity:0; } }
 
-    ::-webkit-scrollbar { width:5px; }
-    ::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:3px; }
-
-    /* Force SVG sizes — Tailwind CDN may miss fractional or custom classes */
     svg { display:block; flex-shrink:0; }
-    .svg-xs  { width:12px!important; height:12px!important; }
-    .svg-sm  { width:16px!important; height:16px!important; }
-    .svg-md  { width:20px!important; height:20px!important; }
-    .svg-lg  { width:24px!important; height:24px!important; }
+
+    /* Feature cards */
+    .feat-card { transition:.2s; border:1px solid #f3f4f6; background:#fff; border-radius:16px; padding:24px; }
+    .feat-card:hover { transform:translateY(-3px); box-shadow:0 12px 32px rgba(0,0,0,.07); }
+
+    /* Masquer les conflits éventuels Tailwind CDN / style.css sur la nav */
+    header.bg-trust-blue-900 { background-color:#1e3a8a !important; }
   </style>
 </head>
-<body class="bg-white text-gray-900">
+<body class="antialiased leading-relaxed font-sans bg-gray-50" style="color:#1f2937">
 
-<!-- NAV -->
-<nav class="fixed inset-x-0 top-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
-  <div class="max-w-6xl mx-auto px-5 h-16 flex items-center justify-between">
-    <div class="flex items-center gap-2.5">
-      <div width="32" height="32" class="rounded-xl bg-blue-600 flex items-center justify-center">
-        <svg width="18" height="18" class="text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+<!-- ══════════════════════════════════════════════
+     HEADER — identique à index.html
+════════════════════════════════════════════════ -->
+<header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md border-b border-trust-blue-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-20">
+      <a href="index.html" class="flex-shrink-0 flex items-center gap-2 cursor-pointer hover:opacity-80 transition">
+        <svg class="w-9 h-9 text-trust-blue-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2 2V18z"></path></svg>
+        <span class="font-bold text-2xl tracking-tight text-white">Info<span class="text-trust-blue-400">Experts</span></span>
+      </a>
+      <nav class="hidden md:flex space-x-8">
+        <a href="index.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Accueil</a>
+        <a href="a-propos.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">À propos</a>
+        <a href="services.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Nos Services</a>
+        <a href="boutique.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Boutique</a>
+        <a href="blog/index.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Blog</a>
+        <a href="#" class="text-white font-bold border-b-2 border-trust-blue-400 pb-1">Rendez-vous</a>
+      </nav>
+      <div class="md:hidden flex items-center">
+        <button id="btn-menu-mobile" aria-label="Ouvrir le menu" class="text-trust-blue-100 hover:text-white focus:outline-none">
+          <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
       </div>
-      <span class="font-bold text-gray-900 text-lg tracking-tight">BookFlow</span>
-    </div>
-    <div class="hidden md:flex items-center gap-8 text-sm text-gray-500">
-      <a href="#features" class="hover:text-gray-900 transition">Features</a>
-      <a href="#demo" class="hover:text-gray-900 transition">Live Demo</a>
-      <a href="#dashboard" class="hover:text-gray-900 transition">Dashboard</a>
-      <a href="#pricing" class="hover:text-gray-900 transition">Pricing</a>
-    </div>
-    <div class="flex items-center gap-3">
-      <button class="hidden sm:block text-sm text-gray-600 hover:text-gray-900 px-3 py-1.5 transition">Log in</button>
-      <button class="text-sm bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition font-medium">Start free</button>
     </div>
   </div>
-</nav>
-
-<!-- HERO -->
-<section class="pt-28 pb-20 bg-gradient-to-br from-blue-50 via-white to-indigo-50 relative overflow-hidden">
-  <div class="absolute inset-0 opacity-30" style="background-image:radial-gradient(circle at 30% 20%, #dbeafe 0, transparent 50%), radial-gradient(circle at 80% 70%, #e0e7ff 0, transparent 50%)"></div>
-  <div class="max-w-6xl mx-auto px-5 text-center relative">
-    <div class="inline-flex items-center gap-2 bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-6">
-      <span class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></span>
-      Interactive demo below — try it now
+  <div id="menu-mobile" class="hidden md:hidden bg-trust-blue-800 border-t border-trust-blue-700">
+    <div class="px-2 pt-2 pb-4 space-y-1 sm:px-3 shadow-inner">
+      <a href="index.html" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Accueil</a>
+      <a href="a-propos.html" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">À propos</a>
+      <a href="services.html" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Nos Services</a>
+      <a href="boutique.html" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Boutique</a>
+      <a href="blog/index.html" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Blog</a>
+      <a href="booking.html" class="block px-3 py-2 rounded-md text-base font-bold text-white bg-trust-blue-700">Rendez-vous</a>
     </div>
-    <h1 class="text-5xl md:text-6xl font-black text-gray-900 mb-5 leading-none tracking-tight">
-      The booking system<br><span class="text-blue-600">your clients will love</span>
+  </div>
+</header>
+
+<main>
+
+<!-- ══════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════ -->
+<section style="background:linear-gradient(135deg,#1e3a8a 0%,#1d4ed8 60%,#1e40af 100%); padding:48px 20px 40px; text-align:center;">
+  <div style="max-width:600px;margin:0 auto">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.3);color:#93c5fd;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 14px;border-radius:999px;margin-bottom:18px">
+      <span style="width:6px;height:6px;background:#60a5fa;border-radius:50%;display:inline-block;animation:pulse 2s infinite"></span>
+      Réservation en ligne — Moroni, Comores
+    </div>
+    <h1 style="font-size:clamp(1.7rem,4vw,2.6rem);font-weight:900;color:#fff;line-height:1.15;margin:0 0 14px">
+      Prenez rendez-vous<br>avec un expert Info Experts
     </h1>
-    <p class="text-lg text-gray-500 max-w-xl mx-auto mb-10 leading-relaxed">
-      Appointments · Payments · Reminders · Analytics. All in one platform. No more scheduling chaos.
+    <p style="font-size:15px;color:#bfdbfe;margin:0 0 20px;line-height:1.6">
+      Diagnostic, maintenance ou consultation — choisissez votre créneau en moins de 2 minutes.
     </p>
-    <div class="flex flex-col sm:flex-row gap-3 justify-center">
-      <a href="#demo" class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3.5 rounded-xl font-semibold transition text-sm">Try live demo →</a>
-      <button class="border border-gray-200 hover:bg-gray-50 text-gray-700 px-8 py-3.5 rounded-xl font-semibold transition text-sm flex items-center gap-2 justify-center">
-        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20"><path d="M6.3 2.841A1.5 1.5 0 004 4.11V15.89a1.5 1.5 0 002.3 1.269l9.344-5.89a1.5 1.5 0 000-2.538L6.3 2.84z"/></svg>
-        Watch 2-min video
-      </button>
-    </div>
-    <div class="mt-16 grid grid-cols-3 gap-6 max-w-sm mx-auto">
-      <div><div class="text-3xl font-black text-gray-900">12k+</div><div class="text-xs text-gray-500 mt-1 font-medium">Businesses</div></div>
-      <div><div class="text-3xl font-black text-gray-900">2M+</div><div class="text-xs text-gray-500 mt-1 font-medium">Bookings</div></div>
-      <div><div class="text-3xl font-black text-gray-900">98%</div><div class="text-xs text-gray-500 mt-1 font-medium">Satisfaction</div></div>
-    </div>
-  </div>
-</section>
-
-<!-- FEATURES -->
-<section id="features" class="py-20 bg-white">
-  <div class="max-w-6xl mx-auto px-5">
-    <div class="text-center mb-14">
-      <h2 class="text-3xl font-bold text-gray-900 mb-3">Everything you need</h2>
-      <p class="text-gray-500">One platform to replace your scheduling chaos</p>
-    </div>
-    <div class="grid md:grid-cols-3 gap-5">
-      <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
-        <div class="w-10 h-10 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
-          <svg width="20" height="20" class="text-blue-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-        </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Smart Availability</h3>
-        <p class="text-sm text-gray-500 leading-relaxed">Define working hours, buffer times, blackout dates, and custom rules per service or team member.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:6px;color:#93c5fd;font-size:13px">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Confirmation immédiate
       </div>
-      <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
-        <div class="w-10 h-10 bg-green-100 rounded-xl flex items-center justify-center mb-4">
-          <svg width="20" height="20" class="text-green-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"/></svg>
-        </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Stripe Payments</h3>
-        <p class="text-sm text-gray-500 leading-relaxed">Accept deposits or full payments at booking. Per-service pricing, refund policies, and no-show fees.</p>
+      <div style="display:flex;align-items:center;gap:6px;color:#93c5fd;font-size:13px">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+        Rappel 24h avant
       </div>
-      <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
-        <div class="w-10 h-10 bg-purple-100 rounded-xl flex items-center justify-center mb-4">
-          <svg width="20" height="20" class="text-purple-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
-        </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Automated Reminders</h3>
-        <p class="text-sm text-gray-500 leading-relaxed">Confirmation, 24h & 1h reminder, follow-up. Email via Resend, SMS via Twilio. Calendar invites included.</p>
-      </div>
-      <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
-        <div class="w-10 h-10 bg-orange-100 rounded-xl flex items-center justify-center mb-4">
-          <svg width="20" height="20" class="text-orange-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-        </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Google Calendar Sync</h3>
-        <p class="text-sm text-gray-500 leading-relaxed">Two-way sync blocks slots automatically. Supports Google Meet and Zoom link generation per booking.</p>
-      </div>
-      <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
-        <div class="w-10 h-10 bg-pink-100 rounded-xl flex items-center justify-center mb-4">
-          <svg width="20" height="20" class="text-pink-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-        </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Client Management</h3>
-        <p class="text-sm text-gray-500 leading-relaxed">Full client profiles, appointment history, notes, tags, and rescheduling requests — all in one place.</p>
-      </div>
-      <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
-        <div class="w-10 h-10 bg-cyan-100 rounded-xl flex items-center justify-center mb-4">
-          <svg width="20" height="20" class="text-cyan-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/></svg>
-        </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Analytics & Revenue</h3>
-        <p class="text-sm text-gray-500 leading-relaxed">Conversion rate, peak times, no-show rate, revenue by service, client retention — all visualized.</p>
-      </div>
-      <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
-        <div class="w-10 h-10 bg-yellow-100 rounded-xl flex items-center justify-center mb-4">
-          <svg width="20" height="20" class="text-yellow-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
-        </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Smart Automation</h3>
-        <p class="text-sm text-gray-500 leading-relaxed">Auto-accept or manual approval, waitlist management, automatic rescheduling, and post-visit feedback.</p>
-      </div>
-      <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
-        <div class="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center mb-4">
-          <svg width="20" height="20" class="text-indigo-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9"/></svg>
-        </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Multi-timezone</h3>
-        <p class="text-sm text-gray-500 leading-relaxed">Detect client timezone automatically. Show slots in local time. Your calendar stays in your timezone.</p>
-      </div>
-      <div class="feature-card p-6 rounded-2xl border border-gray-100 bg-white">
-        <div class="w-10 h-10 bg-rose-100 rounded-xl flex items-center justify-center mb-4">
-          <svg width="20" height="20" class="text-rose-600" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
-        </div>
-        <h3 class="font-semibold text-gray-900 mb-2">Embed Anywhere</h3>
-        <p class="text-sm text-gray-500 leading-relaxed">One-line embed code for your website, or share your public booking link directly with clients.</p>
+      <div style="display:flex;align-items:center;gap:6px;color:#93c5fd;font-size:13px">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.948V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+        +269 331 27 22
       </div>
     </div>
   </div>
 </section>
 
-<!-- LIVE DEMO -->
-<section id="demo" class="py-20 bg-gradient-to-br from-slate-50 to-blue-50">
-  <div class="max-w-5xl mx-auto px-5">
-    <div class="text-center mb-12">
-      <div class="inline-flex items-center gap-2 bg-green-100 text-green-700 text-xs font-semibold px-3 py-1.5 rounded-full mb-4">
-        <span class="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-        Live interactive demo
-      </div>
-      <h2 class="text-3xl font-bold text-gray-900 mb-3">Book an appointment</h2>
-      <p class="text-gray-500">This is exactly what your clients will see</p>
-    </div>
+<!-- ══════════════════════════════════════════════
+     WIDGET DE RÉSERVATION
+════════════════════════════════════════════════ -->
+<section style="padding:40px 20px 60px;background:#f8fafc">
+  <div style="max-width:560px;margin:0 auto">
+    <div style="background:#fff;border-radius:24px;box-shadow:0 4px 24px rgba(0,0,0,.08);border:1px solid #f1f5f9;overflow:hidden">
 
-    <div class="bg-white rounded-3xl shadow-xl border border-gray-100 overflow-hidden max-w-2xl mx-auto">
-      <!-- Progress bar -->
-      <div class="h-1 bg-gray-100">
-        <div id="progressBar" class="progress-fill h-full bg-blue-500 rounded-full" style="width:16.6%"></div>
+      <!-- Barre de progression -->
+      <div style="height:4px;background:#e5e7eb">
+        <div id="progressBar" class="progress-fill" style="height:100%;background:#1e3a8a;border-radius:2px;width:16.6%"></div>
       </div>
-      <!-- Step indicator -->
-      <div class="px-8 pt-6 flex items-center justify-between">
-        <div id="stepLabel" class="text-xs font-semibold text-blue-600 uppercase tracking-wide">Step 1 of 6 — Choose service</div>
-        <div id="stepDots" class="flex gap-1.5">
-          <div class="w-2 h-2 rounded-full bg-blue-500"></div>
-          <div class="w-2 h-2 rounded-full bg-gray-200"></div>
-          <div class="w-2 h-2 rounded-full bg-gray-200"></div>
-          <div class="w-2 h-2 rounded-full bg-gray-200"></div>
-          <div class="w-2 h-2 rounded-full bg-gray-200"></div>
-          <div class="w-2 h-2 rounded-full bg-gray-200"></div>
+
+      <!-- Indicateur d'étapes -->
+      <div style="padding:20px 28px 0;display:flex;align-items:center;justify-content:space-between">
+        <span id="stepLabel" style="font-size:11px;font-weight:700;color:#1e3a8a;text-transform:uppercase;letter-spacing:.07em">Étape 1 sur 6 — Choisir un service</span>
+        <div id="stepDots" style="display:flex;gap:5px">
+          <span style="width:7px;height:7px;border-radius:50%;background:#1e3a8a;display:inline-block"></span>
+          <span style="width:7px;height:7px;border-radius:50%;background:#e5e7eb;display:inline-block"></span>
+          <span style="width:7px;height:7px;border-radius:50%;background:#e5e7eb;display:inline-block"></span>
+          <span style="width:7px;height:7px;border-radius:50%;background:#e5e7eb;display:inline-block"></span>
+          <span style="width:7px;height:7px;border-radius:50%;background:#e5e7eb;display:inline-block"></span>
+          <span style="width:7px;height:7px;border-radius:50%;background:#e5e7eb;display:inline-block"></span>
         </div>
       </div>
 
-      <!-- STEP 1: Service -->
-      <div id="step1" class="step-panel p-8">
-        <h3 class="text-xl font-bold text-gray-900 mb-1">What can we help you with?</h3>
-        <p class="text-sm text-gray-500 mb-6">Select a service type to see availability</p>
-        <div class="space-y-3" id="serviceList">
-          <div class="service-card p-4 rounded-xl border border-gray-200 bg-white" data-service="0">
-            <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-xl bg-blue-100 flex items-center justify-center shrink-0 text-lg">📞</div>
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center justify-between">
-                  <span class="font-semibold text-gray-900">Quick Call</span>
-                  <span class="text-sm font-bold text-green-600">Free</span>
+      <!-- ────────── ÉTAPE 1 : Service ────────── -->
+      <div id="step1" class="bk-panel" style="padding:24px 28px">
+        <h2 style="font-size:20px;font-weight:800;color:#111827;margin:0 0 4px">Quel service souhaitez-vous ?</h2>
+        <p style="font-size:13px;color:#6b7280;margin:0 0 20px">Sélectionnez un type d'intervention</p>
+        <div id="serviceList" style="display:flex;flex-direction:column;gap:10px">
+          <div class="svc-card" data-service="0">
+            <div style="display:flex;align-items:flex-start;gap:14px">
+              <div style="width:42px;height:42px;border-radius:12px;background:#eff6ff;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">📞</div>
+              <div style="flex:1">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <span style="font-weight:700;color:#111827;font-size:15px">Appel conseil</span>
+                  <span style="font-size:13px;font-weight:700;color:#16a34a">Gratuit</span>
                 </div>
-                <div class="text-xs text-gray-500 mt-0.5">15 minutes · Phone</div>
-                <div class="text-xs text-gray-400 mt-1">A quick discovery call to see if we're a good fit.</div>
+                <div style="font-size:12px;color:#6b7280;margin-top:2px">15 min · Téléphone</div>
+                <div style="font-size:12px;color:#9ca3af;margin-top:4px">Un premier échange pour cerner votre problème et vous orienter.</div>
               </div>
             </div>
           </div>
-          <div class="service-card p-4 rounded-xl border border-gray-200 bg-white" data-service="1">
-            <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-xl bg-purple-100 flex items-center justify-center shrink-0 text-lg">💼</div>
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center justify-between">
-                  <span class="font-semibold text-gray-900">Consultation</span>
-                  <span class="text-sm font-bold text-gray-900">$150</span>
+          <div class="svc-card" data-service="1">
+            <div style="display:flex;align-items:flex-start;gap:14px">
+              <div style="width:42px;height:42px;border-radius:12px;background:#faf5ff;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🔧</div>
+              <div style="flex:1">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <span style="font-weight:700;color:#111827;font-size:15px">Diagnostic à distance</span>
+                  <span style="font-size:13px;font-weight:700;color:#111827">5 000 FC</span>
                 </div>
-                <div class="text-xs text-gray-500 mt-0.5">1 hour · Zoom</div>
-                <div class="text-xs text-gray-400 mt-1">In-depth consultation with a full action plan provided.</div>
+                <div style="font-size:12px;color:#6b7280;margin-top:2px">1 heure · Téléphone ou WhatsApp</div>
+                <div style="font-size:12px;color:#9ca3af;margin-top:4px">Analyse complète de votre problème avec recommandations.</div>
               </div>
             </div>
           </div>
-          <div class="service-card p-4 rounded-xl border border-gray-200 bg-white" data-service="2">
-            <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-xl bg-orange-100 flex items-center justify-center shrink-0 text-lg">🎯</div>
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center justify-between">
-                  <span class="font-semibold text-gray-900">Strategy Session</span>
-                  <span class="text-sm font-bold text-gray-900">$300</span>
+          <div class="svc-card" data-service="2">
+            <div style="display:flex;align-items:flex-start;gap:14px">
+              <div style="width:42px;height:42px;border-radius:12px;background:#fff7ed;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">💻</div>
+              <div style="flex:1">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <span style="font-weight:700;color:#111827;font-size:15px">Consultation informatique</span>
+                  <span style="font-size:13px;font-weight:700;color:#111827">10 000 FC</span>
                 </div>
-                <div class="text-xs text-gray-500 mt-0.5">2 hours · Zoom</div>
-                <div class="text-xs text-gray-400 mt-1">Deep-dive strategy and implementation roadmap.</div>
+                <div style="font-size:12px;color:#6b7280;margin-top:2px">1 heure · En agence à Moroni</div>
+                <div style="font-size:12px;color:#9ca3af;margin-top:4px">Entretien approfondi avec plan d'action et devis détaillé.</div>
               </div>
             </div>
           </div>
-          <div class="service-card p-4 rounded-xl border border-gray-200 bg-white" data-service="3">
-            <div class="flex items-start gap-4">
-              <div class="w-10 h-10 rounded-xl bg-green-100 flex items-center justify-center shrink-0 text-lg">🚀</div>
-              <div class="flex-1 min-w-0">
-                <div class="flex items-center justify-between">
-                  <span class="font-semibold text-gray-900">VIP Day</span>
-                  <span class="text-sm font-bold text-gray-900">$500</span>
+          <div class="svc-card" data-service="3">
+            <div style="display:flex;align-items:flex-start;gap:14px">
+              <div style="width:42px;height:42px;border-radius:12px;background:#f0fdf4;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0">🚗</div>
+              <div style="flex:1">
+                <div style="display:flex;justify-content:space-between;align-items:center">
+                  <span style="font-weight:700;color:#111827;font-size:15px">Visite technique sur site</span>
+                  <span style="font-size:13px;font-weight:700;color:#111827">20 000 FC</span>
                 </div>
-                <div class="text-xs text-gray-500 mt-0.5">4 hours · Zoom + Google Meet</div>
-                <div class="text-xs text-gray-400 mt-1">Full implementation day — we build it together.</div>
+                <div style="font-size:12px;color:#6b7280;margin-top:2px">2 heures · Chez vous à Moroni</div>
+                <div style="font-size:12px;color:#9ca3af;margin-top:4px">Déplacement d'un technicien pour intervention directe sur place.</div>
               </div>
             </div>
           </div>
         </div>
-        <button id="s1next" class="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold text-sm transition disabled:opacity-40 disabled:cursor-not-allowed" disabled>Continue →</button>
+        <button id="s1next" class="bk-btn" style="margin-top:20px" disabled>Continuer →</button>
       </div>
 
-      <!-- STEP 2: Team Member -->
-      <div id="step2" class="step-panel p-8 hidden">
-        <button class="text-sm text-gray-400 hover:text-gray-600 mb-4 flex items-center gap-1 transition" onclick="goStep(1)">← Back</button>
-        <h3 class="text-xl font-bold text-gray-900 mb-1">Choose your advisor</h3>
-        <p class="text-sm text-gray-500 mb-6">All members are available on your selected date</p>
-        <div class="grid grid-cols-3 gap-3" id="memberList">
-          <div class="member-card p-4 rounded-xl border border-gray-200 text-center" data-member="0">
-            <div class="w-12 h-12 rounded-full mx-auto mb-2 overflow-hidden bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white font-bold text-lg">S</div>
-            <div class="text-sm font-semibold text-gray-900">Sarah</div>
-            <div class="text-xs text-gray-400 mt-0.5">Strategy</div>
-            <div class="flex items-center justify-center gap-0.5 mt-1">
-              <span class="text-yellow-400 text-xs">★★★★★</span>
-            </div>
+      <!-- ────────── ÉTAPE 2 : Technicien ────────── -->
+      <div id="step2" class="bk-panel" style="padding:24px 28px;display:none">
+        <button class="bk-back" onclick="goStep(1)">← Retour</button>
+        <h2 style="font-size:20px;font-weight:800;color:#111827;margin:0 0 4px">Choisissez votre technicien</h2>
+        <p style="font-size:13px;color:#6b7280;margin:0 0 20px">Tous disponibles pour votre créneau</p>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px" id="memberList">
+          <div class="mbr-card" data-member="0">
+            <div style="width:48px;height:48px;border-radius:50%;margin:0 auto 8px;background:linear-gradient(135deg,#1e3a8a,#3b82f6);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px">A</div>
+            <div style="font-size:13px;font-weight:700;color:#111827">Amine</div>
+            <div style="font-size:11px;color:#9ca3af;margin-top:2px">Réparation</div>
+            <div style="font-size:11px;color:#f59e0b;margin-top:2px">★★★★★</div>
           </div>
-          <div class="member-card p-4 rounded-xl border border-gray-200 text-center" data-member="1">
-            <div class="w-12 h-12 rounded-full mx-auto mb-2 overflow-hidden bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white font-bold text-lg">M</div>
-            <div class="text-sm font-semibold text-gray-900">Marcus</div>
-            <div class="text-xs text-gray-400 mt-0.5">Growth</div>
-            <div class="flex items-center justify-center gap-0.5 mt-1">
-              <span class="text-yellow-400 text-xs">★★★★★</span>
-            </div>
+          <div class="mbr-card" data-member="1">
+            <div style="width:48px;height:48px;border-radius:50%;margin:0 auto 8px;background:linear-gradient(135deg,#7c3aed,#a78bfa);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px">F</div>
+            <div style="font-size:13px;font-weight:700;color:#111827">Fahar</div>
+            <div style="font-size:11px;color:#9ca3af;margin-top:2px">Réseau & Web</div>
+            <div style="font-size:11px;color:#f59e0b;margin-top:2px">★★★★★</div>
           </div>
-          <div class="member-card p-4 rounded-xl border border-gray-200 text-center" data-member="2">
-            <div class="w-12 h-12 rounded-full mx-auto mb-2 overflow-hidden bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white font-bold text-lg">L</div>
-            <div class="text-sm font-semibold text-gray-900">Leila</div>
-            <div class="text-xs text-gray-400 mt-0.5">Operations</div>
-            <div class="flex items-center justify-center gap-0.5 mt-1">
-              <span class="text-yellow-400 text-xs">★★★★½</span>
-            </div>
+          <div class="mbr-card" data-member="2">
+            <div style="width:48px;height:48px;border-radius:50%;margin:0 auto 8px;background:linear-gradient(135deg,#059669,#34d399);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:18px">S</div>
+            <div style="font-size:13px;font-weight:700;color:#111827">Said</div>
+            <div style="font-size:11px;color:#9ca3af;margin-top:2px">Maintenance</div>
+            <div style="font-size:11px;color:#f59e0b;margin-top:2px">★★★★½</div>
           </div>
         </div>
-        <button id="s2next" class="mt-6 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold text-sm transition disabled:opacity-40 disabled:cursor-not-allowed" disabled>Continue →</button>
+        <button id="s2next" class="bk-btn" style="margin-top:20px" disabled>Continuer →</button>
       </div>
 
-      <!-- STEP 3: Calendar -->
-      <div id="step3" class="step-panel p-8 hidden">
-        <button class="text-sm text-gray-400 hover:text-gray-600 mb-4 flex items-center gap-1 transition" onclick="goStep(2)">← Back</button>
-        <h3 class="text-xl font-bold text-gray-900 mb-1">Pick a date</h3>
-        <p class="text-sm text-gray-500 mb-5">Mon–Fri only · Your timezone: <span class="font-medium text-gray-700" id="tzLabel">detecting...</span></p>
-        <!-- Calendar -->
-        <div class="border border-gray-200 rounded-2xl overflow-hidden">
-          <div class="flex items-center justify-between px-5 py-3 border-b border-gray-100 bg-gray-50">
-            <button id="prevMonth" class="p-1 hover:bg-gray-200 rounded-lg transition text-gray-600">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+      <!-- ────────── ÉTAPE 3 : Calendrier ────────── -->
+      <div id="step3" class="bk-panel" style="padding:24px 28px;display:none">
+        <button class="bk-back" onclick="goStep(2)">← Retour</button>
+        <h2 style="font-size:20px;font-weight:800;color:#111827;margin:0 0 4px">Choisissez une date</h2>
+        <p style="font-size:13px;color:#6b7280;margin:0 0 18px">Lun–Sam · Fuseau : <span id="tzLabel" style="font-weight:600;color:#374151">détection…</span></p>
+        <!-- Calendrier -->
+        <div style="border:1.5px solid #e5e7eb;border-radius:16px;overflow:hidden">
+          <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;background:#f9fafb;border-bottom:1px solid #e5e7eb">
+            <button id="prevMonth" style="width:28px;height:28px;border:none;background:#e5e7eb;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center">
+              <svg width="14" height="14" fill="none" stroke="#374151" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
             </button>
-            <span id="calMonthLabel" class="text-sm font-semibold text-gray-900"></span>
-            <button id="nextMonth" class="p-1 hover:bg-gray-200 rounded-lg transition text-gray-600">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+            <span id="calMonthLabel" style="font-size:14px;font-weight:700;color:#111827"></span>
+            <button id="nextMonth" style="width:28px;height:28px;border:none;background:#e5e7eb;border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center">
+              <svg width="14" height="14" fill="none" stroke="#374151" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
             </button>
           </div>
-          <div class="grid grid-cols-7 gap-0 px-4 py-2 bg-gray-50 border-b border-gray-100">
-            <div class="text-center text-xs font-medium text-gray-400 py-1">Mo</div>
-            <div class="text-center text-xs font-medium text-gray-400 py-1">Tu</div>
-            <div class="text-center text-xs font-medium text-gray-400 py-1">We</div>
-            <div class="text-center text-xs font-medium text-gray-400 py-1">Th</div>
-            <div class="text-center text-xs font-medium text-gray-400 py-1">Fr</div>
-            <div class="text-center text-xs font-medium text-red-300 py-1">Sa</div>
-            <div class="text-center text-xs font-medium text-red-300 py-1">Su</div>
+          <div style="display:grid;grid-template-columns:repeat(7,1fr);padding:8px 14px 4px;background:#f9fafb;border-bottom:1px solid #f3f4f6">
+            <div style="text-align:center;font-size:11px;font-weight:600;color:#9ca3af;padding:4px">Lu</div>
+            <div style="text-align:center;font-size:11px;font-weight:600;color:#9ca3af;padding:4px">Ma</div>
+            <div style="text-align:center;font-size:11px;font-weight:600;color:#9ca3af;padding:4px">Me</div>
+            <div style="text-align:center;font-size:11px;font-weight:600;color:#9ca3af;padding:4px">Je</div>
+            <div style="text-align:center;font-size:11px;font-weight:600;color:#9ca3af;padding:4px">Ve</div>
+            <div style="text-align:center;font-size:11px;font-weight:600;color:#9ca3af;padding:4px">Sa</div>
+            <div style="text-align:center;font-size:11px;font-weight:600;color:#fca5a5;padding:4px">Di</div>
           </div>
-          <div id="calGrid" class="grid grid-cols-7 gap-0 px-4 py-3"></div>
-          <div class="px-5 py-3 bg-gray-50 border-t border-gray-100 flex items-center gap-4 text-xs text-gray-500">
-            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full border-2 border-blue-500 inline-block"></span>Today</span>
-            <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded-full bg-blue-500 inline-block"></span>Selected</span>
-            <span class="flex items-center gap-1.5"><span class="relative w-3 h-3 inline-flex items-end justify-center"><span class="w-1.5 h-1.5 rounded-full bg-amber-400 absolute bottom-0 left-1/2 -translate-x-1/2"></span></span>Busy</span>
+          <div id="calGrid" style="display:grid;grid-template-columns:repeat(7,1fr);padding:8px 14px 12px;gap:2px"></div>
+          <div style="padding:8px 18px 12px;background:#f9fafb;border-top:1px solid #f3f4f6;display:flex;gap:16px">
+            <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:#6b7280"><span style="width:10px;height:10px;border-radius:50%;border:2px solid #1e3a8a;display:inline-block"></span>Aujourd'hui</span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:#6b7280"><span style="width:10px;height:10px;border-radius:50%;background:#1e3a8a;display:inline-block"></span>Sélectionné</span>
+            <span style="display:flex;align-items:center;gap:6px;font-size:11px;color:#6b7280"><span style="width:10px;height:10px;border-radius:50%;background:#f59e0b;display:inline-block"></span>Chargé</span>
           </div>
         </div>
-        <button id="s3next" class="mt-5 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold text-sm transition disabled:opacity-40 disabled:cursor-not-allowed" disabled>See available times →</button>
+        <button id="s3next" class="bk-btn" style="margin-top:16px" disabled>Voir les créneaux →</button>
       </div>
 
-      <!-- STEP 4: Time Slot -->
-      <div id="step4" class="step-panel p-8 hidden">
-        <button class="text-sm text-gray-400 hover:text-gray-600 mb-4 flex items-center gap-1 transition" onclick="goStep(3)">← Back</button>
-        <h3 class="text-xl font-bold text-gray-900 mb-1">Choose a time</h3>
-        <p class="text-sm text-gray-500 mb-5" id="slotSubtitle">Available slots for <span id="slotDateLabel" class="font-medium text-gray-700">–</span></p>
-        <div class="flex gap-2 mb-4">
-          <button class="tab-btn px-4 py-1.5 rounded-lg text-sm font-medium bg-blue-600 text-white" id="tabAM" onclick="switchTab('AM')">Morning</button>
-          <button class="tab-btn px-4 py-1.5 rounded-lg text-sm font-medium bg-gray-100 text-gray-600 hover:bg-gray-200 transition" id="tabPM" onclick="switchTab('PM')">Afternoon</button>
+      <!-- ────────── ÉTAPE 4 : Créneau ────────── -->
+      <div id="step4" class="bk-panel" style="padding:24px 28px;display:none">
+        <button class="bk-back" onclick="goStep(3)">← Retour</button>
+        <h2 style="font-size:20px;font-weight:800;color:#111827;margin:0 0 4px">Choisissez un créneau</h2>
+        <p style="font-size:13px;color:#6b7280;margin:0 0 16px">Disponibilités pour le <span id="slotDateLabel" style="font-weight:600;color:#374151">–</span></p>
+        <div style="display:flex;gap:8px;margin-bottom:14px">
+          <button id="tabAM" onclick="switchTab('AM')" style="padding:6px 16px;border-radius:8px;font-size:13px;font-weight:600;background:#1e3a8a;color:#fff;border:none;cursor:pointer">Matin</button>
+          <button id="tabPM" onclick="switchTab('PM')" style="padding:6px 16px;border-radius:8px;font-size:13px;font-weight:600;background:#f3f4f6;color:#6b7280;border:none;cursor:pointer">Après-midi</button>
         </div>
-        <div id="slotsGrid" class="grid grid-cols-4 gap-2"></div>
-        <div class="mt-4 flex items-center gap-4 text-xs text-gray-500">
-          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded border-2 border-blue-500 inline-block"></span>Available</span>
-          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-gray-200 inline-block"></span>Booked</span>
-          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-blue-500 inline-block"></span>Selected</span>
+        <div id="slotsGrid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px"></div>
+        <div style="margin-top:12px;display:flex;gap:14px">
+          <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:#6b7280"><span style="width:10px;height:10px;border:1.5px solid #1e3a8a;border-radius:3px;display:inline-block"></span>Libre</span>
+          <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:#6b7280"><span style="width:10px;height:10px;background:#f3f4f6;border-radius:3px;display:inline-block"></span>Pris</span>
+          <span style="display:flex;align-items:center;gap:5px;font-size:11px;color:#6b7280"><span style="width:10px;height:10px;background:#1e3a8a;border-radius:3px;display:inline-block"></span>Sélectionné</span>
         </div>
-        <button id="s4next" class="mt-5 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold text-sm transition disabled:opacity-40 disabled:cursor-not-allowed" disabled>Continue →</button>
+        <button id="s4next" class="bk-btn" style="margin-top:16px" disabled>Continuer →</button>
       </div>
 
-      <!-- STEP 5: Client Info -->
-      <div id="step5" class="step-panel p-8 hidden">
-        <button class="text-sm text-gray-400 hover:text-gray-600 mb-4 flex items-center gap-1 transition" onclick="goStep(4)">← Back</button>
-        <h3 class="text-xl font-bold text-gray-900 mb-1">Your details</h3>
-        <p class="text-sm text-gray-500 mb-5">We'll send a confirmation to your email</p>
-        <!-- Booking summary -->
-        <div id="bookingSummary" class="mb-5 p-4 bg-blue-50 rounded-xl border border-blue-100 text-sm">
-          <div class="flex items-center gap-3">
-            <div class="text-2xl" id="summaryEmoji">📞</div>
-            <div>
-              <div class="font-semibold text-gray-900" id="summaryService">Quick Call</div>
-              <div class="text-gray-500 text-xs mt-0.5" id="summaryDateTime">–</div>
-              <div class="text-blue-600 font-medium text-xs mt-0.5" id="summaryPrice">Free</div>
-            </div>
+      <!-- ────────── ÉTAPE 5 : Coordonnées ────────── -->
+      <div id="step5" class="bk-panel" style="padding:24px 28px;display:none">
+        <button class="bk-back" onclick="goStep(4)">← Retour</button>
+        <h2 style="font-size:20px;font-weight:800;color:#111827;margin:0 0 4px">Vos coordonnées</h2>
+        <p style="font-size:13px;color:#6b7280;margin:0 0 16px">Une confirmation vous sera envoyée par email</p>
+        <!-- Résumé -->
+        <div id="bookingSummary" style="padding:14px;background:#eff6ff;border:1.5px solid #bfdbfe;border-radius:12px;margin-bottom:18px;display:flex;align-items:center;gap:14px">
+          <span id="summaryEmoji" style="font-size:28px">📞</span>
+          <div>
+            <div id="summaryService" style="font-weight:700;color:#1e3a8a;font-size:14px">–</div>
+            <div id="summaryDateTime" style="font-size:12px;color:#6b7280;margin-top:2px">–</div>
+            <div id="summaryPrice" style="font-size:12px;color:#16a34a;font-weight:600;margin-top:2px">–</div>
           </div>
         </div>
-        <div class="space-y-3">
-          <div class="grid grid-cols-2 gap-3">
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
             <div>
-              <label class="block text-xs font-semibold text-gray-700 mb-1">First name *</label>
-              <input id="fname" type="text" class="stripe-input" placeholder="Alex">
+              <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:5px">Prénom *</label>
+              <input id="fname" type="text" class="bk-input" placeholder="Ali">
             </div>
             <div>
-              <label class="block text-xs font-semibold text-gray-700 mb-1">Last name *</label>
-              <input id="lname" type="text" class="stripe-input" placeholder="Martin">
+              <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:5px">Nom *</label>
+              <input id="lname" type="text" class="bk-input" placeholder="Mohamed">
             </div>
           </div>
           <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-1">Email *</label>
-            <input id="email" type="email" class="stripe-input" placeholder="alex@example.com">
+            <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:5px">Email *</label>
+            <input id="email" type="email" class="bk-input" placeholder="ali@example.com">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-1">Phone</label>
-            <input id="phone" type="tel" class="stripe-input" placeholder="+1 (555) 000-0000">
+            <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:5px">Téléphone (Comores)</label>
+            <input id="phone" type="tel" class="bk-input" placeholder="+269 33X XX XX">
           </div>
           <div>
-            <label class="block text-xs font-semibold text-gray-700 mb-1">What would you like to discuss? <span class="text-gray-400 font-normal">(optional)</span></label>
-            <textarea id="notes" class="stripe-input resize-none" rows="3" placeholder="Brief description of your goals or challenges..."></textarea>
+            <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:5px">Décrivez votre problème <span style="font-weight:400;color:#9ca3af">(facultatif)</span></label>
+            <textarea id="notes" class="bk-input" rows="3" style="resize:none" placeholder="Mon ordinateur ne s'allume plus depuis ce matin…"></textarea>
           </div>
-          <div class="flex items-start gap-2">
-            <input type="checkbox" id="tos" class="mt-0.5 accent-blue-600">
-            <label for="tos" class="text-xs text-gray-500">I agree to the <span class="text-blue-600 cursor-pointer">cancellation policy</span> and <span class="text-blue-600 cursor-pointer">terms of service</span></label>
+          <div style="display:flex;align-items:flex-start;gap:8px">
+            <input type="checkbox" id="tos" style="margin-top:2px;accent-color:#1e3a8a">
+            <label for="tos" style="font-size:12px;color:#6b7280">J'accepte la <span style="color:#1e3a8a;cursor:pointer">politique d'annulation</span> (annulation gratuite 24h avant)</label>
           </div>
         </div>
-        <button id="s5next" class="mt-5 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold text-sm transition disabled:opacity-40 disabled:cursor-not-allowed" disabled>Continue to payment →</button>
+        <button id="s5next" class="bk-btn" style="margin-top:18px" disabled>Continuer →</button>
       </div>
 
-      <!-- STEP 6: Payment -->
-      <div id="step6" class="step-panel p-8 hidden">
-        <button class="text-sm text-gray-400 hover:text-gray-600 mb-4 flex items-center gap-1 transition" onclick="goStep(5)">← Back</button>
-        <h3 class="text-xl font-bold text-gray-900 mb-1">Secure payment</h3>
-        <p class="text-sm text-gray-500 mb-5">Powered by Stripe · 256-bit SSL</p>
-        <div id="freeNotice" class="hidden mb-5 p-4 bg-green-50 border border-green-200 rounded-xl text-sm text-green-700 font-medium flex items-center gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-          This service is free — no payment required.
+      <!-- ────────── ÉTAPE 6 : Confirmation / Paiement ────────── -->
+      <div id="step6" class="bk-panel" style="padding:24px 28px;display:none">
+        <button class="bk-back" onclick="goStep(5)">← Retour</button>
+        <h2 style="font-size:20px;font-weight:800;color:#111827;margin:0 0 4px">Confirmer le rendez-vous</h2>
+        <p style="font-size:13px;color:#6b7280;margin:0 0 16px">Vérifiez les détails avant de valider</p>
+
+        <div id="freeNotice" style="display:none;padding:14px;background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:12px;font-size:14px;color:#16a34a;font-weight:600;margin-bottom:16px;align-items:center;gap:8px">
+          <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          Ce service est gratuit — aucun paiement requis.
         </div>
-        <div id="paymentForm">
-          <div class="p-4 bg-gray-50 rounded-xl mb-4 text-sm">
-            <div class="flex items-center justify-between mb-1">
-              <span class="text-gray-500" id="payServiceLabel">Consultation · 1 hr</span>
-              <span class="font-semibold text-gray-900" id="payAmount">$150.00</span>
+
+        <div id="paymentBlock">
+          <div style="padding:14px;background:#f9fafb;border-radius:12px;font-size:13px;margin-bottom:16px">
+            <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+              <span style="color:#6b7280" id="payServiceLabel">–</span>
+              <span style="font-weight:700" id="payAmount">–</span>
             </div>
-            <div class="flex items-center justify-between text-xs text-gray-400">
-              <span>Deposit (50%)</span>
-              <span id="payDeposit">$75.00</span>
+            <div style="display:flex;justify-content:space-between;font-size:12px;color:#9ca3af;margin-bottom:6px">
+              <span>Acompte (50%)</span>
+              <span id="payDeposit">–</span>
             </div>
-            <div class="border-t border-gray-200 mt-2 pt-2 flex items-center justify-between font-semibold text-gray-900">
-              <span>Due today</span>
-              <span id="payDue">$75.00</span>
+            <div style="border-top:1px solid #e5e7eb;padding-top:8px;display:flex;justify-content:space-between;font-weight:700;color:#111827">
+              <span>À régler aujourd'hui</span>
+              <span id="payDue">–</span>
             </div>
           </div>
-          <div class="space-y-3">
+          <div style="display:flex;flex-direction:column;gap:10px">
             <div>
-              <label class="block text-xs font-semibold text-gray-700 mb-1">Card number</label>
-              <div class="stripe-input flex items-center gap-2 cursor-text">
-                <svg class="w-6 h-4 shrink-0" viewBox="0 0 38 24" fill="none"><rect width="38" height="24" rx="3" fill="#1A1F71"/><path d="M14 7h10l-2 10H12L14 7z" fill="#F7B600"/></svg>
-                <span class="text-gray-400 text-sm flex-1">4242 4242 4242 4242</span>
-                <svg width="16" height="16" class="text-green-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+              <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:5px">Numéro de carte</label>
+              <div class="bk-input" style="display:flex;align-items:center;gap:8px;cursor:text">
+                <svg width="32" height="20" viewBox="0 0 38 24" fill="none"><rect width="38" height="24" rx="3" fill="#1A1F71"/><path d="M14 7h10l-2 10H12L14 7z" fill="#F7B600"/></svg>
+                <span style="color:#9ca3af;font-size:14px;flex:1">4242 4242 4242 4242</span>
+                <svg width="16" height="16" fill="none" stroke="#16a34a" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
               </div>
             </div>
-            <div class="grid grid-cols-2 gap-3">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
               <div>
-                <label class="block text-xs font-semibold text-gray-700 mb-1">Expiry</label>
-                <input class="stripe-input" placeholder="MM / YY" maxlength="7">
+                <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:5px">Expiration</label>
+                <input class="bk-input" placeholder="MM / AA" maxlength="7">
               </div>
               <div>
-                <label class="block text-xs font-semibold text-gray-700 mb-1">CVC</label>
-                <input class="stripe-input" placeholder="···" maxlength="4">
+                <label style="font-size:12px;font-weight:700;color:#374151;display:block;margin-bottom:5px">CVC</label>
+                <input class="bk-input" placeholder="···" maxlength="4" type="password">
               </div>
             </div>
           </div>
-          <div class="mt-3 flex items-center gap-2 text-xs text-gray-400">
-            <svg width="14" height="14" class=""fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-            Secured by Stripe. We never store your card details.
+          <div style="margin-top:10px;display:flex;align-items:center;gap:6px;font-size:11px;color:#9ca3af">
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            Paiement sécurisé via Stripe · Vos données ne sont jamais stockées.
           </div>
         </div>
-        <button id="payBtn" onclick="confirmBooking()" class="mt-5 w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-xl font-semibold text-sm transition flex items-center justify-center gap-2">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
-          <span id="payBtnLabel">Confirm &amp; Pay $75.00</span>
+
+        <button id="payBtn" onclick="confirmBooking()" class="bk-btn" style="margin-top:18px">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span id="payBtnLabel">Confirmer le rendez-vous</span>
         </button>
       </div>
 
-      <!-- STEP 7: Confirmation -->
-      <div id="step7" class="step-panel p-8 hidden text-center relative overflow-hidden">
-        <div id="confettiContainer" class="absolute inset-0 pointer-events-none overflow-hidden"></div>
-        <div class="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
-          <svg width="32" height="32" class="text-green-500" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      <!-- ────────── CONFIRMATION ────────── -->
+      <div id="step7" style="padding:32px 28px;display:none;text-align:center;position:relative;overflow:hidden">
+        <div id="confettiContainer" style="position:absolute;inset:0;pointer-events:none;overflow:hidden"></div>
+        <div style="width:64px;height:64px;background:#f0fdf4;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+          <svg width="32" height="32" fill="none" stroke="#16a34a" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         </div>
-        <h3 class="text-2xl font-bold text-gray-900 mb-1">You're booked! 🎉</h3>
-        <p class="text-sm text-gray-500 mb-5">Check your email for confirmation &amp; calendar invite</p>
-        <div class="bg-gray-50 rounded-2xl p-5 text-left mb-5 space-y-3">
-          <div class="flex items-center justify-between text-sm">
-            <span class="text-gray-500">Reference</span>
-            <span id="confRef" class="font-mono font-semibold text-gray-900 bg-gray-200 px-2 py-0.5 rounded text-xs">BK-2026-XXXX</span>
+        <h2 style="font-size:22px;font-weight:900;color:#111827;margin:0 0 6px">Rendez-vous confirmé ! 🎉</h2>
+        <p style="font-size:13px;color:#6b7280;margin:0 0 20px">Vérifiez votre email pour la confirmation et l'invitation calendrier</p>
+        <div style="background:#f9fafb;border-radius:16px;padding:18px;text-align:left;margin-bottom:18px">
+          <div style="display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px solid #f3f4f6">
+            <span style="color:#6b7280">Référence</span>
+            <span id="confRef" style="font-family:monospace;font-weight:700;background:#e5e7eb;padding:2px 8px;border-radius:4px;font-size:12px">–</span>
           </div>
-          <div class="flex items-center justify-between text-sm">
-            <span class="text-gray-500">Service</span>
-            <span id="confService" class="font-medium text-gray-900">–</span>
+          <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid #f3f4f6">
+            <span style="color:#6b7280">Service</span>
+            <span id="confService" style="font-weight:600;color:#111827">–</span>
           </div>
-          <div class="flex items-center justify-between text-sm">
-            <span class="text-gray-500">With</span>
-            <span id="confMember" class="font-medium text-gray-900">–</span>
+          <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid #f3f4f6">
+            <span style="color:#6b7280">Technicien</span>
+            <span id="confMember" style="font-weight:600;color:#111827">–</span>
           </div>
-          <div class="flex items-center justify-between text-sm">
-            <span class="text-gray-500">Date &amp; Time</span>
-            <span id="confDateTime" class="font-medium text-gray-900">–</span>
+          <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0;border-bottom:1px solid #f3f4f6">
+            <span style="color:#6b7280">Date & heure</span>
+            <span id="confDateTime" style="font-weight:600;color:#111827">–</span>
           </div>
-          <div class="flex items-center justify-between text-sm">
-            <span class="text-gray-500">Location</span>
-            <span class="font-medium text-blue-600 flex items-center gap-1">
-              <svg width="14" height="14" class=""fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.36a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
-              Zoom link sent by email
-            </span>
+          <div style="display:flex;justify-content:space-between;font-size:13px;padding:8px 0">
+            <span style="color:#6b7280">Lieu</span>
+            <span style="font-weight:600;color:#1e3a8a" id="confLocation">–</span>
           </div>
         </div>
-        <div class="space-y-2">
-          <button class="w-full border-2 border-blue-600 text-blue-600 hover:bg-blue-50 py-2.5 rounded-xl font-semibold text-sm transition flex items-center justify-center gap-2">
-            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>
-            Add to Google Calendar
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button style="width:100%;border:2px solid #1e3a8a;color:#1e3a8a;background:#fff;border-radius:12px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            Ajouter à Google Agenda
           </button>
-          <button class="w-full border border-gray-200 text-gray-600 hover:bg-gray-50 py-2.5 rounded-xl font-semibold text-sm transition flex items-center justify-center gap-2">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-            Download .ics file
+          <button style="width:100%;border:1.5px solid #e5e7eb;color:#374151;background:#fff;border-radius:12px;padding:11px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit">
+            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
+            Télécharger le fichier .ics
           </button>
         </div>
-        <p class="text-xs text-gray-400 mt-4">Reminder will be sent 24h and 1h before your appointment.</p>
-        <button onclick="resetDemo()" class="mt-4 text-xs text-blue-500 hover:text-blue-700 underline transition">← Book another appointment</button>
+        <p style="font-size:11px;color:#9ca3af;margin-top:14px">Un rappel vous sera envoyé 24h et 1h avant le rendez-vous.</p>
+        <button onclick="resetDemo()" style="margin-top:10px;font-size:12px;color:#1e3a8a;background:none;border:none;cursor:pointer;text-decoration:underline;font-family:inherit">← Prendre un autre rendez-vous</button>
+      </div>
+    </div>
+
+    <!-- Note rassurant -->
+    <p style="text-align:center;font-size:12px;color:#9ca3af;margin-top:16px">
+      Vous pouvez aussi nous appeler directement au <a href="tel:002693312722" style="color:#1e3a8a;font-weight:600">+269 331 27 22</a>
+    </p>
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════
+     POURQUOI CHOISIR INFO EXPERTS
+════════════════════════════════════════════════ -->
+<section style="padding:60px 20px;background:#fff">
+  <div style="max-width:960px;margin:0 auto">
+    <div style="text-align:center;margin-bottom:40px">
+      <h2 style="font-size:28px;font-weight:800;color:#111827;margin:0 0 8px">Pourquoi choisir Info Experts ?</h2>
+      <p style="font-size:15px;color:#6b7280;margin:0">Votre partenaire informatique de confiance depuis 2015 à Moroni</p>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px">
+      <div class="feat-card">
+        <div style="width:44px;height:44px;background:#eff6ff;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:20px">⚡</div>
+        <h3 style="font-size:15px;font-weight:700;color:#111827;margin:0 0 6px">Intervention rapide</h3>
+        <p style="font-size:13px;color:#6b7280;margin:0;line-height:1.6">Nos techniciens interviennent sous 24h à Moroni et ses environs.</p>
+      </div>
+      <div class="feat-card">
+        <div style="width:44px;height:44px;background:#f0fdf4;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:20px">✅</div>
+        <h3 style="font-size:15px;font-weight:700;color:#111827;margin:0 0 6px">Garantie satisfaction</h3>
+        <p style="font-size:13px;color:#6b7280;margin:0;line-height:1.6">Si le problème n'est pas résolu, vous ne payez rien. Sans conditions.</p>
+      </div>
+      <div class="feat-card">
+        <div style="width:44px;height:44px;background:#faf5ff;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:20px">🎓</div>
+        <h3 style="font-size:15px;font-weight:700;color:#111827;margin:0 0 6px">Experts certifiés</h3>
+        <p style="font-size:13px;color:#6b7280;margin:0;line-height:1.6">Techniciens formés, certifiés et expérimentés en hardware et software.</p>
+      </div>
+      <div class="feat-card">
+        <div style="width:44px;height:44px;background:#fff7ed;border-radius:12px;display:flex;align-items:center;justify-content:center;margin-bottom:14px;font-size:20px">📋</div>
+        <h3 style="font-size:15px;font-weight:700;color:#111827;margin:0 0 6px">Devis transparent</h3>
+        <p style="font-size:13px;color:#6b7280;margin:0;line-height:1.6">Aucune surprise : devis détaillé avant toute intervention, à votre accord.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- DASHBOARD PREVIEW -->
-<section id="dashboard" class="py-20 bg-white">
-  <div class="max-w-6xl mx-auto px-5">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl font-bold text-gray-900 mb-3">Powerful admin dashboard</h2>
-      <p class="text-gray-500">Everything you need to manage your business</p>
-    </div>
-    <div class="bg-gray-900 rounded-2xl overflow-hidden shadow-2xl border border-gray-800">
-      <!-- Fake browser bar -->
-      <div class="flex items-center gap-2 px-4 py-3 bg-gray-800 border-b border-gray-700">
-        <div class="w-3 h-3 rounded-full bg-red-500"></div>
-        <div class="w-3 h-3 rounded-full bg-yellow-500"></div>
-        <div class="w-3 h-3 rounded-full bg-green-500"></div>
-        <div class="flex-1 mx-4 bg-gray-700 rounded-lg h-6 flex items-center px-3">
-          <span class="text-gray-400 text-xs">app.bookflow.io/dashboard</span>
-        </div>
-      </div>
-      <div class="flex h-[460px]">
-        <!-- Sidebar -->
-        <div class="w-48 bg-gray-800 border-r border-gray-700 p-4 shrink-0">
-          <div class="flex items-center gap-2 mb-6 px-2">
-            <div class="w-6 h-6 bg-blue-500 rounded-md"></div>
-            <span class="text-white text-sm font-semibold">BookFlow</span>
-          </div>
-          <nav class="space-y-1">
-            <div class="flex items-center gap-2.5 px-3 py-2 bg-blue-600/20 border border-blue-600/30 rounded-lg">
-              <div width="16" height="16" class="bg-blue-400 rounded-sm"></div>
-              <span class="text-blue-300 text-xs font-medium">Dashboard</span>
-            </div>
-            <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg">
-              <div width="16" height="16" class="bg-gray-600 rounded-sm"></div>
-              <span class="text-gray-400 text-xs">Calendar</span>
-            </div>
-            <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg">
-              <div width="16" height="16" class="bg-gray-600 rounded-sm"></div>
-              <span class="text-gray-400 text-xs">Appointments</span>
-            </div>
-            <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg">
-              <div width="16" height="16" class="bg-gray-600 rounded-sm"></div>
-              <span class="text-gray-400 text-xs">Clients</span>
-            </div>
-            <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg">
-              <div width="16" height="16" class="bg-gray-600 rounded-sm"></div>
-              <span class="text-gray-400 text-xs">Services</span>
-            </div>
-            <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg">
-              <div width="16" height="16" class="bg-gray-600 rounded-sm"></div>
-              <span class="text-gray-400 text-xs">Analytics</span>
-            </div>
-            <div class="flex items-center gap-2.5 px-3 py-2 rounded-lg">
-              <div width="16" height="16" class="bg-gray-600 rounded-sm"></div>
-              <span class="text-gray-400 text-xs">Payments</span>
-            </div>
-          </nav>
-        </div>
-        <!-- Main content -->
-        <div class="flex-1 p-5 overflow-hidden">
-          <div class="flex items-center justify-between mb-5">
-            <div>
-              <h3 class="text-white font-bold text-base">Good morning, Sarah 👋</h3>
-              <p class="text-gray-400 text-xs">Saturday, March 21 · 3 appointments today</p>
-            </div>
-            <button class="bg-blue-600 text-white text-xs px-3 py-1.5 rounded-lg font-medium">+ New booking</button>
-          </div>
-          <!-- Stats -->
-          <div class="grid grid-cols-4 gap-3 mb-5">
-            <div class="bg-gray-800 rounded-xl p-3 border border-gray-700">
-              <div class="text-gray-400 text-xs mb-1">Today's bookings</div>
-              <div class="text-white text-xl font-bold">3</div>
-              <div class="text-green-400 text-xs mt-1">↑ +1 vs yesterday</div>
-            </div>
-            <div class="bg-gray-800 rounded-xl p-3 border border-gray-700">
-              <div class="text-gray-400 text-xs mb-1">This week revenue</div>
-              <div class="text-white text-xl font-bold">$2,450</div>
-              <div class="text-green-400 text-xs mt-1">↑ +12% vs last week</div>
-            </div>
-            <div class="bg-gray-800 rounded-xl p-3 border border-gray-700">
-              <div class="text-gray-400 text-xs mb-1">No-show rate</div>
-              <div class="text-white text-xl font-bold">3.2%</div>
-              <div class="text-green-400 text-xs mt-1">↓ -1.4% vs last month</div>
-            </div>
-            <div class="bg-gray-800 rounded-xl p-3 border border-gray-700">
-              <div class="text-gray-400 text-xs mb-1">Avg rating</div>
-              <div class="text-white text-xl font-bold">4.9★</div>
-              <div class="text-gray-400 text-xs mt-1">47 reviews this month</div>
-            </div>
-          </div>
-          <!-- Upcoming -->
-          <div class="bg-gray-800 rounded-xl border border-gray-700 overflow-hidden">
-            <div class="px-4 py-2.5 border-b border-gray-700 flex items-center justify-between">
-              <span class="text-white text-xs font-semibold">Upcoming appointments</span>
-              <span class="text-gray-400 text-xs cursor-pointer">View all →</span>
-            </div>
-            <div class="divide-y divide-gray-700/50">
-              <div class="px-4 py-3 flex items-center gap-3">
-                <div width="32" height="32" class="rounded-full bg-gradient-to-br from-purple-400 to-purple-600 flex items-center justify-center text-white text-xs font-bold shrink-0">JR</div>
-                <div class="flex-1 min-w-0">
-                  <div class="text-white text-xs font-medium">James Rodriguez</div>
-                  <div class="text-gray-400 text-xs">Consultation · 1h · Zoom</div>
-                </div>
-                <div class="text-right">
-                  <div class="text-white text-xs font-semibold">10:00 AM</div>
-                  <span class="text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded-full">Confirmed</span>
-                </div>
-              </div>
-              <div class="px-4 py-3 flex items-center gap-3">
-                <div width="32" height="32" class="rounded-full bg-gradient-to-br from-blue-400 to-blue-600 flex items-center justify-center text-white text-xs font-bold shrink-0">ML</div>
-                <div class="flex-1 min-w-0">
-                  <div class="text-white text-xs font-medium">Marie Lambert</div>
-                  <div class="text-gray-400 text-xs">Strategy Session · 2h · Google Meet</div>
-                </div>
-                <div class="text-right">
-                  <div class="text-white text-xs font-semibold">1:00 PM</div>
-                  <span class="text-xs bg-yellow-500/20 text-yellow-400 px-1.5 py-0.5 rounded-full">Pending</span>
-                </div>
-              </div>
-              <div class="px-4 py-3 flex items-center gap-3">
-                <div width="32" height="32" class="rounded-full bg-gradient-to-br from-green-400 to-green-600 flex items-center justify-center text-white text-xs font-bold shrink-0">SK</div>
-                <div class="flex-1 min-w-0">
-                  <div class="text-white text-xs font-medium">Sofia Kim</div>
-                  <div class="text-gray-400 text-xs">VIP Day · 4h · Zoom</div>
-                </div>
-                <div class="text-right">
-                  <div class="text-white text-xs font-semibold">3:00 PM</div>
-                  <span class="text-xs bg-green-500/20 text-green-400 px-1.5 py-0.5 rounded-full">Confirmed</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+</main>
 
-<!-- ANALYTICS -->
-<section class="py-20 bg-gray-50">
-  <div class="max-w-6xl mx-auto px-5">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl font-bold text-gray-900 mb-3">Data-driven decisions</h2>
-      <p class="text-gray-500">Understand your business at a glance</p>
+<!-- ══════════════════════════════════════════════
+     FOOTER — identique à index.html
+════════════════════════════════════════════════ -->
+<footer class="bg-trust-blue-950 border-t border-trust-blue-900 py-6">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <div class="flex flex-col sm:flex-row justify-center items-center mb-4">
+      <a href="tel:002693312722" class="text-white text-base font-semibold hover:text-trust-blue-400 transition py-2 px-6">📞 +269 331 27 22</a>
+      <span class="text-trust-blue-600 hidden sm:inline px-2 text-lg">·</span>
+      <a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" class="text-white text-base font-semibold hover:text-trust-blue-400 transition py-2 px-6">💬 WhatsApp</a>
     </div>
-    <div class="grid md:grid-cols-2 gap-6">
-      <!-- Bar chart mock -->
-      <div class="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-        <div class="flex items-center justify-between mb-5">
-          <div>
-            <h4 class="font-semibold text-gray-900 text-sm">Revenue per service</h4>
-            <p class="text-xs text-gray-400 mt-0.5">Last 30 days</p>
-          </div>
-          <span class="text-xs text-green-600 font-semibold bg-green-100 px-2 py-1 rounded-lg">+18% MoM</span>
-        </div>
-        <div class="flex items-end gap-3 h-32">
-          <div class="flex-1 flex flex-col items-center gap-1">
-            <span class="text-xs text-gray-500">$0</span>
-            <div class="w-full bg-blue-100 rounded-t-lg" style="height:15%"></div>
-            <span class="text-xs text-gray-400">Call</span>
-          </div>
-          <div class="flex-1 flex flex-col items-center gap-1">
-            <span class="text-xs text-gray-500">$4.2k</span>
-            <div class="w-full bg-blue-400 rounded-t-lg" style="height:52%"></div>
-            <span class="text-xs text-gray-400">Consult</span>
-          </div>
-          <div class="flex-1 flex flex-col items-center gap-1">
-            <span class="text-xs text-gray-500">$5.1k</span>
-            <div class="w-full bg-blue-500 rounded-t-lg" style="height:64%"></div>
-            <span class="text-xs text-gray-400">Strategy</span>
-          </div>
-          <div class="flex-1 flex flex-col items-center gap-1">
-            <span class="text-xs text-gray-500">$8k</span>
-            <div class="w-full bg-blue-700 rounded-t-lg" style="height:100%"></div>
-            <span class="text-xs text-gray-400">VIP Day</span>
-          </div>
-        </div>
+    <div class="border-t border-trust-blue-900" style="padding-top:20px">
+      <div style="margin-bottom:8px">
+        <a href="mailto:contact@info-experts.fr" style="display:inline-flex;align-items:center;gap:6px;color:#93c5fd;font-size:0.875rem;font-weight:500;text-decoration:none" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#93c5fd'">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          contact@info-experts.fr
+        </a>
       </div>
-      <!-- Stats grid -->
-      <div class="grid grid-cols-2 gap-4">
-        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-          <div class="text-2xl font-black text-gray-900">73%</div>
-          <div class="text-sm font-medium text-gray-600 mt-0.5">Booking conversion</div>
-          <div class="mt-3 h-2 bg-gray-100 rounded-full overflow-hidden">
-            <div class="h-full bg-blue-500 rounded-full" style="width:73%"></div>
-          </div>
-          <div class="text-xs text-green-600 mt-2 font-medium">↑ +5% vs last month</div>
-        </div>
-        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-          <div class="text-2xl font-black text-gray-900">2:15 PM</div>
-          <div class="text-sm font-medium text-gray-600 mt-0.5">Peak booking hour</div>
-          <div class="text-xs text-gray-400 mt-3">Most bookings happen between 2–4 PM</div>
-          <div class="text-xs text-blue-600 mt-2 font-medium">Add afternoon slots →</div>
-        </div>
-        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-          <div class="text-2xl font-black text-gray-900">3.2%</div>
-          <div class="text-sm font-medium text-gray-600 mt-0.5">No-show rate</div>
-          <div class="mt-3 h-2 bg-gray-100 rounded-full overflow-hidden">
-            <div class="h-full bg-green-400 rounded-full" style="width:3.2%"></div>
-          </div>
-          <div class="text-xs text-green-600 mt-2 font-medium">↓ -1.4% thanks to SMS reminders</div>
-        </div>
-        <div class="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm">
-          <div class="text-2xl font-black text-gray-900">64%</div>
-          <div class="text-sm font-medium text-gray-600 mt-0.5">Client retention</div>
-          <div class="mt-3 h-2 bg-gray-100 rounded-full overflow-hidden">
-            <div class="h-full bg-purple-500 rounded-full" style="width:64%"></div>
-          </div>
-          <div class="text-xs text-purple-600 mt-2 font-medium">↑ +9% after follow-up emails</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- PRICING -->
-<section id="pricing" class="py-20 bg-white">
-  <div class="max-w-5xl mx-auto px-5">
-    <div class="text-center mb-12">
-      <h2 class="text-3xl font-bold text-gray-900 mb-3">Simple, transparent pricing</h2>
-      <p class="text-gray-500">Start free. Upgrade when you need more.</p>
-    </div>
-    <div class="grid md:grid-cols-3 gap-6">
-      <div class="border border-gray-200 rounded-2xl p-6">
-        <div class="text-sm font-semibold text-gray-500 mb-3">Starter</div>
-        <div class="text-4xl font-black text-gray-900 mb-1">$0<span class="text-base font-normal text-gray-400">/mo</span></div>
-        <p class="text-sm text-gray-500 mb-5">Perfect for freelancers & individuals</p>
-        <button class="w-full border border-gray-200 text-gray-700 py-2.5 rounded-xl text-sm font-semibold hover:bg-gray-50 transition mb-5">Get started free</button>
-        <ul class="space-y-2.5 text-sm text-gray-600">
-          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Up to 50 bookings/mo</li>
-          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>2 service types</li>
-          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Email confirmations</li>
-          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Public booking page</li>
-          <li class="flex items-center gap-2 text-gray-300"><svg width="16" height="16" class="shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>Stripe payments</li>
-          <li class="flex items-center gap-2 text-gray-300"><svg width="16" height="16" class="shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>SMS reminders</li>
-        </ul>
-      </div>
-      <div class="border-2 border-blue-600 rounded-2xl p-6 relative bg-blue-50/30">
-        <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs font-bold px-3 py-1 rounded-full">Most Popular</div>
-        <div class="text-sm font-semibold text-blue-600 mb-3">Pro</div>
-        <div class="text-4xl font-black text-gray-900 mb-1">$29<span class="text-base font-normal text-gray-400">/mo</span></div>
-        <p class="text-sm text-gray-500 mb-5">For growing businesses</p>
-        <button class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-sm font-semibold transition mb-5">Start 14-day trial</button>
-        <ul class="space-y-2.5 text-sm text-gray-600">
-          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Unlimited bookings</li>
-          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Unlimited services</li>
-          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Stripe payments + deposits</li>
-          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>SMS &amp; Email reminders</li>
-          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Google Calendar sync</li>
-          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-500 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Analytics dashboard</li>
-        </ul>
-      </div>
-      <div class="border border-gray-200 rounded-2xl p-6 bg-gray-900 text-white">
-        <div class="text-sm font-semibold text-gray-400 mb-3">Agency</div>
-        <div class="text-4xl font-black mb-1">$79<span class="text-base font-normal text-gray-400">/mo</span></div>
-        <p class="text-sm text-gray-400 mb-5">For teams & agencies</p>
-        <button class="w-full border border-gray-700 hover:bg-gray-800 text-white py-2.5 rounded-xl text-sm font-semibold transition mb-5">Contact sales</button>
-        <ul class="space-y-2.5 text-sm text-gray-400">
-          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Everything in Pro</li>
-          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Up to 10 team members</li>
-          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>White-label branding</li>
-          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Waitlist management</li>
-          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Priority support</li>
-          <li class="flex items-center gap-2"><svg width="16" height="16" class="text-green-400 shrink-0" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>Custom integrations</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- FOOTER -->
-<footer class="bg-gray-900 text-gray-400 py-12">
-  <div class="max-w-6xl mx-auto px-5">
-    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-2.5">
-        <div class="w-7 h-7 rounded-lg bg-blue-600 flex items-center justify-center">
-          <svg width="16" height="16" class="text-white" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-        </div>
-        <span class="text-white font-bold">BookFlow</span>
-      </div>
-      <div class="flex items-center gap-6 text-sm">
-        <a href="#" class="hover:text-white transition">Privacy</a>
-        <a href="#" class="hover:text-white transition">Terms</a>
-        <a href="#" class="hover:text-white transition">Help</a>
-        <a href="#" class="hover:text-white transition">API</a>
-      </div>
-      <div class="text-xs">© 2026 BookFlow · Built with Claude + Vercel</div>
+      <p style="font-size:11px;color:#94a3b8;line-height:1.6;margin-bottom:14px">
+        Enregistrée au RCCM de Grande Comore sous le n° : KM-HAH-01-2023-B13-10201
+      </p>
+      <p style="border-top:1px solid #0f2744;padding-top:12px;font-size:0.875rem;color:#ffffff">
+        © 2026 Info Experts – Informatique Moroni, Comores. Tous droits réservés.
+      </p>
     </div>
   </div>
 </footer>
 
+<!-- WhatsApp flottant -->
+<a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" aria-label="Contactez-nous sur WhatsApp" style="position:fixed;bottom:24px;right:24px;background:#25D366;color:#fff;width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(0,0,0,.2);z-index:50;transition:.3s" onmouseover="this.style.background='#128C7E'" onmouseout="this.style.background='#25D366'">
+  <svg width="28" height="28" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
+</a>
+
 <script>
-// ── State ──────────────────────────────────────────────
-const state = {
-  step: 1,
-  service: null,
-  member: null,
-  date: null,
-  slot: null,
-  tab: 'AM'
-};
+// ── État global ─────────────────────────────────────────
+const state = { step:1, service:null, member:null, date:null, slot:null, tab:'AM' };
 
 const services = [
-  { name:'Quick Call', duration:'15 min', type:'Phone', price:0, emoji:'📞', priceLabel:'Free' },
-  { name:'Consultation', duration:'1 hour', type:'Zoom', price:150, emoji:'💼', priceLabel:'$150' },
-  { name:'Strategy Session', duration:'2 hours', type:'Zoom', price:300, emoji:'🎯', priceLabel:'$300' },
-  { name:'VIP Day', duration:'4 hours', type:'Zoom + Google Meet', price:500, emoji:'🚀', priceLabel:'$500' }
+  { name:'Appel conseil',               duration:'15 min', type:'Téléphone',              price:0,     emoji:'📞', label:'Gratuit',    location:'Par téléphone' },
+  { name:'Diagnostic à distance',       duration:'1 heure', type:'Téléphone / WhatsApp',  price:5000,  emoji:'🔧', label:'5 000 FC',   location:'Par téléphone' },
+  { name:'Consultation informatique',   duration:'1 heure', type:'En agence à Moroni',    price:10000, emoji:'💻', label:'10 000 FC',  location:'Agence Info Experts, Moroni' },
+  { name:'Visite technique sur site',   duration:'2 heures', type:'Chez vous à Moroni',   price:20000, emoji:'🚗', label:'20 000 FC',  location:'À votre adresse (Moroni)' }
 ];
+const members = ['Amine','Fahar','Said'];
 
-const members = ['Sarah','Marcus','Leila'];
-
-// Slots per tab — some randomly "taken"
 const allSlots = {
-  AM: ['9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM'],
-  PM: ['12:00 PM','12:30 PM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM']
+  AM: ['8h00','8h30','9h00','9h30','10h00','10h30','11h00','11h30'],
+  PM: ['13h00','13h30','14h00','14h30','15h00','15h30','16h00','16h30','17h00']
 };
-const takenSlots = { AM: ['9:30 AM','10:30 AM'], PM: ['12:30 PM','2:00 PM','3:30 PM'] };
+const takenSlots = { AM:['8h30','10h00'], PM:['13h30','15h00','16h30'] };
 
-// ── Calendar ───────────────────────────────────────────
+// ── Calendrier ──────────────────────────────────────────
 let calYear, calMonth;
 
 function initCal() {
-  const now = new Date();
-  calYear = now.getFullYear();
-  calMonth = now.getMonth();
+  const now = new Date(); calYear = now.getFullYear(); calMonth = now.getMonth();
+  try { document.getElementById('tzLabel').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone; }
+  catch(e) { document.getElementById('tzLabel').textContent = 'Heure locale'; }
   renderCal();
-
-  // Timezone
-  try {
-    document.getElementById('tzLabel').textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
-  } catch(e) {
-    document.getElementById('tzLabel').textContent = 'Local time';
-  }
 }
 
 function renderCal() {
-  const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-  document.getElementById('calMonthLabel').textContent = monthNames[calMonth] + ' ' + calYear;
-
+  const mois = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre'];
+  document.getElementById('calMonthLabel').textContent = mois[calMonth] + ' ' + calYear;
   const grid = document.getElementById('calGrid');
   grid.innerHTML = '';
-
   const today = new Date(); today.setHours(0,0,0,0);
   const firstDay = new Date(calYear, calMonth, 1);
-  let startDow = firstDay.getDay(); // 0=Sun
-  startDow = startDow === 0 ? 6 : startDow - 1; // Mon=0
-  const daysInMonth = new Date(calYear, calMonth + 1, 0).getDate();
-
-  // Busy dates (random but deterministic per month)
+  let startDow = firstDay.getDay(); startDow = startDow === 0 ? 6 : startDow - 1;
+  const daysInMonth = new Date(calYear, calMonth+1, 0).getDate();
   const busyDays = new Set();
-  for (let i = 1; i <= daysInMonth; i++) {
-    if ((calMonth * 31 + i * 7 + calYear) % 5 === 0) busyDays.add(i);
-  }
+  for (let i=1; i<=daysInMonth; i++) if ((calMonth*31+i*7+calYear)%6===0) busyDays.add(i);
 
-  // Empty cells before
-  for (let i = 0; i < startDow; i++) {
+  for (let i=0; i<startDow; i++) {
     const cell = document.createElement('div');
-    cell.className = 'flex items-center justify-center h-9';
+    cell.style.height = '36px';
     grid.appendChild(cell);
   }
-
-  for (let d = 1; d <= daysInMonth; d++) {
+  for (let d=1; d<=daysInMonth; d++) {
     const date = new Date(calYear, calMonth, d);
-    const dow = date.getDay(); // 0=Sun, 6=Sat
+    const dow = date.getDay();
     const isPast = date < today;
-    const isWeekend = dow === 0 || dow === 6;
+    const isSun = dow === 0;
     const isToday = date.getTime() === today.getTime();
     const isBusy = busyDays.has(d);
-    const isSelected = state.date &&
-      state.date.getDate() === d &&
-      state.date.getMonth() === calMonth &&
-      state.date.getFullYear() === calYear;
+    const isSelected = state.date && state.date.getDate()===d && state.date.getMonth()===calMonth && state.date.getFullYear()===calYear;
 
+    const wrap = document.createElement('div');
+    wrap.style.cssText = 'display:flex;align-items:center;justify-content:center';
     const cell = document.createElement('div');
-    cell.className = 'cal-day mx-auto';
+    cell.className = 'cal-day';
     cell.textContent = d;
 
     if (isSelected) cell.classList.add('selected');
     else if (isToday) cell.classList.add('today');
-    if (isPast || isWeekend) cell.classList.add('past');
-    else {
-      cell.classList.add('avail');
-      if (isBusy && !isSelected) cell.classList.add('busy');
-      cell.addEventListener('click', () => selectDate(new Date(calYear, calMonth, d)));
-    }
-
-    const wrap = document.createElement('div');
-    wrap.className = 'flex items-center justify-center';
-    wrap.appendChild(cell);
-    grid.appendChild(wrap);
+    if (isPast || isSun) cell.classList.add('past');
+    else { cell.classList.add('avail'); if (isBusy && !isSelected) cell.classList.add('busy'); cell.addEventListener('click', ()=>selectDate(new Date(calYear,calMonth,d))); }
+    wrap.appendChild(cell); grid.appendChild(wrap);
   }
 }
 
 function selectDate(date) {
-  state.date = date;
-  state.slot = null;
+  state.date = date; state.slot = null;
   document.getElementById('s3next').disabled = false;
   renderCal();
 }
 
-document.getElementById('prevMonth').addEventListener('click', () => {
-  calMonth--; if (calMonth < 0) { calMonth = 11; calYear--; }
-  renderCal();
-});
-document.getElementById('nextMonth').addEventListener('click', () => {
-  calMonth++; if (calMonth > 11) { calMonth = 0; calYear++; }
-  renderCal();
-});
+document.getElementById('prevMonth').addEventListener('click', ()=>{ calMonth--; if(calMonth<0){calMonth=11;calYear--;} renderCal(); });
+document.getElementById('nextMonth').addEventListener('click', ()=>{ calMonth++; if(calMonth>11){calMonth=0;calYear++;} renderCal(); });
 
-// ── Step navigation ────────────────────────────────────
+// ── Navigation ──────────────────────────────────────────
 function goStep(n) {
-  document.getElementById('step' + state.step).classList.add('hidden');
+  const cur = document.getElementById('step'+state.step);
+  if (cur) { cur.style.display='none'; cur.classList.remove('bk-panel'); }
   state.step = n;
-  const panel = document.getElementById('step' + n);
-  panel.classList.remove('hidden');
-  panel.classList.remove('step-panel');
-  void panel.offsetWidth; // reflow
-  panel.classList.add('step-panel');
+  const next = document.getElementById('step'+n);
+  if (!next) return;
+  next.style.display = 'block';
+  next.classList.remove('bk-panel');
+  void next.offsetWidth;
+  next.classList.add('bk-panel');
 
-  const pct = (n / 6) * 100;
-  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressBar').style.width = (n/6*100)+'%';
 
-  const labels = [
-    '','Step 1 of 6 — Choose service','Step 2 of 6 — Choose advisor',
-    'Step 3 of 6 — Pick a date','Step 4 of 6 — Pick a time',
-    'Step 5 of 6 — Your details','Step 6 of 6 — Payment'
-  ];
-  document.getElementById('stepLabel').textContent = labels[n] || 'Booking confirmed!';
+  const labels = ['','Étape 1 sur 6 — Choisir un service','Étape 2 sur 6 — Choisir un technicien','Étape 3 sur 6 — Choisir une date','Étape 4 sur 6 — Choisir un créneau','Étape 5 sur 6 — Vos coordonnées','Étape 6 sur 6 — Confirmation'];
+  document.getElementById('stepLabel').textContent = labels[n] || 'Rendez-vous confirmé !';
 
   const dots = document.getElementById('stepDots').children;
-  for (let i = 0; i < dots.length; i++) {
-    dots[i].className = 'w-2 h-2 rounded-full ' + (i < n ? 'bg-blue-500' : 'bg-gray-200');
-  }
+  for (let i=0;i<dots.length;i++) { dots[i].style.background = i < n ? '#1e3a8a' : '#e5e7eb'; }
 
-  if (n === 4) renderSlots();
-  if (n === 5) renderSummary();
-  if (n === 6) renderPayment();
+  if (n===4) renderSlots();
+  if (n===5) renderSummary();
+  if (n===6) renderPayment();
 }
 
-// ── Service selection ──────────────────────────────────
-document.getElementById('serviceList').addEventListener('click', e => {
+// ── Service ─────────────────────────────────────────────
+document.getElementById('serviceList').addEventListener('click', e=>{
   const card = e.target.closest('[data-service]');
   if (!card) return;
-  document.querySelectorAll('.service-card').forEach(c => c.classList.remove('picked'));
+  document.querySelectorAll('.svc-card').forEach(c=>c.classList.remove('picked'));
   card.classList.add('picked');
   state.service = parseInt(card.dataset.service);
   document.getElementById('s1next').disabled = false;
 });
-document.getElementById('s1next').addEventListener('click', () => goStep(2));
+document.getElementById('s1next').addEventListener('click', ()=>goStep(2));
 
-// ── Member selection ───────────────────────────────────
-document.getElementById('memberList').addEventListener('click', e => {
+// ── Technicien ──────────────────────────────────────────
+document.getElementById('memberList').addEventListener('click', e=>{
   const card = e.target.closest('[data-member]');
   if (!card) return;
-  document.querySelectorAll('.member-card').forEach(c => c.classList.remove('picked'));
+  document.querySelectorAll('.mbr-card').forEach(c=>c.classList.remove('picked'));
   card.classList.add('picked');
   state.member = parseInt(card.dataset.member);
   document.getElementById('s2next').disabled = false;
 });
-document.getElementById('s2next').addEventListener('click', () => { initCal(); goStep(3); });
+document.getElementById('s2next').addEventListener('click', ()=>{ initCal(); goStep(3); });
 
-// ── Date ───────────────────────────────────────────────
-document.getElementById('s3next').addEventListener('click', () => goStep(4));
+// ── Date ────────────────────────────────────────────────
+document.getElementById('s3next').addEventListener('click', ()=>goStep(4));
 
-// ── Slots ──────────────────────────────────────────────
+// ── Créneaux ────────────────────────────────────────────
 function switchTab(tab) {
-  state.tab = tab;
-  state.slot = null;
+  state.tab = tab; state.slot = null;
   document.getElementById('s4next').disabled = true;
-  document.getElementById('tabAM').className = 'tab-btn px-4 py-1.5 rounded-lg text-sm font-medium ' +
-    (tab === 'AM' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200 transition');
-  document.getElementById('tabPM').className = 'tab-btn px-4 py-1.5 rounded-lg text-sm font-medium ' +
-    (tab === 'PM' ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-600 hover:bg-gray-200 transition');
+  const active = 'padding:6px 16px;border-radius:8px;font-size:13px;font-weight:600;border:none;cursor:pointer';
+  document.getElementById('tabAM').style.cssText = active + (tab==='AM' ? ';background:#1e3a8a;color:#fff' : ';background:#f3f4f6;color:#6b7280');
+  document.getElementById('tabPM').style.cssText = active + (tab==='PM' ? ';background:#1e3a8a;color:#fff' : ';background:#f3f4f6;color:#6b7280');
   renderSlots();
 }
 
 function renderSlots() {
+  if (!state.date) return;
+  const jours = ['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'];
+  const mois = ['jan.','fév.','mar.','avr.','mai','juin','juil.','août','sep.','oct.','nov.','déc.'];
   const d = state.date;
-  if (!d) return;
-  const opts = { weekday:'long', month:'long', day:'numeric' };
-  document.getElementById('slotDateLabel').textContent = d.toLocaleDateString('en-US', opts);
-
+  document.getElementById('slotDateLabel').textContent = jours[d.getDay()] + ' ' + d.getDate() + ' ' + mois[d.getMonth()];
   const grid = document.getElementById('slotsGrid');
   grid.innerHTML = '';
-  const slots = allSlots[state.tab];
-  const taken = takenSlots[state.tab];
-
-  slots.forEach(time => {
-    const isTaken = taken.includes(time);
+  allSlots[state.tab].forEach(time=>{
+    const isTaken = takenSlots[state.tab].includes(time);
     const isPicked = state.slot === time;
     const btn = document.createElement('button');
     btn.textContent = time;
-    btn.className = 'slot border rounded-xl py-2.5 text-xs font-semibold ' +
-      (isTaken ? 'taken border-gray-200 text-gray-300' :
-       isPicked ? 'picked border-blue-600 bg-blue-600 text-white' :
-       'border-gray-200 text-gray-700');
-    if (!isTaken) {
-      btn.addEventListener('click', () => {
-        state.slot = time;
-        document.getElementById('s4next').disabled = false;
-        renderSlots();
-      });
-    }
+    btn.className = 'slot' + (isTaken ? ' taken' : isPicked ? ' picked' : '');
+    btn.style.fontFamily = 'inherit';
+    if (!isTaken) btn.addEventListener('click', ()=>{ state.slot=time; document.getElementById('s4next').disabled=false; renderSlots(); });
     grid.appendChild(btn);
   });
 }
+document.getElementById('s4next').addEventListener('click', ()=>goStep(5));
 
-document.getElementById('s4next').addEventListener('click', () => goStep(5));
-
-// ── Summary & validation ───────────────────────────────
+// ── Résumé ──────────────────────────────────────────────
 function renderSummary() {
   const svc = services[state.service];
   const d = state.date;
-  const opts = { weekday:'short', month:'short', day:'numeric' };
-
+  const jours = ['dim','lun','mar','mer','jeu','ven','sam'];
+  const mois = ['jan','fév','mar','avr','mai','juin','juil','août','sep','oct','nov','déc'];
   document.getElementById('summaryEmoji').textContent = svc.emoji;
   document.getElementById('summaryService').textContent = svc.name + ' · ' + svc.duration;
-  document.getElementById('summaryDateTime').textContent =
-    d.toLocaleDateString('en-US', opts) + ' at ' + state.slot + ' · ' + svc.type;
-  document.getElementById('summaryPrice').textContent = svc.priceLabel;
-
+  document.getElementById('summaryDateTime').textContent = jours[d.getDay()]+' '+d.getDate()+' '+mois[d.getMonth()]+' à '+state.slot+' · '+svc.type;
+  document.getElementById('summaryPrice').textContent = svc.label;
   validateStep5();
 }
 
 function validateStep5() {
-  const ok = document.getElementById('fname').value.trim() &&
-             document.getElementById('email').value.includes('@') &&
-             document.getElementById('tos').checked;
+  const ok = document.getElementById('fname').value.trim() && document.getElementById('email').value.includes('@') && document.getElementById('tos').checked;
   document.getElementById('s5next').disabled = !ok;
 }
-
-['fname','lname','email','phone','notes'].forEach(id => {
-  document.getElementById(id).addEventListener('input', validateStep5);
-});
+['fname','lname','email','phone','notes'].forEach(id=>document.getElementById(id).addEventListener('input', validateStep5));
 document.getElementById('tos').addEventListener('change', validateStep5);
+document.getElementById('s5next').addEventListener('click', ()=>goStep(6));
 
-document.getElementById('s5next').addEventListener('click', () => goStep(6));
-
-// ── Payment ────────────────────────────────────────────
+// ── Paiement ────────────────────────────────────────────
 function renderPayment() {
   const svc = services[state.service];
+  const freeNotice = document.getElementById('freeNotice');
+  const payBlock = document.getElementById('paymentBlock');
+  const payBtn = document.getElementById('payBtnLabel');
   if (svc.price === 0) {
-    document.getElementById('freeNotice').classList.remove('hidden');
-    document.getElementById('paymentForm').classList.add('hidden');
-    document.getElementById('payBtn').innerHTML = `
-      <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-      Confirm booking — Free`;
+    freeNotice.style.display = 'flex';
+    payBlock.style.display = 'none';
+    payBtn.textContent = 'Confirmer le rendez-vous — Gratuit';
   } else {
-    document.getElementById('freeNotice').classList.add('hidden');
-    document.getElementById('paymentForm').classList.remove('hidden');
-    const deposit = svc.price / 2;
+    freeNotice.style.display = 'none';
+    payBlock.style.display = 'block';
+    const dep = Math.round(svc.price / 2);
     document.getElementById('payServiceLabel').textContent = svc.name + ' · ' + svc.duration;
-    document.getElementById('payAmount').textContent = '$' + svc.price.toFixed(2);
-    document.getElementById('payDeposit').textContent = '$' + deposit.toFixed(2);
-    document.getElementById('payDue').textContent = '$' + deposit.toFixed(2);
-    document.getElementById('payBtnLabel').textContent = 'Confirm & Pay $' + deposit.toFixed(2);
+    document.getElementById('payAmount').textContent = svc.price.toLocaleString('fr-FR') + ' FC';
+    document.getElementById('payDeposit').textContent = dep.toLocaleString('fr-FR') + ' FC';
+    document.getElementById('payDue').textContent = dep.toLocaleString('fr-FR') + ' FC';
+    payBtn.textContent = 'Payer l\'acompte — ' + dep.toLocaleString('fr-FR') + ' FC';
   }
 }
 
-// ── Confirm ────────────────────────────────────────────
+// ── Confirmation ────────────────────────────────────────
 function confirmBooking() {
   const btn = document.getElementById('payBtn');
-  btn.innerHTML = '<svg width="16" height="16" class="animate-spin" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Processing...';
+  btn.innerHTML = '<svg width="16" height="16" class="animate-spin" fill="none" viewBox="0 0 24 24"><circle opacity=".25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"/><path opacity=".75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"/></svg> Traitement en cours…';
   btn.disabled = true;
 
-  setTimeout(() => {
+  setTimeout(()=>{
     const svc = services[state.service];
     const d = state.date;
-    const opts = { weekday:'short', month:'short', day:'numeric' };
-    const ref = 'BK-2026-' + Math.random().toString(36).substr(2,6).toUpperCase();
+    const jours = ['dim','lun','mar','mer','jeu','ven','sam'];
+    const mois = ['jan','fév','mar','avr','mai','juin','juil','août','sep','oct','nov','déc'];
+    const ref = 'IE-' + new Date().getFullYear() + '-' + Math.random().toString(36).substr(2,6).toUpperCase();
 
     document.getElementById('confRef').textContent = ref;
     document.getElementById('confService').textContent = svc.name + ' · ' + svc.duration;
     document.getElementById('confMember').textContent = members[state.member];
-    document.getElementById('confDateTime').textContent = d.toLocaleDateString('en-US', opts) + ' at ' + state.slot;
+    document.getElementById('confDateTime').textContent = jours[d.getDay()]+' '+d.getDate()+' '+mois[d.getMonth()]+' à '+state.slot;
+    document.getElementById('confLocation').textContent = svc.location;
 
-    document.getElementById('step6').classList.add('hidden');
+    document.getElementById('step6').style.display = 'none';
     state.step = 7;
     const panel = document.getElementById('step7');
-    panel.classList.remove('hidden');
-    panel.classList.add('step-panel');
-
+    panel.style.display = 'block';
+    panel.classList.add('bk-panel');
     document.getElementById('progressBar').style.width = '100%';
-    document.getElementById('progressBar').style.background = '#22c55e';
-    document.getElementById('stepLabel').textContent = 'Booking confirmed!';
-    for (let i = 0; i < 6; i++) {
-      document.getElementById('stepDots').children[i].className = 'w-2 h-2 rounded-full bg-green-500';
-    }
-
+    document.getElementById('progressBar').style.background = '#16a34a';
+    document.getElementById('stepLabel').textContent = 'Rendez-vous confirmé !';
+    const dots = document.getElementById('stepDots').children;
+    for (let i=0;i<dots.length;i++) dots[i].style.background = '#16a34a';
     spawnConfetti();
   }, 1800);
 }
 
 function spawnConfetti() {
-  const colors = ['#3b82f6','#22c55e','#f59e0b','#ec4899','#8b5cf6','#06b6d4'];
-  const container = document.getElementById('confettiContainer');
-  for (let i = 0; i < 18; i++) {
-    setTimeout(() => {
-      const dot = document.createElement('div');
-      dot.className = 'confetti';
-      dot.style.cssText = `
-        left:${Math.random()*100}%;
-        bottom:10%;
-        width:${6+Math.random()*6}px;
-        height:${6+Math.random()*6}px;
-        background:${colors[Math.floor(Math.random()*colors.length)]};
-        animation-delay:${Math.random()*0.4}s;
-        animation-duration:${0.7+Math.random()*0.5}s;
-      `;
-      container.appendChild(dot);
-      setTimeout(() => dot.remove(), 1400);
-    }, i * 60);
-  }
+  const colors = ['#1e3a8a','#3b82f6','#16a34a','#f59e0b','#8b5cf6','#06b6d4'];
+  const c = document.getElementById('confettiContainer');
+  for (let i=0;i<20;i++) setTimeout(()=>{
+    const dot = document.createElement('div');
+    dot.className = 'confetti-dot';
+    dot.style.cssText = `left:${Math.random()*100}%;bottom:10%;width:${6+Math.random()*7}px;height:${6+Math.random()*7}px;background:${colors[Math.floor(Math.random()*colors.length)]};animation-delay:${Math.random()*0.4}s;animation-duration:${0.8+Math.random()*0.5}s`;
+    c.appendChild(dot);
+    setTimeout(()=>dot.remove(), 1500);
+  }, i*55);
 }
 
 function resetDemo() {
-  state.step = 1; state.service = null; state.member = null;
-  state.date = null; state.slot = null; state.tab = 'AM';
-  document.querySelectorAll('.service-card').forEach(c => c.classList.remove('picked'));
-  document.querySelectorAll('.member-card').forEach(c => c.classList.remove('picked'));
-  document.getElementById('fname').value = '';
-  document.getElementById('lname').value = '';
-  document.getElementById('email').value = '';
-  document.getElementById('phone').value = '';
-  document.getElementById('notes').value = '';
-  document.getElementById('tos').checked = false;
-  document.getElementById('s1next').disabled = true;
-  document.getElementById('s2next').disabled = true;
-  document.getElementById('s3next').disabled = true;
-  document.getElementById('s4next').disabled = true;
-  document.getElementById('s5next').disabled = true;
-  document.getElementById('progressBar').style.width = '16.6%';
-  document.getElementById('progressBar').style.background = '';
-
-  document.getElementById('step7').classList.add('hidden');
-  const panel = document.getElementById('step1');
-  panel.classList.remove('hidden');
-  panel.classList.add('step-panel');
-
-  document.getElementById('progressBar').style.width = '16.6%';
-  document.getElementById('stepLabel').textContent = 'Step 1 of 6 — Choose service';
-  const dots = document.getElementById('stepDots').children;
-  dots[0].className = 'w-2 h-2 rounded-full bg-blue-500';
-  for (let i = 1; i < dots.length; i++) dots[i].className = 'w-2 h-2 rounded-full bg-gray-200';
+  state.step=1; state.service=null; state.member=null; state.date=null; state.slot=null; state.tab='AM';
+  document.querySelectorAll('.svc-card,.mbr-card').forEach(c=>c.classList.remove('picked'));
+  ['fname','lname','email','phone','notes'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('tos').checked=false;
+  ['s1next','s2next','s3next','s4next','s5next'].forEach(id=>document.getElementById(id).disabled=true);
+  document.getElementById('progressBar').style.width='16.6%';
+  document.getElementById('progressBar').style.background='#1e3a8a';
+  document.getElementById('step7').style.display='none';
+  goStep(1);
 }
 
-// ── Smooth scroll ──────────────────────────────────────
-document.querySelectorAll('a[href^="#"]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const el = document.querySelector(a.getAttribute('href'));
-    if (el) el.scrollIntoView({ behavior:'smooth', block:'start' });
-  });
+// ── Menu mobile ─────────────────────────────────────────
+document.getElementById('btn-menu-mobile').addEventListener('click', ()=>{
+  document.getElementById('menu-mobile').classList.toggle('hidden');
 });
 </script>
 </body>
