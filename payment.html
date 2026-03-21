@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Paiement Mobile | Info Experts – Informatique Moroni, Comores</title>
+  <meta name="description" content="Réglez votre prestation Info Experts par mobile money : Huri, MVola ou Telma. Simple, rapide et sécurisé.">
+  <meta name="robots" content="noindex, follow">
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="shortcut icon" href="/favicon.ico">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="theme-color" content="#1e1b4b">
+
+  <link rel="stylesheet" href="style.css">
+
+  <style>
+    /* ── Config opérateurs (modifier ici si les numéros changent) ── */
+    :root {
+      --huri-color:  #e84393;
+      --mvola-color: #e03131;
+      --telma-color: #1971c2;
+    }
+
+    body { background: #f8fafc; color: #1f2937; font-family: ui-sans-serif, system-ui, -apple-system, sans-serif; margin: 0; }
+
+    /* ── Carte principale ── */
+    .pay-card { background: #fff; border-radius: 20px; box-shadow: 0 4px 24px rgba(0,0,0,.08); border: 1px solid #f1f5f9; overflow: hidden; max-width: 520px; margin: 0 auto; }
+
+    /* ── Sélecteur opérateur ── */
+    .op-btn { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 14px 10px; border: 2px solid #e5e7eb; border-radius: 14px; cursor: pointer; transition: .15s; background: #fff; font-family: inherit; flex: 1; }
+    .op-btn:hover { border-color: #93c5fd; background: #f0f9ff; }
+    .op-btn.selected { border-color: var(--active-color, #1e3a8a); background: #eff6ff; }
+    .op-btn .op-icon { font-size: 24px; }
+    .op-btn .op-name { font-size: 12px; font-weight: 700; color: #374151; }
+
+    /* ── Instructions de paiement ── */
+    .pay-instruction { background: #f0fdf4; border: 1.5px solid #bbf7d0; border-radius: 14px; padding: 18px; margin: 0; }
+    .pay-instruction .pay-number { font-size: 26px; font-weight: 900; color: #15803d; letter-spacing: .03em; }
+    .pay-instruction .pay-amount { font-size: 18px; font-weight: 800; color: #1e3a8a; }
+
+    /* ── Champs formulaire ── */
+    .pay-input { border: 1.5px solid #e2e8f0; border-radius: 10px; padding: 11px 14px; width: 100%; font-size: 14px; outline: none; font-family: inherit; transition: .15s; box-sizing: border-box; }
+    .pay-input:focus { border-color: #1e3a8a; box-shadow: 0 0 0 3px rgba(30,58,138,.1); }
+    .pay-label { font-size: 12px; font-weight: 700; color: #374151; display: block; margin-bottom: 5px; }
+
+    /* ── Bouton principal ── */
+    .pay-btn { width: 100%; background: #1e3a8a; color: #fff; border: none; border-radius: 12px; padding: 14px; font-size: 15px; font-weight: 700; cursor: pointer; transition: .15s; font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .pay-btn:hover:not(:disabled) { background: #1d4ed8; }
+    .pay-btn:disabled { opacity: .45; cursor: not-allowed; }
+
+    /* ── Étapes visuelles ── */
+    .step-badge { width: 26px; height: 26px; border-radius: 50%; background: #1e3a8a; color: #fff; font-size: 12px; font-weight: 800; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .step-line { width: 2px; background: #e5e7eb; flex-shrink: 0; margin: 4px 0; height: 20px; align-self: center; margin-left: 12px; }
+
+    /* ── États ── */
+    .state-panel { display: none; }
+    .state-panel.active { display: block; }
+
+    /* ── Spinner ── */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spinner { width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,.3); border-top-color: #fff; border-radius: 50%; animation: spin .7s linear infinite; }
+
+    /* ── Badge statut ── */
+    .badge { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; }
+    .badge.pending { background: #fef9c3; color: #854d0e; }
+    .badge.validated { background: #dcfce7; color: #166534; }
+    .badge.failed { background: #fee2e2; color: #991b1b; }
+
+    svg { display: block; flex-shrink: 0; }
+
+    /* ── Responsive ── */
+    @media (max-width: 480px) {
+      .pay-card { border-radius: 0; box-shadow: none; border: none; }
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+<!-- ══════════════════════════════════════════════
+     HEADER
+════════════════════════════════════════════════ -->
+<header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md border-b border-trust-blue-800">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-20">
+      <a href="index.html" class="flex-shrink-0 flex items-center gap-2 cursor-pointer hover:opacity-80 transition">
+        <svg class="w-9 h-9 text-trust-blue-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2 2V18z"></path></svg>
+        <span class="font-bold text-2xl tracking-tight text-white">Info<span class="text-trust-blue-400">Experts</span></span>
+      </a>
+      <nav class="hidden md:flex space-x-8">
+        <a href="index.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Accueil</a>
+        <a href="services.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Nos Services</a>
+        <a href="boutique.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Boutique</a>
+        <a href="booking.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Rendez-vous</a>
+        <a href="#" class="text-white font-bold border-b-2 border-trust-blue-400 pb-1">Paiement</a>
+      </nav>
+      <div class="md:hidden">
+        <button id="btn-menu-mobile" class="text-trust-blue-100 hover:text-white focus:outline-none">
+          <svg width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div id="menu-mobile" class="hidden md:hidden bg-trust-blue-800 border-t border-trust-blue-700">
+    <div class="px-2 pt-2 pb-4 space-y-1 sm:px-3">
+      <a href="index.html" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Accueil</a>
+      <a href="services.html" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Nos Services</a>
+      <a href="boutique.html" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Boutique</a>
+      <a href="booking.html" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Rendez-vous</a>
+      <a href="payment.html" class="block px-3 py-2 rounded-md text-base font-bold text-white bg-trust-blue-700">Paiement</a>
+    </div>
+  </div>
+</header>
+
+<main style="padding: 40px 16px 60px;">
+
+  <!-- ══ ÉTAT 1 : Formulaire ══ -->
+  <div id="stateForm" class="state-panel active">
+
+    <!-- Hero compact -->
+    <div style="text-align:center; margin-bottom: 28px;">
+      <div style="display:inline-flex;align-items:center;gap:8px;background:#eff6ff;border:1px solid #bfdbfe;color:#1e3a8a;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:5px 14px;border-radius:999px;margin-bottom:14px">
+        📱 Paiement Mobile — Comores
+      </div>
+      <h1 style="font-size: clamp(1.5rem, 4vw, 2rem); font-weight: 900; color: #111827; margin: 0 0 8px;">Paiement Mobile</h1>
+      <p style="font-size: 14px; color: #6b7280; margin: 0;">Réglez votre prestation Info Experts via Huri, MVola ou Telma</p>
+    </div>
+
+    <div class="pay-card">
+
+      <!-- Résumé de commande (rempli via URL params ou affiché générique) -->
+      <div id="orderSummary" style="padding: 20px 24px; background: #1e3a8a; display: flex; align-items: center; justify-content: space-between; gap: 16px;">
+        <div>
+          <div style="font-size: 11px; font-weight: 700; color: #93c5fd; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 4px;">À régler</div>
+          <div id="summaryService" style="font-size: 14px; color: #dbeafe; font-weight: 500;">Prestation Info Experts</div>
+        </div>
+        <div style="text-align: right; flex-shrink: 0;">
+          <div id="summaryAmount" style="font-size: 28px; font-weight: 900; color: #fff; line-height: 1;">—</div>
+          <div style="font-size: 12px; color: #93c5fd; margin-top: 2px;">KMF</div>
+        </div>
+      </div>
+
+      <div style="padding: 24px;">
+
+        <!-- Étapes visuelles -->
+        <div style="margin-bottom: 24px;">
+          <div style="font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 14px;">Comment ça marche :</div>
+          <div style="display: flex; flex-direction: column; gap: 0;">
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <div class="step-badge">1</div>
+              <div style="font-size: 13px; color: #374151; padding-top: 4px;"><strong>Choisissez votre opérateur</strong> ci-dessous</div>
+            </div>
+            <div class="step-line"></div>
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <div class="step-badge">2</div>
+              <div style="font-size: 13px; color: #374151; padding-top: 4px;"><strong>Envoyez le montant</strong> au numéro indiqué</div>
+            </div>
+            <div class="step-line"></div>
+            <div style="display: flex; gap: 12px; align-items: flex-start;">
+              <div class="step-badge">3</div>
+              <div style="font-size: 13px; color: #374151; padding-top: 4px;"><strong>Cliquez "J'ai payé"</strong> et remplissez le formulaire</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sélecteur opérateur -->
+        <div style="margin-bottom: 20px;">
+          <div class="pay-label">Choisissez votre opérateur *</div>
+          <div style="display: flex; gap: 8px;" id="operatorBtns">
+            <button class="op-btn" data-op="Huri" data-color="var(--huri-color)" data-num="+269 321 00 00" onclick="selectOp(this)">
+              <span class="op-icon">🟣</span>
+              <span class="op-name">Huri</span>
+              <span style="font-size: 10px; color: #9ca3af;">Comores Telecom</span>
+            </button>
+            <button class="op-btn" data-op="MVola" data-color="var(--mvola-color)" data-num="+269 362 00 00" onclick="selectOp(this)">
+              <span class="op-icon">🔴</span>
+              <span class="op-name">MVola</span>
+              <span style="font-size: 10px; color: #9ca3af;">Telma Comores</span>
+            </button>
+            <button class="op-btn" data-op="Telma" data-color="var(--telma-color)" data-num="+269 362 00 01" onclick="selectOp(this)">
+              <span class="op-icon">🔵</span>
+              <span class="op-name">Telma</span>
+              <span style="font-size: 10px; color: #9ca3af;">Telma Comores</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Instructions de paiement (affichées après sélection opérateur) -->
+        <div id="payInstructions" style="display: none; margin-bottom: 20px;">
+          <div class="pay-instruction">
+            <div style="font-size: 12px; font-weight: 700; color: #166534; text-transform: uppercase; letter-spacing: .07em; margin-bottom: 8px;">📲 Envoyez maintenant</div>
+            <div class="pay-amount" id="instrAmount">—</div>
+            <div style="font-size: 14px; color: #374151; margin: 4px 0;">au numéro <strong id="instrNumber" style="font-size: 16px;"></strong></div>
+            <div class="pay-number" id="instrNumberBig"></div>
+            <div style="font-size: 11px; color: #6b7280; margin-top: 8px; padding-top: 8px; border-top: 1px solid #d1fae5;">
+              💡 Dans le libellé du transfert, indiquez votre prénom ou « Info Experts » pour faciliter la vérification.
+            </div>
+          </div>
+        </div>
+
+        <!-- Formulaire -->
+        <div id="payForm" style="display: none; flex-direction: column; gap: 12px;">
+          <hr style="border: none; border-top: 1px solid #f3f4f6; margin: 4px 0 8px;">
+          <div style="font-size: 13px; font-weight: 700; color: #374151; margin-bottom: 4px;">Confirmez votre paiement</div>
+
+          <div>
+            <label class="pay-label" for="payNom">Votre nom complet *</label>
+            <input id="payNom" type="text" class="pay-input" placeholder="Ali Mohamed" autocomplete="name">
+          </div>
+          <div>
+            <label class="pay-label" for="payTel">Numéro utilisé pour le paiement *</label>
+            <input id="payTel" type="tel" class="pay-input" placeholder="+269 33X XX XX" autocomplete="tel">
+          </div>
+          <div>
+            <label class="pay-label" for="payRef">Référence de transaction <span style="font-weight: 400; color: #9ca3af;">(facultatif — visible sur votre reçu)</span></label>
+            <input id="payRef" type="text" class="pay-input" placeholder="ex : TXN123456">
+          </div>
+
+          <button id="paySubmitBtn" class="pay-btn" onclick="submitPayment()" disabled>
+            ✅ J'ai payé — Confirmer ma demande
+          </button>
+
+          <p style="font-size: 11px; color: #9ca3af; text-align: center; margin: 4px 0 0;">
+            Notre équipe vérifie le paiement sous 15 minutes.<br>
+            Questions ? <a href="tel:002693312722" style="color: #1e3a8a; font-weight: 600;">+269 331 27 22</a> ou <a href="https://wa.me/33667491345" style="color: #1e3a8a; font-weight: 600;">WhatsApp</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ ÉTAT 2 : Chargement ══ -->
+  <div id="stateLoading" class="state-panel">
+    <div class="pay-card" style="padding: 48px 24px; text-align: center;">
+      <div style="width: 56px; height: 56px; border: 4px solid #e5e7eb; border-top-color: #1e3a8a; border-radius: 50%; animation: spin .8s linear infinite; margin: 0 auto 20px;"></div>
+      <h2 style="font-size: 18px; font-weight: 800; color: #111827; margin: 0 0 8px;">Enregistrement en cours…</h2>
+      <p style="font-size: 14px; color: #6b7280; margin: 0;">Merci de patienter quelques secondes.</p>
+    </div>
+  </div>
+
+  <!-- ══ ÉTAT 3 : Succès ══ -->
+  <div id="stateSuccess" class="state-panel">
+    <div class="pay-card" style="padding: 36px 24px; text-align: center;">
+      <div style="width: 64px; height: 64px; background: #f0fdf4; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+        <svg width="32" height="32" fill="none" stroke="#16a34a" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <h2 style="font-size: 22px; font-weight: 900; color: #111827; margin: 0 0 6px;">Demande enregistrée !</h2>
+      <p style="font-size: 14px; color: #6b7280; margin: 0 0 20px;">Votre paiement est en cours de vérification.</p>
+
+      <div style="background: #f9fafb; border-radius: 14px; padding: 18px; text-align: left; margin-bottom: 20px;">
+        <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+          <span style="color: #6b7280;">Référence</span>
+          <span id="successRef" style="font-family: monospace; font-weight: 800; font-size: 13px; background: #e5e7eb; padding: 2px 8px; border-radius: 4px;">—</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+          <span style="color: #6b7280;">Statut</span>
+          <span class="badge pending">⏳ En vérification</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0; border-bottom: 1px solid #f3f4f6;">
+          <span style="color: #6b7280;">Opérateur</span>
+          <span id="successOp" style="font-weight: 600; color: #111827;">—</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 13px; padding: 6px 0;">
+          <span style="color: #6b7280;">Délai de confirmation</span>
+          <span style="font-weight: 600; color: #111827;">≤ 15 minutes</span>
+        </div>
+      </div>
+
+      <div style="background: #fef9c3; border: 1px solid #fde047; border-radius: 12px; padding: 14px; font-size: 13px; color: #713f12; text-align: left; margin-bottom: 20px;">
+        <strong>📞 Prochaine étape :</strong> Notre équipe vous contacte au <strong id="successTel">—</strong> pour confirmer le paiement. Si vous ne recevez pas de réponse sous 15 min, appelez le <a href="tel:002693312722" style="color: #1e3a8a; font-weight: 700;">+269 331 27 22</a>.
+      </div>
+
+      <button onclick="resetForm()" style="width: 100%; border: 2px solid #1e3a8a; color: #1e3a8a; background: #fff; border-radius: 12px; padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit;">
+        ← Faire un autre paiement
+      </button>
+    </div>
+  </div>
+
+  <!-- ══ ÉTAT 4 : Erreur ══ -->
+  <div id="stateError" class="state-panel">
+    <div class="pay-card" style="padding: 36px 24px; text-align: center;">
+      <div style="width: 64px; height: 64px; background: #fef2f2; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 16px;">
+        <svg width="32" height="32" fill="none" stroke="#dc2626" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+      </div>
+      <h2 style="font-size: 20px; font-weight: 900; color: #111827; margin: 0 0 8px;">Une erreur s'est produite</h2>
+      <p id="errorMessage" style="font-size: 14px; color: #6b7280; margin: 0 0 20px;">Impossible d'enregistrer votre demande.</p>
+      <button onclick="goState('stateForm')" style="width: 100%; background: #1e3a8a; color: #fff; border: none; border-radius: 12px; padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit;">
+        ← Réessayer
+      </button>
+      <p style="font-size: 12px; color: #9ca3af; margin: 12px 0 0;">
+        Ou appelez-nous : <a href="tel:002693312722" style="color: #1e3a8a; font-weight: 600;">+269 331 27 22</a>
+      </p>
+    </div>
+  </div>
+
+</main>
+
+<!-- ══════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════ -->
+<footer class="bg-trust-blue-950 border-t border-trust-blue-900 py-6">
+  <div class="max-w-4xl mx-auto px-6 text-center">
+    <div class="flex flex-col sm:flex-row justify-center items-center mb-4">
+      <a href="tel:002693312722" class="text-white text-base font-semibold hover:text-trust-blue-400 transition py-2 px-6">📞 +269 331 27 22</a>
+      <span class="text-trust-blue-600 hidden sm:inline px-2 text-lg">·</span>
+      <a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" class="text-white text-base font-semibold hover:text-trust-blue-400 transition py-2 px-6">💬 WhatsApp</a>
+    </div>
+    <div class="border-t border-trust-blue-900" style="padding-top:20px">
+      <div style="margin-bottom:8px">
+        <a href="mailto:contact@info-experts.fr" style="display:inline-flex;align-items:center;gap:6px;color:#93c5fd;font-size:0.875rem;font-weight:500;text-decoration:none" onmouseover="this.style.color='#fff'" onmouseout="this.style.color='#93c5fd'">
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+          contact@info-experts.fr
+        </a>
+      </div>
+      <p style="font-size:11px;color:#94a3b8;line-height:1.6;margin-bottom:14px">
+        Enregistrée au RCCM de Grande Comore sous le n° : KM-HAH-01-2023-B13-10201
+      </p>
+      <p style="border-top:1px solid #0f2744;padding-top:12px;font-size:0.875rem;color:#ffffff">
+        © 2026 Info Experts – Informatique Moroni, Comores. Tous droits réservés.
+      </p>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp flottant -->
+<a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" aria-label="WhatsApp" style="position:fixed;bottom:24px;right:24px;background:#25D366;color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.2);z-index:50;transition:.2s" onmouseover="this.style.background='#128C7E'" onmouseout="this.style.background='#25D366'">
+  <svg width="26" height="26" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
+</a>
+
+<script>
+// ── Configuration (à mettre à jour avec vos vrais numéros) ────────────────
+const CONFIG = {
+  operators: {
+    Huri:  { number: '+269 321 00 00', color: '#e84393' }, // ← à remplacer
+    MVola: { number: '+269 362 00 00', color: '#e03131' }, // ← à remplacer
+    Telma: { number: '+269 362 00 01', color: '#1971c2' }, // ← à remplacer
+  }
+};
+
+// ── Lecture des paramètres URL ────────────────────────────────────────────
+// Exemple d'utilisation depuis booking.html :
+// <a href="payment.html?montant=10000&service=Consultation+informatique">Payer</a>
+(function initFromParams() {
+  const p = new URLSearchParams(window.location.search);
+  const montant = p.get('montant');
+  const service = p.get('service');
+
+  if (montant) {
+    document.getElementById('summaryAmount').textContent = Number(montant).toLocaleString('fr-FR');
+    document.getElementById('instrAmount').textContent = Number(montant).toLocaleString('fr-FR') + ' KMF';
+    // Stocker pour l'envoi API
+    window._paymentContext = { montant: Number(montant), service: service || 'Prestation Info Experts' };
+  } else {
+    document.getElementById('summaryAmount').textContent = '—';
+  }
+  if (service) {
+    document.getElementById('summaryService').textContent = service;
+  }
+})();
+
+// ── Variables globales ────────────────────────────────────────────────────
+let selectedOp = null;
+
+// ── Sélection opérateur ───────────────────────────────────────────────────
+function selectOp(btn) {
+  document.querySelectorAll('.op-btn').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  selectedOp = btn.dataset.op;
+
+  const cfg = CONFIG.operators[selectedOp];
+  btn.style.setProperty('--active-color', cfg.color);
+
+  // Afficher instructions
+  const instr = document.getElementById('payInstructions');
+  const form  = document.getElementById('payForm');
+  const numEl = document.getElementById('instrNumber');
+  const bigEl = document.getElementById('instrNumberBig');
+
+  instr.style.display = 'block';
+  form.style.display  = 'flex';
+  numEl.textContent   = selectedOp;
+  bigEl.textContent   = cfg.number;
+
+  validateForm();
+}
+
+// ── Validation formulaire ─────────────────────────────────────────────────
+function validateForm() {
+  const nom = document.getElementById('payNom').value.trim();
+  const tel = document.getElementById('payTel').value.trim();
+  const ok  = selectedOp && nom.length >= 2 && tel.length >= 8;
+  document.getElementById('paySubmitBtn').disabled = !ok;
+}
+
+document.getElementById('payNom').addEventListener('input', validateForm);
+document.getElementById('payTel').addEventListener('input', validateForm);
+
+// ── Soumission ────────────────────────────────────────────────────────────
+async function submitPayment() {
+  const nom       = document.getElementById('payNom').value.trim();
+  const telephone = document.getElementById('payTel').value.trim();
+  const reference = document.getElementById('payRef').value.trim();
+  const ctx       = window._paymentContext || {};
+
+  goState('stateLoading');
+
+  try {
+    const response = await fetch('/api/payment', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:    JSON.stringify({
+        nom,
+        telephone,
+        operateur:       selectedOp,
+        montant:         ctx.montant   || 0,
+        service:         ctx.service   || 'Prestation Info Experts',
+        referenceClient: reference     || null,
+      }),
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.error || 'Erreur serveur');
+    }
+
+    // Succès
+    document.getElementById('successRef').textContent = data.ref;
+    document.getElementById('successOp').textContent  = selectedOp;
+    document.getElementById('successTel').textContent = telephone;
+    goState('stateSuccess');
+
+  } catch (err) {
+    document.getElementById('errorMessage').textContent = err.message || 'Impossible de contacter le serveur.';
+    goState('stateError');
+  }
+}
+
+// ── Navigation états ──────────────────────────────────────────────────────
+function goState(id) {
+  document.querySelectorAll('.state-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetForm() {
+  selectedOp = null;
+  document.querySelectorAll('.op-btn').forEach(b => b.classList.remove('selected'));
+  document.getElementById('payInstructions').style.display = 'none';
+  document.getElementById('payForm').style.display = 'none';
+  document.getElementById('payNom').value = '';
+  document.getElementById('payTel').value = '';
+  document.getElementById('payRef').value = '';
+  document.getElementById('paySubmitBtn').disabled = true;
+  goState('stateForm');
+}
+
+// ── Menu mobile ───────────────────────────────────────────────────────────
+document.getElementById('btn-menu-mobile').addEventListener('click', () => {
+  document.getElementById('menu-mobile').classList.toggle('hidden');
+});
+</script>
+</body>
+</html>
