@@ -384,6 +384,29 @@
         </div>
 
         <div id="paymentBlock">
+          <!-- ── Bloc numéros paiement mobile ── -->
+          <div id="bk-pay-banner" style="padding:14px 16px;background:#f0f7ff;border:1.5px solid #bfdbfe;border-radius:14px;margin-bottom:16px">
+            <div style="display:flex;align-items:center;gap:6px;margin-bottom:10px">
+              <span style="font-size:15px">📱</span>
+              <span style="font-size:11px;font-weight:800;color:#1e3a8a;text-transform:uppercase;letter-spacing:.07em">Paiement mobile — numéros</span>
+            </div>
+            <p style="font-size:12px;color:#374151;margin:0 0 10px;line-height:1.5">Envoyez le montant à l'un des numéros suivants selon votre opérateur :</p>
+            <div id="bk-banner-huri" style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:10px;border:1.5px solid #dbeafe;background:#fff;margin-bottom:6px;transition:.2s">
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="font-size:11px;font-weight:700;color:#6b7280;min-width:72px">Huri Money</span>
+                <span id="bk-banner-huri-num" style="font-size:15px;font-weight:800;color:#111827;letter-spacing:.03em">+269 331 27 22</span>
+              </div>
+              <button onclick="copyNumber('+269 331 27 22', this)" style="border:none;background:none;cursor:pointer;padding:4px 8px;border-radius:6px;font-size:13px;color:#9ca3af;font-family:inherit;transition:.15s" title="Copier le numéro">📋</button>
+            </div>
+            <div id="bk-banner-mvola" style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:10px;border:1.5px solid #dbeafe;background:#fff;transition:.2s">
+              <div style="display:flex;align-items:center;gap:8px">
+                <span style="font-size:11px;font-weight:700;color:#6b7280;min-width:72px">MVola</span>
+                <span id="bk-banner-mvola-num" style="font-size:15px;font-weight:800;color:#111827;letter-spacing:.03em">+269 469 93 20</span>
+              </div>
+              <button onclick="copyNumber('+269 469 93 20', this)" style="border:none;background:none;cursor:pointer;padding:4px 8px;border-radius:6px;font-size:13px;color:#9ca3af;font-family:inherit;transition:.15s" title="Copier le numéro">📋</button>
+            </div>
+          </div>
+
           <!-- Récapitulatif du montant -->
           <div style="padding:14px;background:#f9fafb;border-radius:12px;font-size:13px;margin-bottom:16px">
             <div style="display:flex;justify-content:space-between;margin-bottom:6px">
@@ -421,18 +444,6 @@
             <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">
               <button type="button" class="bk-op-btn" data-op="Huri Money" onclick="selectBkOp(this)">📱 Huri Money</button>
               <button type="button" class="bk-op-btn" data-op="MVola"      onclick="selectBkOp(this)">📱 MVola</button>
-            </div>
-            <!-- Numéros de paiement -->
-            <div id="bk-payment-numbers" style="margin-bottom:12px">
-              <p style="font-size:11px;font-weight:700;color:#374151;margin-bottom:6px">📲 Envoyez le montant à ce numéro :</p>
-              <div id="bk-num-huri" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;background:#f8fafc;margin-bottom:6px;transition:.2s">
-                <span style="font-size:12px;font-weight:700;color:#6b7280">Huri Money</span>
-                <span id="bk-num-huri-val" style="font-size:14px;font-weight:800;color:#374151;letter-spacing:.02em">+269 331 27 22</span>
-              </div>
-              <div id="bk-num-mvola" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;background:#f8fafc;transition:.2s">
-                <span style="font-size:12px;font-weight:700;color:#6b7280">MVola</span>
-                <span id="bk-num-mvola-val" style="font-size:14px;font-weight:800;color:#374151;letter-spacing:.02em">+269 469 93 20</span>
-              </div>
             </div>
             <input id="bk-tx-ref" class="bk-input" placeholder="Référence transaction (optionnel)">
             <p style="font-size:11px;color:#6b7280;margin-top:6px">Après envoi, saisissez votre référence si disponible et validez.</p>
@@ -776,21 +787,23 @@ function selectBkOp(btn) {
   document.querySelectorAll('.bk-op-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
   bkOpSelected = btn.dataset.op;
-  // Mettre en évidence le numéro de l'opérateur sélectionné
-  const huriEl  = document.getElementById('bk-num-huri');
-  const mvolaEl = document.getElementById('bk-num-mvola');
-  const huriNum  = document.getElementById('bk-num-huri-val');
-  const mvolaNum = document.getElementById('bk-num-mvola-val');
+  // Mettre en évidence le numéro dans le banner
+  const bh  = document.getElementById('bk-banner-huri');
+  const bm  = document.getElementById('bk-banner-mvola');
+  const bhn = document.getElementById('bk-banner-huri-num');
+  const bmn = document.getElementById('bk-banner-mvola-num');
+  const BASE_H = 'display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:10px;margin-bottom:6px;transition:.2s;';
+  const BASE_M = 'display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:10px;transition:.2s;';
   if (bkOpSelected === 'Huri Money') {
-    huriEl.style.cssText  = 'display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;border:2px solid #1e3a8a;background:#eff6ff;margin-bottom:6px;transition:.2s';
-    mvolaEl.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;background:#f8fafc;opacity:.55;transition:.2s';
-    huriNum.style.color  = '#1e3a8a';
-    mvolaNum.style.color = '#374151';
+    bh.style.cssText  = BASE_H + 'border:2px solid #1e3a8a;background:#eff6ff;';
+    bm.style.cssText  = BASE_M + 'border:1.5px solid #dbeafe;background:#f8fafc;opacity:.5;';
+    bhn.style.color = '#1e3a8a';
+    bmn.style.color = '#9ca3af';
   } else {
-    mvolaEl.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;border:2px solid #1e3a8a;background:#eff6ff;transition:.2s';
-    huriEl.style.cssText  = 'display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;background:#f8fafc;opacity:.55;margin-bottom:6px;transition:.2s';
-    mvolaNum.style.color = '#1e3a8a';
-    huriNum.style.color  = '#374151';
+    bm.style.cssText  = BASE_M + 'border:2px solid #1e3a8a;background:#eff6ff;';
+    bh.style.cssText  = BASE_H + 'border:1.5px solid #dbeafe;background:#f8fafc;opacity:.5;';
+    bmn.style.color = '#1e3a8a';
+    bhn.style.color = '#9ca3af';
   }
 }
 
@@ -802,13 +815,13 @@ function renderPayment() {
   document.querySelectorAll('.bk-pay-choice').forEach(b => b.classList.remove('picked'));
   document.querySelectorAll('.bk-op-btn').forEach(b => b.classList.remove('selected'));
   document.getElementById('bk-mobile-form').style.display = 'none';
-  // Réinitialiser l'apparence des numéros
-  const huriEl  = document.getElementById('bk-num-huri');
-  const mvolaEl = document.getElementById('bk-num-mvola');
-  if (huriEl)  huriEl.style.cssText  = 'display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;background:#f8fafc;margin-bottom:6px;transition:.2s';
-  if (mvolaEl) mvolaEl.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;background:#f8fafc;transition:.2s';
-  document.getElementById('bk-num-huri-val').style.color  = '#374151';
-  document.getElementById('bk-num-mvola-val').style.color = '#374151';
+  // Réinitialiser le banner des numéros
+  const bh = document.getElementById('bk-banner-huri');
+  const bm = document.getElementById('bk-banner-mvola');
+  if (bh) bh.style.cssText  = 'display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:10px;border:1.5px solid #dbeafe;background:#fff;margin-bottom:6px;transition:.2s;opacity:1';
+  if (bm) bm.style.cssText  = 'display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-radius:10px;border:1.5px solid #dbeafe;background:#fff;transition:.2s;opacity:1';
+  document.getElementById('bk-banner-huri-num').style.color  = '#111827';
+  document.getElementById('bk-banner-mvola-num').style.color = '#111827';
   document.getElementById('bk-cash-info').style.display   = 'none';
   document.getElementById('bk-pay-error').style.display   = 'none';
   document.getElementById('bk-confirm-err').style.display = 'none';
@@ -936,6 +949,18 @@ function resetDemo() {
   document.getElementById('progressBar').style.background='#1e3a8a';
   document.getElementById('step7').style.display='none';
   goStep(1);
+}
+
+// ── Copier numéro ───────────────────────────────────────
+function copyNumber(num, btn) {
+  navigator.clipboard.writeText(num).then(() => {
+    btn.textContent = '✓';
+    btn.style.color = '#16a34a';
+    setTimeout(() => { btn.textContent = '📋'; btn.style.color = '#9ca3af'; }, 1500);
+  }).catch(() => {
+    btn.textContent = '✓';
+    setTimeout(() => { btn.textContent = '📋'; }, 1500);
+  });
 }
 
 // ── Calendrier / ICS ────────────────────────────────────
