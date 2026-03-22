@@ -763,8 +763,27 @@
         <div id="modal-view-mobile">
           <div class="modal-title" id="modal-title">Paiement mobile money</div>
           <div class="modal-product" id="modal-product-name-m"></div>
-          <div class="modal-info-box">
-            📲 Effectuez un virement vers notre numéro, puis remplissez ce formulaire. Nous confirmons sous <strong>15 minutes</strong>.
+          <!-- Bloc numéros paiement mobile -->
+          <div id="shop-pay-banner" style="padding:12px 14px;background:#f0f7ff;border:1.5px solid #bfdbfe;border-radius:12px;margin-bottom:14px">
+            <div style="display:flex;align-items:center;gap:5px;margin-bottom:8px">
+              <span style="font-size:13px">📱</span>
+              <span style="font-size:10px;font-weight:800;color:#1e3a8a;text-transform:uppercase;letter-spacing:.07em">Numéros de paiement</span>
+            </div>
+            <p style="font-size:11px;color:#374151;margin:0 0 8px;line-height:1.5">Envoyez le montant au numéro correspondant à votre opérateur, puis remplissez ce formulaire. Nous confirmons sous <strong>15 minutes</strong>.</p>
+            <div id="shop-num-huri" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:8px;border:1.5px solid #dbeafe;background:#fff;margin-bottom:5px;transition:.2s">
+              <div style="display:flex;align-items:center;gap:7px">
+                <span style="font-size:10px;font-weight:700;color:#6b7280;min-width:68px">Huri Money</span>
+                <span id="shop-num-huri-val" style="font-size:14px;font-weight:800;color:#111827;letter-spacing:.02em">+269 331 27 22</span>
+              </div>
+              <button onclick="copyNumber('+269 331 27 22', this)" style="border:none;background:none;cursor:pointer;padding:3px 7px;border-radius:5px;font-size:12px;color:#9ca3af;font-family:inherit;transition:.15s" title="Copier">📋</button>
+            </div>
+            <div id="shop-num-mvola" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:8px;border:1.5px solid #dbeafe;background:#fff;transition:.2s">
+              <div style="display:flex;align-items:center;gap:7px">
+                <span style="font-size:10px;font-weight:700;color:#6b7280;min-width:68px">MVola</span>
+                <span id="shop-num-mvola-val" style="font-size:14px;font-weight:800;color:#111827;letter-spacing:.02em">+269 469 93 20</span>
+              </div>
+              <button onclick="copyNumber('+269 469 93 20', this)" style="border:none;background:none;cursor:pointer;padding:3px 7px;border-radius:5px;font-size:12px;color:#9ca3af;font-family:inherit;transition:.15s" title="Copier">📋</button>
+            </div>
           </div>
           <div class="form-group">
             <label class="form-label">Votre nom complet *</label>
@@ -868,6 +887,13 @@
         document.getElementById('m-ref').value = '';
         document.getElementById('m-error').style.display = 'none';
         document.querySelectorAll('.op-btn').forEach(b => b.classList.remove('selected'));
+        // Réinitialiser le banner des numéros
+        const sh = document.getElementById('shop-num-huri');
+        const sm = document.getElementById('shop-num-mvola');
+        if (sh) sh.style.cssText  = 'display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:8px;border:1.5px solid #dbeafe;background:#fff;margin-bottom:5px;transition:.2s;opacity:1';
+        if (sm) sm.style.cssText  = 'display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:8px;border:1.5px solid #dbeafe;background:#fff;transition:.2s;opacity:1';
+        document.getElementById('shop-num-huri-val').style.color  = '#111827';
+        document.getElementById('shop-num-mvola-val').style.color = '#111827';
         showView('modal-view-mobile');
         document.getElementById('pay-modal').classList.add('open');
         document.body.style.overflow = 'hidden';
@@ -894,6 +920,34 @@
         document.querySelectorAll('.op-btn').forEach(b => b.classList.remove('selected'));
         btn.classList.add('selected');
         _selectedOp = btn.dataset.op;
+        // Mise en évidence du numéro correspondant
+        const sh  = document.getElementById('shop-num-huri');
+        const sm  = document.getElementById('shop-num-mvola');
+        const shn = document.getElementById('shop-num-huri-val');
+        const smn = document.getElementById('shop-num-mvola-val');
+        const BASE_H = 'display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:8px;margin-bottom:5px;transition:.2s;';
+        const BASE_M = 'display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:8px;transition:.2s;';
+        if (_selectedOp === 'Huri Money') {
+          sh.style.cssText = BASE_H + 'border:2px solid #1e3a8a;background:#eff6ff;';
+          sm.style.cssText = BASE_M + 'border:1.5px solid #dbeafe;background:#f8fafc;opacity:.5;';
+          shn.style.color = '#1e3a8a';
+          smn.style.color = '#9ca3af';
+        } else {
+          sm.style.cssText = BASE_M + 'border:2px solid #1e3a8a;background:#eff6ff;';
+          sh.style.cssText = BASE_H + 'border:1.5px solid #dbeafe;background:#f8fafc;opacity:.5;';
+          smn.style.color = '#1e3a8a';
+          shn.style.color = '#9ca3af';
+        }
+      }
+
+      function copyNumber(num, btn) {
+        navigator.clipboard.writeText(num).then(() => {
+          btn.textContent = '✓'; btn.style.color = '#16a34a';
+          setTimeout(() => { btn.textContent = '📋'; btn.style.color = '#9ca3af'; }, 1500);
+        }).catch(() => {
+          btn.textContent = '✓';
+          setTimeout(() => { btn.textContent = '📋'; }, 1500);
+        });
       }
 
       const PHONE_RE = /^[+\d\s().-]{6,20}$/;
