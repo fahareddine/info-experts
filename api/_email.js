@@ -41,13 +41,21 @@ function fmtMontant(m) {
   return Number(m).toLocaleString('fr-FR') + ' KMF';
 }
 
+const BANNER_URL = 'https://info-experts.fr/email-banner-opt.jpg';
+
 // ── Template commun : en-tête et pied ────────────────────────────────────────
-function wrap(inner) {
+function wrap(inner, showBanner = false) {
+  const banner = showBanner ? `
+    <div style="width:100%;line-height:0">
+      <img src="${BANNER_URL}" alt="Info Experts — Moroni, Comores" width="600"
+           style="width:100%;max-width:600px;height:auto;display:block;border:0">
+    </div>` : '';
   return `<!DOCTYPE html><html lang="fr">
 <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
 <body style="margin:0;padding:0;background:#f1f5f9;font-family:Arial,Helvetica,sans-serif">
-  <div style="max-width:560px;margin:32px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)">
-    <div style="background:#1e3a8a;padding:24px 28px">
+  <div style="max-width:600px;margin:32px auto;background:#fff;border-radius:12px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,.08)">
+    ${banner}
+    <div style="background:#1e3a8a;padding:20px 28px">
       <div style="font-size:20px;font-weight:800;color:#fff">Info<span style="color:#93c5fd">Experts</span></div>
       <div style="font-size:12px;color:#bfdbfe;margin-top:4px">Moroni, Comores — info-experts.fr</div>
     </div>
@@ -55,7 +63,7 @@ function wrap(inner) {
     <div style="padding:14px 28px;background:#f8fafc;border-top:1px solid #e5e7eb;font-size:11px;color:#9ca3af;text-align:center">
       Info Experts · Moroni, Comores ·
       <a href="https://info-experts.fr" style="color:#1e3a8a">info-experts.fr</a> ·
-      <a href="tel:+26933127 22" style="color:#1e3a8a">+269 331 27 22</a>
+      <a href="tel:+269331272" style="color:#1e3a8a">+269 331 27 22</a>
     </div>
   </div>
 </body></html>`;
@@ -161,7 +169,7 @@ export function sendClientEmail(commande) {
       <div style="padding:12px 16px;background:#f0fdf4;border-radius:8px;font-size:13px;color:#166534">
         ✅ Merci pour votre confiance. Nous vous contacterons au <strong>${commande.telephone}</strong> si besoin.
       </div>
-    </div>`);
+    </div>`, true);
 
   return sendEmail({ to: commande.email, subject, html });
 }
