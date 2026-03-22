@@ -89,8 +89,8 @@ export default async function handler(req, res) {
   // ── Log (visible dans Vercel Dashboard > Logs) ───────────────────────────
   console.log('[ORDER]', JSON.stringify(commande));
 
-  // ── Emails (admin + client) — non bloquants ──────────────────────────────
-  Promise.all([
+  // ── Emails (admin + client) ───────────────────────────────────────────────
+  await Promise.all([
     sendAdminEmail(commande),
     sendClientEmail(commande),
   ]).catch(e => console.error('[EMAIL] Erreur globale:', e.message));
