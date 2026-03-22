@@ -949,6 +949,10 @@ function resetDemo() {
   document.getElementById('progressBar').style.width='16.6%';
   document.getElementById('progressBar').style.background='#1e3a8a';
   document.getElementById('step7').style.display='none';
+  // Réinitialiser le bouton de confirmation
+  const payBtn = document.getElementById('payBtn');
+  payBtn.disabled = false;
+  payBtn.innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span id="payBtnLabel">Confirmer le rendez-vous</span>';
   goStep(1);
 }
 
