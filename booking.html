@@ -422,8 +422,20 @@
               <button type="button" class="bk-op-btn" data-op="Huri Money" onclick="selectBkOp(this)">📱 Huri Money</button>
               <button type="button" class="bk-op-btn" data-op="MVola"      onclick="selectBkOp(this)">📱 MVola</button>
             </div>
+            <!-- Numéros de paiement -->
+            <div id="bk-payment-numbers" style="margin-bottom:12px">
+              <p style="font-size:11px;font-weight:700;color:#374151;margin-bottom:6px">📲 Envoyez le montant à ce numéro :</p>
+              <div id="bk-num-huri" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;background:#f8fafc;margin-bottom:6px;transition:.2s">
+                <span style="font-size:12px;font-weight:700;color:#6b7280">Huri Money</span>
+                <span id="bk-num-huri-val" style="font-size:14px;font-weight:800;color:#374151;letter-spacing:.02em">+269 331 27 22</span>
+              </div>
+              <div id="bk-num-mvola" style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;background:#f8fafc;transition:.2s">
+                <span style="font-size:12px;font-weight:700;color:#6b7280">MVola</span>
+                <span id="bk-num-mvola-val" style="font-size:14px;font-weight:800;color:#374151;letter-spacing:.02em">+269 469 93 20</span>
+              </div>
+            </div>
             <input id="bk-tx-ref" class="bk-input" placeholder="Référence transaction (optionnel)">
-            <p style="font-size:11px;color:#6b7280;margin-top:6px">📲 Envoyez le montant à notre numéro, puis validez ici.</p>
+            <p style="font-size:11px;color:#6b7280;margin-top:6px">Après envoi, saisissez votre référence si disponible et validez.</p>
           </div>
 
           <!-- Info espèces -->
@@ -472,11 +484,11 @@
           </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:8px">
-          <button style="width:100%;border:2px solid #1e3a8a;color:#1e3a8a;background:#fff;border-radius:12px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit">
+          <button onclick="addToGoogleCalendar()" style="width:100%;border:2px solid #1e3a8a;color:#1e3a8a;background:#fff;border-radius:12px;padding:11px;font-size:13px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
             Ajouter à Google Agenda
           </button>
-          <button style="width:100%;border:1.5px solid #e5e7eb;color:#374151;background:#fff;border-radius:12px;padding:11px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit">
+          <button onclick="downloadIcs()" style="width:100%;border:1.5px solid #e5e7eb;color:#374151;background:#fff;border-radius:12px;padding:11px;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit">
             <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
             Télécharger le fichier .ics
           </button>
@@ -764,6 +776,22 @@ function selectBkOp(btn) {
   document.querySelectorAll('.bk-op-btn').forEach(b => b.classList.remove('selected'));
   btn.classList.add('selected');
   bkOpSelected = btn.dataset.op;
+  // Mettre en évidence le numéro de l'opérateur sélectionné
+  const huriEl  = document.getElementById('bk-num-huri');
+  const mvolaEl = document.getElementById('bk-num-mvola');
+  const huriNum  = document.getElementById('bk-num-huri-val');
+  const mvolaNum = document.getElementById('bk-num-mvola-val');
+  if (bkOpSelected === 'Huri Money') {
+    huriEl.style.cssText  = 'display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;border:2px solid #1e3a8a;background:#eff6ff;margin-bottom:6px;transition:.2s';
+    mvolaEl.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;background:#f8fafc;opacity:.55;transition:.2s';
+    huriNum.style.color  = '#1e3a8a';
+    mvolaNum.style.color = '#374151';
+  } else {
+    mvolaEl.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;border:2px solid #1e3a8a;background:#eff6ff;transition:.2s';
+    huriEl.style.cssText  = 'display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;background:#f8fafc;opacity:.55;margin-bottom:6px;transition:.2s';
+    mvolaNum.style.color = '#1e3a8a';
+    huriNum.style.color  = '#374151';
+  }
 }
 
 function renderPayment() {
@@ -774,6 +802,13 @@ function renderPayment() {
   document.querySelectorAll('.bk-pay-choice').forEach(b => b.classList.remove('picked'));
   document.querySelectorAll('.bk-op-btn').forEach(b => b.classList.remove('selected'));
   document.getElementById('bk-mobile-form').style.display = 'none';
+  // Réinitialiser l'apparence des numéros
+  const huriEl  = document.getElementById('bk-num-huri');
+  const mvolaEl = document.getElementById('bk-num-mvola');
+  if (huriEl)  huriEl.style.cssText  = 'display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;background:#f8fafc;margin-bottom:6px;transition:.2s';
+  if (mvolaEl) mvolaEl.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-radius:10px;border:1.5px solid #e5e7eb;background:#f8fafc;transition:.2s';
+  document.getElementById('bk-num-huri-val').style.color  = '#374151';
+  document.getElementById('bk-num-mvola-val').style.color = '#374151';
   document.getElementById('bk-cash-info').style.display   = 'none';
   document.getElementById('bk-pay-error').style.display   = 'none';
   document.getElementById('bk-confirm-err').style.display = 'none';
@@ -901,6 +936,94 @@ function resetDemo() {
   document.getElementById('progressBar').style.background='#1e3a8a';
   document.getElementById('step7').style.display='none';
   goStep(1);
+}
+
+// ── Calendrier / ICS ────────────────────────────────────
+function _parseSlot(slot) {
+  // "8h00" → {h:8,m:0}  "13h30" → {h:13,m:30}
+  const parts = slot.split('h');
+  return { h: parseInt(parts[0], 10), m: parseInt(parts[1] || '0', 10) };
+}
+
+function _durationMin(duration) {
+  // "15 min" → 15 ; "1 heure" → 60 ; "2 heures" → 120
+  const n = parseInt(duration, 10);
+  return duration.includes('min') ? n : n * 60;
+}
+
+function _pad2(n) { return String(n).padStart(2,'0'); }
+
+function _icsDate(date, h, m) {
+  return date.getFullYear() + _pad2(date.getMonth()+1) + _pad2(date.getDate()) +
+         'T' + _pad2(h) + _pad2(m) + '00';
+}
+
+function addToGoogleCalendar() {
+  const svc = services[state.service];
+  const d   = state.date;
+  const { h, m } = _parseSlot(state.slot);
+  const dur = _durationMin(svc.duration);
+  const endMin = h * 60 + m + dur;
+  const endH = Math.floor(endMin / 60);
+  const endM = endMin % 60;
+
+  const fmt = (date, hh, mm) => _icsDate(date, hh, mm);
+  const params = new URLSearchParams({
+    action:   'TEMPLATE',
+    text:     'Rendez-vous Info Experts – ' + svc.name,
+    dates:    fmt(d, h, m) + '/' + fmt(d, endH, endM),
+    details:  'Service : ' + svc.name + '\nDurée : ' + svc.duration + '\nTechnicien : ' + members[state.member] + '\nTél : +269 331 27 22',
+    location: svc.location,
+    ctz:      'Indian/Comoro'
+  });
+  window.open('https://calendar.google.com/calendar/render?' + params.toString(), '_blank');
+}
+
+function downloadIcs() {
+  const svc = services[state.service];
+  const d   = state.date;
+  const { h, m } = _parseSlot(state.slot);
+  const dur = _durationMin(svc.duration);
+  const endMin = h * 60 + m + dur;
+  const endH = Math.floor(endMin / 60);
+  const endM = endMin % 60;
+
+  const now = new Date();
+  const dtstamp = now.getUTCFullYear() + _pad2(now.getUTCMonth()+1) + _pad2(now.getUTCDate()) +
+                  'T' + _pad2(now.getUTCHours()) + _pad2(now.getUTCMinutes()) + _pad2(now.getUTCSeconds()) + 'Z';
+  const uid = 'IE-' + Date.now() + '@info-experts.fr';
+
+  const lines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Info Experts//Booking//FR',
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    'UID:' + uid,
+    'DTSTAMP:' + dtstamp,
+    'DTSTART;TZID=Indian/Comoro:' + _icsDate(d, h, m),
+    'DTEND;TZID=Indian/Comoro:'   + _icsDate(d, endH, endM),
+    'SUMMARY:Rendez-vous Info Experts \u2013 ' + svc.name,
+    'DESCRIPTION:Service : ' + svc.name + '\\nDurée : ' + svc.duration +
+      '\\nTechnicien : ' + members[state.member] +
+      '\\nContact : +269 331 27 22 \\u2013 contact@info-experts.fr',
+    'LOCATION:' + svc.location,
+    'STATUS:CONFIRMED',
+    'END:VEVENT',
+    'END:VCALENDAR'
+  ];
+
+  const icsContent = lines.join('\r\n');
+  const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = 'rdv-info-experts.ics';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
 }
 
 // ── Menu mobile ─────────────────────────────────────────
