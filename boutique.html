@@ -794,6 +794,10 @@
             <input type="tel" id="m-tel" class="form-input" placeholder="+269 321 00 00" autocomplete="tel">
           </div>
           <div class="form-group">
+            <label class="form-label">Votre email <span style="font-weight:400;color:#9ca3af">(optionnel — pour recevoir la confirmation)</span></label>
+            <input type="email" id="m-email" class="form-input" placeholder="ali@example.com" autocomplete="email">
+          </div>
+          <div class="form-group">
             <label class="form-label">Opérateur utilisé *</label>
             <div class="operator-grid">
               <button type="button" class="op-btn" data-op="Huri Money" onclick="selectOp(this)">📱 Huri Money</button>
@@ -836,6 +840,10 @@
           <div class="form-group">
             <label class="form-label">Votre numéro de téléphone *</label>
             <input type="tel" id="c-tel" class="form-input" placeholder="+269 321 00 00" autocomplete="tel">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Votre email <span style="font-weight:400;color:#9ca3af">(optionnel — pour recevoir la confirmation)</span></label>
+            <input type="email" id="c-email" class="form-input" placeholder="ali@example.com" autocomplete="email">
           </div>
           <button class="modal-submit cash" id="c-submit-btn" onclick="submitCash()">
             Réserver ma commande
@@ -882,9 +890,10 @@
         _currentMontant = montant;
         _selectedOp = '';
         document.getElementById('modal-product-name-m').textContent = produit + ' — ' + montant.toLocaleString('fr-FR') + ' KMF';
-        document.getElementById('m-nom').value = '';
-        document.getElementById('m-tel').value = '';
-        document.getElementById('m-ref').value = '';
+        document.getElementById('m-nom').value   = '';
+        document.getElementById('m-tel').value   = '';
+        document.getElementById('m-email').value = '';
+        document.getElementById('m-ref').value   = '';
         document.getElementById('m-error').style.display = 'none';
         document.querySelectorAll('.op-btn').forEach(b => b.classList.remove('selected'));
         // Réinitialiser le banner des numéros
@@ -903,8 +912,9 @@
         _currentProduct = produit;
         _currentMontant = montant;
         document.getElementById('modal-product-name-c').textContent = produit + ' — ' + montant.toLocaleString('fr-FR') + ' KMF';
-        document.getElementById('c-nom').value = '';
-        document.getElementById('c-tel').value = '';
+        document.getElementById('c-nom').value   = '';
+        document.getElementById('c-tel').value   = '';
+        document.getElementById('c-email').value = '';
         document.getElementById('c-error').style.display = 'none';
         showView('modal-view-cash');
         document.getElementById('pay-modal').classList.add('open');
@@ -986,6 +996,7 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               type: 'mobile_payment', nom, telephone: tel,
+              email: document.getElementById('m-email').value.trim() || null,
               produit: _currentProduct, montant: _currentMontant,
               operateur: _selectedOp,
               referenceClient: document.getElementById('m-ref').value.trim() || null,
@@ -1038,6 +1049,7 @@
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               type: 'cash_payment', nom, telephone: tel,
+              email: document.getElementById('c-email').value.trim() || null,
               produit: _currentProduct, montant: _currentMontant,
               source: 'boutique'
             })

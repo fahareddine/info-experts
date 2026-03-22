@@ -879,6 +879,7 @@ async function confirmBooking() {
           type:            bkPayMode === 'mobile' ? 'mobile_payment' : 'cash_payment',
           nom,
           telephone,
+          email:           document.getElementById('email')?.value.trim() || null,
           produit:         svc.name,
           montant:         dep,
           operateur:       bkOpSelected || null,

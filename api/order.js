@@ -15,6 +15,8 @@
  *   rejected                 → paiement échoué ou annulé
  */
 
+import { sendAdminEmail, sendClientEmail } from './_email.js';
+
 const OPERATEURS_VALIDES = ['Huri Money', 'MVola'];
 const PHONE_RE = /^[+\d\s().-]{6,20}$/;
 
@@ -33,6 +35,7 @@ export default async function handler(req, res) {
     type,            // 'mobile_payment' | 'cash_payment'
     nom,
     telephone,
+    email,           // email client (optionnel)
     produit,         // nom du produit ou du service RDV
     montant,
     operateur,       // 'Huri Money' | 'MVola'  (mobile seulement)
@@ -74,6 +77,7 @@ export default async function handler(req, res) {
     status:          type === 'cash_payment' ? 'cash_selected' : 'mobile_payment_submitted',
     nom:             nom.trim(),
     telephone:       telephone.trim(),
+    email:           email?.trim()           || null,
     produit:         produit?.trim()         || 'non précisé',
     montant:         Number(montant)         || 0,
     operateur:       operateur?.trim()       || null,
@@ -84,6 +88,12 @@ export default async function handler(req, res) {
 
   // ── Log (visible dans Vercel Dashboard > Logs) ───────────────────────────
   console.log('[ORDER]', JSON.stringify(commande));
+
+  // ── Emails (admin + client) — non bloquants ──────────────────────────────
+  Promise.all([
+    sendAdminEmail(commande),
+    sendClientEmail(commande),
+  ]).catch(e => console.error('[EMAIL] Erreur globale:', e.message));
 
   // ── TODO : Stockage persistant ───────────────────────────────────────────
   //
