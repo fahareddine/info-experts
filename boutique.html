@@ -895,6 +895,8 @@
         document.getElementById('m-email').value = '';
         document.getElementById('m-ref').value   = '';
         document.getElementById('m-error').style.display = 'none';
+        const mBtn = document.getElementById('m-submit-btn');
+        mBtn.disabled = false; mBtn.textContent = 'Confirmer mon paiement';
         document.querySelectorAll('.op-btn').forEach(b => b.classList.remove('selected'));
         // Réinitialiser le banner des numéros
         const sh = document.getElementById('shop-num-huri');
@@ -916,6 +918,8 @@
         document.getElementById('c-tel').value   = '';
         document.getElementById('c-email').value = '';
         document.getElementById('c-error').style.display = 'none';
+        const cBtn = document.getElementById('c-submit-btn');
+        cBtn.disabled = false; cBtn.textContent = 'Réserver ma commande';
         showView('modal-view-cash');
         document.getElementById('pay-modal').classList.add('open');
         document.body.style.overflow = 'hidden';
