@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" class="scroll-smooth">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,67 +8,338 @@
     <meta name="robots" content="noindex, follow">
     <link rel="canonical" href="https://info-experts.fr/">
     <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="shortcut icon" href="/favicon.ico">
-    <link rel="manifest" href="/site.webmanifest">
-    <meta name="theme-color" content="#1e1b4b">
-    <link rel="stylesheet" href="/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --navy: #1e3a8a;
+            --navy-light: #1e40af;
+            --blue: #60a5fa;
+            --blue-light: #bfdbfe;
+            --bg: #eff6ff;
+            --text: #1e293b;
+            --muted: #64748b;
+            --border: #dbeafe;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            font-family: 'Sora', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Background subtle grid pattern */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(var(--blue-light) 1px, transparent 1px),
+                linear-gradient(90deg, var(--blue-light) 1px, transparent 1px);
+            background-size: 48px 48px;
+            opacity: 0.4;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── Logo bar ─────────────────────────────── */
+        .logo-bar {
+            position: relative;
+            z-index: 1;
+            padding: 28px 40px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            animation: fadeDown 0.5s ease both;
+        }
+
+        .logo-icon {
+            width: 36px;
+            height: 36px;
+            color: var(--navy);
+        }
+
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            color: var(--navy);
+        }
+
+        .logo-text span {
+            color: var(--blue);
+        }
+
+        /* ── Main content ─────────────────────────── */
+        main {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px 24px 60px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .card {
+            text-align: center;
+            max-width: 480px;
+            width: 100%;
+        }
+
+        /* Giant ghost 404 */
+        .number-wrap {
+            position: relative;
+            display: inline-block;
+            margin-bottom: 8px;
+            animation: fadeUp 0.6s ease 0.1s both;
+        }
+
+        .number-ghost {
+            font-size: clamp(120px, 22vw, 200px);
+            font-weight: 700;
+            letter-spacing: -0.05em;
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 2px var(--blue-light);
+            user-select: none;
+            pointer-events: none;
+        }
+
+        .number-real {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: clamp(60px, 11vw, 100px);
+            font-weight: 700;
+            letter-spacing: -0.04em;
+            color: var(--navy);
+        }
+
+        /* Divider line */
+        .divider {
+            width: 48px;
+            height: 3px;
+            background: var(--blue);
+            border-radius: 2px;
+            margin: 0 auto 24px;
+            animation: fadeUp 0.6s ease 0.2s both;
+        }
+
+        .title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--navy);
+            margin-bottom: 12px;
+            animation: fadeUp 0.6s ease 0.25s both;
+        }
+
+        .subtitle {
+            font-size: 0.95rem;
+            font-weight: 300;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 40px;
+            animation: fadeUp 0.6s ease 0.3s both;
+        }
+
+        /* ── Buttons ──────────────────────────────── */
+        .btns {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 48px;
+            animation: fadeUp 0.6s ease 0.35s both;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            border-radius: 10px;
+            font-family: 'Sora', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: var(--navy);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(30, 58, 138, 0.25);
+        }
+
+        .btn-primary:hover {
+            background: var(--navy-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(30, 58, 138, 0.35);
+        }
+
+        .btn-secondary {
+            background: #fff;
+            color: var(--navy);
+            border: 1.5px solid var(--border);
+            box-shadow: 0 2px 8px rgba(30, 58, 138, 0.08);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--blue);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(96, 165, 250, 0.2);
+        }
+
+        .btn svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+
+        /* ── Quick links ──────────────────────────── */
+        .links-section {
+            animation: fadeUp 0.6s ease 0.4s both;
+        }
+
+        .links-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--muted);
+            margin-bottom: 14px;
+        }
+
+        .links {
+            display: flex;
+            gap: 6px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .links a {
+            display: inline-block;
+            padding: 6px 14px;
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 500;
+            color: var(--navy);
+            text-decoration: none;
+            transition: border-color 0.15s, background 0.15s, transform 0.15s;
+        }
+
+        .links a:hover {
+            border-color: var(--blue);
+            background: var(--blue-light);
+            transform: translateY(-1px);
+        }
+
+        /* ── Footer ───────────────────────────────── */
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 20px 24px;
+            font-size: 0.78rem;
+            color: var(--muted);
+            font-weight: 300;
+            border-top: 1px solid var(--border);
+        }
+
+        footer a {
+            color: var(--navy);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        footer a:hover { text-decoration: underline; }
+
+        /* ── Animations ───────────────────────────── */
+        @keyframes fadeDown {
+            from { opacity: 0; transform: translateY(-12px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(16px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 480px) {
+            .logo-bar { padding: 20px 20px; }
+            .btns { flex-direction: column; align-items: center; }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
 </head>
-<body class="bg-trust-blue-50 text-gray-800 font-sans antialiased leading-relaxed">
+<body>
 
-    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md border-b border-trust-blue-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
-                <a href="/" class="flex-shrink-0 flex items-center gap-2 hover:opacity-80 transition">
-                    <svg class="w-9 h-9 text-trust-blue-400" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2 2V18z"></path></svg>
-                    <span class="font-bold text-2xl tracking-tight text-white">Info<span class="text-trust-blue-400">Experts</span></span>
-                </a>
-                <nav class="hidden md:flex space-x-8">
-                    <a href="/" class="text-trust-blue-100 hover:text-white transition font-semibold">Accueil</a>
-                    <a href="/a-propos" class="text-trust-blue-100 hover:text-white transition font-semibold">À propos</a>
-                    <a href="/services" class="text-trust-blue-100 hover:text-white transition font-semibold">Nos Services</a>
-                    <a href="/boutique" class="text-trust-blue-100 hover:text-white transition font-semibold">Boutique</a>
-                    <a href="/blog" class="text-trust-blue-100 hover:text-white transition font-semibold">Blog</a>
-                    <a href="/booking" class="text-trust-blue-100 hover:text-white transition font-semibold">Rendez-vous</a>
-                </nav>
-            </div>
-        </div>
-    </header>
+    <div class="logo-bar">
+        <svg class="logo-icon" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+            <path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2 2V18z"/>
+        </svg>
+        <span class="logo-text">Info<span>Experts</span></span>
+    </div>
 
-    <main id="main" class="min-h-screen flex items-center justify-center px-4 py-20">
-        <div class="text-center max-w-lg mx-auto">
-            <div class="mb-8">
-                <svg class="w-24 h-24 mx-auto text-trust-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
+    <main>
+        <div class="card">
+
+            <div class="number-wrap">
+                <div class="number-ghost" aria-hidden="true">404</div>
+                <div class="number-real">404</div>
             </div>
-            <h1 class="text-6xl font-bold text-trust-blue-900 mb-4">404</h1>
-            <h2 class="text-2xl font-semibold text-gray-700 mb-4">Page introuvable</h2>
-            <p class="text-gray-600 mb-8">La page que vous recherchez n'existe pas ou a été déplacée. Retournez à l'accueil ou consultez nos services.</p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                <a href="/" class="inline-flex items-center justify-center px-6 py-3 bg-trust-blue-900 text-white font-semibold rounded-lg hover:bg-trust-blue-700 transition">
-                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+
+            <div class="divider"></div>
+
+            <h1 class="title">Page introuvable</h1>
+            <p class="subtitle">Cette page n'existe pas ou a été déplacée.<br>Retournez à l'accueil pour continuer.</p>
+
+            <div class="btns">
+                <a href="/" class="btn btn-primary">
+                    <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/>
+                    </svg>
                     Retour à l'accueil
                 </a>
-                <a href="/services" class="inline-flex items-center justify-center px-6 py-3 border-2 border-trust-blue-900 text-trust-blue-900 font-semibold rounded-lg hover:bg-trust-blue-100 transition">
+                <a href="/services" class="btn btn-secondary">
                     Nos services
                 </a>
             </div>
-            <div class="mt-12 pt-8 border-t border-gray-200">
-                <p class="text-sm text-gray-500 mb-4">Liens utiles :</p>
-                <div class="flex flex-wrap justify-center gap-4 text-sm">
-                    <a href="/boutique" class="text-trust-blue-700 hover:underline">Boutique</a>
-                    <a href="/blog" class="text-trust-blue-700 hover:underline">Blog</a>
-                    <a href="/booking" class="text-trust-blue-700 hover:underline">Prendre rendez-vous</a>
+
+            <div class="links-section">
+                <p class="links-label">Liens utiles</p>
+                <div class="links">
+                    <a href="/boutique">Boutique</a>
+                    <a href="/blog">Blog</a>
+                    <a href="/booking">Rendez-vous</a>
+                    <a href="/a-propos">À propos</a>
                 </div>
             </div>
+
         </div>
     </main>
 
-    <footer class="bg-trust-blue-900 text-trust-blue-100 py-8">
-        <div class="max-w-7xl mx-auto px-4 text-center text-sm">
-            <p>© 2025 Info Experts – Informatique Moroni, Comores | <a href="tel:+269331272" class="hover:text-white">+269 331 27 22</a></p>
-        </div>
+    <footer>
+        © 2025 Info Experts — Moroni, Comores &nbsp;·&nbsp;
+        <a href="tel:+269331272">+269 331 27 22</a>
     </footer>
 
 </body>
