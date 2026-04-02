@@ -25,6 +25,71 @@
     <link rel="manifest" href="/site.webmanifest">
     <meta name="theme-color" content="#1e1b4b">
     <link rel="stylesheet" href="../style.css">
+    <style>
+        /* ── Blog layout — styles garantis indépendants du CSS compilé ── */
+        .blog-hero {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            padding: 64px 24px;
+            text-align: center;
+        }
+        .blog-hero h1 { font-size: clamp(1.75rem, 5vw, 2.75rem); font-weight: 800; color: #fff; margin-bottom: 12px; line-height: 1.2; }
+        .blog-hero p  { font-size: 1.05rem; color: #bfdbfe; max-width: 600px; margin: 0 auto; line-height: 1.7; }
+
+        .blog-body { max-width: 1152px; margin: 0 auto; padding: 48px 24px; }
+
+        /* Section header */
+        .cat-header { display: flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+        .cat-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .cat-icon svg { width: 22px; height: 22px; }
+        .cat-title { font-size: 1.35rem; font-weight: 800; color: #1e3a8a; }
+
+        /* Grid */
+        .cat-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px; margin-bottom: 56px; }
+
+        /* Card */
+        .blog-card {
+            display: flex; flex-direction: column; justify-content: space-between;
+            background: #fff; border: 1px solid #e2e8f0; border-radius: 14px;
+            padding: 22px 24px; text-decoration: none; color: inherit;
+            transition: border-color .2s, box-shadow .2s, transform .2s;
+        }
+        .blog-card:hover { border-color: #60a5fa; box-shadow: 0 8px 24px rgba(30,58,138,.1); transform: translateY(-2px); }
+        .blog-card-badge { font-size: 0.7rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; margin-bottom: 10px; }
+        .blog-card h3 { font-size: 0.95rem; font-weight: 700; color: #1e3a8a; line-height: 1.45; margin-bottom: 8px; }
+        .blog-card p  { font-size: 0.83rem; color: #64748b; line-height: 1.6; flex: 1; }
+        .blog-card-footer { display: flex; align-items: center; justify-content: flex-end; margin-top: 14px; font-size: 0.8rem; font-weight: 600; color: #3b82f6; gap: 4px; }
+        .blog-card-footer svg { width: 14px; height: 14px; transition: transform .2s; }
+        .blog-card:hover .blog-card-footer svg { transform: translateX(3px); }
+
+        /* Badge colors */
+        .badge-red    { color: #dc2626; }
+        .badge-blue   { color: #2563eb; }
+        .badge-green  { color: #16a34a; }
+        .badge-purple { color: #7c3aed; }
+        .icon-red    { background: #fee2e2; }
+        .icon-blue   { background: #dbeafe; }
+        .icon-green  { background: #dcfce7; }
+        .icon-purple { background: #ede9fe; }
+        .icon-red svg    { color: #dc2626; }
+        .icon-blue svg   { color: #2563eb; }
+        .icon-green svg  { color: #16a34a; }
+        .icon-purple svg { color: #7c3aed; }
+
+        /* CTA block */
+        .blog-cta { background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%); border-radius: 18px; padding: 48px 32px; text-align: center; }
+        .blog-cta h2 { font-size: 1.4rem; font-weight: 800; color: #fff; margin-bottom: 10px; }
+        .blog-cta p  { color: #bfdbfe; margin-bottom: 28px; font-size: 0.95rem; line-height: 1.6; }
+        .blog-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+        .btn-cta-primary { background: #fff; color: #1e3a8a; font-weight: 700; padding: 12px 28px; border-radius: 50px; text-decoration: none; font-size: 0.9rem; transition: background .2s, transform .2s; }
+        .btn-cta-primary:hover { background: #eff6ff; transform: translateY(-1px); }
+        .btn-cta-wa { background: #25D366; color: #fff; font-weight: 700; padding: 12px 28px; border-radius: 50px; text-decoration: none; font-size: 0.9rem; transition: background .2s, transform .2s; }
+        .btn-cta-wa:hover { background: #128C7E; transform: translateY(-1px); }
+
+        @media (max-width: 640px) {
+            .blog-body { padding: 32px 16px; }
+            .cat-grid { grid-template-columns: 1fr; }
+        }
+    </style>
     <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[
       {"@type":"ListItem","position":1,"name":"Accueil","item":"https://info-experts.fr/"},
@@ -70,220 +135,98 @@
 
     <main>
         <!-- Hero -->
-        <section class="bg-trust-blue-900 py-16">
-            <div class="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-                <h1 class="text-4xl md:text-5xl font-extrabold text-white mb-4">Blog Informatique aux Comores</h1>
-                <p class="text-xl text-trust-blue-100">Guides pratiques, conseils d'experts et actualités informatiques pour les particuliers et entreprises à Moroni et aux Comores.</p>
-            </div>
+        <section class="blog-hero">
+            <h1>Blog Informatique aux Comores</h1>
+            <p>Guides pratiques, conseils d'experts et actualités informatiques pour les particuliers et entreprises à Moroni et aux Comores.</p>
         </section>
 
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-12">
+        <div class="blog-body">
 
-            <!-- Catégorie : Réparation -->
-            <section class="mb-16">
-                <div class="flex items-center gap-3 mb-8">
-                    <div class="bg-red-100 p-3 rounded-xl">
-                        <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+            <!-- Réparation -->
+            <section>
+                <div class="cat-header">
+                    <div class="cat-icon icon-red">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
                     </div>
-                    <h2 class="text-2xl font-extrabold text-trust-blue-900">Réparation &amp; Dépannage</h2>
+                    <h2 class="cat-title">Réparation &amp; Dépannage</h2>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <a href="/blog/reparation/reparer-ordinateur-lent.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-red-600 uppercase tracking-wide">Réparation</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Comment réparer un ordinateur lent aux Comores</h3>
-                        <p class="text-sm text-gray-600">Découvrez les causes d'un PC lent et les solutions efficaces pour retrouver des performances optimales.</p>
-                    </a>
-                    <a href="/blog/reparation/depannage-ecran-noir-pc.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-red-600 uppercase tracking-wide">Réparation</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Écran noir sur PC : diagnostic et solutions à Moroni</h3>
-                        <p class="text-sm text-gray-600">Votre PC affiche un écran noir ? Suivez notre guide pour identifier et résoudre le problème.</p>
-                    </a>
-                    <a href="/blog/reparation/virus-informatique-solutions.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-red-600 uppercase tracking-wide">Réparation</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Virus informatique : protéger et nettoyer votre PC</h3>
-                        <p class="text-sm text-gray-600">Comment détecter, supprimer les virus et protéger durablement votre ordinateur aux Comores.</p>
-                    </a>
-                    <a href="/blog/reparation/surchauffe-ordinateur-portable.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-red-600 uppercase tracking-wide">Réparation</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Surchauffe d'ordinateur portable : causes et solutions</h3>
-                        <p class="text-sm text-gray-600">Pourquoi votre PC portable surchauffe-t-il, surtout sous le climat tropical des Comores ?</p>
-                    </a>
-                    <a href="/blog/reparation/recuperation-donnees-disque-dur.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-red-600 uppercase tracking-wide">Réparation</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Récupération de données sur disque dur aux Comores</h3>
-                        <p class="text-sm text-gray-600">Vous avez perdu des données importantes ? Méthodes et service de récupération à Moroni.</p>
-                    </a>
-                    <a href="/blog/reparation/ordinateur-ne-demarre-plus.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-red-600 uppercase tracking-wide">Réparation</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">PC qui ne démarre plus : diagnostic complet</h3>
-                        <p class="text-sm text-gray-600">Guide de diagnostic complet pour un ordinateur qui refuse de démarrer à Moroni.</p>
-                    </a>
-                    <a href="/blog/reparation/batterie-ordinateur-portable.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-red-600 uppercase tracking-wide">Réparation</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Batterie d'ordinateur portable défaillante : que faire</h3>
-                        <p class="text-sm text-gray-600">Votre batterie ne tient plus ou ne charge plus ? Solutions et remplacement à Moroni.</p>
-                    </a>
-                    <a href="/blog/reparation/reparation-ecran-casse-comores.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-red-600 uppercase tracking-wide">Réparation</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Réparation d'écran cassé d'ordinateur à Moroni</h3>
-                        <p class="text-sm text-gray-600">Écran fissuré ou cassé ? Info Experts assure le remplacement d'écran à Moroni, Comores.</p>
-                    </a>
+                <div class="cat-grid">
+                    <a href="/blog/reparation/reparer-ordinateur-lent.html" class="blog-card"><div><span class="blog-card-badge badge-red">Réparation</span><h3>Comment réparer un ordinateur lent aux Comores</h3><p>Découvrez les causes d'un PC lent et les solutions efficaces pour retrouver des performances optimales.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/reparation/depannage-ecran-noir-pc.html" class="blog-card"><div><span class="blog-card-badge badge-red">Réparation</span><h3>Écran noir sur PC : diagnostic et solutions à Moroni</h3><p>Votre PC affiche un écran noir ? Suivez notre guide pour identifier et résoudre le problème.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/reparation/virus-informatique-solutions.html" class="blog-card"><div><span class="blog-card-badge badge-red">Réparation</span><h3>Virus informatique : protéger et nettoyer votre PC</h3><p>Comment détecter, supprimer les virus et protéger durablement votre ordinateur aux Comores.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/reparation/surchauffe-ordinateur-portable.html" class="blog-card"><div><span class="blog-card-badge badge-red">Réparation</span><h3>Surchauffe d'ordinateur portable : causes et solutions</h3><p>Pourquoi votre PC portable surchauffe-t-il, surtout sous le climat tropical des Comores ?</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/reparation/recuperation-donnees-disque-dur.html" class="blog-card"><div><span class="blog-card-badge badge-red">Réparation</span><h3>Récupération de données sur disque dur aux Comores</h3><p>Vous avez perdu des données importantes ? Méthodes et service de récupération à Moroni.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/reparation/ordinateur-ne-demarre-plus.html" class="blog-card"><div><span class="blog-card-badge badge-red">Réparation</span><h3>PC qui ne démarre plus : diagnostic complet</h3><p>Guide de diagnostic complet pour un ordinateur qui refuse de démarrer à Moroni.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/reparation/batterie-ordinateur-portable.html" class="blog-card"><div><span class="blog-card-badge badge-red">Réparation</span><h3>Batterie d'ordinateur portable défaillante : que faire</h3><p>Votre batterie ne tient plus ou ne charge plus ? Solutions et remplacement à Moroni.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/reparation/reparation-ecran-casse-comores.html" class="blog-card"><div><span class="blog-card-badge badge-red">Réparation</span><h3>Réparation d'écran cassé d'ordinateur à Moroni</h3><p>Écran fissuré ou cassé ? Info Experts assure le remplacement d'écran à Moroni, Comores.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
                 </div>
             </section>
 
-            <!-- Catégorie : Matériel -->
-            <section class="mb-16">
-                <div class="flex items-center gap-3 mb-8">
-                    <div class="bg-blue-100 p-3 rounded-xl">
-                        <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            <!-- Matériel -->
+            <section>
+                <div class="cat-header">
+                    <div class="cat-icon icon-blue">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
                     </div>
-                    <h2 class="text-2xl font-extrabold text-trust-blue-900">Matériel Informatique</h2>
+                    <h2 class="cat-title">Matériel Informatique</h2>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <a href="/blog/materiel/choisir-ordinateur-portable-comores.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-blue-600 uppercase tracking-wide">Matériel</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Comment choisir son ordinateur portable aux Comores</h3>
-                        <p class="text-sm text-gray-600">Guide d'achat complet pour trouver le PC portable idéal selon votre budget et vos besoins.</p>
-                    </a>
-                    <a href="/blog/materiel/ssd-vs-hdd-disque-dur.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-blue-600 uppercase tracking-wide">Matériel</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">SSD vs HDD : quel disque dur choisir en 2026 ?</h3>
-                        <p class="text-sm text-gray-600">Comparatif complet SSD et HDD pour faire le meilleur choix pour votre ordinateur.</p>
-                    </a>
-                    <a href="/blog/materiel/augmenter-ram-ordinateur.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-blue-600 uppercase tracking-wide">Matériel</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Augmenter la RAM de son ordinateur : guide pratique</h3>
-                        <p class="text-sm text-gray-600">Comment choisir et installer de la RAM pour booster les performances de votre PC.</p>
-                    </a>
-                    <a href="/blog/materiel/meilleur-routeur-wifi-comores.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-blue-600 uppercase tracking-wide">Matériel</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Quel routeur WiFi choisir aux Comores en 2026 ?</h3>
-                        <p class="text-sm text-gray-600">Notre sélection de routeurs adaptés aux conditions internet des Comores.</p>
-                    </a>
-                    <a href="/blog/materiel/clavier-souris-sans-fil.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-blue-600 uppercase tracking-wide">Matériel</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Choisir un clavier et une souris sans fil</h3>
-                        <p class="text-sm text-gray-600">Guide pour choisir les meilleurs accessoires sans fil pour votre poste de travail.</p>
-                    </a>
-                    <a href="/blog/materiel/onduleur-protection-comores.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-blue-600 uppercase tracking-wide">Matériel</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Onduleur : protéger son PC des coupures de courant</h3>
-                        <p class="text-sm text-gray-600">Les coupures d'électricité fréquentes aux Comores peuvent endommager votre matériel.</p>
-                    </a>
-                    <a href="/blog/materiel/tablette-ou-ordinateur-portable.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-blue-600 uppercase tracking-wide">Matériel</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Tablette ou ordinateur portable : lequel choisir ?</h3>
-                        <p class="text-sm text-gray-600">Comparatif pour choisir entre tablette et PC portable selon vos usages aux Comores.</p>
-                    </a>
-                    <a href="/blog/materiel/materiel-informatique-occasion-comores.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-blue-600 uppercase tracking-wide">Matériel</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Acheter du matériel informatique d'occasion aux Comores</h3>
-                        <p class="text-sm text-gray-600">Conseils pour acheter un ordinateur reconditionné en toute sécurité à Moroni.</p>
-                    </a>
+                <div class="cat-grid">
+                    <a href="/blog/materiel/choisir-ordinateur-portable-comores.html" class="blog-card"><div><span class="blog-card-badge badge-blue">Matériel</span><h3>Comment choisir son ordinateur portable aux Comores</h3><p>Guide d'achat complet pour trouver le PC portable idéal selon votre budget et vos besoins.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/materiel/ssd-vs-hdd-disque-dur.html" class="blog-card"><div><span class="blog-card-badge badge-blue">Matériel</span><h3>SSD vs HDD : quel disque dur choisir en 2026 ?</h3><p>Comparatif complet SSD et HDD pour faire le meilleur choix pour votre ordinateur.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/materiel/augmenter-ram-ordinateur.html" class="blog-card"><div><span class="blog-card-badge badge-blue">Matériel</span><h3>Augmenter la RAM de son ordinateur : guide pratique</h3><p>Comment choisir et installer de la RAM pour booster les performances de votre PC.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/materiel/meilleur-routeur-wifi-comores.html" class="blog-card"><div><span class="blog-card-badge badge-blue">Matériel</span><h3>Quel routeur WiFi choisir aux Comores en 2026 ?</h3><p>Notre sélection de routeurs adaptés aux conditions internet des Comores.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/materiel/clavier-souris-sans-fil.html" class="blog-card"><div><span class="blog-card-badge badge-blue">Matériel</span><h3>Choisir un clavier et une souris sans fil</h3><p>Guide pour choisir les meilleurs accessoires sans fil pour votre poste de travail.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/materiel/onduleur-protection-comores.html" class="blog-card"><div><span class="blog-card-badge badge-blue">Matériel</span><h3>Onduleur : protéger son PC des coupures de courant</h3><p>Les coupures d'électricité fréquentes aux Comores peuvent endommager votre matériel.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/materiel/tablette-ou-ordinateur-portable.html" class="blog-card"><div><span class="blog-card-badge badge-blue">Matériel</span><h3>Tablette ou ordinateur portable : lequel choisir ?</h3><p>Comparatif pour choisir entre tablette et PC portable selon vos usages aux Comores.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/materiel/materiel-informatique-occasion-comores.html" class="blog-card"><div><span class="blog-card-badge badge-blue">Matériel</span><h3>Acheter du matériel informatique d'occasion aux Comores</h3><p>Conseils pour acheter un ordinateur reconditionné en toute sécurité à Moroni.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
                 </div>
             </section>
 
-            <!-- Catégorie : Réseau -->
-            <section class="mb-16">
-                <div class="flex items-center gap-3 mb-8">
-                    <div class="bg-green-100 p-3 rounded-xl">
-                        <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path></svg>
+            <!-- Réseau -->
+            <section>
+                <div class="cat-header">
+                    <div class="cat-icon icon-green">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg>
                     </div>
-                    <h2 class="text-2xl font-extrabold text-trust-blue-900">Réseau &amp; Internet</h2>
+                    <h2 class="cat-title">Réseau &amp; Internet</h2>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <a href="/blog/reseau/installer-wifi-maison-comores.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-green-600 uppercase tracking-wide">Réseau</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Installer un réseau WiFi chez soi aux Comores</h3>
-                        <p class="text-sm text-gray-600">Guide complet pour installer et configurer votre réseau WiFi à la maison à Moroni.</p>
-                    </a>
-                    <a href="/blog/reseau/connexion-internet-lente-solutions.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-green-600 uppercase tracking-wide">Réseau</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Connexion internet lente aux Comores : 10 solutions</h3>
-                        <p class="text-sm text-gray-600">10 solutions pratiques pour améliorer la vitesse de votre connexion internet à Moroni.</p>
-                    </a>
-                    <a href="/blog/reseau/securiser-reseau-wifi.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-green-600 uppercase tracking-wide">Réseau</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Comment sécuriser son réseau WiFi à Moroni</h3>
-                        <p class="text-sm text-gray-600">Protégez votre réseau WiFi contre les intrusions avec nos conseils de sécurité.</p>
-                    </a>
-                    <a href="/blog/reseau/reseau-entreprise-moroni.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-green-600 uppercase tracking-wide">Réseau</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Installer un réseau d'entreprise à Moroni</h3>
-                        <p class="text-sm text-gray-600">Conception et installation de réseaux informatiques professionnels aux Comores.</p>
-                    </a>
-                    <a href="/blog/reseau/partage-fichiers-reseau.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-green-600 uppercase tracking-wide">Réseau</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Partager des fichiers sur un réseau local</h3>
-                        <p class="text-sm text-gray-600">Comment partager facilement des fichiers et imprimantes entre ordinateurs en réseau.</p>
-                    </a>
-                    <a href="/blog/reseau/vpn-comores-pourquoi-utiliser.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-green-600 uppercase tracking-wide">Réseau</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Pourquoi utiliser un VPN aux Comores ?</h3>
-                        <p class="text-sm text-gray-600">Les avantages d'un réseau privé virtuel pour votre sécurité et vie privée en ligne.</p>
-                    </a>
-                    <a href="/blog/reseau/fibre-optique-comores-internet.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-green-600 uppercase tracking-wide">Réseau</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Internet et fibre optique aux Comores : état des lieux</h3>
-                        <p class="text-sm text-gray-600">État des infrastructures internet à Grande Comore et perspectives d'évolution.</p>
-                    </a>
+                <div class="cat-grid">
+                    <a href="/blog/reseau/installer-wifi-maison-comores.html" class="blog-card"><div><span class="blog-card-badge badge-green">Réseau</span><h3>Installer un réseau WiFi chez soi aux Comores</h3><p>Guide complet pour installer et configurer votre réseau WiFi à la maison à Moroni.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/reseau/connexion-internet-lente-solutions.html" class="blog-card"><div><span class="blog-card-badge badge-green">Réseau</span><h3>Connexion internet lente aux Comores : 10 solutions</h3><p>10 solutions pratiques pour améliorer la vitesse de votre connexion internet à Moroni.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/reseau/securiser-reseau-wifi.html" class="blog-card"><div><span class="blog-card-badge badge-green">Réseau</span><h3>Comment sécuriser son réseau WiFi à Moroni</h3><p>Protégez votre réseau WiFi contre les intrusions avec nos conseils de sécurité.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/reseau/reseau-entreprise-moroni.html" class="blog-card"><div><span class="blog-card-badge badge-green">Réseau</span><h3>Installer un réseau d'entreprise à Moroni</h3><p>Conception et installation de réseaux informatiques professionnels aux Comores.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/reseau/partage-fichiers-reseau.html" class="blog-card"><div><span class="blog-card-badge badge-green">Réseau</span><h3>Partager des fichiers sur un réseau local</h3><p>Comment partager facilement des fichiers et imprimantes entre ordinateurs en réseau.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/reseau/vpn-comores-pourquoi-utiliser.html" class="blog-card"><div><span class="blog-card-badge badge-green">Réseau</span><h3>Pourquoi utiliser un VPN aux Comores ?</h3><p>Les avantages d'un réseau privé virtuel pour votre sécurité et vie privée en ligne.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/reseau/fibre-optique-comores-internet.html" class="blog-card"><div><span class="blog-card-badge badge-green">Réseau</span><h3>Internet et fibre optique aux Comores : état des lieux</h3><p>État des infrastructures internet à Grande Comore et perspectives d'évolution.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
                 </div>
             </section>
 
-            <!-- Catégorie : Logiciel -->
-            <section class="mb-16">
-                <div class="flex items-center gap-3 mb-8">
-                    <div class="bg-purple-100 p-3 rounded-xl">
-                        <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+            <!-- Logiciel -->
+            <section>
+                <div class="cat-header">
+                    <div class="cat-icon icon-purple">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/></svg>
                     </div>
-                    <h2 class="text-2xl font-extrabold text-trust-blue-900">Logiciels &amp; Sécurité</h2>
+                    <h2 class="cat-title">Logiciels &amp; Sécurité</h2>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <a href="/blog/logiciel/windows-mise-a-jour-guide.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-purple-600 uppercase tracking-wide">Logiciel</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Comment mettre à jour Windows correctement en 2026</h3>
-                        <p class="text-sm text-gray-600">Guide complet pour mettre à jour Windows sans risque de perdre vos données.</p>
-                    </a>
-                    <a href="/blog/logiciel/meilleur-antivirus-windows-gratuit.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-purple-600 uppercase tracking-wide">Logiciel</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Meilleurs antivirus gratuits pour Windows en 2026</h3>
-                        <p class="text-sm text-gray-600">Comparatif des meilleurs antivirus gratuits pour protéger votre PC aux Comores.</p>
-                    </a>
-                    <a href="/blog/logiciel/sauvegarder-donnees-ordinateur.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-purple-600 uppercase tracking-wide">Logiciel</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Comment sauvegarder ses données importantes</h3>
-                        <p class="text-sm text-gray-600">Méthodes éprouvées pour ne jamais perdre vos fichiers importants.</p>
-                    </a>
-                    <a href="/blog/logiciel/logiciels-gratuits-indispensables.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-purple-600 uppercase tracking-wide">Logiciel</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Logiciels gratuits indispensables pour votre PC</h3>
-                        <p class="text-sm text-gray-600">Notre sélection des meilleurs outils gratuits à installer absolument sur votre ordinateur.</p>
-                    </a>
-                    <a href="/blog/logiciel/nettoyer-windows-optimiser-pc.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-purple-600 uppercase tracking-wide">Logiciel</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Nettoyer et optimiser Windows : guide complet</h3>
-                        <p class="text-sm text-gray-600">Toutes les étapes pour nettoyer Windows et retrouver un PC fluide et rapide.</p>
-                    </a>
-                    <a href="/blog/logiciel/alternatives-microsoft-office.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-purple-600 uppercase tracking-wide">Logiciel</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Alternatives gratuites à Microsoft Office</h3>
-                        <p class="text-sm text-gray-600">LibreOffice, Google Docs et autres : les meilleures alternatives gratuites à Office.</p>
-                    </a>
-                    <a href="/blog/logiciel/securite-informatique-entreprise-comores.html" class="bg-white rounded-xl p-6 border border-gray-200 hover:border-trust-blue-400 hover:shadow-lg transition">
-                        <span class="text-xs font-semibold text-purple-600 uppercase tracking-wide">Logiciel</span>
-                        <h3 class="text-base font-bold text-trust-blue-900 mt-2 mb-2">Cybersécurité pour les entreprises aux Comores</h3>
-                        <p class="text-sm text-gray-600">Bonnes pratiques pour protéger vos systèmes et données d'entreprise à Moroni.</p>
-                    </a>
+                <div class="cat-grid">
+                    <a href="/blog/logiciel/windows-mise-a-jour-guide.html" class="blog-card"><div><span class="blog-card-badge badge-purple">Logiciel</span><h3>Comment mettre à jour Windows correctement en 2026</h3><p>Guide complet pour mettre à jour Windows sans risque de perdre vos données.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/logiciel/meilleur-antivirus-windows-gratuit.html" class="blog-card"><div><span class="blog-card-badge badge-purple">Logiciel</span><h3>Meilleurs antivirus gratuits pour Windows en 2026</h3><p>Comparatif des meilleurs antivirus gratuits pour protéger votre PC aux Comores.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/logiciel/sauvegarder-donnees-ordinateur.html" class="blog-card"><div><span class="blog-card-badge badge-purple">Logiciel</span><h3>Comment sauvegarder ses données importantes</h3><p>Méthodes éprouvées pour ne jamais perdre vos fichiers importants.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/logiciel/logiciels-gratuits-indispensables.html" class="blog-card"><div><span class="blog-card-badge badge-purple">Logiciel</span><h3>Logiciels gratuits indispensables pour votre PC</h3><p>Notre sélection des meilleurs outils gratuits à installer absolument sur votre ordinateur.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/logiciel/nettoyer-windows-optimiser-pc.html" class="blog-card"><div><span class="blog-card-badge badge-purple">Logiciel</span><h3>Nettoyer et optimiser Windows : guide complet</h3><p>Toutes les étapes pour nettoyer Windows et retrouver un PC fluide et rapide.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/logiciel/alternatives-microsoft-office.html" class="blog-card"><div><span class="blog-card-badge badge-purple">Logiciel</span><h3>Alternatives gratuites à Microsoft Office</h3><p>LibreOffice, Google Docs et autres : les meilleures alternatives gratuites à Office.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
+                    <a href="/blog/logiciel/securite-informatique-entreprise-comores.html" class="blog-card"><div><span class="blog-card-badge badge-purple">Logiciel</span><h3>Cybersécurité pour les entreprises aux Comores</h3><p>Bonnes pratiques pour protéger vos systèmes et données d'entreprise à Moroni.</p></div><div class="blog-card-footer">Lire <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg></div></a>
                 </div>
             </section>
 
             <!-- CTA -->
-            <div class="bg-trust-blue-900 rounded-2xl p-10 text-center text-white">
-                <h2 class="text-2xl font-bold mb-3">Un problème informatique aux Comores ?</h2>
-                <p class="text-trust-blue-100 mb-6">Info Experts, votre technicien de confiance à Moroni, intervient rapidement pour tous vos besoins informatiques.</p>
-                <div class="flex flex-col sm:flex-row justify-center gap-4">
-                    <a href="../services.html" class="bg-trust-blue-600 hover:bg-trust-blue-500 text-white font-bold py-3 px-8 rounded-full transition">Nos services</a>
-                    <a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" class="bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 px-8 rounded-full transition">💬 WhatsApp</a>
+            <div class="blog-cta">
+                <h2>Un problème informatique aux Comores ?</h2>
+                <p>Info Experts, votre technicien de confiance à Moroni, intervient rapidement pour tous vos besoins informatiques.</p>
+                <div class="blog-cta-btns">
+                    <a href="../services.html" class="btn-cta-primary">Nos services</a>
+                    <a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" class="btn-cta-wa">💬 WhatsApp</a>
                 </div>
             </div>
         </div>
