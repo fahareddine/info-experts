@@ -14,6 +14,7 @@
     <link rel="manifest" href="/site.webmanifest">
     <meta name="theme-color" content="#1e1b4b">
     <link rel="stylesheet" href="../../style.css">
+    <link rel="stylesheet" href="../article.css">
     
     
     
@@ -223,5 +224,7 @@
         if(b&&m){b.addEventListener('click',()=>m.classList.toggle('hidden'));m.querySelectorAll('a').forEach(l=>l.addEventListener('click',()=>m.classList.add('hidden')));}
     </script>
 
+    <div class="read-progress" id="read-progress"></div>
+    <script>var p=document.getElementById("read-progress");window.addEventListener("scroll",function(){var d=document.documentElement,b=document.body,h=Math.max(d.scrollHeight,b.scrollHeight)-d.clientHeight;p.style.width=(d.scrollTop/h*100)+"%";});</script>
 </body>
 </html>
