@@ -54,53 +54,58 @@
 </head>
 <body class="bg-trust-blue-50 text-gray-800 font-sans antialiased leading-relaxed">
 
-    <!-- Header -->
-    <header class="bg-trust-blue-900 text-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-            <a href="../../index.html" class="text-xl font-bold tracking-tight hover:text-trust-blue-200 transition">
-                Info Experts <span class="text-trust-blue-400">Moroni</span>
-            </a>
-            <nav class="hidden md:flex items-center gap-6 text-sm">
-                <a href="../../index.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Accueil</a>
-                <a href="../../services.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Services</a>
-                <a href="../../boutique.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Boutique</a>
-                <a href="../index.html" class="text-white font-bold border-b-2 border-trust-blue-400 pb-0.5">Blog</a>
-                <a href="../../index.html#formulaire" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Contact</a>
-            </nav>
-            <button id="btn-menu-mobile" class="md:hidden focus:outline-none" aria-label="Menu">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
-                </svg>
-            </button>
+    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md border-b border-trust-blue-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <a href="../../index.html" class="flex-shrink-0 flex items-center gap-2 hover:opacity-80 transition">
+                    <svg class="w-9 h-9 text-trust-blue-400" fill="currentColor" viewBox="0 0 20 20"><path d="M10.394 2.08a1 1 0 00-.788 0l-7 3a1 1 0 000 1.84L5.25 8.051a.999.999 0 01.356-.257l4-1.714a1 1 0 11.788 1.838L7.667 9.088l1.94.831a1 1 0 00.787 0l7-3a1 1 0 000-1.838l-7-3zM3.31 9.397L5 10.12v4.102a8.969 8.969 0 00-1.05-.174 1 1 0 01-.89-.89 11.115 11.115 0 01.25-3.762zM9.3 16.573A9.026 9.026 0 007 14.935v-3.957l1.818.78a3 3 0 002.364 0l5.508-2.361a11.026 11.026 0 01.25 3.762 1 1 0 01-.89.89 8.968 8.968 0 00-5.35 2.524 1 1 0 01-1.4 0zM6 18a1 1 0 001-1v-2.065a8.935 8.935 0 00-2 2V18z"></path></svg>
+                    <span class="font-bold text-2xl tracking-tight text-white">Info<span class="text-trust-blue-400">Experts</span></span>
+                </a>
+                <nav class="hidden md:flex space-x-8">
+                    <a href="../../index.html" class="text-trust-blue-100 hover:text-white transition font-semibold">Accueil</a>
+                    <a href="../../a-propos.html" class="text-trust-blue-100 hover:text-white transition font-semibold">À propos</a>
+                    <a href="../../services.html" class="text-trust-blue-100 hover:text-white transition font-semibold">Nos Services</a>
+                    <a href="../../boutique.html" class="text-trust-blue-100 hover:text-white transition font-semibold">Boutique</a>
+                    <a href="../index.html" class="text-white font-bold border-b-2 border-trust-blue-400 pb-1">Blog</a>
+                </nav>
+                <div class="md:hidden">
+                    <button id="btn-menu-mobile" aria-label="Menu" class="text-trust-blue-100 hover:text-white focus:outline-none">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    </button>
+                </div>
+            </div>
         </div>
-        <div id="menu-mobile" class="hidden md:hidden bg-trust-blue-800 px-4 pb-4 space-y-2 text-sm">
-            <a href="../../index.html" class="block py-2 text-trust-blue-100 hover:text-white">Accueil</a>
-            <a href="../../services.html" class="block py-2 text-trust-blue-100 hover:text-white">Services</a>
-            <a href="../../boutique.html" class="block py-2 text-trust-blue-100 hover:text-white">Boutique</a>
-            <a href="../index.html" class="block py-2 text-white font-bold">Blog</a>
-            <a href="../../index.html#formulaire" class="block py-2 text-trust-blue-100 hover:text-white">Contact</a>
+        <div id="menu-mobile" class="hidden md:hidden bg-trust-blue-800 border-t border-trust-blue-700">
+            <div class="px-2 pt-2 pb-4 space-y-1">
+                <a href="../../index.html" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Accueil</a>
+                <a href="../../a-propos.html" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">À propos</a>
+                <a href="../../services.html" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Nos Services</a>
+                <a href="../../boutique.html" class="block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">Boutique</a>
+                <a href="../index.html" class="block px-3 py-2 rounded-md text-base font-bold text-white bg-trust-blue-700">Blog</a>
+            </div>
         </div>
     </header>
 
     <main>
-        <!-- Breadcrumb -->
-        <nav class="bg-white border-b border-gray-200 py-3 px-4 text-sm text-gray-500">
-            <div class="max-w-4xl mx-auto flex flex-wrap gap-1 items-center">
-                <a href="../../index.html" class="hover:text-trust-blue-600 transition">Accueil</a>
-                <span>›</span>
-                <a href="../index.html" class="hover:text-trust-blue-600 transition">Blog</a>
-                <span>›</span>
-                <span class="text-gray-700 font-medium">Tablette ou Ordinateur Portable</span>
+        <div class="bg-white border-b border-gray-100 py-3">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6">
+                <nav class="text-sm text-gray-500">
+                    <a href="../../index.html" class="hover:text-trust-blue-600">Accueil</a>
+                    <span class="mx-2">›</span>
+                    <a href="../index.html" class="hover:text-trust-blue-600">Blog</a>
+                    <span class="mx-2">›</span>
+                    <span class="text-gray-800">Tablette ou Ordinateur Portable</span>
+                </nav>
             </div>
-        </nav>
+        </div>
 
         <article class="max-w-4xl mx-auto px-4 sm:px-6 py-12">
             <header class="mb-10">
-                <div class="flex flex-wrap gap-2 mb-4">
+                <div class="flex items-center gap-3 mb-4">
                     <span class="bg-trust-blue-100 text-trust-blue-800 text-xs font-semibold px-3 py-1 rounded-full">Matériel</span>
-                    <span class="text-gray-500 text-sm">12 mars 2026</span>
+                    <time class="text-sm text-gray-500" datetime="2026-03-12">12 mars 2026</time>
                 </div>
-                <h1 class="text-3xl sm:text-4xl font-bold text-trust-blue-900 leading-tight mb-6">
+                <h1 class="text-3xl md:text-4xl font-extrabold text-trust-blue-900 leading-tight mb-4">
                     Tablette ou Ordinateur Portable : Que Choisir aux Comores ?
                 </h1>
                 <p class="text-lg text-gray-600 leading-relaxed">
@@ -111,71 +116,71 @@
             <div class="space-y-8">
 
                 <section>
-                    <h2 class="text-2xl font-bold text-trust-blue-800 mb-4">Les Tablettes : Pour Qui, Pour Quoi ?</h2>
-                    <p class="text-gray-700 mb-4">
+                    <h2 class="text-2xl font-bold text-trust-blue-900 mb-4">Les Tablettes : Pour Qui, Pour Quoi ?</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         La tablette est un appareil conçu principalement pour la consommation de contenu : navigation sur internet, lecture d'e-mails, vidéos, réseaux sociaux, jeux. Son écran tactile intuitif et sa légèreté en font un compagnon idéal pour les déplacements.
                     </p>
-                    <p class="text-gray-700 mb-4">
+                    <p class="text-gray-700 leading-relaxed">
                         <strong>Avantages des tablettes :</strong> légèreté et portabilité exceptionnelles, excellente autonomie (souvent 10 à 12 heures), démarrage instantané, prix d'entrée de gamme accessible, interface intuitive pour toute la famille. Elles résistent aussi mieux aux environnements poussiéreux ou humides car il n'y a pas de ventilateur.
                     </p>
-                    <p class="text-gray-700 mb-4">
+                    <p class="text-gray-700 leading-relaxed">
                         <strong>Limites des tablettes :</strong> elles sont peu adaptées à la création de contenu (rédaction longue, traitement de données complexes, graphisme). La saisie via clavier tactile est fatigante sur de longues périodes. Peu de logiciels professionnels existent en version Android ou iOS. La mémoire de stockage est souvent limitée et peu extensible.
                     </p>
-                    <p class="text-gray-700">
+                    <p class="text-gray-700 leading-relaxed">
                         Une tablette convient parfaitement à : un étudiant souhaitant lire des cours, une personne âgée pour les appels vidéo et la navigation, un enfant pour les jeux éducatifs, ou un professionnel ayant déjà un PC fixe et cherchant un second écran mobile.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-bold text-trust-blue-800 mb-4">L'Ordinateur Portable : La Polyvalence Avant Tout</h2>
-                    <p class="text-gray-700 mb-4">
+                    <h2 class="text-2xl font-bold text-trust-blue-900 mb-4">L'Ordinateur Portable : La Polyvalence Avant Tout</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         L'ordinateur portable est un véritable outil de travail. Il permet d'utiliser des logiciels complets (bureautique, comptabilité, graphisme, programmation), de créer et modifier des documents complexes, et de gérer des tâches professionnelles exigeantes.
                     </p>
-                    <p class="text-gray-700 mb-4">
+                    <p class="text-gray-700 leading-relaxed">
                         <strong>Avantages des ordinateurs portables :</strong> compatibilité avec tous les logiciels professionnels (Word, Excel, logiciels de comptabilité, etc.), clavier physique confortable pour la saisie longue, capacités de stockage et de mémoire bien supérieures, possibilité de connecter plusieurs périphériques (imprimante, écran externe, disque dur).
                     </p>
-                    <p class="text-gray-700 mb-4">
+                    <p class="text-gray-700 leading-relaxed">
                         <strong>Limites des ordinateurs portables :</strong> plus lourds et encombrants, autonomie généralement inférieure aux tablettes (4 à 8 heures), prix plus élevé pour une bonne configuration, plus sensibles aux pannes (ventilateur, charnières, disque dur).
                     </p>
-                    <p class="text-gray-700">
+                    <p class="text-gray-700 leading-relaxed">
                         Un ordinateur portable est indispensable pour : les étudiants en informatique ou en gestion, les comptables, les enseignants, les commerçants gérant leurs stocks, toute personne travaillant régulièrement avec des fichiers Word ou Excel.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-bold text-trust-blue-800 mb-4">Le Contexte Comorien : Facteurs Spécifiques</h2>
-                    <p class="text-gray-700 mb-4">
+                    <h2 class="text-2xl font-bold text-trust-blue-900 mb-4">Le Contexte Comorien : Facteurs Spécifiques</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         Aux Comores, plusieurs facteurs doivent influencer votre choix :
                     </p>
-                    <p class="text-gray-700 mb-4">
+                    <p class="text-gray-700 leading-relaxed">
                         <strong>Les coupures de courant fréquentes</strong> favorisent les tablettes, qui offrent une autonomie batterie supérieure. Un ordinateur portable bien chargé tiendra aussi plusieurs heures sans courant, ce qui le rend viable, mais une tablette durera plus longtemps.
                     </p>
-                    <p class="text-gray-700 mb-4">
+                    <p class="text-gray-700 leading-relaxed">
                         <strong>La chaleur et l'humidité</strong> tropicale des Comores sont difficiles pour les composants électroniques. Les tablettes, sans ventilateur, sont légèrement moins sensibles à la poussière, mais restent vulnérables à l'humidité. Les deux types d'appareils nécessitent des précautions similaires.
                     </p>
-                    <p class="text-gray-700 mb-4">
+                    <p class="text-gray-700 leading-relaxed">
                         <strong>L'utilisation professionnelle</strong> dans les administrations et entreprises comoriennes requiert quasi systématiquement un ordinateur portable ou fixe, car les logiciels métier fonctionnent sous Windows.
                     </p>
-                    <p class="text-gray-700">
+                    <p class="text-gray-700 leading-relaxed">
                         <strong>Le budget</strong> est souvent le facteur décisif. Une bonne tablette Android coûte entre 100 000 et 200 000 FC. Un ordinateur portable décent débute autour de 200 000 à 300 000 FC. Si votre budget est serré et votre usage essentiellement multimédia, la tablette peut suffire.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-bold text-trust-blue-800 mb-4">La Solution Hybride : Tablette avec Clavier</h2>
-                    <p class="text-gray-700 mb-4">
+                    <h2 class="text-2xl font-bold text-trust-blue-900 mb-4">La Solution Hybride : Tablette avec Clavier</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         Une solution de plus en plus populaire est la tablette 2-en-1 avec clavier amovible (type Microsoft Surface, iPad avec Magic Keyboard, ou Samsung Galaxy Tab avec clavier). Ces appareils combinent la légèreté d'une tablette et l'ergonomie de saisie d'un ordinateur portable.
                     </p>
-                    <p class="text-gray-700 mb-4">
+                    <p class="text-gray-700 leading-relaxed">
                         Pour des usages bureautiques simples (traitement de texte, tableur basique, navigation web), cette solution peut être satisfaisante. Cependant, pour des usages professionnels intensifs ou des logiciels spécialisés, un vrai ordinateur portable reste préférable.
                     </p>
-                    <p class="text-gray-700">
+                    <p class="text-gray-700 leading-relaxed">
                         Si vous avez une tablette Android et besoin occasionnellement d'un clavier, il est aussi possible d'acheter un clavier Bluetooth universel à faible coût. Notre <a href="clavier-souris-sans-fil.html" class="text-trust-blue-600 hover:underline">guide sur les claviers et souris sans fil</a> vous donnera plus d'informations.
                     </p>
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-bold text-trust-blue-800 mb-4">Tableau Comparatif : Tablette vs Ordinateur Portable</h2>
+                    <h2 class="text-2xl font-bold text-trust-blue-900 mb-4">Tableau Comparatif : Tablette vs Ordinateur Portable</h2>
                     <div class="overflow-x-auto">
                         <table class="w-full text-sm border-collapse bg-white rounded-xl overflow-hidden shadow-sm">
                             <thead class="bg-trust-blue-900 text-white">
@@ -201,97 +206,79 @@
                 </section>
 
                 <section>
-                    <h2 class="text-2xl font-bold text-trust-blue-800 mb-4">Notre Recommandation Finale</h2>
-                    <p class="text-gray-700 mb-4">
+                    <h2 class="text-2xl font-bold text-trust-blue-900 mb-4">Notre Recommandation Finale</h2>
+                    <p class="text-gray-700 leading-relaxed">
                         <strong>Choisissez une tablette si :</strong> votre usage est principalement multimédia (vidéos, réseaux sociaux, navigation), vous cherchez un appareil léger pour vous déplacer, vous avez déjà un ordinateur fixe ou portable, ou votre budget est limité.
                     </p>
-                    <p class="text-gray-700 mb-4">
+                    <p class="text-gray-700 leading-relaxed">
                         <strong>Choisissez un ordinateur portable si :</strong> vous travaillez avec des logiciels professionnels, vous rédigez régulièrement des documents longs, vous êtes étudiant en gestion, droit ou informatique, vous gérez une entreprise avec des besoins bureautiques, ou c'est votre seul appareil informatique.
                     </p>
-                    <p class="text-gray-700">
+                    <p class="text-gray-700 leading-relaxed">
                         Quelle que soit votre décision, venez nous voir à Moroni. Chez Info Experts, nous vous proposons tablettes et ordinateurs portables adaptés aux conditions comoriennes, avec des conseils personnalisés et un service après-vente disponible.
                     </p>
                 </section>
 
             </div>
 
-            <!-- CTA Block -->
-            <div class="mt-12 bg-trust-blue-900 text-white rounded-2xl p-8 text-center">
-                <h2 class="text-2xl font-bold mb-3">Besoin de Conseils pour Choisir votre Appareil ?</h2>
-                <p class="text-trust-blue-100 mb-6">Nos experts Info Experts Moroni vous guident vers le meilleur choix selon votre budget et vos besoins réels.</p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="../../services/maintenance-informatique-comores.html" class="bg-white text-trust-blue-900 font-bold py-3 px-6 rounded-xl hover:bg-trust-blue-50 transition">
-                        Nos Services
-                    </a>
-                    <a href="https://wa.me/33667491345" target="_blank" rel="noopener" class="bg-green-500 text-white font-bold py-3 px-6 rounded-xl hover:bg-green-600 transition">
-                        WhatsApp : Demander Conseil
-                    </a>
+<div class="mt-12 bg-trust-blue-900 rounded-2xl p-8 text-center text-white">
+                <h2 class="text-2xl font-bold mb-3">Besoin d'aide ? Info Experts intervient à Moroni</h2>
+                <p class="text-trust-blue-100 mb-6">Notre équipe de techniciens certifiés à Moroni, Grande Comore, intervient rapidement pour tous vos problèmes informatiques aux Comores.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-4">
+                    <a href="../../services.html" class="bg-trust-blue-600 hover:bg-trust-blue-500 text-white font-bold py-3 px-8 rounded-full transition">Voir nos services</a>
+                    <a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" class="bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 px-8 rounded-full transition">💬 WhatsApp</a>
                 </div>
             </div>
 
-            <!-- Related Articles -->
-            <div class="mt-12">
-                <h2 class="text-xl font-bold text-trust-blue-900 mb-6">Articles Liés</h2>
-                <div class="grid sm:grid-cols-2 gap-6">
-                    <a href="choisir-ordinateur-portable-comores.html" class="block bg-white rounded-xl shadow-sm hover:shadow-md transition p-6 border border-gray-100">
+            <section class="mt-12">
+                <h2 class="text-xl font-bold text-trust-blue-900 mb-6">Articles connexes</h2>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <a href="choisir-ordinateur-portable-comores.html" class="block bg-white rounded-xl p-5 border border-gray-200 hover:border-trust-blue-400 hover:shadow-md transition">
                         <span class="text-xs font-semibold text-trust-blue-600 uppercase tracking-wide">Matériel</span>
-                        <h3 class="font-bold text-trust-blue-900 mt-2 mb-2">Choisir son Ordinateur Portable aux Comores</h3>
+                        <h3 class="text-base font-bold text-trust-blue-900 mt-1">Choisir son Ordinateur Portable aux Comores</h3>
                         <p class="text-sm text-gray-600">Guide complet pour choisir le bon ordinateur portable selon votre budget et usage.</p>
                     </a>
-                    <a href="augmenter-ram-ordinateur.html" class="block bg-white rounded-xl shadow-sm hover:shadow-md transition p-6 border border-gray-100">
+                    <a href="augmenter-ram-ordinateur.html" class="block bg-white rounded-xl p-5 border border-gray-200 hover:border-trust-blue-400 hover:shadow-md transition">
                         <span class="text-xs font-semibold text-trust-blue-600 uppercase tracking-wide">Matériel</span>
-                        <h3 class="font-bold text-trust-blue-900 mt-2 mb-2">Augmenter la RAM de son Ordinateur</h3>
+                        <h3 class="text-base font-bold text-trust-blue-900 mt-1">Augmenter la RAM de son Ordinateur</h3>
                         <p class="text-sm text-gray-600">Comment booster les performances de votre PC avec plus de mémoire vive.</p>
                     </a>
                 </div>
-            </div>
+            </section>
         </article>
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-trust-blue-950 text-trust-blue-100 py-10 mt-12">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 grid sm:grid-cols-3 gap-8 text-sm">
-            <div>
-                <p class="font-bold text-white text-base mb-2">Info Experts Moroni</p>
-                <p>Votre expert informatique aux Comores. Vente, réparation, maintenance et conseil.</p>
+        <footer class="bg-trust-blue-950 border-t border-trust-blue-900 py-6 mt-12">
+        <div class="max-w-4xl mx-auto px-6 text-center">
+            <div class="flex flex-col sm:flex-row justify-center items-center mb-4">
+                <a href="tel:002693312722" class="text-white text-base font-semibold hover:text-trust-blue-400 transition py-2 px-6">📞 +269 331 27 22</a>
+                <span class="text-trust-blue-600 hidden sm:inline px-2 text-lg">·</span>
+                <a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" class="text-white text-base font-semibold hover:text-trust-blue-400 transition py-2 px-6">💬 WhatsApp</a>
             </div>
-            <div>
-                <p class="font-bold text-white mb-2">Contact</p>
-                <p>📞 <a href="tel:+269331272" class="hover:text-white transition">+269 331 27 22</a></p>
-                <p>✉️ <a href="mailto:contact@info-experts.fr" class="hover:text-white transition">contact@info-experts.fr</a></p>
-                <p>📍 Moroni, Grande Comore</p>
+            <div class="border-t border-trust-blue-900" style="padding-top:20px">
+                <div style="margin-bottom:8px">
+                    <a href="mailto:contact@info-experts.fr" style="display:inline-flex;align-items:center;gap:6px;color:#93c5fd;font-size:0.875rem;font-weight:500;text-decoration:none;transition:color 0.2s" onmouseover="this.style.color='#ffffff'" onmouseout="this.style.color='#93c5fd'">
+                        <svg width="14" height="14" style="flex-shrink:0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                        contact@info-experts.fr
+                    </a>
+                </div>
+                <p style="font-size:11px;color:#94a3b8;line-height:1.6;margin-bottom:14px">
+                    Enregistrée au RCCM de Grande Comore sous le n° : KM-HAH-01-2023-B13-10201
+                </p>
+                <p style="border-top:1px solid #0f2744;padding-top:12px;font-size:0.875rem;color:#ffffff">
+                    © 2026 Info Experts – Informatique Moroni, Comores. Tous droits réservés.
+                </p>
             </div>
-            <div>
-                <p class="font-bold text-white mb-2">Navigation</p>
-                <ul class="space-y-1">
-                    <li><a href="../../index.html" class="hover:text-white transition">Accueil</a></li>
-                    <li><a href="../../services.html" class="hover:text-white transition">Services</a></li>
-                    <li><a href="../../boutique.html" class="hover:text-white transition">Boutique</a></li>
-                    <li><a href="../index.html" class="hover:text-white transition">Blog</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="text-center mt-8" style="font-size:11px;color:#94a3b8">
-            <p style="margin-bottom:4px">Enregistrée au RCCM de Grande Comore sous le n° : KM-HAH-01-2023-B13-10201</p>
-            <p style="color:#93c5fd">© 2026 Info Experts Moroni — Tous droits réservés</p>
         </div>
     </footer>
-
-    <!-- WhatsApp Floating Button -->
-    <a href="https://wa.me/33667491345" target="_blank" rel="noopener"
-       class="fixed bottom-6 right-6 z-50 bg-green-500 hover:bg-green-600 text-white rounded-full p-4 shadow-lg transition-transform hover:scale-110"
-       aria-label="Contacter sur WhatsApp">
-        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-        </svg>
+    <a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" aria-label="WhatsApp" class="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:bg-[#128C7E] transition z-50 flex items-center justify-center">
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
     </a>
-
     <script>
-        document.getElementById('btn-menu-mobile').addEventListener('click', function() {
-            document.getElementById('menu-mobile').classList.toggle('hidden');
-        });
+        const b=document.getElementById('btn-menu-mobile'),m=document.getElementById('menu-mobile');
+        if(b&&m){b.addEventListener('click',()=>m.classList.toggle('hidden'));m.querySelectorAll('a').forEach(l=>l.addEventListener('click',()=>m.classList.add('hidden')));}
     </script>
     <div class="read-progress" id="read-progress"></div>
     <script>var p=document.getElementById("read-progress");window.addEventListener("scroll",function(){var d=document.documentElement,b=document.body,h=Math.max(d.scrollHeight,b.scrollHeight)-d.clientHeight;p.style.width=(d.scrollTop/h*100)+"%";});</script>
+
 </body>
 </html>
