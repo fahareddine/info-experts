@@ -63,14 +63,13 @@
     @media(min-width:768px){.md\:flex{display:flex}.md\:hidden{display:none}}
     @media(min-width:1024px){.lg\:px-8{padding-left:2rem;padding-right:2rem}}
     /* ── Carousel Hero ───────────────────────────────────────────────── */
-    .hero-carousel{position:relative;overflow:hidden;background:#1e3a8a;min-height:520px;height:85vh;max-height:760px;aspect-ratio:3/2}
-    @media(max-width:768px){.hero-carousel{aspect-ratio:3/2;min-height:400px;height:70vh;max-height:500px}}
-    @media(max-width:640px){.hero-carousel{aspect-ratio:3/2;min-height:350px;height:60vh;max-height:400px}}
+    .hero-carousel{position:relative;overflow:hidden;background:#1e3a8a;min-height:520px;height:85vh;max-height:760px}
+    @media(max-width:640px){.hero-carousel{height:100svh;max-height:640px;min-height:500px}}
     .carousel-track{display:flex;height:100%;transition:transform .65s cubic-bezier(.25,.46,.45,.94);will-change:transform}
     @media(prefers-reduced-motion:reduce){.carousel-track{transition:none!important}}
     .carousel-slide{flex:0 0 100%;width:100%;position:relative;overflow:hidden}
     .carousel-bg{position:absolute;inset:0}
-    .carousel-bg img{width:100%;height:100%;object-fit:cover;object-position:center;aspect-ratio:3/2}
+    .carousel-bg img{width:100%;height:100%;object-fit:cover;object-position:center;aspect-ratio:3/2;min-height:350px}
     .product-card img,.category-card img{aspect-ratio:4/3}
     /* Overlay identique à bg-trust-blue-900/90 utilisé sur le hero actuel */
     .carousel-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(30,58,138,.95) 0%,rgba(30,58,138,.82) 55%,rgba(23,37,84,.93) 100%)}
