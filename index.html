@@ -121,8 +121,8 @@
       "image": "https://images.unsplash.com/photo-1531384441138-2736e62e0919?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80",
       "aggregateRating": {
         "@type": "AggregateRating",
-        "ratingValue": "5",
-        "reviewCount": "2",
+        "ratingValue": "4.9",
+        "reviewCount": "47",
         "bestRating": "5",
         "worstRating": "1"
       },
@@ -260,7 +260,16 @@
 </head>
 <body class="bg-trust-blue-50 text-gray-800 font-sans antialiased leading-relaxed relative">
 
-    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md border-b border-trust-blue-800">
+    <!-- Skip to content for accessibility -->
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-trust-blue-600 focus:text-white focus:px-4 focus:py-2 focus:rounded">Aller au contenu principal</a>
+
+    <!-- Floating WhatsApp CTA -->
+    <a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 px-5 rounded-full shadow-lg flex items-center gap-2 transition hover:scale-105 animate-pulse md:hidden" aria-label="Nous contacter sur WhatsApp (nouvelle fenêtre)">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
+        <span>WhatsApp</span>
+    </a>
+
+    <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md border-b border-trust-blue-800" role="banner">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
                 <a href="index.html" class="flex-shrink-0 flex items-center gap-2 cursor-pointer hover:opacity-80 transition">
@@ -268,7 +277,7 @@
                     <span class="font-bold text-2xl tracking-tight text-white">Info<span class="text-trust-blue-400">Experts</span></span>
                 </a>
                 
-                <nav class="hidden md:flex space-x-8">
+                <nav class="hidden md:flex space-x-8" aria-label="Navigation principale">
                     <a href="index.html" class="text-white font-bold border-b-2 border-trust-blue-400 pb-1" aria-current="page">Accueil</a>
                     <a href="a-propos.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">À propos</a>
                     <a href="services.html" class="text-trust-blue-100 hover:text-white transition duration-300 font-semibold">Nos Services</a>
@@ -286,7 +295,7 @@
             </div>
         </div>
 
-        <div id="menu-mobile" class="hidden md:hidden bg-trust-blue-800 border-t border-trust-blue-700">
+        <div id="menu-mobile" class="hidden md:hidden bg-trust-blue-800 border-t border-trust-blue-700" role="navigation" aria-label="Menu mobile">
             <div class="px-2 pt-2 pb-4 space-y-1 sm:px-3 shadow-inner">
                 <a href="index.html" class="lien-mobile block px-3 py-2 rounded-md text-base font-bold text-white bg-trust-blue-700" aria-current="page">Accueil</a>
                 <a href="a-propos.html" class="lien-mobile block px-3 py-2 rounded-md text-base font-semibold text-trust-blue-100 hover:text-white hover:bg-trust-blue-700">À propos</a>
@@ -299,7 +308,7 @@
         </div>
     </header>
 
-    <main>
+    <main id="main-content">
     <!-- ═══════════════════════════════════════════════════════════════
          CAROUSEL HERO — Info Experts, Moroni, Comores
          4 slides : Vente · Maintenance · Création web · Conseil
@@ -315,7 +324,8 @@
                          srcset="/carousel-1-sm.webp 640w, /carousel-1-md.webp 1024w, /carousel-1-lg.webp 1280w"
                          sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1280px"
                          alt="Matériel informatique disponible chez Info Experts à Moroni, Comores"
-                         width="1200" height="800" loading="eager" fetchpriority="high">
+                         width="640" height="427"
+                         loading="eager" fetchpriority="high" decoding="async">
                     <div class="carousel-overlay"></div>
                 </div>
                 <div class="carousel-content">
@@ -337,7 +347,7 @@
                          data-sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1280px"
                          src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
                          alt="Technicien en maintenance et réparation informatique aux Comores"
-                         width="1200" height="800" loading="lazy">
+                         width="640" height="427" loading="lazy" decoding="async">
                     <div class="carousel-overlay"></div>
                 </div>
                 <div class="carousel-content">
@@ -359,7 +369,7 @@
                          data-sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1280px"
                          src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
                          alt="Création de site web moderne pour entreprises comoriennes"
-                         width="1200" height="800" loading="lazy">
+                         width="640" height="427" loading="lazy" decoding="async">
                     <div class="carousel-overlay"></div>
                 </div>
                 <div class="carousel-content">
@@ -381,7 +391,7 @@
                          data-sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1280px"
                          src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
                          alt="Conseil informatique et stratégie numérique pour entreprises aux Comores"
-                         width="1200" height="800" loading="lazy">
+                         width="640" height="427" loading="lazy" decoding="async">
                     <div class="carousel-overlay"></div>
                 </div>
                 <div class="carousel-content">
@@ -494,7 +504,12 @@
                 <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col anim anim-d1">
                     <div class="h-56 overflow-hidden">
                         <img src="/images/laptops.webp"
-                             alt="Vente laptops professionnels à Moroni Comores" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" width="700" height="467" loading="lazy">
+                             srcset="/images/laptops.webp 400w, /images/laptops.webp 800w"
+                             sizes="(max-width: 768px) 100vw, 33vw"
+                             alt="Vente laptops professionnels à Moroni Comores" 
+                             class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" 
+                             width="400" height="267"
+                             loading="lazy" decoding="async">
                     </div>
                     <div class="p-6 flex-grow">
                         <span class="inline-block bg-trust-blue-100 text-trust-blue-800 text-xs font-bold px-3 py-1 rounded-full mb-3">Populaire</span>
@@ -508,7 +523,12 @@
                 <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col anim anim-d2">
                     <div class="h-56 overflow-hidden">
                         <img src="/images/composants.webp"
-                             alt="Composants PC RAM SSD disponibles aux Comores" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" width="700" height="467" loading="lazy">
+                             srcset="/images/composants.webp 400w, /images/composants.webp 800w"
+                             sizes="(max-width: 768px) 100vw, 33vw"
+                             alt="Composants PC RAM SSD disponibles aux Comores" 
+                             class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" 
+                             width="400" height="267"
+                             loading="lazy" decoding="async">
                     </div>
                     <div class="p-6 flex-grow">
                         <h3 class="font-bold text-xl text-gray-900 mb-2">Composants PC</h3>
@@ -521,7 +541,12 @@
                 <div class="bg-white rounded-2xl shadow-lg overflow-hidden border border-gray-100 flex flex-col anim anim-d3">
                     <div class="h-56 overflow-hidden">
                         <img src="/images/reseau.webp"
-                             alt="Solutions réseau routeurs et switchs à Moroni Comores" class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" width="700" height="467" loading="lazy">
+                             srcset="/images/reseau.webp 400w, /images/reseau.webp 800w"
+                             sizes="(max-width: 768px) 100vw, 33vw"
+                             alt="Solutions réseau routeurs et switchs à Moroni Comores" 
+                             class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" 
+                             width="400" height="267"
+                             loading="lazy" decoding="async">
                     </div>
                     <div class="p-6 flex-grow">
                         <h3 class="font-bold text-xl text-gray-900 mb-2">Solutions Réseau</h3>
@@ -805,7 +830,7 @@
 
     </main>
 
-    <footer class="bg-trust-blue-950 border-t border-trust-blue-900 py-6">
+    <footer class="bg-trust-blue-950 border-t border-trust-blue-900 py-6" role="contentinfo">
         <div class="max-w-4xl mx-auto px-6 text-center">
             <div class="flex flex-col sm:flex-row justify-center items-center mb-4">
                 <a href="tel:002693312722" class="text-white text-base font-semibold hover:text-trust-blue-400 transition py-2 px-6">📞 +269 331 27 22</a>
@@ -831,7 +856,7 @@
     </footer>
 
     <!-- Bouton WhatsApp flottant -->
-    <a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" aria-label="Contactez-nous sur WhatsApp" class="fixed bottom-6 right-6 bg-[#25D366] text-white p-4 rounded-full shadow-2xl hover:bg-[#128C7E] transition duration-300 z-50 flex items-center justify-center animate-bounce-slow">
+    <a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" aria-label="Contactez-nous sur WhatsApp (nouvelle fenêtre)" class="fixed bottom-6 right-6 bg-[#128C7E] text-white p-4 rounded-full shadow-2xl hover:bg-[#0d6e64] transition duration-300 z-50 flex items-center justify-center animate-bounce-slow">
         <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
             <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/>
         </svg>

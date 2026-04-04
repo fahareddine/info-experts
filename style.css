@@ -13,6 +13,12 @@ button,[type=button],[type=reset],[type=submit]{-webkit-appearance:button;backgr
 progress{vertical-align:baseline}
 ::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}
 [type=search]{-webkit-appearance:textfield;outline-offset:-2px}
+
+/* ── ACCESSIBILITY: Focus visible styles ── */
+*:focus-visible{outline:3px solid #2563eb;outline-offset:2px}
+a:focus-visible,button:focus-visible{outline:3px solid #2563eb;outline-offset:2px;border-radius:4px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
+.sr-only:focus{position:static;width:auto;height:auto;padding:inherit;margin:inherit;overflow:visible;clip:auto;white-space:normal}
 ::-webkit-search-decoration{-webkit-appearance:none}
 ::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}
 summary{display:list-item}
@@ -297,7 +303,8 @@ details[open].faq-item{box-shadow:0 4px 24px rgba(30,58,138,.1)}
 .faq-question::-webkit-details-marker{display:none}
 .faq-question::after{content:'';display:block;width:1.5rem;height:1.5rem;flex-shrink:0;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%232563eb'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2.5' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");background-repeat:no-repeat;background-size:contain;transition:transform .35s ease}
 details[open]>.faq-question::after{transform:rotate(180deg)}
-.faq-answer{padding:0 2rem 1.75rem;color:#6b7280;line-height:1.85;font-size:.975rem}
+.faq-answer{padding:0 2rem 1.75rem;color:#6b7280;line-height:1.85;font-size:.975rem;overflow:hidden;max-height:0;opacity:0;transition:max-height .4s ease,opacity .3s ease,padding .4s ease}
+details[open]>.faq-answer{max-height:500px;opacity:1;padding:0 2rem 1.75rem}
 
 /* ── STATS CARDS ── */
 .stat-card{background:#fff;border-radius:1.5rem;padding:2.5rem 1.5rem;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.05),0 4px 20px rgba(30,58,138,.05);transition:transform .35s ease,box-shadow .35s ease;border:1px solid rgba(224,231,255,.6)}

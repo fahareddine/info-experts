@@ -428,6 +428,12 @@
 </head>
 <body class="bg-trust-blue-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen">
 
+    <!-- Floating WhatsApp CTA -->
+    <a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" class="fixed bottom-6 right-6 z-50 bg-[#25D366] hover:bg-[#128C7E] text-white font-bold py-3 px-5 rounded-full shadow-lg flex items-center gap-2 transition hover:scale-105" aria-label="Nous contacter sur WhatsApp">
+        <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824z"/></svg>
+        <span>WhatsApp</span>
+    </a>
+
     <header class="bg-trust-blue-900 sticky top-0 z-50 shadow-md border-b border-trust-blue-800">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between items-center h-20">
@@ -505,11 +511,30 @@
     <!-- ══ PRODUITS ══════════════════════════════════════════════════════ -->
     <section style="padding:32px 20px 48px;background:#eff6ff">
         <div style="max-width:1280px;margin:0 auto">
+        
+        <!-- Search bar -->
+        <div style="margin-bottom:20px;max-width:400px;margin-left:auto;margin-right:auto">
+            <div style="position:relative">
+                <svg style="position:absolute;left:14px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:#64748b" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <input type="text" id="search-products" onkeyup="searchProducts()" placeholder="Rechercher un produit..." style="width:100%;padding:12px 14px 12px 44px;border-radius:12px;border:2px solid #e2e8f0;font-size:0.95rem;outline:none;transition:border-color .2s" onfocus="this.style.borderColor='#1e3a8a'" onblur="this.style.borderColor='#e2e8f0'">
+            </div>
+        </div>
+        
+        <!-- Filtres catégories -->
+        <div style="margin-bottom:24px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center">
+            <button onclick="filterProducts('all')" class="filter-btn active" data-filter="all" style="padding:8px 20px;border-radius:20px;border:2px solid #1e3a8a;background:#1e3a8a;color:#fff;font-weight:600;font-size:0.85rem;cursor:pointer;transition:all .2s">Tous</button>
+            <button onclick="filterProducts('protection')" class="filter-btn" data-filter="protection" style="padding:8px 20px;border-radius:20px;border:2px solid #e2e8f0;background:#fff;color:#64748b;font-weight:600;font-size:0.85rem;cursor:pointer;transition:all .2s">Protection</button>
+            <button onclick="filterProducts('reseau')" class="filter-btn" data-filter="reseau" style="padding:8px 20px;border-radius:20px;border:2px solid #e2e8f0;background:#fff;color:#64748b;font-weight:600;font-size:0.85rem;cursor:pointer;transition:all .2s">Réseau</button>
+            <button onclick="filterProducts('stockage')" class="filter-btn" data-filter="stockage" style="padding:8px 20px;border-radius:20px;border:2px solid #e2e8f0;background:#fff;color:#64748b;font-weight:600;font-size:0.85rem;cursor:pointer;transition:all .2s">Stockage</button>
+            <button onclick="filterProducts('reconditionne')" class="filter-btn" data-filter="reconditionne" style="padding:8px 20px;border-radius:20px;border:2px solid #e2e8f0;background:#fff;color:#64748b;font-weight:600;font-size:0.85rem;cursor:pointer;transition:all .2s">Reconditionné</button>
+        </div>
+        
         <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:24px">
 
             <!-- ── Produit 1 : Onduleur APC BX1200MI ── -->
             <article class="product-card bg-white rounded-2xl overflow-hidden flex flex-col"
-                     style="--badge-color:#e74c3c;--stock-level:low">
+                     style="--badge-color:#e74c3c;--stock-level:low"
+                     data-category="protection">
                 <div class="product-gallery">
                     <div class="gallery-main-wrap">
                         <img src="onduleur-apc-bx1200mi-1200va-comores.webp"
@@ -540,7 +565,7 @@
                         <li>8 prises IEC protégées</li>
                         <li>Compatible PowerChute</li>
                     </ul>
-                    <p class="text-2xl font-black text-trust-blue-900 mt-auto pt-3">422 € <span class="text-sm font-normal text-gray-400">(207 200 KMF)</span></p>
+                    <p class="text-2xl font-black text-trust-blue-900 mt-auto pt-3">422 € <span class="text-sm font-normal text-gray-500">(207 200 KMF)</span></p>
                     <div class="stock-indicator stock-low">Stock limité</div>
                     <div class="sales-badge">🔥 47 vendus ce mois</div>
                     <div class="popularity-ticker" style="margin-top:8px">🔥 <strong>22 personnes</strong>&nbsp;regardent ce produit</div>
@@ -559,7 +584,8 @@
 
             <!-- ── Produit 2 : Routeur TP-Link Archer MR600 ── -->
             <article class="product-card bg-white rounded-2xl overflow-hidden flex flex-col"
-                     style="--badge-color:#2980b9;--stock-level:medium">
+                     style="--badge-color:#2980b9;--stock-level:medium"
+                     data-category="reseau">
                 <div class="product-gallery">
                     <div class="gallery-main-wrap">
                         <img src="routeur-4g-tp-link-archer-mr600-comores.webp"
@@ -608,7 +634,8 @@
 
             <!-- ── Produit 3 : SSD Samsung T7 1 To ── -->
             <article class="product-card bg-white rounded-2xl overflow-hidden flex flex-col"
-                     style="--badge-color:#27ae60;--stock-level:high">
+                     style="--badge-color:#27ae60;--stock-level:high"
+                     data-category="stockage">
                 <div class="product-gallery">
                     <div class="gallery-main-wrap">
                         <img src="ssd-externe-samsung-t7-1to-comores.webp"
@@ -657,7 +684,8 @@
 
             <!-- ── Produit 4 : Multiprise Belkin BSV603 ── -->
             <article class="product-card bg-white rounded-2xl overflow-hidden flex flex-col"
-                     style="--badge-color:#e74c3c;--stock-level:high">
+                     style="--badge-color:#e74c3c;--stock-level:high"
+                     data-category="protection">
                 <div class="product-gallery">
                     <div class="gallery-main-wrap">
                         <img src="multiprise-belkin-bsv603-parafoudre-comores.webp"
@@ -706,7 +734,8 @@
 
             <!-- ── Produit 5 : PC Portable Reconditionné Grade A ── -->
             <article class="product-card bg-white rounded-2xl overflow-hidden flex flex-col"
-                     style="--badge-color:#8e44ad;--stock-level:low">
+                     style="--badge-color:#8e44ad;--stock-level:low"
+                     data-category="reconditionne">
                 <div class="product-gallery">
                     <div class="gallery-main-wrap">
                         <img src="pc-portable-reconditionne-grade-a-comores.webp"
@@ -755,7 +784,8 @@
 
             <!-- ── Produit 6 : Écran PC Reconditionné 24" ── -->
             <article class="product-card bg-white rounded-2xl overflow-hidden flex flex-col"
-                     style="--badge-color:#8e44ad;--stock-level:medium">
+                     style="--badge-color:#8e44ad;--stock-level:medium"
+                     data-category="reconditionne">
                 <div class="product-gallery">
                     <div class="gallery-main-wrap">
                         <img src="ecran-pc-reconditionne-24-pouces-comores.webp"
@@ -1316,6 +1346,55 @@
                 stickyBar.querySelector('.sticky-btn').href = waLink;
             }
         });
+    }
+    </script>
+    <script>
+    function filterProducts(category) {
+      const cards = document.querySelectorAll('.product-card');
+      const buttons = document.querySelectorAll('.filter-btn');
+      
+      buttons.forEach(btn => {
+        if(btn.dataset.filter === category) {
+          btn.style.background = '#1e3a8a';
+          btn.style.color = '#fff';
+          btn.style.borderColor = '#1e3a8a';
+        } else {
+          btn.style.background = '#fff';
+          btn.style.color = '#64748b';
+          btn.style.borderColor = '#e2e8f0';
+        }
+      });
+      
+      cards.forEach(card => {
+        if(category === 'all' || card.dataset.category === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+    
+    function searchProducts() {
+      const input = document.getElementById('search-products');
+      const filter = input.value.toLowerCase();
+      const cards = document.querySelectorAll('.product-card');
+      
+      cards.forEach(card => {
+        const title = card.querySelector('h3') ? card.querySelector('h3').textContent.toLowerCase() : '';
+        const desc = card.querySelector('.text-gray-500') ? card.querySelector('.text-gray-500').textContent.toLowerCase() : '';
+        
+        if(title.includes(filter) || desc.includes(filter)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      
+      document.querySelectorAll('.filter-btn').forEach(btn => {
+        btn.style.background = '#fff';
+        btn.style.color = '#64748b';
+        btn.style.borderColor = '#e2e8f0';
+      });
     }
     </script>
     <style>
