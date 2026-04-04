@@ -55,7 +55,7 @@
     .bg-trust-blue-50{background-color:#eff6ff}.bg-trust-blue-900{background-color:#1e3a8a}
     .border-b{border-bottom-width:1px}.border-b-2{border-bottom-width:2px}.border-trust-blue-400{border-color:#60a5fa}.border-trust-blue-800{border-color:#1e40af}
     .shadow-md{box-shadow:0 4px 6px -1px rgb(0 0 0/.1),0 2px 4px -2px rgb(0 0 0/.1)}
-    .transition{transition-property:color,background-color,border-color,opacity,box-shadow,transform;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:150ms}.duration-300{transition-duration:.3s}
+    .transition{transition-property:color,background-color,opacity,box-shadow,transform;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:150ms}.duration-300{transition-duration:.3s}
     .cursor-pointer{cursor:pointer}.antialiased{-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.leading-relaxed{line-height:1.625}.font-sans{font-family:ui-sans-serif,system-ui,-apple-system,sans-serif}
     .space-x-8>:not([hidden])~:not([hidden]){--tw-space-x-reverse:0;margin-right:calc(2rem * var(--tw-space-x-reverse));margin-left:calc(2rem * calc(1 - var(--tw-space-x-reverse)))}
     .hover\:text-white:hover{color:#fff}.hover\:opacity-80:hover{opacity:.8}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}
@@ -91,7 +91,7 @@
     .btn-hero-secondary{display:inline-block;background:transparent;border:1.5px solid rgba(255,255,255,.45);color:#fff;font-weight:700;font-size:1rem;padding:.875rem 2rem;border-radius:9999px;text-decoration:none;transition:background .25s,transform .2s}
     .btn-hero-secondary:hover,.btn-hero-secondary:focus-visible{background:rgba(255,255,255,.1);transform:translateY(-2px);outline:2px solid rgba(255,255,255,.5);outline-offset:3px}
     /* Barre de progression */
-    .carousel-progressbar{position:absolute;bottom:0;left:0;height:3px;background:#60a5fa;width:0%;z-index:25;transition:none}
+    .carousel-progressbar{position:absolute;bottom:0;left:0;height:3px;background:#60a5fa;width:100%;transform:scaleX(0);transform-origin:left center;z-index:25;transition:none}
     /* Flèches */
     .carousel-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:20;background:rgba(30,58,138,.5);border:1px solid rgba(96,165,250,.25);color:#fff;width:3rem;height:3rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .25s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
     .carousel-arrow:hover,.carousel-arrow:focus-visible{background:rgba(30,58,138,.9);outline:2px solid #60a5fa;outline-offset:2px}
@@ -911,11 +911,11 @@
         function resetProgress() {
             if (!bar || reduced) return;
             bar.style.transition = 'none';
-            bar.style.width = '0%';
+            bar.style.transform = 'scaleX(0)';
             requestAnimationFrame(function () {
                 requestAnimationFrame(function () {
-                    bar.style.transition = 'width ' + DELAY + 'ms linear';
-                    bar.style.width = '100%';
+                    bar.style.transition = 'transform ' + DELAY + 'ms linear';
+                    bar.style.transform = 'scaleX(1)';
                 });
             });
         }
