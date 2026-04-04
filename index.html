@@ -97,10 +97,11 @@
     .carousel-arrow:hover,.carousel-arrow:focus-visible{background:rgba(30,58,138,.9);outline:2px solid #60a5fa;outline-offset:2px}
     .carousel-prev{left:1.25rem}.carousel-next{right:1.25rem}
     /* Dots */
-    .carousel-dots{position:absolute;bottom:1.5rem;left:50%;transform:translateX(-50%);display:flex;gap:.4rem;z-index:20;align-items:center}
-    .carousel-dot{height:.4rem;width:.4rem;border-radius:9999px;background:rgba(255,255,255,.35);border:none;padding:0;cursor:pointer;transition:background .3s,width .35s cubic-bezier(.4,0,.2,1)}
-    .carousel-dot.is-active{background:#60a5fa;width:2rem}
-    .carousel-dot:focus-visible{outline:2px solid #60a5fa;outline-offset:3px}
+    .carousel-dots{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);display:flex;gap:0;z-index:20;align-items:center}
+    .carousel-dot{min-width:44px;min-height:44px;border-radius:9999px;background:transparent;border:none;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
+    .carousel-dot::before{content:'';height:.5rem;width:.5rem;border-radius:9999px;background:rgba(255,255,255,.35);flex-shrink:0;transition:background .3s,width .35s cubic-bezier(.4,0,.2,1)}
+    .carousel-dot.is-active::before{background:#60a5fa;width:2rem}
+    .carousel-dot:focus-visible{outline:2px solid #60a5fa;outline-offset:3px;border-radius:4px}
     @media(max-width:479px){.carousel-arrow{width:2.5rem;height:2.5rem}.carousel-prev{left:.75rem}.carousel-next{right:.75rem}}
     </style>
     <link rel="preload" as="image" fetchpriority="high" href="/carousel-1-sm.webp"
