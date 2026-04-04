@@ -1,4 +1,14 @@
+# robots.txt - Info Experts
+# https://info-experts.fr
+
 User-agent: *
 Allow: /
 
 Sitemap: https://info-experts.fr/sitemap.xml
+
+# Bloquer les sous-dossiers non pertinents
+Disallow: /skills/
+Disallow: /vfarcic.github.io/
+Disallow: /superpowers/
+Disallow: /ia-cash-system/
+Disallow: /ai-website-cloner-template/
