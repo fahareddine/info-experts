@@ -256,6 +256,10 @@ img,video{max-width:100%;height:auto}
 .whitespace-nowrap{white-space:nowrap}
 .inline-flex{display:inline-flex}
 .gap-1{gap:.25rem}
+.text-green-600{color:#16a34a}
+.line-through{text-decoration:line-through}
+.bg-green-500{background-color:#22c55e}
+.bg-green-600{background-color:#16a34a}
 @media(min-width:640px){.sm\:inline{display:inline}}
 
 /* ── HOVER ── */
