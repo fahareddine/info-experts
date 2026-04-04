@@ -247,6 +247,53 @@
       .modal-submit.cash:hover { background: #166534; }
       .modal-submit:disabled { opacity: .5; cursor: not-allowed; }
 
+      /* ── Badge overlay image (Nouveau / -X%) ── */
+      .gallery-main-wrap { position: relative; }
+      .badge-overlay {
+        position: absolute; top: 11px; z-index: 2;
+        font-size: .65rem; font-weight: 800; text-transform: uppercase;
+        letter-spacing: .05em; padding: 4px 9px; border-radius: 6px; pointer-events: none;
+        box-shadow: 0 2px 6px rgba(0,0,0,.18);
+      }
+      .badge-new  { left: 11px; background: #7c3aed; color: #fff; }
+      .badge-disc { right: 11px; background: #dc2626; color: #fff; }
+
+      /* ── Stock indicator ── */
+      @keyframes stockPulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+      .stock-indicator {
+        display: flex; align-items: center; gap: 7px;
+        font-size: .77rem; font-weight: 600;
+        padding: 5px 10px; border-radius: 8px; margin-top: 6px;
+      }
+      .stock-indicator::before {
+        content: ''; display: inline-block; width: 8px; height: 8px;
+        border-radius: 50%; flex-shrink: 0;
+      }
+      .stock-high   { background: #f0fdf4; color: #15803d; }
+      .stock-high::before   { background: #22c55e; }
+      .stock-medium { background: #fff7ed; color: #c2410c; }
+      .stock-medium::before { background: #f97316; animation: stockPulse 1.4s ease-in-out infinite; }
+      .stock-low    { background: #fef2f2; color: #b91c1c; }
+      .stock-low::before    { background: #ef4444; animation: stockPulse .9s ease-in-out infinite; }
+
+      /* ── Popularity ticker ── */
+      @keyframes tickerPulse { 0%,100%{opacity:1} 50%{opacity:.65} }
+      .popularity-ticker {
+        display: flex; align-items: center; gap: 6px;
+        font-size: .76rem; color: #92400e;
+        background: #fffbeb; border: 1px solid #fde68a;
+        border-radius: 8px; padding: 6px 10px; margin-bottom: 6px;
+        animation: tickerPulse 2.5s ease-in-out infinite;
+      }
+
+      /* ── Sales badge ── */
+      .sales-badge {
+        display: inline-flex; align-items: center; gap: 5px;
+        font-size: .71rem; font-weight: 700; color: #fff;
+        background: linear-gradient(135deg,#1e3a8a 0%,#2563eb 100%);
+        padding: 3px 10px; border-radius: 20px; margin-top: 4px;
+      }
+
       /* État confirmation */
       .modal-confirm { text-align: center; padding: 8px 0; }
       .modal-confirm .confirm-icon { font-size: 3rem; margin-bottom: 10px; }
@@ -454,12 +501,13 @@
 
             <!-- ── Produit 1 : Onduleur APC BX1200MI ── -->
             <article class="product-card bg-white rounded-2xl overflow-hidden flex flex-col"
-                     style="--badge-color:#e74c3c">
+                     style="--badge-color:#e74c3c;--stock-level:low">
                 <div class="product-gallery">
                     <div class="gallery-main-wrap">
                         <img src="onduleur-apc-bx1200mi-1200va-comores.webp"
                              alt="Onduleur APC Back-UPS BX1200MI 1200VA – protection coupures courant Comores"
                              class="gallery-main" width="800" height="533" loading="eager">
+                        <span class="badge-overlay badge-disc">-5%</span>
                     </div>
                     <div class="gallery-thumbs">
                         <img src="onduleur-apc-bx1200mi-1200va-comores.webp"
@@ -485,6 +533,9 @@
                         <li>Compatible PowerChute</li>
                     </ul>
                     <p class="text-2xl font-black text-trust-blue-900 mt-auto pt-3">422 € <span class="text-sm font-normal text-gray-400">(207 200 KMF)</span></p>
+                    <div class="stock-indicator stock-low">Stock limité</div>
+                    <div class="sales-badge">🔥 47 vendus ce mois</div>
+                    <div class="popularity-ticker" style="margin-top:8px">🔥 <strong>22 personnes</strong>&nbsp;regardent ce produit</div>
                     <div class="product-actions">
                         <button class="btn-pay btn-pay-mobile" onclick="openPayModal('Onduleur APC Back-UPS BX1200MI', 207200)">
                             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
@@ -504,7 +555,7 @@
 
             <!-- ── Produit 2 : Routeur TP-Link Archer MR600 ── -->
             <article class="product-card bg-white rounded-2xl overflow-hidden flex flex-col"
-                     style="--badge-color:#2980b9">
+                     style="--badge-color:#2980b9;--stock-level:medium">
                 <div class="product-gallery">
                     <div class="gallery-main-wrap">
                         <img src="routeur-4g-tp-link-archer-mr600-comores.webp"
@@ -535,6 +586,9 @@
                         <li>Compatible Comores Telecom / Telma</li>
                     </ul>
                     <p class="text-2xl font-black text-trust-blue-900 mt-auto pt-3">102 € <span class="text-sm font-normal text-gray-400">(50 100 KMF)</span></p>
+                    <div class="stock-indicator stock-medium">Plus que 3 !</div>
+                    <div class="sales-badge">🔥 31 vendus ce mois</div>
+                    <div class="popularity-ticker" style="margin-top:8px">🔥 <strong>18 personnes</strong>&nbsp;regardent ce produit</div>
                     <div class="product-actions">
                         <button class="btn-pay btn-pay-mobile" onclick="openPayModal('Routeur TP-Link Archer MR600 4G+', 50100)">
                             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
@@ -554,12 +608,13 @@
 
             <!-- ── Produit 3 : SSD Samsung T7 1 To ── -->
             <article class="product-card bg-white rounded-2xl overflow-hidden flex flex-col"
-                     style="--badge-color:#27ae60">
+                     style="--badge-color:#27ae60;--stock-level:high">
                 <div class="product-gallery">
                     <div class="gallery-main-wrap">
                         <img src="ssd-externe-samsung-t7-1to-comores.webp"
                              alt="SSD Externe Samsung T7 1 To USB 3.2 – stockage portable Comores"
                              class="gallery-main" width="800" height="533" loading="lazy">
+                        <span class="badge-overlay badge-new">Nouveau</span>
                     </div>
                     <div class="gallery-thumbs">
                         <img src="ssd-externe-samsung-t7-1to-comores.webp"
@@ -585,6 +640,8 @@
                         <li>USB-C + USB-A inclus</li>
                     </ul>
                     <p class="text-2xl font-black text-trust-blue-900 mt-auto pt-3">63 € <span class="text-sm font-normal text-gray-400">(30 900 KMF)</span></p>
+                    <div class="stock-indicator stock-high">En stock</div>
+                    <div class="popularity-ticker" style="margin-top:8px">🔥 <strong>14 personnes</strong>&nbsp;regardent ce produit</div>
                     <div class="product-actions">
                         <button class="btn-pay btn-pay-mobile" onclick="openPayModal('SSD Externe Samsung T7 1 To', 30900)">
                             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
@@ -604,7 +661,7 @@
 
             <!-- ── Produit 4 : Multiprise Belkin BSV603 ── -->
             <article class="product-card bg-white rounded-2xl overflow-hidden flex flex-col"
-                     style="--badge-color:#e74c3c">
+                     style="--badge-color:#e74c3c;--stock-level:high">
                 <div class="product-gallery">
                     <div class="gallery-main-wrap">
                         <img src="multiprise-belkin-bsv603-parafoudre-comores.webp"
@@ -635,6 +692,9 @@
                         <li>Garantie équipements connectés</li>
                     </ul>
                     <p class="text-2xl font-black text-trust-blue-900 mt-auto pt-3">50 € <span class="text-sm font-normal text-gray-400">(24 600 KMF)</span></p>
+                    <div class="stock-indicator stock-high">En stock</div>
+                    <div class="sales-badge">🔥 19 vendus ce mois</div>
+                    <div class="popularity-ticker" style="margin-top:8px">🔥 <strong>11 personnes</strong>&nbsp;regardent ce produit</div>
                     <div class="product-actions">
                         <button class="btn-pay btn-pay-mobile" onclick="openPayModal('Multiprise Belkin BSV603 Parafoudre', 24600)">
                             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
@@ -654,12 +714,13 @@
 
             <!-- ── Produit 5 : PC Portable Reconditionné Grade A ── -->
             <article class="product-card bg-white rounded-2xl overflow-hidden flex flex-col"
-                     style="--badge-color:#8e44ad">
+                     style="--badge-color:#8e44ad;--stock-level:low">
                 <div class="product-gallery">
                     <div class="gallery-main-wrap">
                         <img src="pc-portable-reconditionne-grade-a-comores.webp"
                              alt="PC Portable Reconditionné Grade A certifié – ordinateur Comores"
                              class="gallery-main" width="800" height="533" loading="lazy">
+                        <span class="badge-overlay badge-new">Nouveau</span>
                     </div>
                     <div class="gallery-thumbs">
                         <img src="pc-portable-reconditionne-grade-a-comores.webp"
@@ -685,6 +746,8 @@
                         <li>USB-C · HDMI · WiFi · Bluetooth</li>
                     </ul>
                     <p class="text-2xl font-black text-trust-blue-900 mt-auto pt-3">430 € <span class="text-sm font-normal text-gray-400">(211 100 KMF)</span></p>
+                    <div class="stock-indicator stock-low">Plus que 2 !</div>
+                    <div class="popularity-ticker" style="margin-top:8px">🔥 <strong>25 personnes</strong>&nbsp;regardent ce produit</div>
                     <div class="product-actions">
                         <button class="btn-pay btn-pay-mobile" onclick="openPayModal('PC Portable Reconditionné Grade A', 211100)">
                             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
@@ -704,7 +767,7 @@
 
             <!-- ── Produit 6 : Écran PC Reconditionné 24" ── -->
             <article class="product-card bg-white rounded-2xl overflow-hidden flex flex-col"
-                     style="--badge-color:#8e44ad">
+                     style="--badge-color:#8e44ad;--stock-level:medium">
                 <div class="product-gallery">
                     <div class="gallery-main-wrap">
                         <img src="ecran-pc-reconditionne-24-pouces-comores.webp"
@@ -735,6 +798,9 @@
                         <li>Garanti 6 mois</li>
                     </ul>
                     <p class="text-2xl font-black text-trust-blue-900 mt-auto pt-3">362 € <span class="text-sm font-normal text-gray-400">(177 700 KMF)</span></p>
+                    <div class="stock-indicator stock-medium">Plus que 4 !</div>
+                    <div class="sales-badge">🔥 12 vendus ce mois</div>
+                    <div class="popularity-ticker" style="margin-top:8px">🔥 <strong>16 personnes</strong>&nbsp;regardent ce produit</div>
                     <div class="product-actions">
                         <button class="btn-pay btn-pay-mobile" onclick="openPayModal('Écran PC Reconditionné 24 pouces', 177700)">
                             <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
