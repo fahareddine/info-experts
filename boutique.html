@@ -304,6 +304,14 @@
         font-family: monospace; font-weight: 700; font-size: .85rem;
         padding: 5px 12px; border-radius: 7px; margin: 8px 0;
       }
+
+      /* ── CTA principal + options paiement ── */
+      .btn-cta-main { display:flex; align-items:center; justify-content:center; gap:10px; width:100%; padding:14px 20px; border-radius:12px; background:#2563eb; color:#fff; font-weight:700; font-size:1rem; border:none; cursor:pointer; text-decoration:none; transition:background .2s,transform .15s,box-shadow .2s; }
+      .btn-cta-main:hover { background:#1d4ed8; transform:translateY(-2px); box-shadow:0 8px 20px rgba(37,99,235,.35); }
+      .payment-options { margin-top:12px; text-align:center; }
+      .payment-options a { color:#64748b; font-size:0.8rem; text-decoration:none; }
+      .payment-options a:hover { color:#1e3a8a; text-decoration:underline; }
+      .payment-options span { color:#e2e8f0; margin:0 8px; }
     </style>
 
     <script type="application/ld+json">
@@ -537,18 +545,14 @@
                     <div class="sales-badge">🔥 47 vendus ce mois</div>
                     <div class="popularity-ticker" style="margin-top:8px">🔥 <strong>22 personnes</strong>&nbsp;regardent ce produit</div>
                     <div class="product-actions">
-                        <button class="btn-pay btn-pay-mobile" onclick="openPayModal('Onduleur APC Back-UPS BX1200MI', 207200)">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-                            Payer par mobile money
-                        </button>
-                        <button class="btn-pay btn-pay-cash" onclick="openCashModal('Onduleur APC Back-UPS BX1200MI', 207200)">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
-                            Payer en espèces
-                        </button>
-                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20l%27Onduleur%20APC%20Back-UPS%20BX1200MI" rel="noopener noreferrer" target="_blank" class="btn-pay btn-pay-wa">
-                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
-                            Demander des infos
+                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20l%27Onduleur%20APC%20Back-UPS%20BX1200MI" class="btn-cta-main" target="_blank" rel="noopener">
+                            Commander via WhatsApp
                         </a>
+                        <div class="payment-options">
+                            <a href="#" onclick="openPayModal('Onduleur APC Back-UPS BX1200MI', 207200)">Payer en espèces</a>
+                            <span>|</span>
+                            <a href="#" onclick="openCashModal('Onduleur APC Back-UPS BX1200MI', 207200)">Mobile money</a>
+                        </div>
                     </div>
                 </div>
             </article>
@@ -590,18 +594,14 @@
                     <div class="sales-badge">🔥 31 vendus ce mois</div>
                     <div class="popularity-ticker" style="margin-top:8px">🔥 <strong>18 personnes</strong>&nbsp;regardent ce produit</div>
                     <div class="product-actions">
-                        <button class="btn-pay btn-pay-mobile" onclick="openPayModal('Routeur TP-Link Archer MR600 4G+', 50100)">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-                            Payer par mobile money
-                        </button>
-                        <button class="btn-pay btn-pay-cash" onclick="openCashModal('Routeur TP-Link Archer MR600 4G+', 50100)">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
-                            Payer en espèces
-                        </button>
-                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20le%20Routeur%20TP-Link%20Archer%20MR600%204G%2B" rel="noopener noreferrer" target="_blank" class="btn-pay btn-pay-wa">
-                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
-                            Demander des infos
+                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20le%20Routeur%20TP-Link%20Archer%20MR600%204G%2B" class="btn-cta-main" target="_blank" rel="noopener">
+                            Commander via WhatsApp
                         </a>
+                        <div class="payment-options">
+                            <a href="#" onclick="openPayModal('Routeur TP-Link Archer MR600 4G+', 50100)">Payer en espèces</a>
+                            <span>|</span>
+                            <a href="#" onclick="openCashModal('Routeur TP-Link Archer MR600 4G+', 50100)">Mobile money</a>
+                        </div>
                     </div>
                 </div>
             </article>
@@ -643,18 +643,14 @@
                     <div class="stock-indicator stock-high">En stock</div>
                     <div class="popularity-ticker" style="margin-top:8px">🔥 <strong>14 personnes</strong>&nbsp;regardent ce produit</div>
                     <div class="product-actions">
-                        <button class="btn-pay btn-pay-mobile" onclick="openPayModal('SSD Externe Samsung T7 1 To', 30900)">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-                            Payer par mobile money
-                        </button>
-                        <button class="btn-pay btn-pay-cash" onclick="openCashModal('SSD Externe Samsung T7 1 To', 30900)">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
-                            Payer en espèces
-                        </button>
-                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20le%20SSD%20Externe%20Samsung%20T7%201%20To" rel="noopener noreferrer" target="_blank" class="btn-pay btn-pay-wa">
-                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
-                            Demander des infos
+                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20le%20SSD%20Externe%20Samsung%20T7%201%20To" class="btn-cta-main" target="_blank" rel="noopener">
+                            Commander via WhatsApp
                         </a>
+                        <div class="payment-options">
+                            <a href="#" onclick="openPayModal('SSD Externe Samsung T7 1 To', 30900)">Payer en espèces</a>
+                            <span>|</span>
+                            <a href="#" onclick="openCashModal('SSD Externe Samsung T7 1 To', 30900)">Mobile money</a>
+                        </div>
                     </div>
                 </div>
             </article>
@@ -696,18 +692,14 @@
                     <div class="sales-badge">🔥 19 vendus ce mois</div>
                     <div class="popularity-ticker" style="margin-top:8px">🔥 <strong>11 personnes</strong>&nbsp;regardent ce produit</div>
                     <div class="product-actions">
-                        <button class="btn-pay btn-pay-mobile" onclick="openPayModal('Multiprise Belkin BSV603 Parafoudre', 24600)">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-                            Payer par mobile money
-                        </button>
-                        <button class="btn-pay btn-pay-cash" onclick="openCashModal('Multiprise Belkin BSV603 Parafoudre', 24600)">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
-                            Payer en espèces
-                        </button>
-                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20la%20Multiprise%20Belkin%20BSV603%20Parafoudre" rel="noopener noreferrer" target="_blank" class="btn-pay btn-pay-wa">
-                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
-                            Demander des infos
+                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20la%20Multiprise%20Belkin%20BSV603%20Parafoudre" class="btn-cta-main" target="_blank" rel="noopener">
+                            Commander via WhatsApp
                         </a>
+                        <div class="payment-options">
+                            <a href="#" onclick="openPayModal('Multiprise Belkin BSV603 Parafoudre', 24600)">Payer en espèces</a>
+                            <span>|</span>
+                            <a href="#" onclick="openCashModal('Multiprise Belkin BSV603 Parafoudre', 24600)">Mobile money</a>
+                        </div>
                     </div>
                 </div>
             </article>
@@ -749,18 +741,14 @@
                     <div class="stock-indicator stock-low">Plus que 2 !</div>
                     <div class="popularity-ticker" style="margin-top:8px">🔥 <strong>25 personnes</strong>&nbsp;regardent ce produit</div>
                     <div class="product-actions">
-                        <button class="btn-pay btn-pay-mobile" onclick="openPayModal('PC Portable Reconditionné Grade A', 211100)">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-                            Payer par mobile money
-                        </button>
-                        <button class="btn-pay btn-pay-cash" onclick="openCashModal('PC Portable Reconditionné Grade A', 211100)">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
-                            Payer en espèces
-                        </button>
-                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20le%20PC%20Portable%20Reconditionn%C3%A9%20Grade%20A" rel="noopener noreferrer" target="_blank" class="btn-pay btn-pay-wa">
-                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
-                            Demander des infos
+                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20le%20PC%20Portable%20Reconditionn%C3%A9%20Grade%20A" class="btn-cta-main" target="_blank" rel="noopener">
+                            Commander via WhatsApp
                         </a>
+                        <div class="payment-options">
+                            <a href="#" onclick="openPayModal('PC Portable Reconditionné Grade A', 211100)">Payer en espèces</a>
+                            <span>|</span>
+                            <a href="#" onclick="openCashModal('PC Portable Reconditionné Grade A', 211100)">Mobile money</a>
+                        </div>
                     </div>
                 </div>
             </article>
@@ -802,18 +790,14 @@
                     <div class="sales-badge">🔥 12 vendus ce mois</div>
                     <div class="popularity-ticker" style="margin-top:8px">🔥 <strong>16 personnes</strong>&nbsp;regardent ce produit</div>
                     <div class="product-actions">
-                        <button class="btn-pay btn-pay-mobile" onclick="openPayModal('Écran PC Reconditionné 24 pouces', 177700)">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="7" y="2" width="10" height="20" rx="2"/><line x1="11" y1="18" x2="13" y2="18"/></svg>
-                            Payer par mobile money
-                        </button>
-                        <button class="btn-pay btn-pay-cash" onclick="openCashModal('Écran PC Reconditionné 24 pouces', 177700)">
-                            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="6" width="20" height="12" rx="2"/><circle cx="12" cy="12" r="3"/></svg>
-                            Payer en espèces
-                        </button>
-                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20l%27%C3%89cran%20PC%20Reconditionn%C3%A9%2024%20pouces" rel="noopener noreferrer" target="_blank" class="btn-pay btn-pay-wa">
-                            <svg width="18" height="18" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
-                            Demander des infos
+                        <a href="https://wa.me/33667491345?text=Bonjour%2C%20je%20souhaite%20commander%20l%27%C3%89cran%20PC%20Reconditionn%C3%A9%2024%20pouces" class="btn-cta-main" target="_blank" rel="noopener">
+                            Commander via WhatsApp
                         </a>
+                        <div class="payment-options">
+                            <a href="#" onclick="openPayModal('Écran PC Reconditionné 24 pouces', 177700)">Payer en espèces</a>
+                            <span>|</span>
+                            <a href="#" onclick="openCashModal('Écran PC Reconditionné 24 pouces', 177700)">Mobile money</a>
+                        </div>
                     </div>
                 </div>
             </article>
@@ -1316,6 +1300,28 @@
 
       });
     </script>
+
+    <div class="mobile-sticky-bar">
+        <span class="sticky-price"></span>
+        <a href="#" class="sticky-btn">Commander</a>
+    </div>
+    <script>
+    if(window.innerWidth <= 768) {
+        document.querySelectorAll('.product-card').forEach(card => {
+            const price = card.querySelector('.text-2xl') ? card.querySelector('.text-2xl').textContent.split(' ')[0] : '';
+            const waLink = card.querySelector('.btn-cta-main') ? card.querySelector('.btn-cta-main').href : '';
+            const stickyBar = document.querySelector('.mobile-sticky-bar');
+            if(stickyBar && price) {
+                stickyBar.querySelector('.sticky-price').textContent = price + ' EUR';
+                stickyBar.querySelector('.sticky-btn').href = waLink;
+            }
+        });
+    }
+    </script>
+    <style>
+    .mobile-sticky-bar { display:none; position:fixed; bottom:0; left:0; right:0; background:#fff; box-shadow:0 -4px 20px rgba(0,0,0,.1); padding:12px 16px; z-index:1000; }
+    @media (max-width:768px) { .mobile-sticky-bar { display:flex; align-items:center; justify-content:space-between; gap:12px; } .sticky-price { font-size:1.1rem; font-weight:800; color:#1e3a8a; } .sticky-btn { background:#25D366; color:#fff; padding:10px 20px; border-radius:10px; font-weight:700; text-decoration:none; } }
+    </style>
 
 </body>
 </html>
