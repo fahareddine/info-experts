@@ -69,6 +69,7 @@
     .carousel-slide{flex:0 0 100%;width:100%;position:relative;overflow:hidden}
     .carousel-bg{position:absolute;inset:0}
     .carousel-bg img{width:100%;height:100%;object-fit:cover;object-position:center;aspect-ratio:3/2}
+    .product-card img,.category-card img{aspect-ratio:4/3}
     /* Overlay identique à bg-trust-blue-900/90 utilisé sur le hero actuel */
     .carousel-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(30,58,138,.95) 0%,rgba(30,58,138,.82) 55%,rgba(23,37,84,.93) 100%)}
     .carousel-content{position:relative;z-index:10;max-width:80rem;margin:0 auto;padding:0 1.5rem;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
@@ -322,10 +323,10 @@
                 <div class="carousel-bg">
                     <img src="/carousel-1-sm.webp"
                          srcset="/carousel-1-sm.webp 640w, /carousel-1-md.webp 1024w, /carousel-1-lg.webp 1280w"
-                         sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1280px"
+                         sizes="100vw"
                          alt="Matériel informatique disponible chez Info Experts à Moroni, Comores"
                          width="640" height="427"
-                         loading="eager" fetchpriority="high" decoding="async">
+                         loading="eager" fetchpriority="high">
                     <div class="carousel-overlay"></div>
                 </div>
                 <div class="carousel-content">
@@ -344,10 +345,10 @@
                 <div class="carousel-bg">
                     <img data-src="/carousel-2-sm.webp"
                          data-srcset="/carousel-2-sm.webp 640w, /carousel-2-md.webp 1024w, /carousel-2-lg.webp 1280w"
-                         data-sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1280px"
+                         data-sizes="100vw"
                          src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
                          alt="Technicien en maintenance et réparation informatique aux Comores"
-                         width="640" height="427" loading="lazy" decoding="async">
+                         width="640" height="427" loading="lazy">
                     <div class="carousel-overlay"></div>
                 </div>
                 <div class="carousel-content">
@@ -366,10 +367,10 @@
                 <div class="carousel-bg">
                     <img data-src="/carousel-3-sm.webp"
                          data-srcset="/carousel-3-sm.webp 640w, /carousel-3-md.webp 1024w, /carousel-3-lg.webp 1280w"
-                         data-sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1280px"
+                         data-sizes="100vw"
                          src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
                          alt="Création de site web moderne pour entreprises comoriennes"
-                         width="640" height="427" loading="lazy" decoding="async">
+                         width="640" height="427" loading="lazy">
                     <div class="carousel-overlay"></div>
                 </div>
                 <div class="carousel-content">
@@ -388,10 +389,10 @@
                 <div class="carousel-bg">
                     <img data-src="/carousel-4-sm.webp"
                          data-srcset="/carousel-4-sm.webp 640w, /carousel-4-md.webp 1024w, /carousel-4-lg.webp 1280w"
-                         data-sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1280px"
+                         data-sizes="100vw"
                          src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
                          alt="Conseil informatique et stratégie numérique pour entreprises aux Comores"
-                         width="640" height="427" loading="lazy" decoding="async">
+                         width="640" height="427" loading="lazy">
                     <div class="carousel-overlay"></div>
                 </div>
                 <div class="carousel-content">
@@ -505,11 +506,11 @@
                     <div class="h-56 overflow-hidden">
                         <img src="/images/laptops.webp"
                              srcset="/images/laptops.webp 400w, /images/laptops.webp 800w"
-                             sizes="(max-width: 768px) 100vw, 33vw"
+                             sizes="33vw"
                              alt="Vente laptops professionnels à Moroni Comores" 
                              class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" 
                              width="400" height="267"
-                             loading="lazy" decoding="async">
+                             loading="lazy">
                     </div>
                     <div class="p-6 flex-grow">
                         <span class="inline-block bg-trust-blue-100 text-trust-blue-800 text-xs font-bold px-3 py-1 rounded-full mb-3">Populaire</span>
@@ -524,11 +525,11 @@
                     <div class="h-56 overflow-hidden">
                         <img src="/images/composants.webp"
                              srcset="/images/composants.webp 400w, /images/composants.webp 800w"
-                             sizes="(max-width: 768px) 100vw, 33vw"
+                             sizes="33vw"
                              alt="Composants PC RAM SSD disponibles aux Comores" 
                              class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" 
                              width="400" height="267"
-                             loading="lazy" decoding="async">
+                             loading="lazy">
                     </div>
                     <div class="p-6 flex-grow">
                         <h3 class="font-bold text-xl text-gray-900 mb-2">Composants PC</h3>
@@ -542,11 +543,11 @@
                     <div class="h-56 overflow-hidden">
                         <img src="/images/reseau.webp"
                              srcset="/images/reseau.webp 400w, /images/reseau.webp 800w"
-                             sizes="(max-width: 768px) 100vw, 33vw"
+                             sizes="33vw"
                              alt="Solutions réseau routeurs et switchs à Moroni Comores" 
                              class="w-full h-full object-cover hover:scale-105 transition-transform duration-500" 
                              width="400" height="267"
-                             loading="lazy" decoding="async">
+                             loading="lazy">
                     </div>
                     <div class="p-6 flex-grow">
                         <h3 class="font-bold text-xl text-gray-900 mb-2">Solutions Réseau</h3>
