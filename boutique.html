@@ -1365,27 +1365,42 @@
       _applyFilters();
     }
 
-    // ── Mobile sticky bar : suit la carte la plus visible ───────────────────
+    // ── Mobile sticky bar : suit la carte la plus visible, cachée si hors produits ──
     if (window.innerWidth <= 768 && 'IntersectionObserver' in window) {
       const stickyBar   = document.querySelector('.mobile-sticky-bar');
       const stickyPrice = stickyBar && stickyBar.querySelector('.sticky-price');
       const stickyBtn   = stickyBar && stickyBar.querySelector('.sticky-btn');
-      let   bestRatio   = 0;
+      const visibleCards = new Map(); // card → intersectionRatio courant
+
+      if (stickyBar) stickyBar.style.display = 'none'; // caché par défaut
+
+      function updateSticky() {
+        if (visibleCards.size === 0) {
+          if (stickyBar) stickyBar.style.display = 'none';
+          return;
+        }
+        let bestCard = null, bestRatio = 0;
+        visibleCards.forEach((ratio, card) => {
+          if (ratio > bestRatio) { bestRatio = ratio; bestCard = card; }
+        });
+        if (!bestCard) return;
+        const price  = bestCard.querySelector('.text-2xl') ? bestCard.querySelector('.text-2xl').textContent.split(' ')[0] : '';
+        const waLink = bestCard.querySelector('.btn-cta-main') ? bestCard.querySelector('.btn-cta-main').href : '#';
+        if (stickyPrice && price) stickyPrice.textContent = price + ' €';
+        if (stickyBtn)           stickyBtn.href           = waLink;
+        if (stickyBar)           stickyBar.style.display  = 'flex';
+      }
 
       const stickyObs = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
-          if (entry.intersectionRatio > bestRatio) {
-            bestRatio = entry.intersectionRatio;
-            const card   = entry.target;
-            const price  = card.querySelector('.text-2xl') ? card.querySelector('.text-2xl').textContent.split(' ')[0] : '';
-            const waLink = card.querySelector('.btn-cta-main') ? card.querySelector('.btn-cta-main').href : '#';
-            if (stickyPrice && price) stickyPrice.textContent = price + ' €';
-            if (stickyBtn)           stickyBtn.href           = waLink;
+          if (entry.isIntersecting && entry.intersectionRatio > 0.1) {
+            visibleCards.set(entry.target, entry.intersectionRatio);
+          } else {
+            visibleCards.delete(entry.target);
           }
         });
-        // reset ratio each cycle so next scroll re-evaluates
-        setTimeout(() => { bestRatio = 0; }, 200);
-      }, { threshold: [0.25, 0.5, 0.75] });
+        updateSticky();
+      }, { threshold: [0, 0.1, 0.25, 0.5, 0.75, 1] });
 
       document.querySelectorAll('.product-card').forEach(card => stickyObs.observe(card));
     }
