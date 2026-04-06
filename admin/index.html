@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Info Experts</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --line: #e2e8f0;
+      --text: #0f172a;
+      --muted: #64748b;
+      --brand: #1e3a8a;
+      --brand-2: #2563eb;
+      --green: #16a34a;
+      --red: #dc2626;
+      --amber: #d97706;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #eff6ff 0%, var(--bg) 180px);
+      color: var(--text);
+    }
+    .shell {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .brand {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--brand);
+    }
+    .brand span { color: #60a5fa; }
+    .muted { color: var(--muted); }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    }
+    .login-wrap {
+      max-width: 440px;
+      margin: 72px auto;
+      padding: 28px;
+    }
+    .title {
+      font-size: 24px;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+    .row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .metric {
+      padding: 18px;
+    }
+    .metric-label {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .metric-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--brand);
+    }
+    .panel {
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .panel-title {
+      font-size: 18px;
+      font-weight: 800;
+    }
+    input, select, button {
+      font: inherit;
+    }
+    input, select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      background: #fff;
+      color: var(--text);
+    }
+    button {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      background: var(--brand);
+      color: #fff;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button.secondary {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+    button.green { background: var(--green); }
+    button.red { background: var(--red); }
+    button:disabled { opacity: 0.6; cursor: not-allowed; }
+    .form-stack, .filters {
+      display: grid;
+      gap: 12px;
+    }
+    .filters {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      margin-bottom: 16px;
+    }
+    .error, .success {
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      margin-top: 12px;
+      display: none;
+    }
+    .error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    .success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      padding: 12px 10px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+      font-size: 14px;
+    }
+    th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #e2e8f0;
+      color: #334155;
+      white-space: nowrap;
+    }
+    .badge.pending_review, .badge.payment_submitted { background: #fff7ed; color: var(--amber); }
+    .badge.validated, .badge.confirmed, .badge.completed { background: #f0fdf4; color: #166534; }
+    .badge.failed, .badge.rejected, .badge.cancelled { background: #fef2f2; color: #991b1b; }
+    .badge.cash_reserved { background: #eff6ff; color: #1d4ed8; }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 20px;
+    }
+    .toolbar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    .hidden { display: none !important; }
+    .empty {
+      padding: 18px;
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      color: var(--muted);
+      background: #f8fafc;
+      text-align: center;
+    }
+    .actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .inline-link {
+      color: var(--brand-2);
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .inline-link:hover { text-decoration: underline; }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #dbeafe;
+      color: #1d4ed8;
+      font-size: 12px;
+      font-weight: 800;
+    }
+    .test-label {
+      display: inline-flex;
+      margin-top: 6px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: #fee2e2;
+      color: #b91c1c;
+      font-size: 11px;
+      font-weight: 800;
+    }
+    @media (max-width: 980px) {
+      .row, .grid-2, .filters { grid-template-columns: 1fr; }
+      .topbar, .panel-head { align-items: flex-start; flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <section id="loginView" class="card login-wrap">
+      <div class="title">Back-office admin</div>
+      <p class="muted">Accès interne Info Experts pour suivre les rendez-vous, commandes et paiements.</p>
+      <form id="loginForm" class="form-stack">
+        <input id="password" type="password" placeholder="Mot de passe administrateur" autocomplete="current-password" required>
+        <button id="loginButton" type="submit">Se connecter</button>
+      </form>
+      <div id="loginError" class="error"></div>
+    </section>
+
+    <section id="dashboardView" class="hidden">
+      <div class="topbar">
+        <div>
+          <div class="brand">Info<span>Experts</span> Admin</div>
+          <div class="muted">Back-office opérationnel connecté à Supabase et Vercel</div>
+        </div>
+        <div class="toolbar">
+          <a class="inline-link" href="/admin/customers">Clients</a>
+          <a class="inline-link" href="/admin/calendar">Calendrier</a>
+          <a class="inline-link" href="/admin/accounting">Comptabilité</a>
+          <a class="inline-link" href="/admin/billing">Facturation</a>
+          <span id="roleBadge" class="pill">manager</span>
+          <button id="refreshButton" class="secondary" type="button">Rafraîchir</button>
+          <button id="logoutButton" type="button">Déconnexion</button>
+        </div>
+      </div>
+
+      <div id="globalSuccess" class="success"></div>
+      <div id="globalError" class="error"></div>
+
+      <section class="card panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Période KPI</div>
+            <div class="muted">Filtre les indicateurs métier sans modifier les listes récentes.</div>
+          </div>
+        </div>
+        <div class="filters">
+          <select id="kpiPeriodFilter">
+            <option value="today">Aujourd'hui</option>
+            <option value="7d">7 jours</option>
+            <option value="30d" selected>30 jours</option>
+            <option value="90d">90 jours</option>
+            <option value="custom">Période personnalisée</option>
+          </select>
+          <input id="kpiDateFromFilter" type="date">
+          <input id="kpiDateToFilter" type="date">
+          <button id="applyKpiFiltersButton" type="button">Appliquer KPI</button>
+        </div>
+      </section>
+
+      <div class="row">
+        <div class="card metric"><div class="metric-label">Rendez-vous</div><div id="metricAppointments" class="metric-value">0</div></div>
+        <div class="card metric"><div class="metric-label">Commandes</div><div id="metricOrders" class="metric-value">0</div></div>
+        <div class="card metric"><div class="metric-label">Paiements</div><div id="metricPayments" class="metric-value">0</div></div>
+        <div class="card metric"><div class="metric-label">Clients</div><div id="metricCustomers" class="metric-value">0</div></div>
+        <div class="card metric"><div class="metric-label">Paiements en attente</div><div id="metricPending" class="metric-value">0</div></div>
+        <div class="card metric"><div class="metric-label">CA encaissé</div><div id="metricRevenue" class="metric-value">0 KMF</div></div>
+        <div class="card metric"><div class="metric-label">Paiements en retard</div><div id="metricOverdue" class="metric-value">0</div></div>
+        <div class="card metric"><div class="metric-label">Rendez-vous du jour</div><div id="metricTodayAppointments" class="metric-value">0</div></div>
+        <div class="card metric"><div class="metric-label">Données de test</div><div id="metricTestRecords" class="metric-value">0</div></div>
+      </div>
+
+      <div class="grid-2">
+        <section class="card panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Performance métier</div>
+              <div class="muted">Taux, panier moyen et qualité opérationnelle.</div>
+            </div>
+          </div>
+          <div id="businessStatsWrap"></div>
+        </section>
+
+        <section class="card panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Maintenance</div>
+              <div class="muted">Nettoyage des tests et supervision des relances.</div>
+            </div>
+          </div>
+          <div class="toolbar" style="margin-bottom:16px">
+            <button id="cleanupTestsButton" class="red" type="button">Supprimer les données de test</button>
+          </div>
+          <div id="maintenanceWrap"></div>
+        </section>
+      </div>
+
+      <div class="grid-2">
+        <section class="card panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Top services</div>
+              <div class="muted">Services les plus réservés sur la période KPI.</div>
+            </div>
+          </div>
+          <div id="topServicesWrap"></div>
+        </section>
+
+        <section class="card panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Top produits</div>
+              <div class="muted">Produits les plus commandés sur la période KPI.</div>
+            </div>
+          </div>
+          <div id="topProductsWrap"></div>
+        </section>
+      </div>
+
+      <section class="card panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Derniers clients</div>
+            <div class="muted">Profils dédupliqués et enrichis pour la gestion relation client.</div>
+          </div>
+        </div>
+        <div id="customersWrap"></div>
+      </section>
+
+      <div class="grid-2">
+        <section class="card panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Parcours live</div>
+              <div class="muted">Utilise les vrais parcours publics pour générer des données réelles dans l'admin.</div>
+            </div>
+          </div>
+          <div class="toolbar">
+            <a class="inline-link" href="/booking" target="_blank" rel="noopener">Ouvrir Booking</a>
+            <a class="inline-link" href="/boutique" target="_blank" rel="noopener">Ouvrir Boutique</a>
+            <a class="inline-link" href="/payment" target="_blank" rel="noopener">Ouvrir Payment</a>
+          </div>
+        </section>
+
+        <section class="card panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Validation des paiements</div>
+              <div class="muted">Traitez les paiements en attente de vérification.</div>
+            </div>
+          </div>
+          <div id="pendingPaymentsWrap"></div>
+        </section>
+
+        <section class="card panel">
+          <div class="panel-head">
+            <div>
+              <div class="panel-title">Explorer les données</div>
+              <div class="muted">Recherche texte, filtres métier et accès aux pages détail.</div>
+            </div>
+          </div>
+          <div class="filters">
+            <select id="entityFilter">
+              <option value="customers">Clients</option>
+              <option value="appointments">Rendez-vous</option>
+              <option value="orders">Commandes</option>
+              <option value="payments">Paiements</option>
+            </select>
+            <input id="searchFilter" type="text" placeholder="Recherche texte">
+            <input id="statusFilter" type="text" placeholder="Statut (optionnel)">
+            <select id="paymentTypeFilter">
+              <option value="">Tous paiements</option>
+              <option value="mobile_money">Mobile money</option>
+              <option value="cash">Espèces</option>
+              <option value="free">Gratuit</option>
+            </select>
+            <select id="sourceFilter">
+              <option value="">Toutes sources</option>
+              <option value="booking">Booking</option>
+              <option value="boutique">Boutique</option>
+              <option value="standalone">Standalone</option>
+            </select>
+            <select id="isTestFilter">
+              <option value="">Tous enregistrements</option>
+              <option value="false">Données réelles</option>
+              <option value="true">Données de test</option>
+            </select>
+            <input id="technicianFilter" type="text" placeholder="Technicien (RDV)">
+            <select id="lifecycleStatusFilter">
+              <option value="">Tous statuts client</option>
+              <option value="lead">Lead</option>
+              <option value="active">Active</option>
+              <option value="vip">VIP</option>
+              <option value="blocked">Blocked</option>
+              <option value="test">Test</option>
+            </select>
+            <input id="dateFromFilter" type="date">
+            <input id="dateToFilter" type="date">
+            <input id="limitFilter" type="number" min="1" max="200" value="25">
+            <button id="loadRecordsButton" type="button">Charger</button>
+            <button id="exportCsvButton" class="secondary" type="button">Exporter CSV</button>
+          </div>
+          <div id="recordsWrap"></div>
+        </section>
+      </div>
+
+      <section class="card panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Derniers rendez-vous</div>
+            <div class="muted">Vue rapide des dernières réservations.</div>
+          </div>
+        </div>
+        <div id="appointmentsWrap"></div>
+      </section>
+
+      <section class="card panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Dernières commandes boutique</div>
+            <div class="muted">Suivi des achats saisis depuis la boutique.</div>
+          </div>
+        </div>
+        <div id="ordersWrap"></div>
+      </section>
+
+      <section class="card panel">
+        <div class="panel-head">
+          <div>
+            <div class="panel-title">Derniers paiements</div>
+            <div class="muted">Historique unifié des paiements et demandes standalone.</div>
+          </div>
+        </div>
+        <div id="paymentsWrap"></div>
+      </section>
+    </section>
+  </div>
+
+  <script>
+    const loginView = document.getElementById('loginView');
+    const dashboardView = document.getElementById('dashboardView');
+    const loginError = document.getElementById('loginError');
+    const globalError = document.getElementById('globalError');
+    const globalSuccess = document.getElementById('globalSuccess');
+    let currentRole = 'manager';
+
+    function showMessage(el, message) {
+      el.textContent = message;
+      el.style.display = message ? 'block' : 'none';
+    }
+
+    function hideMessages() {
+      showMessage(loginError, '');
+      showMessage(globalError, '');
+      showMessage(globalSuccess, '');
+    }
+
+    async function request(url, options = {}) {
+      const response = await fetch(url, {
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+        ...options
+      });
+
+      let data = null;
+      try { data = await response.json(); } catch (_) {}
+
+      if (!response.ok) {
+        const message = data && data.error ? data.error : 'Erreur serveur';
+        const error = new Error(message);
+        error.status = response.status;
+        throw error;
+      }
+
+      return data;
+    }
+
+    function esc(value) {
+      return String(value ?? '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    function statusBadge(status) {
+      return '<span class="badge ' + esc(status) + '">' + esc(status) + '</span>';
+    }
+
+    function fmtAmount(value) {
+      return Number(value || 0).toLocaleString('fr-FR') + ' KMF';
+    }
+
+    function fmtDate(value) {
+      if (!value) return '—';
+      try {
+        return new Date(value).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' });
+      } catch (_) {
+        return value;
+      }
+    }
+
+    function fmtAppointment(date, time) {
+      if (!date || !time) return '—';
+      return date + ' ' + String(time).slice(0, 5);
+    }
+
+    function detailLink(entity, reference) {
+      return '/admin/detail?entity=' + encodeURIComponent(entity) + '&reference=' + encodeURIComponent(reference);
+    }
+
+    function detailAnchor(entity, reference, label) {
+      return '<a class="inline-link" href="' + detailLink(entity, reference) + '">' + label + '</a>';
+    }
+
+    function customerDetailLink(customerKey, label) {
+      return '<a class="inline-link" href="/admin/customer?key=' + encodeURIComponent(customerKey) + '">' + label + '</a>';
+    }
+
+    function testBadge(row) {
+      const isTest = row.isTest === true || row.is_test === true;
+      return isTest ? '<div class="test-label">TEST</div>' : '';
+    }
+
+    function renderEmpty(target, text) {
+      target.innerHTML = '<div class="empty">' + text + '</div>';
+    }
+
+    function renderTable(target, columns, rows) {
+      if (!rows || !rows.length) {
+        renderEmpty(target, 'Aucune donnée à afficher.');
+        return;
+      }
+
+      const thead = '<thead><tr>' + columns.map(col => '<th>' + col.label + '</th>').join('') + '</tr></thead>';
+      const tbody = '<tbody>' + rows.map(row => '<tr>' + columns.map(col => '<td>' + (col.render ? col.render(row) : (row[col.key] ?? '—')) + '</td>').join('') + '</tr>').join('') + '</tbody>';
+      target.innerHTML = '<table>' + thead + tbody + '</table>';
+    }
+
+    function buildRecordParams() {
+      const entity = document.getElementById('entityFilter').value;
+      const search = document.getElementById('searchFilter').value.trim();
+      const status = document.getElementById('statusFilter').value.trim();
+      const paymentType = document.getElementById('paymentTypeFilter').value;
+      const source = document.getElementById('sourceFilter').value;
+      const isTest = document.getElementById('isTestFilter').value;
+      const technicianName = document.getElementById('technicianFilter').value.trim();
+      const lifecycleStatus = document.getElementById('lifecycleStatusFilter').value;
+      const dateFrom = document.getElementById('dateFromFilter').value;
+      const dateTo = document.getElementById('dateToFilter').value;
+      const limit = document.getElementById('limitFilter').value || '25';
+      const params = new URLSearchParams({ entity, limit });
+      if (search) params.set('search', search);
+      if (status) params.set('status', status);
+      if (paymentType) params.set('paymentType', paymentType);
+      if (source) params.set('source', source);
+      if (isTest) params.set('isTest', isTest);
+      if (technicianName) params.set('technicianName', technicianName);
+      if (lifecycleStatus) params.set('lifecycleStatus', lifecycleStatus);
+      if (dateFrom) params.set('dateFrom', dateFrom);
+      if (dateTo) params.set('dateTo', dateTo);
+      return { entity, params };
+    }
+
+    function buildDashboardParams() {
+      const period = document.getElementById('kpiPeriodFilter').value;
+      const params = new URLSearchParams({ period });
+
+      if (period === 'custom') {
+        const dateFrom = document.getElementById('kpiDateFromFilter').value;
+        const dateTo = document.getElementById('kpiDateToFilter').value;
+        if (dateFrom) params.set('dateFrom', dateFrom);
+        if (dateTo) params.set('dateTo', dateTo);
+      }
+
+      return params;
+    }
+
+    function syncKpiDateVisibility() {
+      const isCustom = document.getElementById('kpiPeriodFilter').value === 'custom';
+      document.getElementById('kpiDateFromFilter').style.display = isCustom ? 'block' : 'none';
+      document.getElementById('kpiDateToFilter').style.display = isCustom ? 'block' : 'none';
+    }
+
+    function syncEntityFilters() {
+      const entity = document.getElementById('entityFilter').value;
+      document.getElementById('paymentTypeFilter').disabled = entity === 'customers';
+      document.getElementById('sourceFilter').disabled = entity === 'customers';
+      document.getElementById('technicianFilter').disabled = entity !== 'appointments';
+      document.getElementById('lifecycleStatusFilter').disabled = entity !== 'customers';
+      document.getElementById('statusFilter').placeholder = entity === 'customers' ? 'Statut métier (laisser vide)' : 'Statut (optionnel)';
+    }
+
+    function applyRole(role) {
+      currentRole = role || 'manager';
+      document.getElementById('roleBadge').textContent = currentRole === 'viewer' ? 'viewer' : 'manager';
+      const hideManagerActions = currentRole !== 'manager';
+      const cleanupButton = document.getElementById('cleanupTestsButton');
+      cleanupButton.style.display = hideManagerActions ? 'none' : 'inline-flex';
+    }
+
+    async function ensureSession() {
+      try {
+        const session = await request('/api/admin/auth?action=session', { method: 'GET', headers: {} });
+        applyRole(session.role);
+        loginView.classList.add('hidden');
+        dashboardView.classList.remove('hidden');
+        await loadDashboard();
+      } catch (_) {
+        loginView.classList.remove('hidden');
+        dashboardView.classList.add('hidden');
+      }
+    }
+
+    async function login(password) {
+      return request('/api/admin/auth?action=login', {
+        method: 'POST',
+        body: JSON.stringify({ password })
+      });
+    }
+
+    async function logout() {
+      await request('/api/admin/auth?action=logout', { method: 'POST', body: JSON.stringify({}) });
+    }
+
+    function renderPendingPayments(payments) {
+      const wrap = document.getElementById('pendingPaymentsWrap');
+      const pending = payments || [];
+
+      if (!pending.length) {
+        renderEmpty(wrap, 'Aucun paiement en attente.');
+        return;
+      }
+
+      renderTable(wrap, [
+        { label: 'Référence', render: row => '<strong>' + row.reference + '</strong>' },
+        {
+          label: 'Client',
+          render: row => (row.customerName || row.customer_full_name || '—')
+            + '<br><span class="muted">' + (row.customerPhone || row.customer_phone || '') + '</span>'
+        },
+        { label: 'Source', key: 'source' },
+        { label: 'Objet', key: 'label' },
+        { label: 'Montant', render: row => fmtAmount(row.amountKmf != null ? row.amountKmf : row.amount_kmf) },
+        { label: 'Opérateur', render: row => row.operator || '—' },
+        { label: 'Reçu le', render: row => fmtDate(row.createdAt != null ? row.createdAt : row.created_at) },
+        { label: 'Statut', render: row => statusBadge(row.status) },
+        {
+          label: 'Actions',
+          render: row => '<div class="actions">'
+            + (currentRole === 'manager' ? '<button class="green" data-action="validate" data-reference="' + row.reference + '">Valider</button>' : '')
+            + (currentRole === 'manager' ? '<button class="red" data-action="reject" data-reference="' + row.reference + '">Rejeter</button>' : '')
+            + (currentRole === 'manager' ? '<button class="secondary" data-action="remind" data-reference="' + row.reference + '">Relancer</button>' : '')
+            + '<a class="inline-link" href="' + detailLink('payments', row.reference) + '">Détail paiement</a>'
+            + (row.source === 'booking' && (row.appointmentReference || (row.metadata && row.metadata.appointment_reference))
+                ? detailAnchor('appointments', row.appointmentReference || row.metadata.appointment_reference, 'Détail RDV')
+                : '')
+            + (row.source === 'boutique' && (row.orderReference || (row.metadata && row.metadata.order_reference))
+                ? detailAnchor('orders', row.orderReference || row.metadata.order_reference, 'Détail commande')
+                : '')
+            + '</div>'
+        }
+      ], pending);
+    }
+
+    function renderList(target, items, emptyText, formatter) {
+      if (!items || !items.length) {
+        renderEmpty(target, emptyText);
+        return;
+      }
+      target.innerHTML = '<table><tbody>' + items.map(formatter).join('') + '</tbody></table>';
+    }
+
+    function renderDashboardTables(data, pendingPayments) {
+      renderTable(document.getElementById('customersWrap'), [
+        { label: 'Client', render: row => customerDetailLink(row.customerKey, '<strong>' + esc(row.displayName) + '</strong>') + testBadge(row) + '<br><span class="muted">' + esc(row.email || row.phone || '—') + '</span>' },
+        { label: 'Statut', render: row => statusBadge(row.lifecycleStatus) },
+        { label: 'Interactions', render: row => esc(row.ordersCount) + ' cmd · ' + esc(row.appointmentsCount) + ' rdv · ' + esc(row.paymentsCount) + ' paie.' },
+        { label: 'Dernière activité', render: row => fmtDate(row.lastSeenAt) }
+      ], data.analytics.recentCustomers || []);
+
+      renderTable(document.getElementById('appointmentsWrap'), [
+        { label: 'Référence', render: row => detailAnchor('appointments', row.reference, '<strong>' + esc(row.reference) + '</strong>') + testBadge(row) },
+        { label: 'Client', render: row => esc(row.customerName) + '<br><span class="muted">' + esc(row.customerEmail || '') + '</span>' },
+        { label: 'Service', render: row => esc(row.serviceName || '—') },
+        { label: 'Créneau', render: row => fmtAppointment(row.appointmentDate, row.appointmentTime) },
+        { label: 'Technicien', render: row => esc(row.technicianName || '—') },
+        { label: 'Statut', render: row => statusBadge(row.status) },
+        { label: 'Créé le', render: row => fmtDate(row.createdAt) }
+      ], data.recent.appointments);
+
+      renderTable(document.getElementById('ordersWrap'), [
+        { label: 'Référence', render: row => detailAnchor('orders', row.reference, '<strong>' + esc(row.reference) + '</strong>') + testBadge(row) },
+        { label: 'Client', render: row => esc(row.customerName) + '<br><span class="muted">' + esc(row.customerPhone) + '</span>' },
+        { label: 'Produit', render: row => esc(row.productName || '—') },
+        { label: 'Montant', render: row => fmtAmount(row.amountKmf) },
+        { label: 'Paiement', render: row => esc(row.paymentType || '—') },
+        { label: 'Statut', render: row => statusBadge(row.status) },
+        { label: 'Créé le', render: row => fmtDate(row.createdAt) }
+      ], data.recent.orders);
+
+      renderTable(document.getElementById('paymentsWrap'), [
+        { label: 'Référence', render: row => detailAnchor('payments', row.reference, '<strong>' + esc(row.reference) + '</strong>') + testBadge(row) },
+        { label: 'Client', render: row => esc(row.customerName) + '<br><span class="muted">' + esc(row.customerPhone) + '</span>' },
+        { label: 'Source', render: row => esc(row.source || '—') },
+        { label: 'Objet', render: row => esc(row.label || '—') },
+        { label: 'Montant', render: row => fmtAmount(row.amountKmf) },
+        { label: 'Statut', render: row => statusBadge(row.status) },
+        { label: 'Créé le', render: row => fmtDate(row.createdAt) }
+      ], data.recent.payments);
+
+      renderList(document.getElementById('businessStatsWrap'), [
+        ['Panier moyen commande', fmtAmount(data.summary.averageOrderValueKmf)],
+        ['Paiement validé moyen', fmtAmount(data.summary.averageValidatedPaymentKmf)],
+        ['Taux de complétion RDV', data.summary.appointmentCompletionRate + '%'],
+        ['Taux d\'annulation RDV', data.summary.appointmentCancellationRate + '%']
+      ], 'Aucune statistique métier.', (item) => '<tr><td><strong>' + item[0] + '</strong></td><td>' + item[1] + '</td></tr>');
+
+      renderList(document.getElementById('topServicesWrap'), data.analytics.topServices || [], 'Aucun service réservé sur la période.', (item) => '<tr><td><strong>' + item.label + '</strong></td><td>' + item.count + '</td></tr>');
+      renderList(document.getElementById('topProductsWrap'), data.analytics.topProducts || [], 'Aucun produit commandé sur la période.', (item) => '<tr><td><strong>' + item.label + '</strong></td><td>' + item.count + '</td></tr>');
+      renderList(document.getElementById('maintenanceWrap'), [
+        ['Clients de test', data.summary.testCustomers],
+        ['Enregistrements de test', data.summary.testRecords],
+        ['Relances en attente', (data.analytics.pendingReminders || []).length]
+      ], 'Aucune info de maintenance.', (item) => '<tr><td><strong>' + item[0] + '</strong></td><td>' + item[1] + '</td></tr>');
+
+      renderPendingPayments(pendingPayments);
+    }
+
+    async function loadDashboard() {
+      hideMessages();
+      const dashboardParams = buildDashboardParams();
+      const [data, pendingData] = await Promise.all([
+        request('/api/admin/dashboard?' + dashboardParams.toString(), { method: 'GET', headers: {} }),
+        request('/api/admin/records?entity=payments&status=pending_review&isTest=false&limit=50', { method: 'GET', headers: {} })
+      ]);
+
+      document.getElementById('metricAppointments').textContent = data.summary.appointmentsTotal;
+      document.getElementById('metricOrders').textContent = data.summary.ordersTotal;
+      document.getElementById('metricPayments').textContent = data.summary.paymentsTotal;
+      document.getElementById('metricCustomers').textContent = data.summary.customersTotal;
+      document.getElementById('metricPending').textContent = data.summary.pendingPayments;
+      document.getElementById('metricRevenue').textContent = fmtAmount(data.summary.revenueValidatedKmf);
+      document.getElementById('metricOverdue').textContent = data.summary.overduePendingPayments;
+      document.getElementById('metricTodayAppointments').textContent = data.summary.todayAppointments;
+      document.getElementById('metricTestRecords').textContent = data.summary.testRecords;
+      applyRole(data.session && data.session.role ? data.session.role : currentRole);
+
+      renderDashboardTables(data, pendingData.records || []);
+    }
+
+    async function loadRecords() {
+      hideMessages();
+      const { entity, params } = buildRecordParams();
+
+      const data = await request('/api/admin/records?' + params.toString(), { method: 'GET', headers: {} });
+
+      const wrap = document.getElementById('recordsWrap');
+      renderTable(wrap, [
+        {
+          label: 'Référence',
+          render: row => entity === 'customers'
+            ? customerDetailLink(row.customer_key, '<strong>' + row.display_name + '</strong>') + testBadge(row)
+            : entity === 'appointments'
+            ? detailAnchor('appointments', row.reference, '<strong>' + row.reference + '</strong>') + testBadge(row)
+            : entity === 'orders'
+              ? detailAnchor('orders', row.reference, '<strong>' + row.reference + '</strong>') + testBadge(row)
+              : detailAnchor('payments', row.reference, '<strong>' + row.reference + '</strong>') + testBadge(row)
+        },
+        { label: 'Statut', render: row => statusBadge(entity === 'customers' ? row.lifecycle_status : row.status) },
+        { label: 'Client', render: row => entity === 'customers' ? (row.email || row.phone || '—') : (row.customer_full_name || '—') },
+        { label: 'Objet', render: row => entity === 'customers' ? ((row.orders_count || 0) + ' cmd · ' + (row.appointments_count || 0) + ' rdv · ' + (row.payments_count || 0) + ' paie.') : (row.service_name || row.product_name || row.label || '—') },
+        { label: 'Source/Paiement', render: row => entity === 'customers' ? ((row.notes || 'Sans note')) : ((row.source || '—') + '<br><span class="muted">' + (row.payment_type || '—') + '</span>') },
+        { label: 'Montant', render: row => entity === 'customers' ? (row.is_test ? 'Test' : 'Réel') : (row.amount_kmf != null ? fmtAmount(row.amount_kmf) : (row.deposit_amount_kmf != null ? fmtAmount(row.deposit_amount_kmf) : '—')) },
+        { label: 'Créé le', render: row => fmtDate(entity === 'customers' ? row.last_seen_at : row.created_at) }
+      ], data.records || []);
+    }
+
+    async function exportCsv() {
+      const { params } = buildRecordParams();
+      const response = await fetch('/api/admin/export?' + params.toString(), {
+        method: 'GET',
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        let message = 'Export impossible.';
+        try {
+          const data = await response.json();
+          message = data.error || message;
+        } catch (_) {}
+        throw new Error(message);
+      }
+
+      const blob = await response.blob();
+      const disposition = response.headers.get('content-disposition') || '';
+      const match = disposition.match(/filename="([^"]+)"/i);
+      const filename = match ? match[1] : 'export.csv';
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    async function reviewPayment(paymentReference, action) {
+      await request('/api/admin/actions?entity=payment', {
+        method: 'POST',
+        body: JSON.stringify({ paymentReference, action })
+      });
+    }
+
+    async function cleanupTestData() {
+      return request('/api/admin/actions?entity=maintenance', {
+        method: 'POST',
+        body: JSON.stringify({})
+      });
+    }
+
+    document.getElementById('loginForm').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      hideMessages();
+      const password = document.getElementById('password').value;
+      const button = document.getElementById('loginButton');
+      button.disabled = true;
+      try {
+        const data = await login(password);
+        applyRole(data.role);
+        document.getElementById('password').value = '';
+        await ensureSession();
+      } catch (error) {
+        showMessage(loginError, error.message || 'Connexion impossible.');
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    document.getElementById('logoutButton').addEventListener('click', async () => {
+      hideMessages();
+      try {
+        await logout();
+      } catch (_) {}
+      loginView.classList.remove('hidden');
+      dashboardView.classList.add('hidden');
+    });
+
+    document.getElementById('refreshButton').addEventListener('click', async () => {
+      try {
+        await loadDashboard();
+        showMessage(globalSuccess, 'Données rafraîchies.');
+      } catch (error) {
+        showMessage(globalError, error.message || 'Rafraîchissement impossible.');
+      }
+    });
+
+    document.getElementById('kpiPeriodFilter').addEventListener('change', syncKpiDateVisibility);
+
+    document.getElementById('applyKpiFiltersButton').addEventListener('click', async () => {
+      try {
+        await loadDashboard();
+        showMessage(globalSuccess, 'KPI mis à jour pour la période sélectionnée.');
+      } catch (error) {
+        showMessage(globalError, error.message || 'Mise à jour KPI impossible.');
+      }
+    });
+
+    document.getElementById('loadRecordsButton').addEventListener('click', async () => {
+      try {
+        await loadRecords();
+      } catch (error) {
+        showMessage(globalError, error.message || 'Chargement impossible.');
+      }
+    });
+
+    document.getElementById('exportCsvButton').addEventListener('click', async () => {
+      try {
+        await exportCsv();
+        showMessage(globalSuccess, 'Export CSV généré.');
+      } catch (error) {
+        showMessage(globalError, error.message || 'Export impossible.');
+      }
+    });
+
+    document.getElementById('pendingPaymentsWrap').addEventListener('click', async (event) => {
+      const button = event.target.closest('button[data-action]');
+      if (!button) return;
+
+      const paymentReference = button.getAttribute('data-reference');
+      const action = button.getAttribute('data-action');
+      hideMessages();
+
+      button.disabled = true;
+      try {
+        await reviewPayment(paymentReference, action);
+        await loadDashboard();
+        showMessage(globalSuccess, action === 'validate' ? 'Paiement validé.' : action === 'reject' ? 'Paiement rejeté.' : 'Relance envoyée.');
+      } catch (error) {
+        showMessage(globalError, error.message || 'Action impossible.');
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    document.getElementById('cleanupTestsButton').addEventListener('click', async () => {
+      if (!confirm('Supprimer définitivement toutes les données de test (rendez-vous, commandes, paiements, clients) ? Cette action est irréversible.')) return;
+      try {
+        const result = await cleanupTestData();
+        await loadDashboard();
+        const d = result.deleted;
+        showMessage(globalSuccess, `Données de test supprimées — ${d.appointments} RDV, ${d.orders} commandes, ${d.payments} paiements, ${d.customers} clients.`);
+      } catch (error) {
+        showMessage(globalError, error.message || 'Nettoyage impossible.');
+      }
+    });
+
+    syncEntityFilters();
+    syncKpiDateVisibility();
+    document.getElementById('entityFilter').addEventListener('change', syncEntityFilters);
+    ensureSession();
+  </script>
+</body>
+</html>

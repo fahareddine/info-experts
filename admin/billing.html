@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Facturation - Info Experts Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root {
+      --bg: #f8fafc; --panel: #fff; --line: #e2e8f0;
+      --text: #0f172a; --muted: #64748b;
+      --brand: #1e3a8a; --brand2: #2563eb;
+      --green: #16a34a; --red: #dc2626; --amber: #d97706;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: linear-gradient(180deg,#eff6ff 0%,var(--bg) 180px); color: var(--text); }
+    .shell { max-width: 1280px; margin: 0 auto; padding: 24px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+    .brand { font-size: 26px; font-weight: 800; color: var(--brand); }
+    .brand span { color: #60a5fa; }
+    .muted { color: var(--muted); font-size: 13px; }
+    .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .pill { display: inline-flex; align-items: center; padding: 5px 10px; border-radius: 999px; background: #dbeafe; color: #1d4ed8; font-size: 12px; font-weight: 800; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; box-shadow: 0 8px 24px rgba(15,23,42,.06); }
+    .panel { padding: 20px; margin-bottom: 20px; }
+    input, select, button, textarea { font: inherit; }
+    input, select, textarea { padding: 9px 13px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--text); }
+    button { border: 0; border-radius: 10px; padding: 9px 16px; background: var(--brand); color: #fff; font-weight: 700; cursor: pointer; }
+    button.secondary { background: #e2e8f0; color: #0f172a; }
+    button.green { background: var(--green); }
+    button.red { background: var(--red); }
+    button.amber { background: var(--amber); }
+    button.sm { padding: 5px 11px; font-size: 12px; }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    .inline-link { color: var(--brand2); text-decoration: none; font-weight: 700; }
+    .inline-link:hover { text-decoration: underline; }
+    .error, .success { padding: 11px 14px; border-radius: 10px; font-size: 14px; margin-bottom: 14px; display: none; }
+    .error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    .success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+    .empty { padding: 24px; border: 1px dashed var(--line); border-radius: 14px; color: var(--muted); background: #f8fafc; text-align: center; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 10px 10px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: middle; font-size: 13px; }
+    th { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .05em; background: #f8fafc; }
+    tr:last-child td { border-bottom: none; }
+    tr:hover td { background: #f8fafc; }
+    .actions { display: flex; gap: 5px; flex-wrap: wrap; align-items: center; }
+    .hidden { display: none !important; }
+
+    /* Filter bar */
+    .filter-bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; margin-bottom: 16px; padding: 14px 18px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+    .filter-bar > * { flex: 1 1 130px; }
+    .filter-bar button { flex: 0 1 auto; }
+    .filter-bar input, .filter-bar select { font-size: 13px; padding: 8px 11px; }
+
+    /* Stats row */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin-bottom: 20px; }
+    .stat-card { padding: 16px; }
+    .stat-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; margin-bottom: 6px; }
+    .stat-value { font-size: 22px; font-weight: 800; }
+    .stat-blue .stat-value { color: var(--brand); }
+    .stat-green .stat-value { color: var(--green); }
+    .stat-red .stat-value { color: var(--red); }
+    .stat-amber .stat-value { color: var(--amber); }
+
+    /* Status badges */
+    .badge { display: inline-flex; align-items: center; padding: 3px 9px; border-radius: 999px; font-size: 11px; font-weight: 800; white-space: nowrap; }
+    .badge-draft { background: #f1f5f9; color: #475569; }
+    .badge-ready { background: #eff6ff; color: #1d4ed8; }
+    .badge-sent { background: #dbeafe; color: #1d4ed8; }
+    .badge-paid { background: #f0fdf4; color: #166534; }
+    .badge-partial { background: #fefce8; color: #a16207; }
+    .badge-overdue { background: #fef2f2; color: #991b1b; }
+    .badge-cancelled { background: #f1f5f9; color: #94a3b8; text-decoration: line-through; }
+    .badge-accepted { background: #f0fdf4; color: #166534; }
+    .badge-expired { background: #fff7ed; color: #c2410c; }
+    .badge-converted { background: #f0fdf4; color: #166534; }
+
+    /* Type badge */
+    .type-invoice { background: #eff6ff; color: #1d4ed8; }
+    .type-proforma { background: #fff7ed; color: #c2410c; }
+    .type-reminder { background: #fef2f2; color: #991b1b; }
+
+    /* Modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,.5); z-index: 100; align-items: center; justify-content: center; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 16px; padding: 24px; max-width: 520px; width: 100%; margin: 16px; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
+    .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 16px; }
+    .form-group { margin-bottom: 14px; }
+    .form-label { display: block; font-size: 12px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+    .form-group input, .form-group textarea, .form-group select { width: 100%; }
+    textarea { resize: vertical; min-height: 80px; }
+
+    /* New doc button */
+    .new-doc-group { position: relative; display: inline-flex; gap: 0; }
+    .new-doc-main { border-radius: 10px 0 0 10px; }
+    .new-doc-arrow { border-radius: 0 10px 10px 0; padding: 9px 10px; border-left: 1px solid rgba(255,255,255,.3); }
+    .new-doc-dropdown { display: none; position: absolute; top: 100%; left: 0; margin-top: 4px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,.12); min-width: 180px; z-index: 50; overflow: hidden; }
+    .new-doc-dropdown.open { display: block; }
+    .new-doc-option { display: block; padding: 11px 16px; font-size: 14px; font-weight: 700; color: var(--text); text-decoration: none; border-bottom: 1px solid var(--line); }
+    .new-doc-option:last-child { border-bottom: none; }
+    .new-doc-option:hover { background: #eff6ff; color: var(--brand); }
+
+    @media (max-width: 900px) {
+      .stats-row { grid-template-columns: 1fr 1fr; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 600px) {
+      .stats-row { grid-template-columns: 1fr; }
+      th, td { padding: 8px 6px; font-size: 12px; }
+    }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div>
+      <div class="brand">Info<span>Experts</span> Facturation</div>
+      <div class="muted">Gestion des factures, pro formas et relances</div>
+    </div>
+    <div class="toolbar">
+      <a class="inline-link" href="/admin">Dashboard</a>
+      <a class="inline-link" href="/admin/billing-clients">Clients</a>
+      <a class="inline-link" href="/admin/calendar">Calendrier</a>
+      <a class="inline-link" href="/admin/accounting">Comptabilité</a>
+      <span id="roleBadge" class="pill">—</span>
+    </div>
+  </div>
+
+  <div id="globalError" class="error"></div>
+  <div id="globalSuccess" class="success"></div>
+
+  <!-- Filter bar -->
+  <div class="filter-bar">
+    <input id="searchInput" type="search" placeholder="Recherche N°, client, email…">
+    <select id="typeFilter">
+      <option value="">Tous les types</option>
+      <option value="invoice">Factures</option>
+      <option value="proforma">Pro Formas</option>
+      <option value="reminder">Relances</option>
+    </select>
+    <select id="statusFilter">
+      <option value="">Tous les statuts</option>
+      <option value="draft">Brouillon</option>
+      <option value="ready">Prêt</option>
+      <option value="sent">Envoyé</option>
+      <option value="paid">Payé</option>
+      <option value="partial">Partiel</option>
+      <option value="overdue">En retard</option>
+      <option value="cancelled">Annulé</option>
+      <option value="accepted">Accepté</option>
+      <option value="expired">Expiré</option>
+      <option value="converted">Converti</option>
+    </select>
+    <input id="dateFromFilter" type="date" title="Date début">
+    <input id="dateToFilter" type="date" title="Date fin">
+    <button type="button" onclick="loadDocuments()">Charger</button>
+    <div class="new-doc-group" id="newDocGroup">
+      <button type="button" class="new-doc-main" onclick="location.href='/admin/billing-edit'">+ Nouveau</button>
+      <button type="button" class="new-doc-arrow" onclick="toggleNewDocDropdown()" title="Choisir le type">▾</button>
+      <div class="new-doc-dropdown" id="newDocDropdown">
+        <a class="new-doc-option" href="/admin/billing-edit?type=invoice">Facture</a>
+        <a class="new-doc-option" href="/admin/billing-edit?type=proforma">Pro Forma</a>
+        <a class="new-doc-option" href="/admin/billing-edit?type=reminder">Relance</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats-row" id="statsRow">
+    <div class="card stat-card stat-blue"><div class="stat-label">Documents</div><div class="stat-value" id="statTotal">—</div></div>
+    <div class="card stat-card stat-green"><div class="stat-label">Montant total</div><div class="stat-value" id="statAmount">—</div></div>
+    <div class="card stat-card stat-red"><div class="stat-label">Non payé</div><div class="stat-value" id="statUnpaid">—</div></div>
+    <div class="card stat-card stat-amber"><div class="stat-label">En retard</div><div class="stat-value" id="statOverdue">—</div></div>
+  </div>
+
+  <!-- Table -->
+  <div class="card panel">
+    <div id="loadingState" class="empty">Chargement…</div>
+    <div id="emptyState" class="empty hidden">Aucun document trouvé. Créez-en un avec le bouton "+ Nouveau".</div>
+    <div id="tableWrap" class="hidden">
+      <table>
+        <thead>
+          <tr>
+            <th>N° Document</th>
+            <th>Type</th>
+            <th>Client</th>
+            <th>Montant TTC</th>
+            <th>Statut</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="docTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+
+<!-- Send Modal -->
+<div class="modal-overlay" id="sendModal">
+  <div class="modal">
+    <div class="modal-title">Envoyer par email</div>
+    <div class="form-group">
+      <label class="form-label">Destinataire</label>
+      <input type="email" id="sendEmail" placeholder="email@client.com">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Objet</label>
+      <input type="text" id="sendSubject">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Message (optionnel)</label>
+      <textarea id="sendMessage" placeholder="Message personnalisé…"></textarea>
+    </div>
+    <div id="sendError" class="error"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px">
+      <button type="button" class="secondary" onclick="closeSendModal()">Annuler</button>
+      <button type="button" id="sendBtn" onclick="confirmSend()">Envoyer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  let allDocuments = [];
+  let currentSendDocId = null;
+  let userRole = 'viewer';
+
+  // ── Auth ──────────────────────────────────────────────────────────────────
+  async function checkAuth() {
+    try {
+      const resp = await fetch('/api/admin/billing?action=list-documents&limit=1');
+      if (resp.status === 401) { location.href = '/admin'; return false; }
+      // Get role from a dummy auth request
+      const r2 = await fetch('/api/admin/auth?action=whoami').catch(() => null);
+      if (r2?.ok) {
+        const d = await r2.json().catch(() => ({}));
+        userRole = d.role || 'manager';
+      } else {
+        userRole = 'manager'; // assume manager if endpoint doesn't exist
+      }
+      document.getElementById('roleBadge').textContent = userRole;
+      if (userRole !== 'manager') {
+        document.getElementById('newDocGroup').classList.add('hidden');
+      }
+      return true;
+    } catch { return false; }
+  }
+
+  // ── Load documents ─────────────────────────────────────────────────────────
+  async function loadDocuments() {
+    setLoading(true);
+    clearMessages();
+    try {
+      const params = new URLSearchParams({
+        action: 'list-documents',
+        type: document.getElementById('typeFilter').value,
+        status: document.getElementById('statusFilter').value,
+        search: document.getElementById('searchInput').value,
+        limit: '200',
+      });
+      const resp = await fetch('/api/admin/billing?' + params);
+      const data = await resp.json();
+      if (!data.success) throw new Error(data.error);
+      allDocuments = data.documents || [];
+      renderTable(allDocuments);
+      updateStats(allDocuments);
+    } catch (err) {
+      showError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function renderTable(docs) {
+    const tbody = document.getElementById('docTableBody');
+    const tableWrap = document.getElementById('tableWrap');
+    const emptyState = document.getElementById('emptyState');
+
+    if (docs.length === 0) {
+      tableWrap.classList.add('hidden');
+      emptyState.classList.remove('hidden');
+      return;
+    }
+
+    emptyState.classList.add('hidden');
+    tableWrap.classList.remove('hidden');
+
+    tbody.innerHTML = docs.map((doc) => {
+      const typeLabel = { invoice: 'Facture', proforma: 'Pro Forma', reminder: 'Relance' }[doc.doc_type] || doc.doc_type;
+      const statusLabel = {
+        draft:'Brouillon',ready:'Prêt',sent:'Envoyé',paid:'Payé',partial:'Partiel',
+        overdue:'En retard',cancelled:'Annulé',accepted:'Accepté',expired:'Expiré',converted:'Converti'
+      }[doc.status] || doc.status;
+
+      const date = (doc.issue_date || doc.created_at || '').slice(0, 10);
+      const amount = Number(doc.total_kmf || 0).toLocaleString('fr-FR') + ' KMF';
+
+      const managerActions = userRole === 'manager' ? `
+        <button class="sm amber" onclick="openSendModal('${doc.id}','${escAttr(doc.client_email||'')}','${escAttr(doc.doc_number||'')}','${doc.doc_type||''}')">Envoyer</button>
+        <button class="sm secondary" onclick="duplicateDoc('${doc.id}')">Dupliquer</button>
+      ` : '';
+
+      return `<tr>
+        <td><a class="inline-link" href="/admin/billing-edit?id=${doc.id}">${esc(doc.doc_number)}</a></td>
+        <td><span class="badge type-${doc.doc_type}">${esc(typeLabel)}</span></td>
+        <td>
+          <div style="font-weight:700">${esc(doc.client_name || '—')}</div>
+          ${doc.client_email ? `<div class="muted" style="font-size:11px">${esc(doc.client_email)}</div>` : ''}
+        </td>
+        <td style="font-weight:700">${amount}</td>
+        <td><span class="badge badge-${doc.status}">${esc(statusLabel)}</span></td>
+        <td>${esc(date)}</td>
+        <td>
+          <div class="actions">
+            <a class="inline-link" href="/admin/billing-edit?id=${doc.id}">Ouvrir</a>
+            <button class="sm secondary" onclick="downloadPdf('${doc.id}','${escAttr(doc.doc_number||'')}')">PDF</button>
+            ${managerActions}
+          </div>
+        </td>
+      </tr>`;
+    }).join('');
+  }
+
+  function updateStats(docs) {
+    const total = docs.length;
+    const totalAmount = docs.reduce((s, d) => s + (d.total_kmf || 0), 0);
+    const unpaid = docs
+      .filter((d) => !['paid', 'cancelled', 'converted'].includes(d.status))
+      .reduce((s, d) => s + ((d.total_kmf || 0) - (d.paid_kmf || 0)), 0);
+    const overdueCount = docs.filter((d) => d.status === 'overdue').length;
+
+    document.getElementById('statTotal').textContent = total;
+    document.getElementById('statAmount').textContent = totalAmount.toLocaleString('fr-FR') + ' KMF';
+    document.getElementById('statUnpaid').textContent = unpaid.toLocaleString('fr-FR') + ' KMF';
+    document.getElementById('statOverdue').textContent = overdueCount;
+  }
+
+  // ── PDF download ────────────────────────────────────────────────────────────
+  function downloadPdf(id, docNumber) {
+    window.open(`/api/admin/billing?action=generate-pdf&id=${id}`, '_blank');
+  }
+
+  // ── Duplicate ───────────────────────────────────────────────────────────────
+  function duplicateDoc(id) {
+    location.href = '/admin/billing-edit?duplicate=' + id;
+  }
+
+  // ── Send modal ──────────────────────────────────────────────────────────────
+  function openSendModal(id, email, docNumber, docType) {
+    currentSendDocId = id;
+    document.getElementById('sendEmail').value = email || '';
+    const subjects = {
+      invoice: `Votre facture ${docNumber} — Info Experts`,
+      proforma: `Votre devis / pro forma ${docNumber} — Info Experts`,
+      reminder: `Relance de paiement ${docNumber} — Info Experts`,
+    };
+    document.getElementById('sendSubject').value = subjects[docType] || `Document ${docNumber} — Info Experts`;
+    document.getElementById('sendMessage').value = '';
+    document.getElementById('sendError').style.display = 'none';
+    document.getElementById('sendModal').classList.add('open');
+  }
+
+  function closeSendModal() {
+    document.getElementById('sendModal').classList.remove('open');
+    currentSendDocId = null;
+  }
+
+  async function confirmSend() {
+    if (!currentSendDocId) return;
+    const btn = document.getElementById('sendBtn');
+    const errEl = document.getElementById('sendError');
+    btn.disabled = true;
+    btn.textContent = 'Envoi…';
+    errEl.style.display = 'none';
+    try {
+      const resp = await fetch('/api/admin/billing?action=send-document', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: currentSendDocId,
+          emailSubject: document.getElementById('sendSubject').value,
+          emailMessage: document.getElementById('sendMessage').value,
+        }),
+      });
+      const data = await resp.json();
+      if (!data.success) throw new Error(data.error);
+      closeSendModal();
+      showSuccess(data.message || 'Email envoyé avec succès.');
+      loadDocuments();
+    } catch (err) {
+      errEl.textContent = err.message;
+      errEl.style.display = 'block';
+    } finally {
+      btn.disabled = false;
+      btn.textContent = 'Envoyer';
+    }
+  }
+
+  // ── New doc dropdown ─────────────────────────────────────────────────────────
+  function toggleNewDocDropdown() {
+    document.getElementById('newDocDropdown').classList.toggle('open');
+  }
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.new-doc-group')) {
+      document.getElementById('newDocDropdown').classList.remove('open');
+    }
+  });
+
+  // ── Helpers ──────────────────────────────────────────────────────────────────
+  function setLoading(on) {
+    document.getElementById('loadingState').classList.toggle('hidden', !on);
+    if (on) {
+      document.getElementById('tableWrap').classList.add('hidden');
+      document.getElementById('emptyState').classList.add('hidden');
+    }
+  }
+
+  function showError(msg) {
+    const el = document.getElementById('globalError');
+    el.textContent = msg;
+    el.style.display = 'block';
+  }
+
+  function showSuccess(msg) {
+    const el = document.getElementById('globalSuccess');
+    el.textContent = msg;
+    el.style.display = 'block';
+    setTimeout(() => { el.style.display = 'none'; }, 4000);
+  }
+
+  function clearMessages() {
+    document.getElementById('globalError').style.display = 'none';
+    document.getElementById('globalSuccess').style.display = 'none';
+  }
+
+  function esc(v) {
+    return String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function escAttr(v) {
+    return String(v ?? '').replace(/'/g, "\\'").replace(/"/g, '&quot;');
+  }
+
+  // Enter to search
+  document.getElementById('searchInput').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') loadDocuments();
+  });
+
+  // ── Init ──────────────────────────────────────────────────────────────────────
+  (async () => {
+    const ok = await checkAuth();
+    if (ok) loadDocuments();
+  })();
+</script>
+</body>
+</html>

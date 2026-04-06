@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Clients - Info Experts Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root { --bg:#f8fafc; --panel:#fff; --line:#e2e8f0; --text:#0f172a; --muted:#64748b; --brand:#1e3a8a; --brand2:#2563eb; --red:#dc2626; }
+    *{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#eff6ff 0%,var(--bg) 180px);color:var(--text)}
+    .shell{max-width:1280px;margin:0 auto;padding:24px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-bottom:24px}
+    .brand{font-size:28px;font-weight:800;color:var(--brand)} .brand span{color:#60a5fa}.muted{color:var(--muted)}
+    .card{background:var(--panel);border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 30px rgba(15,23,42,.06)}
+    .panel{padding:20px;margin-bottom:20px}.toolbar,.filters{display:flex;gap:12px;flex-wrap:wrap}.filters>*{flex:1 1 180px}
+    input,select,button{font:inherit} input,select{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--text)}
+    button{border:0;border-radius:12px;padding:12px 16px;background:var(--brand);color:#fff;font-weight:700;cursor:pointer} button.secondary{background:#e2e8f0;color:#0f172a}
+    .pill{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:#dbeafe;color:#1d4ed8;font-size:12px;font-weight:800}
+    .test{display:inline-flex;padding:2px 8px;border-radius:999px;background:#fee2e2;color:#b91c1c;font-size:11px;font-weight:800;margin-top:6px}
+    table{width:100%;border-collapse:collapse} th,td{padding:12px 10px;text-align:left;border-bottom:1px solid var(--line);vertical-align:top;font-size:14px} th{color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
+    .inline-link{color:var(--brand2);text-decoration:none;font-weight:700}.inline-link:hover{text-decoration:underline}.empty{padding:18px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);background:#f8fafc;text-align:center}
+    .error,.success{padding:12px 14px;border-radius:12px;font-size:14px;margin-bottom:14px;display:none}.error{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}.success{background:#f0fdf4;color:#166534;border:1px solid #bbf7d0}
+    @media(max-width:980px){.topbar{flex-direction:column;align-items:flex-start}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="topbar">
+      <div>
+        <div class="brand">Info<span>Experts</span> Clients</div>
+        <div class="muted">Gestion centralisée des profils clients, interactions et qualification.</div>
+      </div>
+      <div class="toolbar">
+        <a class="inline-link" href="/admin">Dashboard</a>
+        <a class="inline-link" href="/admin/calendar">Calendrier</a>
+        <a class="inline-link" href="/admin/accounting">Comptabilité</a>
+        <span id="roleBadge" class="pill">manager</span>
+      </div>
+    </div>
+
+    <div id="globalSuccess" class="success"></div>
+    <div id="globalError" class="error"></div>
+
+    <section class="card panel">
+      <div class="filters">
+        <input id="searchFilter" type="text" placeholder="Recherche nom, email, téléphone, note">
+        <select id="statusFilter">
+          <option value="">Tous statuts</option>
+          <option value="lead">Lead</option>
+          <option value="active">Active</option>
+          <option value="vip">VIP</option>
+          <option value="blocked">Blocked</option>
+          <option value="test">Test</option>
+        </select>
+        <select id="testFilter">
+          <option value="">Tous profils</option>
+          <option value="false">Profils réels</option>
+          <option value="true">Profils test</option>
+        </select>
+        <input id="dateFromFilter" type="date">
+        <input id="dateToFilter" type="date">
+        <button id="loadButton" type="button">Charger</button>
+      </div>
+    </section>
+
+    <section class="card panel">
+      <div id="customersWrap"></div>
+    </section>
+  </div>
+
+  <script>
+    const globalSuccess = document.getElementById('globalSuccess');
+    const globalError = document.getElementById('globalError');
+    let currentRole = 'manager';
+
+    function esc(v) { return String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+    function showMessage(el, message) { el.textContent = message; el.style.display = message ? 'block' : 'none'; }
+    function clearMessages() { showMessage(globalSuccess, ''); showMessage(globalError, ''); }
+
+    async function request(url, options = {}) {
+      const response = await fetch(url, { credentials: 'include', headers: { 'Content-Type': 'application/json', ...(options.headers || {}) }, ...options });
+      let data = null; try { data = await response.json(); } catch (_) {}
+      if (!response.ok) throw new Error(data && data.error ? data.error : 'Erreur serveur');
+      return data;
+    }
+
+    function fmtDate(value) {
+      if (!value) return '—';
+      try { return new Date(value).toLocaleString('fr-FR', { dateStyle: 'short', timeStyle: 'short' }); } catch (_) { return value; }
+    }
+
+    function badge(value) {
+      return '<span class="pill">' + value + '</span>';
+    }
+
+    function testBadge(row) {
+      return row.is_test ? '<div class="test">TEST</div>' : '';
+    }
+
+    function renderEmpty(target, text) { target.innerHTML = '<div class="empty">' + text + '</div>'; }
+
+    function buildParams() {
+      const params = new URLSearchParams({ entity: 'customers', limit: '200' });
+      const search = document.getElementById('searchFilter').value.trim();
+      const status = document.getElementById('statusFilter').value;
+      const isTest = document.getElementById('testFilter').value;
+      const dateFrom = document.getElementById('dateFromFilter').value;
+      const dateTo = document.getElementById('dateToFilter').value;
+      if (search) params.set('search', search);
+      if (status) params.set('lifecycleStatus', status);
+      if (isTest) params.set('isTest', isTest);
+      if (dateFrom) params.set('dateFrom', dateFrom);
+      if (dateTo) params.set('dateTo', dateTo);
+      return params;
+    }
+
+    async function ensureSession() {
+      const session = await request('/api/admin/auth?action=session', { method: 'GET' });
+      currentRole = session.role || 'manager';
+      document.getElementById('roleBadge').textContent = currentRole;
+    }
+
+    async function loadCustomers() {
+      clearMessages();
+      const data = await request('/api/admin/records?' + buildParams().toString(), { method: 'GET' });
+      const wrap = document.getElementById('customersWrap');
+      const rows = data.records || [];
+      if (!rows.length) return renderEmpty(wrap, 'Aucun client trouvé.');
+      wrap.innerHTML = '<table><thead><tr><th>Client</th><th>Statut</th><th>Contacts</th><th>Interactions</th><th>Dernière activité</th><th>Actions</th></tr></thead><tbody>'
+        + rows.map((row) => '<tr>'
+          + '<td><a class="inline-link" href="/admin/customer?key=' + encodeURIComponent(row.customer_key) + '"><strong>' + esc(row.display_name) + '</strong></a>' + testBadge(row) + '</td>'
+          + '<td>' + badge(esc(row.lifecycle_status)) + '</td>'
+          + '<td>' + esc(row.email || '—') + '<br><span class="muted">' + esc(row.phone || '—') + '</span></td>'
+          + '<td>' + (row.orders_count || 0) + ' cmd · ' + (row.appointments_count || 0) + ' rdv · ' + (row.payments_count || 0) + ' paie.</td>'
+          + '<td>' + fmtDate(row.last_seen_at) + '</td>'
+          + '<td><a class="inline-link" href="/admin/customer?key=' + encodeURIComponent(row.customer_key) + '">Ouvrir</a></td>'
+          + '</tr>').join('')
+        + '</tbody></table>';
+    }
+
+    document.getElementById('loadButton').addEventListener('click', async () => {
+      try { await loadCustomers(); } catch (error) { showMessage(globalError, error.message || 'Chargement impossible.'); }
+    });
+
+    ensureSession().then(loadCustomers).catch((error) => showMessage(globalError, error.message || 'Session invalide.'));
+  </script>
+</body>
+</html>

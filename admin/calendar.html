@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calendrier - Info Experts Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root{--bg:#f8fafc;--panel:#fff;--line:#e2e8f0;--text:#0f172a;--muted:#64748b;--brand:#1e3a8a;--brand2:#2563eb}
+    *{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(180deg,#eff6ff 0%,var(--bg) 180px);color:var(--text)}
+    .shell{max-width:1400px;margin:0 auto;padding:24px}.topbar,.toolbar,.filters{display:flex;gap:12px;flex-wrap:wrap}.topbar{justify-content:space-between;align-items:center;margin-bottom:24px}
+    .brand{font-size:28px;font-weight:800;color:var(--brand)} .brand span{color:#60a5fa}.card{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 30px rgba(15,23,42,.06)} .panel{padding:20px;margin-bottom:20px}
+    input,select,button{font:inherit} input,select{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--text)} button{border:0;border-radius:12px;padding:12px 16px;background:var(--brand);color:#fff;font-weight:700;cursor:pointer}
+    button.secondary{background:#e2e8f0;color:#0f172a}.pill{display:inline-flex;padding:6px 10px;border-radius:999px;background:#dbeafe;color:#1d4ed8;font-size:12px;font-weight:800}.muted{color:var(--muted)}
+    .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}.day{border:1px solid var(--line);border-radius:16px;background:#f8fafc;min-height:320px;padding:12px}.day h4{margin:0 0 12px;font-size:14px}.slot{padding:10px;border-radius:12px;background:#fff;border:1px solid var(--line);margin-bottom:10px}.slot a{color:var(--brand2);text-decoration:none;font-weight:700}.slot .test{display:inline-flex;padding:2px 8px;border-radius:999px;background:#fee2e2;color:#b91c1c;font-size:11px;font-weight:800;margin-top:6px}
+    .empty{padding:18px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);background:#f8fafc;text-align:center}.error{padding:12px 14px;border-radius:12px;font-size:14px;margin-bottom:14px;display:none;background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+    @media(max-width:1100px){.calendar{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="topbar">
+      <div>
+        <div class="brand">Info<span>Experts</span> Calendrier</div>
+        <div class="muted">Vue hebdomadaire des rendez-vous pour pilotage et disponibilité.</div>
+      </div>
+      <div class="toolbar">
+        <a class="pill" href="/admin">Dashboard</a>
+        <a class="pill" href="/admin/customers">Clients</a>
+        <a class="pill" href="/admin/accounting">Comptabilité</a>
+        <span id="roleBadge" class="pill">manager</span>
+      </div>
+    </div>
+
+    <div id="globalError" class="error"></div>
+
+    <section class="card panel">
+      <div class="filters">
+        <input id="weekStartInput" type="date">
+        <input id="technicianInput" type="text" placeholder="Technicien">
+        <input id="statusInput" type="text" placeholder="Statut (optionnel)">
+        <select id="testInput">
+          <option value="">Tous</option>
+          <option value="false">Réels</option>
+          <option value="true">Test</option>
+        </select>
+        <button id="loadButton" type="button">Charger semaine</button>
+      </div>
+    </section>
+
+    <section class="card panel">
+      <div id="calendarWrap"></div>
+    </section>
+  </div>
+
+  <script>
+    const errorBox = document.getElementById('globalError');
+    function showError(message){ errorBox.textContent = message; errorBox.style.display = message ? 'block' : 'none'; }
+    async function request(url, options={}){ const r = await fetch(url,{credentials:'include',headers:{'Content-Type':'application/json',...(options.headers||{})},...options}); let d=null; try{d=await r.json()}catch(_){ } if(!r.ok) throw new Error(d&&d.error?d.error:'Erreur serveur'); return d; }
+    function fmtDate(value){ return value ? new Date(value).toLocaleDateString('fr-FR',{weekday:'short',day:'2-digit',month:'2-digit'}) : '—'; }
+    function defaultWeekStart(){ const d=new Date(); const day=(d.getDay()+6)%7; d.setDate(d.getDate()-day); return d.toISOString().slice(0,10); }
+    function plusDays(dateString, days){ const d=new Date(dateString+'T00:00:00'); d.setDate(d.getDate()+days); return d.toISOString().slice(0,10); }
+    async function ensureSession(){ const session=await request('/api/admin/auth?action=session',{method:'GET'}); document.getElementById('roleBadge').textContent=session.role||'manager'; }
+    async function loadCalendar(){ showError(''); const start=document.getElementById('weekStartInput').value||defaultWeekStart(); const end=plusDays(start,6); const params=new URLSearchParams({entity:'appointments',limit:'200',dateFrom:start,dateTo:end}); const tech=document.getElementById('technicianInput').value.trim(); const status=document.getElementById('statusInput').value.trim(); const isTest=document.getElementById('testInput').value; if(tech) params.set('technicianName',tech); if(status) params.set('status',status); if(isTest) params.set('isTest',isTest); const data=await request('/api/admin/records?'+params.toString(),{method:'GET'}); const rows=data.records||[]; const byDay={}; for(let i=0;i<7;i++){ const day=plusDays(start,i); byDay[day]=[]; } rows.forEach((row)=>{ if(byDay[row.appointment_date]) byDay[row.appointment_date].push(row); }); const wrap=document.getElementById('calendarWrap'); wrap.innerHTML='<div class="calendar">'+Object.keys(byDay).map((day)=>'<div class="day"><h4>'+fmtDate(day)+'</h4>'+(byDay[day].length?byDay[day].sort((a,b)=>String(a.appointment_time).localeCompare(String(b.appointment_time))).map((row)=>'<div class="slot"><a href="/admin/detail?entity=appointments&reference='+encodeURIComponent(row.reference)+'">'+row.reference+'</a><div><strong>'+row.service_name+'</strong></div><div>'+String(row.appointment_time||'').slice(0,5)+' · '+(row.technician_name||'—')+'</div><div class="muted">'+(row.customer_full_name||'—')+'</div>'+(row.is_test?'<div class="test">TEST</div>':'')+'</div>').join(''):'<div class="empty">Aucun rendez-vous</div>')+'</div>').join('')+'</div>'; }
+    document.getElementById('loadButton').addEventListener('click',()=>loadCalendar().catch((e)=>showError(e.message||'Chargement impossible.')));
+    document.getElementById('weekStartInput').value=defaultWeekStart();
+    ensureSession().then(loadCalendar).catch((e)=>showError(e.message||'Session invalide.'));
+  </script>
+</body>
+</html>

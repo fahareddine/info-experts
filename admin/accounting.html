@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Comptabilité - Info Experts Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --panel: #fff;
+      --line: #e2e8f0;
+      --text: #0f172a;
+      --muted: #64748b;
+      --brand: #1e3a8a;
+      --brand2: #2563eb;
+      --green: #16a34a;
+      --red: #dc2626;
+      --amber: #d97706;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: linear-gradient(180deg, #eff6ff 0%, var(--bg) 180px); color: var(--text); }
+    .shell { max-width: 1280px; margin: 0 auto; padding: 24px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 24px; flex-wrap: wrap; }
+    .brand { font-size: 28px; font-weight: 800; color: var(--brand); }
+    .brand span { color: #60a5fa; }
+    .muted { color: var(--muted); }
+    .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .pill { display: inline-flex; align-items: center; padding: 6px 10px; border-radius: 999px; background: #dbeafe; color: #1d4ed8; font-size: 12px; font-weight: 800; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; box-shadow: 0 10px 30px rgba(15,23,42,.06); }
+    .panel { padding: 20px; margin-bottom: 20px; }
+    input, select, button, textarea { font: inherit; }
+    input, select, textarea { padding: 10px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; color: var(--text); }
+    textarea { resize: vertical; min-height: 80px; }
+    button { border: 0; border-radius: 10px; padding: 10px 16px; background: var(--brand); color: #fff; font-weight: 700; cursor: pointer; }
+    button.secondary { background: #e2e8f0; color: #0f172a; }
+    button.green { background: var(--green); }
+    button.red { background: var(--red); }
+    button.amber { background: var(--amber); }
+    button.sm { padding: 6px 12px; font-size: 13px; }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    .inline-link { color: var(--brand2); text-decoration: none; font-weight: 700; }
+    .inline-link:hover { text-decoration: underline; }
+    .error, .success { padding: 12px 14px; border-radius: 12px; font-size: 14px; margin-bottom: 14px; display: none; }
+    .error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    .success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+    .empty { padding: 18px; border: 1px dashed var(--line); border-radius: 14px; color: var(--muted); background: #f8fafc; text-align: center; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { padding: 11px 10px; text-align: left; border-bottom: 1px solid var(--line); vertical-align: top; font-size: 14px; }
+    th { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+    tr:last-child td { border-bottom: none; }
+
+    /* Period bar */
+    .period-bar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; margin-bottom: 20px; padding: 14px 18px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; }
+    .period-bar label { font-size: 13px; color: var(--muted); font-weight: 700; margin-right: 4px; }
+    .period-bar select, .period-bar input[type=date] { padding: 8px 12px; border-radius: 8px; font-size: 13px; flex: 0 1 auto; }
+    .period-bar input[type=date] { width: 150px; }
+    #customDates { display: none; align-items: center; gap: 8px; }
+
+    /* Tabs */
+    .tabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+    .tab-btn { background: var(--panel); color: var(--muted); border: 1px solid var(--line); border-radius: 10px; padding: 9px 18px; font-size: 14px; font-weight: 700; cursor: pointer; transition: background .15s; }
+    .tab-btn.active { background: var(--brand); color: #fff; border-color: var(--brand); }
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* KPI grid */
+    .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-bottom: 20px; }
+    .kpi-card { padding: 18px; }
+    .kpi-label { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin-bottom: 8px; }
+    .kpi-value { font-size: 26px; font-weight: 800; }
+    .kpi-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
+    .kpi-blue .kpi-value { color: var(--brand); }
+    .kpi-green .kpi-value { color: var(--green); }
+    .kpi-amber .kpi-value { color: var(--amber); }
+    .kpi-red .kpi-value { color: var(--red); }
+
+    /* Chart */
+    .chart-wrap { padding: 20px; margin-bottom: 20px; }
+    .chart-title { font-size: 16px; font-weight: 800; margin-bottom: 16px; }
+    .chart-bars { display: flex; align-items: flex-end; gap: 16px; height: 130px; padding-top: 10px; }
+    .chart-col { display: flex; flex-direction: column; align-items: center; flex: 1; }
+    .chart-bar-label-top { font-size: 10px; color: var(--muted); margin-bottom: 4px; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; }
+    .chart-bar { width: 100%; max-width: 60px; border-radius: 6px 6px 0 0; background: var(--brand); min-width: 20px; }
+    .chart-bar-label { font-size: 12px; color: var(--muted); margin-top: 6px; font-weight: 700; }
+
+    /* Filters */
+    .filter-bar { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; align-items: flex-end; }
+    .filter-bar > * { flex: 1 1 140px; }
+    .filter-bar button { flex: 0 1 auto; }
+    .filter-bar select, .filter-bar input { font-size: 13px; padding: 8px 12px; }
+
+    /* Expense form */
+    .expense-form { padding: 18px; margin-bottom: 18px; background: #f8fafc; border: 1px solid var(--line); border-radius: 14px; }
+    .expense-form-title { font-size: 15px; font-weight: 800; margin-bottom: 14px; }
+    .form-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .form-grid .full { grid-column: 1 / -1; }
+    .form-label { display: block; font-size: 12px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+    .form-grid input, .form-grid select, .form-grid textarea { width: 100%; }
+
+    /* Actions col */
+    .actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+    /* Table summary */
+    .table-summary { font-size: 13px; color: var(--muted); padding: 10px 0 0; font-weight: 700; }
+
+    /* Shortcuts */
+    .shortcuts { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 8px; }
+
+    /* Export sections */
+    .export-section { padding: 20px; margin-bottom: 20px; }
+    .export-title { font-size: 16px; font-weight: 800; margin-bottom: 14px; }
+    .export-form { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
+    .export-form > * { flex: 1 1 150px; }
+    .export-form button { flex: 0 1 auto; }
+
+    /* Urgent alert */
+    .urgent-alert { display:none; background:#fef2f2; border:1px solid #fecaca; border-radius:14px; padding:12px 18px; margin-bottom:16px; color:#991b1b; font-weight:700; font-size:14px; align-items:center; gap:10px; }
+    .urgent-alert.show { display:flex; }
+    .urgent-dot { width:10px; height:10px; border-radius:50%; background:#dc2626; flex-shrink:0; animation:pulse 1.2s infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(1.4)} }
+
+    /* Cash flow table */
+    .cf-positive { color: var(--green); font-weight: 700; }
+    .cf-negative { color: var(--red); font-weight: 700; }
+    .cf-neutral { color: var(--muted); }
+
+    /* Top clients rank */
+    .rank-badge { display:inline-flex; width:26px; height:26px; border-radius:50%; align-items:center; justify-content:center; font-size:12px; font-weight:800; background:#dbeafe; color:#1d4ed8; }
+    .rank-badge.gold { background:#fef3c7; color:#d97706; }
+    .rank-badge.silver { background:#f1f5f9; color:#475569; }
+    .rank-badge.bronze { background:#fff7ed; color:#c2410c; }
+
+    /* Calendar */
+    .cal-day { margin-bottom:16px; }
+    .cal-day-header { font-size:12px; font-weight:800; color:var(--muted); text-transform:uppercase; letter-spacing:.06em; padding:6px 0; border-bottom:1px solid var(--line); margin-bottom:8px; }
+    .cal-item { display:flex; align-items:center; gap:10px; padding:8px 12px; border-radius:10px; background:#f8fafc; border:1px solid var(--line); margin-bottom:6px; font-size:13px; }
+    .cal-item.urgent { background:#fef2f2; border-color:#fecaca; }
+    .cal-amount { font-weight:800; white-space:nowrap; }
+    .cal-meta { color:var(--muted); font-size:12px; }
+    .wa-btn { display:inline-flex; align-items:center; gap:4px; background:#25d366; color:#fff; border:0; border-radius:8px; padding:5px 10px; font-size:12px; font-weight:700; cursor:pointer; text-decoration:none; }
+    .wa-btn:hover { background:#1da851; }
+
+    @media (max-width: 980px) {
+      .kpi-grid { grid-template-columns: 1fr 1fr; }
+      .form-grid { grid-template-columns: 1fr; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+    }
+    @media (max-width: 600px) {
+      .kpi-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div>
+        <div class="brand">Info<span>Experts</span> Comptabilité</div>
+        <div class="muted">Tableau de bord financier — revenus, dépenses et relances</div>
+      </div>
+      <div class="toolbar">
+        <a class="inline-link" href="/admin">Dashboard</a>
+        <a class="inline-link" href="/admin/customers">Clients</a>
+        <a class="inline-link" href="/admin/calendar">Calendrier</a>
+        <a class="inline-link" href="/admin/billing">Facturation</a>
+        <span id="roleBadge" class="pill">manager</span>
+      </div>
+    </div>
+
+    <div id="globalSuccess" class="success"></div>
+    <div id="globalError" class="error"></div>
+    <div id="urgentAlert" class="urgent-alert">
+      <div class="urgent-dot"></div>
+      <span id="urgentAlertText">Paiements urgents en attente</span>
+      <button type="button" class="sm secondary" onclick="showTab('relances')" style="margin-left:auto">Voir les relances</button>
+    </div>
+
+    <!-- Period bar (global) -->
+    <div class="period-bar">
+      <label>Période :</label>
+      <select id="periodSelect">
+        <option value="today">Aujourd'hui</option>
+        <option value="month" selected>Ce mois</option>
+        <option value="year">Cette année</option>
+        <option value="custom">Personnalisée</option>
+      </select>
+      <span id="customDates">
+        <input type="date" id="dateFrom">
+        <span style="color:var(--muted);font-size:13px">au</span>
+        <input type="date" id="dateTo">
+      </span>
+      <button type="button" onclick="refresh()">Actualiser</button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="showTab('dashboard')">Tableau de bord</button>
+      <button class="tab-btn" onclick="showTab('payments')">Revenus</button>
+      <button class="tab-btn" onclick="showTab('expenses')">Dépenses</button>
+      <button class="tab-btn" onclick="showTab('tresorerie')">Trésorerie</button>
+      <button class="tab-btn" onclick="showTab('topclients')">Top Clients</button>
+      <button class="tab-btn" onclick="showTab('calendar')">Échéances</button>
+      <button class="tab-btn" onclick="showTab('relances')">Relances</button>
+      <button class="tab-btn" onclick="showTab('export')">Exporter</button>
+    </div>
+
+    <!-- TAB 1: Dashboard -->
+    <div id="tab-dashboard" class="tab-panel active">
+
+      <div class="kpi-grid" id="kpiGrid">
+        <!-- KPI cards rendered by JS -->
+        <div class="card kpi-card kpi-blue"><div class="kpi-label">CA période</div><div class="kpi-value" id="kpi-rev-total">—</div><div class="kpi-sub" id="kpi-rev-count">paiements validés</div></div>
+        <div class="card kpi-card kpi-green"><div class="kpi-label">En attente (total)</div><div class="kpi-value" id="kpi-pending-total">—</div><div class="kpi-sub" id="kpi-pending-count">paiements en attente</div></div>
+        <div class="card kpi-card kpi-amber"><div class="kpi-label">En retard (&gt;24h)</div><div class="kpi-value" id="kpi-overdue-count">—</div><div class="kpi-sub">non résolus depuis 24h</div></div>
+        <div class="card kpi-card kpi-red"><div class="kpi-label">Dépenses période</div><div class="kpi-value" id="kpi-exp-total">—</div><div class="kpi-sub" id="kpi-exp-count">lignes de dépenses</div></div>
+        <div class="card kpi-card kpi-blue"><div class="kpi-label">Nb paiements validés</div><div class="kpi-value" id="kpi-rev-n">—</div><div class="kpi-sub">période sélectionnée</div></div>
+        <div class="card kpi-card kpi-amber"><div class="kpi-label">Nb en attente</div><div class="kpi-value" id="kpi-pending-n">—</div><div class="kpi-sub">tous paiements en attente</div></div>
+        <div class="card kpi-card kpi-red"><div class="kpi-label">Nb dépenses</div><div class="kpi-value" id="kpi-exp-n">—</div><div class="kpi-sub">période sélectionnée</div></div>
+        <div class="card kpi-card" id="kpi-profit-card"><div class="kpi-label">Bénéfice estimé</div><div class="kpi-value" id="kpi-profit">—</div><div class="kpi-sub">CA validé − dépenses</div></div>
+      </div>
+
+      <div class="card chart-wrap">
+        <div class="chart-title">Revenus mensuels (6 derniers mois)</div>
+        <div class="chart-bars" id="chartBars">
+          <div class="empty" style="width:100%;height:auto">Chargement du graphique...</div>
+        </div>
+      </div>
+
+      <div class="card panel">
+        <div style="font-size:15px;font-weight:800;margin-bottom:12px">Raccourcis</div>
+        <div class="shortcuts">
+          <button type="button" onclick="showTab('payments')">Aller aux paiements</button>
+          <button type="button" class="green" onclick="showTab('expenses');document.getElementById('expenseFormWrap').scrollIntoView({behavior:'smooth'})">Ajouter une dépense</button>
+          <button type="button" class="amber" onclick="showTab('relances')">Voir les relances</button>
+          <button type="button" class="secondary" onclick="showTab('export')">Exporter CSV</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 2: Revenus -->
+    <div id="tab-payments" class="tab-panel">
+      <div class="card panel">
+        <div class="filter-bar">
+          <select id="payStatusFilter">
+            <option value="">Tous statuts</option>
+            <option value="validated">Validé</option>
+            <option value="pending_review">En attente</option>
+            <option value="cash_reserved">Espèces réservées</option>
+            <option value="failed">Échoué</option>
+          </select>
+          <input type="text" id="paySearchInput" placeholder="Recherche nom, référence...">
+          <button type="button" onclick="loadPayments()">Filtrer</button>
+        </div>
+        <div id="paymentsTableWrap">
+          <div class="empty">Cliquez sur Filtrer pour charger les paiements.</div>
+        </div>
+        <div id="paymentsSummary" class="table-summary"></div>
+      </div>
+    </div>
+
+    <!-- TAB 3: Dépenses -->
+    <div id="tab-expenses" class="tab-panel">
+
+      <div id="expenseFormWrap" class="expense-form">
+        <div class="expense-form-title">Enregistrer une dépense</div>
+        <div id="expenseFormError" class="error"></div>
+        <div id="expenseFormSuccess" class="success"></div>
+        <div class="form-grid">
+          <div>
+            <label class="form-label">Date *</label>
+            <input type="date" id="expDate">
+          </div>
+          <div>
+            <label class="form-label">Catégorie *</label>
+            <select id="expCategory">
+              <option value="">-- Choisir --</option>
+              <option value="materiel">Matériel</option>
+              <option value="logiciels">Logiciels &amp; abonnements</option>
+              <option value="hebergement">Hébergement &amp; domaine</option>
+              <option value="marketing">Marketing</option>
+              <option value="transport">Transport</option>
+              <option value="telephone">Téléphone &amp; internet</option>
+              <option value="sous-traitance">Sous-traitance</option>
+              <option value="fournitures">Fournitures</option>
+              <option value="divers">Divers</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Fournisseur</label>
+            <input type="text" id="expSupplier" placeholder="Optionnel">
+          </div>
+          <div class="full">
+            <label class="form-label">Description *</label>
+            <input type="text" id="expDescription" placeholder="Description de la dépense">
+          </div>
+          <div>
+            <label class="form-label">Montant KMF *</label>
+            <input type="number" id="expAmount" min="1" placeholder="Ex: 5000">
+          </div>
+          <div>
+            <label class="form-label">Mode de paiement</label>
+            <select id="expPaymentMethod">
+              <option value="">-- Optionnel --</option>
+              <option value="especes">Espèces</option>
+              <option value="virement">Virement</option>
+              <option value="mvola">MVola</option>
+              <option value="huri">Huri Money</option>
+              <option value="cheque">Chèque</option>
+              <option value="autre">Autre</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Notes</label>
+            <input type="text" id="expNotes" placeholder="Optionnel">
+          </div>
+          <div style="display:flex;align-items:flex-end;gap:8px">
+            <button type="button" id="expSaveBtn" class="green" onclick="addExpense()" style="width:100%" id="expSubmitBtn">Enregistrer la dépense</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card panel">
+        <div class="filter-bar" style="margin-bottom:12px">
+          <select id="expCategoryFilter">
+            <option value="">Toutes catégories</option>
+            <option value="materiel">Matériel</option>
+            <option value="logiciels">Logiciels</option>
+            <option value="hebergement">Hébergement</option>
+            <option value="marketing">Marketing</option>
+            <option value="transport">Transport</option>
+            <option value="telephone">Téléphone</option>
+            <option value="sous-traitance">Sous-traitance</option>
+            <option value="fournitures">Fournitures</option>
+            <option value="divers">Divers</option>
+          </select>
+          <button type="button" onclick="loadExpenses()">Filtrer</button>
+        </div>
+        <div id="expensesTableWrap">
+          <div class="empty">Cliquez sur Filtrer pour charger les dépenses.</div>
+        </div>
+        <div id="expensesSummary" class="table-summary"></div>
+      </div>
+    </div>
+
+    <!-- TAB: Trésorerie -->
+    <div id="tab-tresorerie" class="tab-panel">
+      <div class="card panel">
+        <div style="font-size:16px;font-weight:800;margin-bottom:4px">Trésorerie — 12 derniers mois</div>
+        <div class="muted" style="font-size:13px;margin-bottom:16px">Revenus validés vs dépenses, solde mensuel et solde cumulé</div>
+        <div id="cashflowWrap"><div class="empty">Chargement...</div></div>
+      </div>
+    </div>
+
+    <!-- TAB: Top Clients -->
+    <div id="tab-topclients" class="tab-panel">
+      <div class="card panel">
+        <div class="filter-bar" style="margin-bottom:16px">
+          <select id="topClientsPeriod">
+            <option value="month">Ce mois</option>
+            <option value="year" selected>Cette année</option>
+            <option value="custom">Personnalisée</option>
+          </select>
+          <span id="topClientsCustom" style="display:none;align-items:center;gap:8px">
+            <input type="date" id="topClientsFrom">
+            <span style="color:var(--muted);font-size:13px">au</span>
+            <input type="date" id="topClientsTo">
+          </span>
+          <button type="button" onclick="loadTopClients()">Charger</button>
+        </div>
+        <div id="topClientsWrap"><div class="empty">Cliquez sur Charger pour afficher les clients les plus rentables.</div></div>
+      </div>
+    </div>
+
+    <!-- TAB: Calendrier échéances -->
+    <div id="tab-calendar" class="tab-panel">
+      <div class="card panel">
+        <div style="font-size:16px;font-weight:800;margin-bottom:4px">Calendrier des échéances</div>
+        <div class="muted" style="font-size:13px;margin-bottom:16px">Paiements en attente de validation, groupés par date de création</div>
+        <div class="filter-bar" style="margin-bottom:16px">
+          <div><label class="form-label">Du</label><input type="date" id="calFrom"></div>
+          <div><label class="form-label">Au</label><input type="date" id="calTo"></div>
+          <div style="display:flex;align-items:flex-end"><button type="button" onclick="loadCalendar()">Afficher</button></div>
+        </div>
+        <div id="calendarWrap"><div class="empty">Sélectionnez une période et cliquez sur Afficher.</div></div>
+      </div>
+    </div>
+
+    <!-- TAB 4: Relances -->
+    <div id="tab-relances" class="tab-panel">
+      <div class="card panel">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px">
+          <div>
+            <div style="font-size:16px;font-weight:800">Paiements en retard (&gt;24h)</div>
+            <div class="muted" style="font-size:13px">Paiements en attente de validation depuis plus de 24 heures (hors tests).</div>
+          </div>
+          <button type="button" class="secondary" onclick="loadRelances()">Rafraîchir</button>
+        </div>
+        <div id="relancesTableWrap">
+          <div class="empty">Chargement...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 5: Exporter -->
+    <div id="tab-export" class="tab-panel">
+
+      <div class="card export-section">
+        <div class="export-title">Exporter les paiements</div>
+        <div class="export-form">
+          <div>
+            <label class="form-label">Période</label>
+            <select id="exportPayPeriod">
+              <option value="today">Aujourd'hui</option>
+              <option value="month" selected>Ce mois</option>
+              <option value="year">Cette année</option>
+              <option value="custom">Personnalisée</option>
+            </select>
+          </div>
+          <div id="exportPayCustom" style="display:none;gap:8px;align-items:center;flex-wrap:wrap">
+            <input type="date" id="exportPayDateFrom">
+            <span style="color:var(--muted);font-size:13px">au</span>
+            <input type="date" id="exportPayDateTo">
+          </div>
+          <div>
+            <label class="form-label">Statut</label>
+            <select id="exportPayStatus">
+              <option value="">Tous</option>
+              <option value="validated">Validé</option>
+              <option value="pending_review">En attente</option>
+              <option value="cash_reserved">Espèces réservées</option>
+              <option value="failed">Échoué</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button type="button" onclick="downloadPaymentsCsv()">Télécharger CSV paiements</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card export-section">
+        <div class="export-title">Export mensuel comptable</div>
+        <div class="muted" style="font-size:13px;margin-bottom:14px">Un seul fichier CSV avec revenus + dépenses du mois, prêt pour votre comptable.</div>
+        <div class="export-form">
+          <div>
+            <label class="form-label">Année</label>
+            <input type="number" id="exportMonthlyYear" min="2024" max="2030" style="width:100px">
+          </div>
+          <div>
+            <label class="form-label">Mois</label>
+            <select id="exportMonthlyMonth">
+              <option value="1">Janvier</option><option value="2">Février</option>
+              <option value="3">Mars</option><option value="4">Avril</option>
+              <option value="5">Mai</option><option value="6">Juin</option>
+              <option value="7">Juillet</option><option value="8">Août</option>
+              <option value="9">Septembre</option><option value="10">Octobre</option>
+              <option value="11">Novembre</option><option value="12">Décembre</option>
+            </select>
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button type="button" class="green" onclick="downloadMonthlyCsv()">Télécharger rapport mensuel</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card export-section">
+        <div class="export-title">Exporter les dépenses</div>
+        <div class="export-form">
+          <div>
+            <label class="form-label">Période</label>
+            <select id="exportExpPeriod">
+              <option value="today">Aujourd'hui</option>
+              <option value="month" selected>Ce mois</option>
+              <option value="year">Cette année</option>
+              <option value="custom">Personnalisée</option>
+            </select>
+          </div>
+          <div id="exportExpCustom" style="display:none;gap:8px;align-items:center;flex-wrap:wrap">
+            <input type="date" id="exportExpDateFrom">
+            <span style="color:var(--muted);font-size:13px">au</span>
+            <input type="date" id="exportExpDateTo">
+          </div>
+          <div style="display:flex;align-items:flex-end">
+            <button type="button" class="green" onclick="downloadExpensesCsv()">Télécharger CSV dépenses</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div><!-- /shell -->
+
+  <script>
+    // ── Utilities ──────────────────────────────────────────────────────────────
+    function esc(v) {
+      return String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function fmtDate(v) {
+      if (!v) return '—';
+      try {
+        return new Date(v).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric' });
+      } catch { return String(v); }
+    }
+
+    function fmtAmount(n) {
+      if (n === null || n === undefined || isNaN(Number(n))) return '—';
+      return Number(n).toLocaleString('fr-FR') + ' KMF';
+    }
+
+    function fmtRelative(isoDate) {
+      if (!isoDate) return '—';
+      const diff = Date.now() - new Date(isoDate).getTime();
+      const hours = Math.floor(diff / 3600000);
+      if (hours < 1) return 'il y a moins d\'1h';
+      if (hours < 24) return `il y a ${hours}h`;
+      const days = Math.floor(diff / 86400000);
+      return `il y a ${days} jour${days > 1 ? 's' : ''}`;
+    }
+
+    function todayStr() {
+      const d = new Date();
+      return d.toISOString().slice(0, 10);
+    }
+
+    async function request(url, opts = {}) {
+      const options = {
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) },
+        ...opts,
+      };
+      if (options.body && typeof options.body === 'object') {
+        options.body = JSON.stringify(options.body);
+      }
+      const r = await fetch(url, options);
+      let d = null;
+      try { d = await r.json(); } catch (_) {}
+      if (!r.ok) throw new Error(d && d.error ? d.error : 'Erreur serveur');
+      return d;
+    }
+
+    function showMessage(el, msg, type = 'error') {
+      if (!el) return;
+      el.textContent = msg;
+      el.style.display = msg ? 'block' : 'none';
+      el.className = type === 'success' ? 'success' : 'error';
+    }
+
+    function statusBadge(status) {
+      const labels = { pending_review: 'En attente', validated: 'Validé', failed: 'Échoué', cash_reserved: 'Espèces réservées' };
+      const bgs = { pending_review: '#fff7ed', validated: '#f0fdf4', failed: '#fef2f2', cash_reserved: '#eff6ff' };
+      const fgs = { pending_review: '#d97706', validated: '#16a34a', failed: '#dc2626', cash_reserved: '#1d4ed8' };
+      const label = labels[status] || status;
+      const bg = bgs[status] || '#e2e8f0';
+      const fg = fgs[status] || '#334155';
+      return `<span style="display:inline-flex;align-items:center;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:700;background:${bg};color:${fg}">${esc(label)}</span>`;
+    }
+
+    // ── State ──────────────────────────────────────────────────────────────────
+    let currentRole = 'viewer';
+    let currentTab = 'dashboard';
+
+    // ── Tab navigation ─────────────────────────────────────────────────────────
+    function showTab(name) {
+      const TABS = ['dashboard','payments','expenses','tresorerie','topclients','calendar','relances','export'];
+      document.querySelectorAll('.tab-btn').forEach((btn, i) => {
+        btn.classList.toggle('active', TABS[i] === name);
+      });
+      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+      const panel = document.getElementById('tab-' + name);
+      if (panel) panel.classList.add('active');
+      currentTab = name;
+      if (name === 'payments') loadPayments();
+      if (name === 'expenses') loadExpenses();
+      if (name === 'tresorerie') loadCashflow();
+      if (name === 'topclients') { /* manuel: bouton */ }
+      if (name === 'calendar') { /* manuel: bouton */ }
+      if (name === 'relances') loadRelances();
+    }
+
+    // ── WhatsApp helper ────────────────────────────────────────────────────────
+    function waNumber(phone) {
+      // Strip spaces, dashes, parentheses; keep leading +
+      return String(phone || '').replace(/[\s\-().]/g, '').replace(/^\+/, '');
+    }
+
+    // ── Period selector ────────────────────────────────────────────────────────
+    const periodSelect = document.getElementById('periodSelect');
+    const customDates = document.getElementById('customDates');
+
+    periodSelect.addEventListener('change', () => {
+      customDates.style.display = periodSelect.value === 'custom' ? 'inline-flex' : 'none';
+    });
+
+    function getPeriodParams() {
+      const p = new URLSearchParams();
+      p.set('period', periodSelect.value);
+      if (periodSelect.value === 'custom') {
+        const from = document.getElementById('dateFrom').value;
+        const to = document.getElementById('dateTo').value;
+        if (from) p.set('dateFrom', from);
+        if (to) p.set('dateTo', to);
+      }
+      return p;
+    }
+
+    function refresh() {
+      if (currentTab === 'dashboard') loadDashboard();
+      else if (currentTab === 'payments') loadPayments();
+      else if (currentTab === 'expenses') loadExpenses();
+    }
+
+    // ── Export period selectors ────────────────────────────────────────────────
+    document.getElementById('exportPayPeriod').addEventListener('change', function() {
+      document.getElementById('exportPayCustom').style.display = this.value === 'custom' ? 'flex' : 'none';
+    });
+    document.getElementById('exportExpPeriod').addEventListener('change', function() {
+      document.getElementById('exportExpCustom').style.display = this.value === 'custom' ? 'flex' : 'none';
+    });
+
+    // ── Dashboard ──────────────────────────────────────────────────────────────
+    async function loadDashboard() {
+      const params = getPeriodParams();
+      params.set('action', 'dashboard');
+      const errBox = document.getElementById('globalError');
+      showMessage(errBox, '');
+      try {
+        const data = await request('/api/admin/accounting?' + params.toString());
+        renderKpis(data);
+        renderChart(data.chart || []);
+        // Urgent alert: >48h overdue
+        const urgentAlert = document.getElementById('urgentAlert');
+        const urgentText = document.getElementById('urgentAlertText');
+        if (data.overdue && data.overdue.urgent > 0) {
+          urgentText.textContent = `${data.overdue.urgent} paiement${data.overdue.urgent > 1 ? 's' : ''} en retard de plus de 48h — relance urgente recommandée`;
+          urgentAlert.classList.add('show');
+        } else if (data.overdue && data.overdue.count > 0) {
+          urgentText.textContent = `${data.overdue.count} paiement${data.overdue.count > 1 ? 's' : ''} en attente depuis plus de 24h`;
+          urgentAlert.classList.add('show');
+        } else {
+          urgentAlert.classList.remove('show');
+        }
+      } catch (err) {
+        showMessage(errBox, err.message);
+      }
+    }
+
+    function renderKpis(data) {
+      const rev = data.revenue || {};
+      const pend = data.pending || {};
+      const ovd = data.overdue || {};
+      const exp = data.expenses || {};
+      const profit = data.profit ?? 0;
+
+      document.getElementById('kpi-rev-total').textContent = fmtAmount(rev.total || 0);
+      document.getElementById('kpi-rev-count').textContent = (rev.count || 0) + ' paiements validés';
+      document.getElementById('kpi-pending-total').textContent = fmtAmount(pend.total || 0);
+      document.getElementById('kpi-pending-count').textContent = (pend.count || 0) + ' en attente';
+      document.getElementById('kpi-overdue-count').textContent = ovd.count || 0;
+      document.getElementById('kpi-exp-total').textContent = fmtAmount(exp.total || 0);
+      document.getElementById('kpi-exp-count').textContent = (exp.count || 0) + ' dépenses';
+      document.getElementById('kpi-rev-n').textContent = rev.count || 0;
+      document.getElementById('kpi-pending-n').textContent = pend.count || 0;
+      document.getElementById('kpi-exp-n').textContent = exp.count || 0;
+      document.getElementById('kpi-profit').textContent = fmtAmount(profit);
+
+      const profitCard = document.getElementById('kpi-profit-card');
+      profitCard.className = 'card kpi-card ' + (profit >= 0 ? 'kpi-green' : 'kpi-red');
+    }
+
+    function renderChart(chartData) {
+      const wrap = document.getElementById('chartBars');
+      if (!chartData || chartData.length === 0) {
+        wrap.innerHTML = '<div class="empty" style="width:100%;height:auto">Aucune donnée disponible.</div>';
+        return;
+      }
+      const maxAmount = Math.max(...chartData.map(c => c.amount || 0), 1);
+      wrap.innerHTML = chartData.map(c => {
+        const h = c.amount > 0 ? Math.max(4, Math.round((c.amount / maxAmount) * 100)) : 4;
+        const opacity = c.amount > 0 ? '1' : '0.2';
+        return `<div class="chart-col">
+          <div class="chart-bar-label-top" style="opacity:${opacity}">${c.amount > 0 ? fmtAmount(c.amount) : ''}</div>
+          <div class="chart-bar" style="height:${h}px;opacity:${opacity}"></div>
+          <div class="chart-bar-label">${esc(c.label)}</div>
+        </div>`;
+      }).join('');
+    }
+
+    // ── Payments ───────────────────────────────────────────────────────────────
+    async function loadPayments() {
+      const params = getPeriodParams();
+      params.set('action', 'payments');
+      params.set('status', document.getElementById('payStatusFilter').value);
+      const search = document.getElementById('paySearchInput').value.trim();
+      if (search) params.set('search', search);
+      const wrap = document.getElementById('paymentsTableWrap');
+      const summary = document.getElementById('paymentsSummary');
+      wrap.innerHTML = '<div class="empty">Chargement...</div>';
+      summary.textContent = '';
+      try {
+        const data = await request('/api/admin/accounting?' + params.toString());
+        const rows = data.payments || [];
+        if (rows.length === 0) {
+          wrap.innerHTML = '<div class="empty">Aucun paiement trouvé pour cette période.</div>';
+          return;
+        }
+        const totalAmt = rows.reduce((s, r) => s + (Number(r.amount_kmf) || 0), 0);
+        wrap.innerHTML = `<table>
+          <thead><tr>
+            <th>Date</th><th>Référence</th><th>Client</th><th>Téléphone</th>
+            <th>Objet</th><th>Montant</th><th>Mode</th><th>Statut</th>
+          </tr></thead>
+          <tbody>
+            ${rows.map(r => `<tr>
+              <td style="white-space:nowrap">${fmtDate(r.created_at)}</td>
+              <td><a class="inline-link" href="/admin/detail?entity=payments&reference=${esc(r.reference)}">${esc(r.reference)}</a></td>
+              <td>${esc(r.customer_full_name || '—')}</td>
+              <td style="white-space:nowrap">${esc(r.customer_phone || '—')}</td>
+              <td>${esc(r.label || r.payment_type || '—')}</td>
+              <td style="white-space:nowrap;font-weight:700">${fmtAmount(r.amount_kmf)}</td>
+              <td>${esc(r.operator || r.source || '—')}</td>
+              <td>${statusBadge(r.status)}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>`;
+        summary.textContent = `${rows.length} paiement${rows.length > 1 ? 's' : ''} — Total : ${fmtAmount(totalAmt)}`;
+      } catch (err) {
+        wrap.innerHTML = `<div class="empty" style="color:var(--red)">${esc(err.message)}</div>`;
+      }
+    }
+
+    // ── Expenses ───────────────────────────────────────────────────────────────
+    async function loadExpenses() {
+      const params = getPeriodParams();
+      params.set('action', 'expenses');
+      params.set('category', document.getElementById('expCategoryFilter').value);
+      const wrap = document.getElementById('expensesTableWrap');
+      const summary = document.getElementById('expensesSummary');
+      wrap.innerHTML = '<div class="empty">Chargement...</div>';
+      summary.textContent = '';
+      try {
+        const data = await request('/api/admin/accounting?' + params.toString());
+        const rows = data.expenses || [];
+        if (rows.length === 0) {
+          wrap.innerHTML = '<div class="empty">Aucune dépense enregistrée pour cette période. Exécutez migration_002.sql si la table n\'existe pas encore.</div>';
+          return;
+        }
+        const totalAmt = rows.reduce((s, r) => s + (Number(r.amount_kmf) || 0), 0);
+        const canDelete = currentRole === 'manager';
+        wrap.innerHTML = `<table>
+          <thead><tr>
+            <th>Date</th><th>Catégorie</th><th>Fournisseur</th><th>Description</th>
+            <th>Montant</th><th>Mode</th>${canDelete ? '<th>Actions</th>' : ''}
+          </tr></thead>
+          <tbody>
+            ${rows.map(r => `<tr>
+              <td style="white-space:nowrap">${esc(r.expense_date)}</td>
+              <td>${esc(r.category)}</td>
+              <td>${esc(r.supplier || '—')}</td>
+              <td>${esc(r.description)}</td>
+              <td style="white-space:nowrap;font-weight:700">${fmtAmount(r.amount_kmf)}</td>
+              <td>${esc(r.payment_method || '—')}</td>
+              ${canDelete ? `<td><button class="sm red" onclick="deleteExpense('${esc(r.id)}')">Supprimer</button></td>` : ''}
+            </tr>`).join('')}
+          </tbody>
+        </table>`;
+        summary.textContent = `${rows.length} dépense${rows.length > 1 ? 's' : ''} — Total : ${fmtAmount(totalAmt)}`;
+      } catch (err) {
+        let msg = err.message;
+        if (msg.includes('does not exist') || msg.includes('relation') || msg.includes('42P01')) {
+          msg = 'Table dépenses non créée. Exécutez migration_002.sql dans Supabase.';
+        }
+        wrap.innerHTML = `<div class="empty" style="color:var(--red)">${esc(msg)}</div>`;
+      }
+    }
+
+    async function addExpense() {
+      if (currentRole !== 'manager') {
+        showMessage(document.getElementById('expenseFormError'), 'Action réservée au gestionnaire.');
+        return;
+      }
+      const errEl = document.getElementById('expenseFormError');
+      const sucEl = document.getElementById('expenseFormSuccess');
+      showMessage(errEl, '');
+      showMessage(sucEl, '');
+
+      const expense_date = document.getElementById('expDate').value;
+      const category = document.getElementById('expCategory').value;
+      const description = document.getElementById('expDescription').value.trim();
+      const amount_kmf = document.getElementById('expAmount').value;
+      const supplier = document.getElementById('expSupplier').value.trim();
+      const payment_method = document.getElementById('expPaymentMethod').value;
+      const notes = document.getElementById('expNotes').value.trim();
+
+      if (!expense_date) { showMessage(errEl, 'La date est requise.'); return; }
+      if (!category) { showMessage(errEl, 'La catégorie est requise.'); return; }
+      if (!description) { showMessage(errEl, 'La description est requise.'); return; }
+      if (!amount_kmf || Number(amount_kmf) <= 0) { showMessage(errEl, 'Le montant doit être positif.'); return; }
+
+      const btn = document.getElementById('expSaveBtn');
+      btn.disabled = true;
+      try {
+        await request('/api/admin/accounting?action=add-expense', {
+          method: 'POST',
+          body: { expense_date, category, description, amount_kmf: Number(amount_kmf), supplier: supplier || null, payment_method: payment_method || null, notes: notes || null },
+        });
+        showMessage(sucEl, 'Dépense enregistrée.', 'success');
+        document.getElementById('expDate').value = todayStr();
+        document.getElementById('expCategory').value = '';
+        document.getElementById('expDescription').value = '';
+        document.getElementById('expAmount').value = '';
+        document.getElementById('expSupplier').value = '';
+        document.getElementById('expPaymentMethod').value = '';
+        document.getElementById('expNotes').value = '';
+        loadExpenses();
+        loadDashboard();
+      } catch (err) {
+        showMessage(errEl, err.message);
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    async function deleteExpense(id) {
+      if (currentRole !== 'manager') { alert('Action réservée au gestionnaire.'); return; }
+      if (!confirm('Supprimer cette dépense ? Cette action est irréversible.')) return;
+      try {
+        await request('/api/admin/accounting?action=delete-expense', { method: 'POST', body: { id } });
+        loadExpenses();
+        loadDashboard();
+      } catch (err) {
+        showMessage(document.getElementById('globalError'), err.message);
+      }
+    }
+
+    // ── Relances ───────────────────────────────────────────────────────────────
+    async function loadRelances() {
+      const wrap = document.getElementById('relancesTableWrap');
+      wrap.innerHTML = '<div class="empty">Chargement...</div>';
+      try {
+        const data = await request('/api/admin/accounting?action=overdue');
+        const rows = data.overdue || [];
+        if (rows.length === 0) {
+          wrap.innerHTML = '<div class="empty">Aucun paiement en retard. Tout est à jour.</div>';
+          return;
+        }
+        const canSend = currentRole === 'manager';
+        wrap.innerHTML = `<div style="font-size:13px;color:var(--red);font-weight:700;margin-bottom:12px">${rows.length} paiement${rows.length > 1 ? 's' : ''} en retard</div>
+        <table>
+          <thead><tr>
+            <th>Client</th><th>Contact</th><th>Objet</th>
+            <th>Montant</th><th>Depuis</th><th>Actions</th>
+          </tr></thead>
+          <tbody>
+            ${rows.map(r => `<tr>
+              <td>
+                <div style="font-weight:700">${esc(r.customer_full_name || '—')}</div>
+                <div style="font-size:12px;color:var(--muted)">${esc(r.customer_email || '')}</div>
+                ${r.customer_key ? `<a class="inline-link" href="/admin/customer?key=${encodeURIComponent(r.customer_key)}" style="font-size:11px" target="_blank">Notes client</a>` : ''}
+              </td>
+              <td>
+                <div style="white-space:nowrap">${esc(r.customer_phone || '—')}</div>
+                ${r.customer_phone ? `<a class="wa-btn" href="https://wa.me/${waNumber(r.customer_phone)}" target="_blank" rel="noopener" style="margin-top:4px">WhatsApp</a>` : ''}
+              </td>
+              <td>${esc(r.label || r.payment_type || '—')}</td>
+              <td style="white-space:nowrap;font-weight:700">${fmtAmount(r.amount_kmf)}</td>
+              <td style="white-space:nowrap;color:var(--red)">${fmtRelative(r.created_at)}</td>
+              <td>
+                <div class="actions">
+                  ${canSend ? `<button class="sm amber" onclick="sendRelance('${esc(r.reference)}')">Relancer</button>` : ''}
+                  <a class="inline-link" href="/admin/detail?entity=payments&reference=${esc(r.reference)}" style="font-size:13px">Détail</a>
+                </div>
+              </td>
+            </tr>`).join('')}
+          </tbody>
+        </table>`;
+      } catch (err) {
+        wrap.innerHTML = `<div class="empty" style="color:var(--red)">${esc(err.message)}</div>`;
+      }
+    }
+
+    async function sendRelance(ref) {
+      if (currentRole !== 'manager') { alert('Action réservée au gestionnaire.'); return; }
+      if (!confirm(`Envoyer une relance pour le paiement ${ref} ?`)) return;
+      const errBox = document.getElementById('globalError');
+      const sucBox = document.getElementById('globalSuccess');
+      showMessage(errBox, '');
+      showMessage(sucBox, '');
+      try {
+        await request('/api/admin/actions?entity=payment', {
+          method: 'POST',
+          body: { action: 'remind', paymentReference: ref },
+        });
+        showMessage(sucBox, `Relance envoyée pour ${ref}.`, 'success');
+        loadRelances();
+      } catch (err) {
+        showMessage(errBox, err.message);
+      }
+    }
+
+    // ── Cash flow ──────────────────────────────────────────────────────────────
+    async function loadCashflow() {
+      const wrap = document.getElementById('cashflowWrap');
+      wrap.innerHTML = '<div class="empty">Chargement...</div>';
+      try {
+        const data = await request('/api/admin/accounting?action=cashflow');
+        const rows = data.rows || [];
+        if (!rows.length) { wrap.innerHTML = '<div class="empty">Aucune donnée.</div>'; return; }
+        const totalRev = rows.reduce((s,r) => s + r.revenue, 0);
+        const totalExp = rows.reduce((s,r) => s + r.expenses, 0);
+        wrap.innerHTML = `<table>
+          <thead><tr>
+            <th>Mois</th><th>Revenus</th><th>Dépenses</th><th>Solde mensuel</th><th>Solde cumulé</th>
+          </tr></thead>
+          <tbody>
+            ${rows.map(r => `<tr>
+              <td style="white-space:nowrap;font-weight:700">${esc(r.label)}</td>
+              <td style="white-space:nowrap;color:var(--green)">${r.revenue > 0 ? fmtAmount(r.revenue) : '<span class="cf-neutral">—</span>'}</td>
+              <td style="white-space:nowrap;color:var(--red)">${r.expenses > 0 ? fmtAmount(r.expenses) : '<span class="cf-neutral">—</span>'}</td>
+              <td style="white-space:nowrap" class="${r.balance >= 0 ? 'cf-positive' : 'cf-negative'}">${r.balance >= 0 ? '+' : ''}${fmtAmount(r.balance)}</td>
+              <td style="white-space:nowrap" class="${r.cumulative >= 0 ? 'cf-positive' : 'cf-negative'}">${r.cumulative >= 0 ? '+' : ''}${fmtAmount(r.cumulative)}</td>
+            </tr>`).join('')}
+          </tbody>
+          <tfoot>
+            <tr style="font-weight:800;border-top:2px solid var(--line)">
+              <td>TOTAL</td>
+              <td style="color:var(--green)">${fmtAmount(totalRev)}</td>
+              <td style="color:var(--red)">${fmtAmount(totalExp)}</td>
+              <td class="${(totalRev-totalExp) >= 0 ? 'cf-positive' : 'cf-negative'}">${(totalRev-totalExp) >= 0 ? '+' : ''}${fmtAmount(totalRev-totalExp)}</td>
+              <td></td>
+            </tr>
+          </tfoot>
+        </table>`;
+      } catch (err) {
+        wrap.innerHTML = `<div class="empty" style="color:var(--red)">${esc(err.message)}</div>`;
+      }
+    }
+
+    // ── Top clients ────────────────────────────────────────────────────────────
+    async function loadTopClients() {
+      const period = document.getElementById('topClientsPeriod').value;
+      const params = new URLSearchParams({ action: 'top-customers', period });
+      if (period === 'custom') {
+        const from = document.getElementById('topClientsFrom').value;
+        const to = document.getElementById('topClientsTo').value;
+        if (from) params.set('dateFrom', from);
+        if (to) params.set('dateTo', to);
+      }
+      const wrap = document.getElementById('topClientsWrap');
+      wrap.innerHTML = '<div class="empty">Chargement...</div>';
+      try {
+        const data = await request('/api/admin/accounting?' + params.toString());
+        const rows = data.customers || [];
+        if (!rows.length) { wrap.innerHTML = '<div class="empty">Aucun paiement validé sur cette période.</div>'; return; }
+        wrap.innerHTML = `<table>
+          <thead><tr>
+            <th>#</th><th>Client</th><th>Téléphone</th><th>Nb paiements</th><th>Total KMF</th><th>Dernier paiement</th><th>Contact</th>
+          </tr></thead>
+          <tbody>
+            ${rows.map((r, i) => {
+              const rankClass = i === 0 ? 'gold' : i === 1 ? 'silver' : i === 2 ? 'bronze' : '';
+              return `<tr>
+                <td><span class="rank-badge ${rankClass}">${i+1}</span></td>
+                <td>
+                  <div style="font-weight:700">${esc(r.customer_full_name)}</div>
+                  <div style="font-size:12px;color:var(--muted)">${esc(r.customer_email || '')}</div>
+                  ${r.customer_key ? `<a class="inline-link" href="/admin/customer?key=${encodeURIComponent(r.customer_key)}" style="font-size:11px" target="_blank">Fiche client</a>` : ''}
+                </td>
+                <td>${esc(r.customer_phone || '—')}</td>
+                <td style="font-weight:700">${r.count}</td>
+                <td style="font-weight:800;color:var(--brand)">${fmtAmount(r.total)}</td>
+                <td style="font-size:12px;color:var(--muted)">${fmtDate(r.last_payment)}</td>
+                <td>
+                  ${r.customer_phone ? `<a class="wa-btn" href="https://wa.me/${waNumber(r.customer_phone)}" target="_blank" rel="noopener">WhatsApp</a>` : '—'}
+                </td>
+              </tr>`;
+            }).join('')}
+          </tbody>
+        </table>`;
+      } catch (err) {
+        wrap.innerHTML = `<div class="empty" style="color:var(--red)">${esc(err.message)}</div>`;
+      }
+    }
+
+    document.getElementById('topClientsPeriod').addEventListener('change', function() {
+      document.getElementById('topClientsCustom').style.display = this.value === 'custom' ? 'inline-flex' : 'none';
+    });
+
+    // ── Calendrier échéances ───────────────────────────────────────────────────
+    async function loadCalendar() {
+      const from = document.getElementById('calFrom').value;
+      const to = document.getElementById('calTo').value;
+      const params = new URLSearchParams({ action: 'calendar' });
+      if (from) params.set('dateFrom', from);
+      if (to) params.set('dateTo', to);
+      const wrap = document.getElementById('calendarWrap');
+      wrap.innerHTML = '<div class="empty">Chargement...</div>';
+      try {
+        const data = await request('/api/admin/accounting?' + params.toString());
+        const rows = data.payments || [];
+        if (!rows.length) { wrap.innerHTML = '<div class="empty">Aucun paiement en attente sur cette période.</div>'; return; }
+        // Group by date (YYYY-MM-DD)
+        const byDay = {};
+        for (const r of rows) {
+          const day = String(r.created_at || '').slice(0, 10);
+          if (!byDay[day]) byDay[day] = [];
+          byDay[day].push(r);
+        }
+        const now = Date.now();
+        wrap.innerHTML = Object.entries(byDay).map(([day, items]) => {
+          const itemsHtml = items.map(r => {
+            const ageMs = now - new Date(r.created_at).getTime();
+            const isUrgent = ageMs > 48 * 3600000;
+            const ageH = Math.floor(ageMs / 3600000);
+            const ageLabel = ageH < 24 ? `${ageH}h` : `${Math.floor(ageH/24)}j ${ageH%24}h`;
+            return `<div class="cal-item${isUrgent ? ' urgent' : ''}">
+              <div style="flex:1">
+                <div style="font-weight:700">${esc(r.customer_full_name || '—')}</div>
+                <div class="cal-meta">${esc(r.label || r.payment_type || '—')} · Réf: ${esc(r.reference)}</div>
+              </div>
+              <div class="cal-amount">${fmtAmount(r.amount_kmf)}</div>
+              <div style="font-size:12px;${isUrgent ? 'color:var(--red);font-weight:700' : 'color:var(--muted)'}">${ageLabel}</div>
+              ${r.customer_phone ? `<a class="wa-btn" href="https://wa.me/${waNumber(r.customer_phone)}" target="_blank" rel="noopener">WA</a>` : ''}
+              <a class="inline-link" href="/admin/detail?entity=payments&reference=${esc(r.reference)}" style="font-size:12px" target="_blank">Détail</a>
+            </div>`;
+          }).join('');
+          const d = new Date(day);
+          const label = d.toLocaleDateString('fr-FR', { weekday:'long', day:'numeric', month:'long', year:'numeric' });
+          return `<div class="cal-day"><div class="cal-day-header">${esc(label)} — ${items.length} paiement${items.length > 1 ? 's' : ''}</div>${itemsHtml}</div>`;
+        }).join('');
+      } catch (err) {
+        wrap.innerHTML = `<div class="empty" style="color:var(--red)">${esc(err.message)}</div>`;
+      }
+    }
+
+    // ── CSV Downloads ──────────────────────────────────────────────────────────
+    function buildExportParams(periodSelectId, dateFromId, dateToId, statusId) {
+      const p = new URLSearchParams();
+      const period = document.getElementById(periodSelectId).value;
+      p.set('period', period);
+      if (period === 'custom') {
+        const from = document.getElementById(dateFromId)?.value;
+        const to = document.getElementById(dateToId)?.value;
+        if (from) p.set('dateFrom', from);
+        if (to) p.set('dateTo', to);
+      }
+      if (statusId) {
+        const s = document.getElementById(statusId)?.value;
+        if (s) p.set('status', s);
+      }
+      return p;
+    }
+
+    async function downloadCsv(action, params) {
+      params.set('action', action);
+      const url = '/api/admin/accounting?' + params.toString();
+      try {
+        const r = await fetch(url, { credentials: 'include' });
+        if (!r.ok) { const d = await r.json().catch(() => null); throw new Error(d?.error || 'Erreur export'); }
+        const blob = await r.blob();
+        const cd = r.headers.get('content-disposition') || '';
+        const match = cd.match(/filename="([^"]+)"/);
+        const filename = match ? match[1] : 'export.csv';
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = filename;
+        a.click();
+        URL.revokeObjectURL(a.href);
+      } catch (err) {
+        showMessage(document.getElementById('globalError'), err.message);
+      }
+    }
+
+    function downloadPaymentsCsv() {
+      const p = buildExportParams('exportPayPeriod', 'exportPayDateFrom', 'exportPayDateTo', 'exportPayStatus');
+      downloadCsv('export-payments-csv', p);
+    }
+
+    function downloadExpensesCsv() {
+      const p = buildExportParams('exportExpPeriod', 'exportExpDateFrom', 'exportExpDateTo', null);
+      downloadCsv('export-expenses-csv', p);
+    }
+
+    function downloadMonthlyCsv() {
+      const year = document.getElementById('exportMonthlyYear').value;
+      const month = document.getElementById('exportMonthlyMonth').value;
+      if (!year || !month) { showMessage(document.getElementById('globalError'), 'Sélectionnez une année et un mois.'); return; }
+      const p = new URLSearchParams({ year, month });
+      downloadCsv('export-monthly-csv', p);
+    }
+
+    // ── Init ───────────────────────────────────────────────────────────────────
+    async function init() {
+      // Check session
+      try {
+        const session = await request('/api/admin/auth?action=session');
+        currentRole = session.role || 'viewer';
+        document.getElementById('roleBadge').textContent = currentRole;
+        if (currentRole !== 'manager') {
+          document.getElementById('expSaveBtn').disabled = true;
+          document.getElementById('expSaveBtn').title = 'Réservé au gestionnaire';
+        }
+      } catch (_) {
+        window.location.href = '/admin';
+        return;
+      }
+
+      // Default expense date
+      document.getElementById('expDate').value = todayStr();
+
+      // Default monthly export: current month/year
+      const now = new Date();
+      document.getElementById('exportMonthlyYear').value = now.getFullYear();
+      document.getElementById('exportMonthlyMonth').value = now.getMonth() + 1;
+
+      // Default calendar: this month
+      const y = now.getFullYear();
+      const m = String(now.getMonth() + 1).padStart(2, '0');
+      document.getElementById('calFrom').value = `${y}-${m}-01`;
+      document.getElementById('calTo').value = todayStr();
+
+      // Load dashboard
+      loadDashboard();
+    }
+
+    init();
+  </script>
+</body>
+</html>

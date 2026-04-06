@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Détail admin - Info Experts</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root {
+      --bg: #f8fafc;
+      --panel: #ffffff;
+      --line: #e2e8f0;
+      --text: #0f172a;
+      --muted: #64748b;
+      --brand: #1e3a8a;
+      --green: #16a34a;
+      --red: #dc2626;
+      --amber: #d97706;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(180deg, #eff6ff 0%, var(--bg) 200px);
+      color: var(--text);
+    }
+    .shell { max-width: 1120px; margin: 0 auto; padding: 24px; }
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+    }
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .title { font-size: 30px; font-weight: 800; color: var(--brand); }
+    .subtitle { color: var(--muted); margin-top: 6px; }
+    .toolbar { display: flex; gap: 10px; flex-wrap: wrap; }
+    .pill { display:inline-flex; padding:6px 10px; border-radius:999px; background:#dbeafe; color:#1d4ed8; font-size:12px; font-weight:800; }
+    button, a.btn {
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      background: var(--brand);
+      color: #fff;
+      font: inherit;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+    button.secondary, a.btn.secondary { background: #e2e8f0; color: #0f172a; }
+    button.green { background: var(--green); }
+    button.red { background: var(--red); }
+    button.amber { background: var(--amber); }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    .panel { padding: 22px; margin-bottom: 20px; }
+    .grid-2 { display: grid; grid-template-columns: 1.2fr .8fr; gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+    .metric { padding: 18px; }
+    .metric-label { color: var(--muted); font-size: 13px; margin-bottom: 8px; }
+    .metric-value { font-size: 22px; font-weight: 800; }
+    .kv {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .kv th, .kv td {
+      border-bottom: 1px solid var(--line);
+      padding: 12px 10px;
+      vertical-align: top;
+      text-align: left;
+      font-size: 14px;
+    }
+    .kv th { width: 220px; color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; }
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 12px;
+      font-weight: 700;
+      background: #e2e8f0;
+      color: #334155;
+    }
+    .badge.pending_review, .badge.payment_submitted { background: #fff7ed; color: var(--amber); }
+    .badge.validated, .badge.confirmed, .badge.completed { background: #f0fdf4; color: #166534; }
+    .badge.failed, .badge.rejected, .badge.cancelled { background: #fef2f2; color: #991b1b; }
+    .badge.cash_reserved { background: #eff6ff; color: #1d4ed8; }
+    .error, .success {
+      padding: 12px 14px;
+      border-radius: 12px;
+      font-size: 14px;
+      margin-bottom: 14px;
+      display: none;
+    }
+    .error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    .success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+    .empty {
+      padding: 18px;
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      color: var(--muted);
+      background: #f8fafc;
+      text-align: center;
+    }
+    table.list {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    table.list th, table.list td {
+      border-bottom: 1px solid var(--line);
+      padding: 12px 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+    table.list th {
+      color: var(--muted);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+    }
+    .mono { font-family: Consolas, monospace; }
+    textarea {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font: inherit;
+      resize: vertical;
+      min-height: 110px;
+    }
+    @media (max-width: 980px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+      .topbar { flex-direction: column; align-items: flex-start; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <div class="topbar">
+      <div>
+        <div id="pageTitle" class="title">Détail</div>
+        <div id="pageSubtitle" class="subtitle">Chargement en cours...</div>
+      </div>
+      <div class="toolbar">
+        <a class="btn secondary" href="/admin/customers">Clients</a>
+        <a class="btn secondary" href="/admin/calendar">Calendrier</a>
+        <a class="btn secondary" href="/admin/accounting">Comptabilité</a>
+        <span id="roleBadge" class="pill">manager</span>
+        <a class="btn secondary" href="/admin">Retour au back-office</a>
+        <button id="refreshButton" type="button">Rafraîchir</button>
+      </div>
+    </div>
+
+    <div id="globalSuccess" class="success"></div>
+    <div id="globalError" class="error"></div>
+
+    <div class="grid-3">
+      <div class="card metric"><div class="metric-label">Référence</div><div id="metricReference" class="metric-value mono">—</div></div>
+      <div class="card metric"><div class="metric-label">Statut</div><div id="metricStatus" class="metric-value">—</div></div>
+      <div class="card metric"><div class="metric-label">Paiement</div><div id="metricPayment" class="metric-value">—</div></div>
+    </div>
+
+    <section id="appointmentActionsPanel" class="card panel" style="display:none">
+      <div class="subtitle" style="margin:0 0 12px">Actions administrateur sur le rendez-vous</div>
+      <div class="toolbar">
+        <button class="green" data-appointment-action="confirm">Confirmer</button>
+        <button class="red" data-appointment-action="cancel">Annuler</button>
+        <button class="amber" data-appointment-action="complete">Marquer terminé</button>
+      </div>
+    </section>
+
+    <section id="orderActionsPanel" class="card panel" style="display:none">
+      <div class="subtitle" style="margin:0 0 12px">Actions administrateur sur la commande</div>
+      <div class="toolbar">
+        <button class="green" data-order-action="validate">Valider</button>
+        <button class="red" data-order-action="cancel">Annuler</button>
+        <button class="amber" data-order-action="fulfill">Marquer remise</button>
+      </div>
+    </section>
+
+    <section id="paymentActionsPanel" class="card panel" style="display:none">
+      <div class="subtitle" style="margin:0 0 12px">Actions administrateur sur le paiement</div>
+      <div class="toolbar">
+        <button class="green" data-payment-action="validate">Valider</button>
+        <button class="red" data-payment-action="reject">Rejeter</button>
+        <button class="secondary" data-payment-action="remind">Relancer</button>
+      </div>
+    </section>
+
+    <div class="grid-2">
+      <section class="card panel">
+        <div class="subtitle" style="margin:0 0 14px">Informations principales</div>
+        <div id="detailWrap"></div>
+      </section>
+
+      <section class="card panel">
+        <div class="subtitle" style="margin:0 0 14px">Liens métier / paiements</div>
+        <div id="paymentsWrap"></div>
+      </section>
+    </div>
+
+    <section class="card panel">
+      <div class="subtitle" style="margin:0 0 14px">Timeline admin</div>
+      <div style="display:grid;gap:12px;margin-bottom:16px">
+        <textarea id="adminNoteInput" rows="4" placeholder="Ajouter une note admin libre ou saisir le contexte avant une action..." maxlength="4000"></textarea>
+        <div class="toolbar">
+          <button id="saveNoteButton" class="secondary" type="button">Ajouter la note à la timeline</button>
+          <button id="exportTimelineButton" class="secondary" type="button">Exporter timeline CSV</button>
+        </div>
+      </div>
+      <div id="timelineWrap"></div>
+    </section>
+  </div>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const entity = params.get('entity');
+    const reference = params.get('reference');
+
+    const successBox = document.getElementById('globalSuccess');
+    const errorBox = document.getElementById('globalError');
+    let currentRecord = null;
+    let currentRole = 'manager';
+
+    function esc(v) { return String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+    function showMessage(el, message) {
+      el.textContent = message;
+      el.style.display = message ? 'block' : 'none';
+    }
+
+    function clearMessages() {
+      showMessage(successBox, '');
+      showMessage(errorBox, '');
+    }
+
+    async function request(url, options = {}) {
+      const response = await fetch(url, {
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json', ...(options.headers || {}) },
+        ...options
+      });
+
+      let data = null;
+      try { data = await response.json(); } catch (_) {}
+
+      if (!response.ok) {
+        const error = new Error(data && data.error ? data.error : 'Erreur serveur');
+        error.status = response.status;
+        throw error;
+      }
+
+      return data;
+    }
+
+    function badge(status) {
+      return '<span class="badge ' + status + '">' + status + '</span>';
+    }
+
+    function fmtDate(value) {
+      if (!value) return '—';
+      try {
+        return new Date(value).toLocaleString('fr-FR', { dateStyle: 'full', timeStyle: 'short' });
+      } catch (_) {
+        return value;
+      }
+    }
+
+    function fmtAmount(value) {
+      return Number(value || 0).toLocaleString('fr-FR') + ' KMF';
+    }
+
+    function row(label, value) {
+      return '<tr><th>' + label + '</th><td>' + (value || '—') + '</td></tr>';
+    }
+
+    function renderEmpty(target, text) {
+      target.innerHTML = '<div class="empty">' + text + '</div>';
+    }
+
+    function currentNote() {
+      return document.getElementById('adminNoteInput').value.trim();
+    }
+
+    function clearNote() {
+      document.getElementById('adminNoteInput').value = '';
+    }
+
+    function canAppointmentAction(action, status) {
+      const rules = {
+        confirm: ['payment_submitted', 'cash_reserved', 'confirmed'],
+        cancel: ['payment_submitted', 'cash_reserved', 'confirmed'],
+        complete: ['confirmed']
+      };
+      return (rules[action] || []).includes(status);
+    }
+
+    function canOrderAction(action, status) {
+      const rules = {
+        validate: ['payment_submitted', 'cash_reserved', 'validated'],
+        cancel: ['payment_submitted', 'cash_reserved', 'validated'],
+        fulfill: ['validated', 'cash_reserved']
+      };
+      return (rules[action] || []).includes(status);
+    }
+
+    function canPaymentAction(action, status) {
+      const rules = {
+        validate: ['pending_review'],
+        reject: ['pending_review'],
+        remind: ['pending_review']
+      };
+      return (rules[action] || []).includes(status);
+    }
+
+    function detailHref(entityName, entityReference) {
+      return '/admin/detail?entity=' + encodeURIComponent(entityName) + '&reference=' + encodeURIComponent(entityReference);
+    }
+
+    function renderActions(record) {
+      const appointmentPanel = document.getElementById('appointmentActionsPanel');
+      const orderPanel = document.getElementById('orderActionsPanel');
+      const paymentPanel = document.getElementById('paymentActionsPanel');
+
+      if (currentRole !== 'manager') {
+        appointmentPanel.style.display = 'none';
+        orderPanel.style.display = 'none';
+        paymentPanel.style.display = 'none';
+        return;
+      }
+
+      if (entity === 'appointments') {
+        appointmentPanel.style.display = 'block';
+        orderPanel.style.display = 'none';
+        paymentPanel.style.display = 'none';
+        appointmentPanel.querySelectorAll('button[data-appointment-action]').forEach((button) => {
+          button.disabled = !canAppointmentAction(button.dataset.appointmentAction, record.status);
+        });
+        return;
+      }
+
+      if (entity === 'orders') {
+        appointmentPanel.style.display = 'none';
+        orderPanel.style.display = 'block';
+        paymentPanel.style.display = 'none';
+        orderPanel.querySelectorAll('button[data-order-action]').forEach((button) => {
+          button.disabled = !canOrderAction(button.dataset.orderAction, record.status);
+        });
+        return;
+      }
+
+      appointmentPanel.style.display = 'none';
+      orderPanel.style.display = 'none';
+      paymentPanel.style.display = entity === 'payments' ? 'block' : 'none';
+      paymentPanel.querySelectorAll('button[data-payment-action]').forEach((button) => {
+        button.disabled = !canPaymentAction(button.dataset.paymentAction, record.status);
+      });
+    }
+
+    function renderTimeline(events) {
+      const wrap = document.getElementById('timelineWrap');
+      if (!events || !events.length) {
+        renderEmpty(wrap, 'Aucun événement admin pour le moment.');
+        return;
+      }
+
+      wrap.innerHTML = '<table class="list"><thead><tr><th>Date</th><th>Action</th><th>Transition</th><th>Acteur</th><th>Note</th></tr></thead><tbody>'
+        + events.map((event) => '<tr>'
+          + '<td>' + fmtDate(event.created_at) + '</td>'
+          + '<td>' + esc(event.action || '—') + '</td>'
+          + '<td>' + esc(event.from_status || '—') + ' → ' + esc(event.to_status || '—') + '</td>'
+          + '<td>' + esc(event.actor_label || 'admin') + '</td>'
+          + '<td>' + esc(event.note || '—') + '</td>'
+          + '</tr>').join('')
+        + '</tbody></table>';
+    }
+
+    function renderDetail(record, linkedPayments, timeline, linkedEntity) {
+      currentRecord = record;
+
+      document.getElementById('pageTitle').textContent = entity === 'appointments'
+        ? 'Détail rendez-vous'
+        : entity === 'orders'
+          ? 'Détail commande'
+          : 'Détail paiement';
+      document.getElementById('pageSubtitle').textContent = record.reference;
+      document.getElementById('metricReference').textContent = record.reference || '—';
+      document.getElementById('metricStatus').innerHTML = badge(record.status || 'unknown');
+      document.getElementById('metricPayment').textContent = record.payment_type || '—';
+
+      const detailWrap = document.getElementById('detailWrap');
+      const rows = entity === 'appointments'
+        ? [
+            row('Référence', '<span class="mono">' + esc(record.reference) + '</span>'),
+            row('Statut', badge(record.status)),
+            row('Paiement', esc(record.payment_type)),
+            row('Service', esc(record.service_name)),
+            row('Prix service', fmtAmount(record.service_price_kmf)),
+            row('Acompte', fmtAmount(record.deposit_amount_kmf)),
+            row('Date', esc(record.appointment_date)),
+            row('Heure', esc(String(record.appointment_time || '').slice(0, 5))),
+            row('Fuseau', esc(record.appointment_timezone)),
+            row('Technicien', esc(record.technician_name)),
+            row('Lieu', esc(record.location)),
+            row('Client', esc(record.customer_full_name)),
+            row('Email', esc(record.customer_email || '—')),
+            row('Téléphone', esc(record.customer_phone || '—')),
+            row('Notes', record.notes ? esc(record.notes).replace(/\n/g, '<br>') : '—'),
+            row('Créé le', fmtDate(record.created_at)),
+            row('Modifié le', fmtDate(record.updated_at))
+          ]
+        : entity === 'orders'
+          ? [
+            row('Référence', '<span class="mono">' + esc(record.reference) + '</span>'),
+            row('Statut', badge(record.status)),
+            row('Paiement', esc(record.payment_type)),
+            row('Produit', esc(record.product_name)),
+            row('Montant', fmtAmount(record.amount_kmf)),
+            row('Client', esc(record.customer_full_name)),
+            row('Email', esc(record.customer_email || '—')),
+            row('Téléphone', esc(record.customer_phone || '—')),
+            row('Opérateur', esc(record.payment_operator || '—')),
+            row('Réf. transaction', esc(record.payment_reference || '—')),
+            row('Créé le', fmtDate(record.created_at)),
+            row('Modifié le', fmtDate(record.updated_at))
+          ]
+          : [
+            row('Référence', '<span class="mono">' + esc(record.reference) + '</span>'),
+            row('Statut', badge(record.status)),
+            row('Source', esc(record.source)),
+            row('Paiement', esc(record.payment_type)),
+            row('Objet', esc(record.label)),
+            row('Montant', fmtAmount(record.amount_kmf)),
+            row('Client', esc(record.customer_full_name)),
+            row('Email', esc(record.customer_email || '—')),
+            row('Téléphone', esc(record.customer_phone || '—')),
+            row('Opérateur', esc(record.operator || '—')),
+            row('Réf. client', esc(record.client_reference || '—')),
+            row('Lié à', linkedEntity ? '<a class="btn secondary" style="padding:6px 10px" href="' + detailHref(linkedEntity.entity, linkedEntity.reference) + '">' + esc(linkedEntity.entity) + ' ' + esc(linkedEntity.reference) + '</a>' : 'Aucun'),
+            row('Créé le', fmtDate(record.created_at)),
+            row('Modifié le', fmtDate(record.updated_at))
+          ];
+
+      detailWrap.innerHTML = '<table class="kv">' + rows.join('') + '</table>';
+
+      const paymentsWrap = document.getElementById('paymentsWrap');
+      if (entity === 'payments') {
+        if (!linkedEntity) {
+          renderEmpty(paymentsWrap, 'Aucun enregistrement métier lié.');
+        } else {
+          paymentsWrap.innerHTML = '<table class="list"><thead><tr><th>Type</th><th>Référence</th><th>Statut</th><th>Objet</th><th>Client</th></tr></thead><tbody>'
+            + '<tr>'
+            + '<td>' + esc(linkedEntity.entity) + '</td>'
+            + '<td><a class="btn secondary" style="padding:6px 10px" href="' + detailHref(linkedEntity.entity, linkedEntity.reference) + '">' + esc(linkedEntity.reference) + '</a></td>'
+            + '<td>' + badge(linkedEntity.status) + '</td>'
+            + '<td>' + esc(linkedEntity.label || '—') + '</td>'
+            + '<td>' + esc(linkedEntity.customerName || '—') + '</td>'
+            + '</tr></tbody></table>';
+        }
+      } else if (!linkedPayments || !linkedPayments.length) {
+        renderEmpty(paymentsWrap, 'Aucun paiement lié.');
+      } else {
+        paymentsWrap.innerHTML = '<table class="list"><thead><tr><th>Référence</th><th>Statut</th><th>Montant</th><th>Opérateur</th><th>Réf. client</th><th>Créé le</th></tr></thead><tbody>'
+          + linkedPayments.map((payment) => '<tr>'
+            + '<td><a class="btn secondary" style="padding:6px 10px" href="' + detailHref('payments', payment.reference) + '">' + esc(payment.reference) + '</a></td>'
+            + '<td>' + badge(payment.status) + '</td>'
+            + '<td>' + fmtAmount(payment.amount_kmf) + '</td>'
+            + '<td>' + esc(payment.operator || '—') + '</td>'
+            + '<td>' + esc(payment.client_reference || '—') + '</td>'
+            + '<td>' + fmtDate(payment.created_at) + '</td>'
+            + '</tr>').join('')
+          + '</tbody></table>';
+      }
+
+      renderActions(record);
+      renderTimeline(timeline);
+    }
+
+    async function loadDetail() {
+      clearMessages();
+      if (!entity || !reference) {
+        throw new Error('Paramètres entity et reference requis.');
+      }
+
+      const session = await request('/api/admin/auth?action=session', { method: 'GET', headers: {} });
+      currentRole = session.role || 'manager';
+      document.getElementById('roleBadge').textContent = currentRole;
+      document.getElementById('saveNoteButton').style.display = currentRole === 'manager' ? 'inline-flex' : 'none';
+      const data = await request('/api/admin/detail?entity=' + encodeURIComponent(entity) + '&reference=' + encodeURIComponent(reference), {
+        method: 'GET',
+        headers: {}
+      });
+      renderDetail(data.record, data.linkedPayments, data.timeline, data.linkedEntity);
+    }
+
+    async function runAppointmentAction(action) {
+      await request('/api/admin/actions?entity=appointment', {
+        method: 'POST',
+        body: JSON.stringify({ appointmentReference: reference, action, note: currentNote() || null })
+      });
+    }
+
+    async function runOrderAction(action) {
+      await request('/api/admin/actions?entity=order', {
+        method: 'POST',
+        body: JSON.stringify({ orderReference: reference, action, note: currentNote() || null })
+      });
+    }
+
+    async function saveAdminNote() {
+      await request('/api/admin/actions?entity=note', {
+        method: 'POST',
+        body: JSON.stringify({ entity, reference, note: currentNote() || null })
+      });
+    }
+
+    async function exportTimelineCsv() {
+      const response = await fetch('/api/admin/timeline-export?entity=' + encodeURIComponent(entity) + '&reference=' + encodeURIComponent(reference), {
+        method: 'GET',
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        let message = 'Export timeline impossible.';
+        try {
+          const data = await response.json();
+          message = data.error || message;
+        } catch (_) {}
+        throw new Error(message);
+      }
+
+      const blob = await response.blob();
+      const disposition = response.headers.get('content-disposition') || '';
+      const match = disposition.match(/filename="([^"]+)"/i);
+      const filename = match ? match[1] : 'timeline.csv';
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+      URL.revokeObjectURL(url);
+    }
+
+    async function runPaymentAction(action) {
+      await request('/api/admin/actions?entity=payment', {
+        method: 'POST',
+        body: JSON.stringify({ paymentReference: reference, action, note: currentNote() || null })
+      });
+    }
+
+    document.getElementById('refreshButton').addEventListener('click', async () => {
+      try {
+        await loadDetail();
+        showMessage(successBox, 'Détail rafraîchi.');
+      } catch (error) {
+        showMessage(errorBox, error.message || 'Chargement impossible.');
+      }
+    });
+
+    document.getElementById('appointmentActionsPanel').addEventListener('click', async (event) => {
+      const button = event.target.closest('button[data-appointment-action]');
+      if (!button || !currentRecord) return;
+
+      clearMessages();
+      button.disabled = true;
+      try {
+        await runAppointmentAction(button.dataset.appointmentAction);
+        await loadDetail();
+        clearNote();
+        showMessage(successBox,
+          button.dataset.appointmentAction === 'confirm' ? 'Rendez-vous confirmé.' :
+          button.dataset.appointmentAction === 'cancel' ? 'Rendez-vous annulé.' :
+          'Rendez-vous marqué comme terminé.'
+        );
+      } catch (error) {
+        showMessage(errorBox, error.message || 'Action impossible.');
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    document.getElementById('orderActionsPanel').addEventListener('click', async (event) => {
+      const button = event.target.closest('button[data-order-action]');
+      if (!button || !currentRecord) return;
+
+      clearMessages();
+      button.disabled = true;
+      try {
+        await runOrderAction(button.dataset.orderAction);
+        await loadDetail();
+        clearNote();
+        showMessage(successBox,
+          button.dataset.orderAction === 'validate' ? 'Commande validée.' :
+          button.dataset.orderAction === 'cancel' ? 'Commande annulée.' :
+          'Commande marquée comme remise.'
+        );
+      } catch (error) {
+        showMessage(errorBox, error.message || 'Action impossible.');
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    document.getElementById('saveNoteButton').addEventListener('click', async () => {
+      clearMessages();
+      const button = document.getElementById('saveNoteButton');
+      button.disabled = true;
+      try {
+        await saveAdminNote();
+        await loadDetail();
+        clearNote();
+        showMessage(successBox, 'Note ajoutée à la timeline.');
+      } catch (error) {
+        showMessage(errorBox, error.message || 'Enregistrement impossible.');
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    document.getElementById('exportTimelineButton').addEventListener('click', async () => {
+      clearMessages();
+      const button = document.getElementById('exportTimelineButton');
+      button.disabled = true;
+      try {
+        await exportTimelineCsv();
+        showMessage(successBox, 'Timeline exportée en CSV.');
+      } catch (error) {
+        showMessage(errorBox, error.message || 'Export timeline impossible.');
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    document.getElementById('paymentActionsPanel').addEventListener('click', async (event) => {
+      const button = event.target.closest('button[data-payment-action]');
+      if (!button || !currentRecord) return;
+
+      clearMessages();
+      button.disabled = true;
+      try {
+        await runPaymentAction(button.dataset.paymentAction);
+        await loadDetail();
+        clearNote();
+        showMessage(successBox,
+          button.dataset.paymentAction === 'validate' ? 'Paiement validé.' :
+          button.dataset.paymentAction === 'reject' ? 'Paiement rejeté.' :
+          'Relance envoyée.'
+        );
+      } catch (error) {
+        showMessage(errorBox, error.message || 'Action impossible.');
+      } finally {
+        button.disabled = false;
+      }
+    });
+
+    loadDetail().catch((error) => {
+      showMessage(errorBox, error.message || 'Chargement impossible.');
+      renderEmpty(document.getElementById('detailWrap'), 'Impossible de charger ce détail.');
+      renderEmpty(document.getElementById('paymentsWrap'), 'Impossible de charger les paiements liés.');
+      renderEmpty(document.getElementById('timelineWrap'), 'Impossible de charger la timeline.');
+    });
+  </script>
+</body>
+</html>

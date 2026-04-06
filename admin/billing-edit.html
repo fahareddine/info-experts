@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Éditeur de document — Info Experts Admin</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root {
+      --bg: #f8fafc; --panel: #fff; --line: #e2e8f0;
+      --text: #0f172a; --muted: #64748b;
+      --brand: #1e3a8a; --brand2: #2563eb;
+      --green: #16a34a; --red: #dc2626; --amber: #d97706;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: Arial, Helvetica, sans-serif; background: var(--bg); color: var(--text); }
+    .shell { max-width: 1100px; margin: 0 auto; padding: 24px; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 22px; flex-wrap: wrap; }
+    .brand { font-size: 24px; font-weight: 800; color: var(--brand); }
+    .brand span { color: #60a5fa; }
+    .muted { color: var(--muted); font-size: 13px; }
+    .toolbar { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+    .inline-link { color: var(--brand2); text-decoration: none; font-weight: 700; }
+    .inline-link:hover { text-decoration: underline; }
+    .card { background: var(--panel); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 4px 16px rgba(15,23,42,.05); margin-bottom: 18px; }
+    .panel { padding: 20px; }
+    .section-title { font-size: 15px; font-weight: 800; margin-bottom: 14px; color: var(--brand); display: flex; align-items: center; gap: 8px; }
+    input, select, button, textarea { font: inherit; }
+    input[type=text], input[type=email], input[type=tel], input[type=date], input[type=number], select, textarea {
+      padding: 9px 12px; border: 1px solid var(--line); border-radius: 9px; background: #fff; color: var(--text); width: 100%;
+    }
+    input:focus, select:focus, textarea:focus { outline: none; border-color: var(--brand2); }
+    textarea { resize: vertical; min-height: 72px; }
+    button { border: 0; border-radius: 10px; padding: 10px 18px; background: var(--brand); color: #fff; font-weight: 700; cursor: pointer; }
+    button.secondary { background: #e2e8f0; color: #0f172a; }
+    button.green { background: var(--green); }
+    button.red { background: var(--red); }
+    button.amber { background: var(--amber); }
+    button.sm { padding: 6px 12px; font-size: 12px; }
+    button:disabled { opacity: .6; cursor: not-allowed; }
+    .error, .success { padding: 11px 14px; border-radius: 10px; font-size: 14px; margin-bottom: 14px; display: none; }
+    .error { background: #fef2f2; color: #991b1b; border: 1px solid #fecaca; }
+    .success { background: #f0fdf4; color: #166534; border: 1px solid #bbf7d0; }
+    .hidden { display: none !important; }
+    .form-row { display: grid; gap: 12px; margin-bottom: 12px; }
+    .form-row.cols-2 { grid-template-columns: 1fr 1fr; }
+    .form-row.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+    .form-row.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+    .form-group label { display: block; font-size: 11px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+
+    /* Type selector tabs */
+    .type-tabs { display: flex; gap: 8px; margin-bottom: 4px; }
+    .type-tab { padding: 10px 22px; border: 2px solid var(--line); border-radius: 10px; background: #fff; color: var(--muted); font-weight: 800; cursor: pointer; font-size: 14px; transition: all .15s; }
+    .type-tab.active { border-color: var(--brand); background: #eff6ff; color: var(--brand); }
+    .type-tab:hover:not(.active) { border-color: #93c5fd; }
+
+    /* Client autocomplete */
+    .autocomplete-wrap { position: relative; }
+    .autocomplete-list { display: none; position: absolute; top: 100%; left: 0; right: 0; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.1); z-index: 50; max-height: 220px; overflow-y: auto; }
+    .autocomplete-list.open { display: block; }
+    .autocomplete-item { padding: 10px 14px; cursor: pointer; border-bottom: 1px solid var(--line); font-size: 13px; }
+    .autocomplete-item:last-child { border-bottom: none; }
+    .autocomplete-item:hover { background: #eff6ff; }
+    .autocomplete-item .ac-name { font-weight: 700; }
+    .autocomplete-item .ac-detail { font-size: 11px; color: var(--muted); }
+
+    /* Items table */
+    .items-table { width: 100%; border-collapse: collapse; }
+    .items-table th { padding: 8px 8px; text-align: left; border-bottom: 1px solid var(--line); font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; background: #f8fafc; }
+    .items-table td { padding: 6px 6px; border-bottom: 1px solid var(--line); vertical-align: middle; }
+    .items-table tr:last-child td { border-bottom: none; }
+    .items-table input { padding: 7px 9px; font-size: 13px; }
+    .items-table .td-total { font-weight: 800; color: var(--brand); text-align: right; white-space: nowrap; font-size: 13px; padding: 6px 8px; }
+    .items-table .td-del button { padding: 5px 8px; background: #fef2f2; color: var(--red); border-radius: 7px; }
+
+    /* Totals panel */
+    .totals-panel { background: #f8fafc; border: 1px solid var(--line); border-radius: 12px; padding: 16px; }
+    .total-row { display: flex; justify-content: space-between; padding: 6px 0; border-bottom: 1px solid var(--line); font-size: 14px; }
+    .total-row:last-child { border-bottom: none; }
+    .total-row.grand { font-weight: 800; font-size: 16px; color: var(--brand); border-top: 2px solid var(--brand); padding-top: 10px; margin-top: 6px; }
+    .total-row.grand.red { color: var(--red); border-top-color: var(--red); }
+
+    /* Action bar */
+    .action-bar { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; padding: 16px 20px; background: var(--panel); border: 1px solid var(--line); border-radius: 14px; margin-bottom: 18px; position: sticky; top: 12px; z-index: 10; box-shadow: 0 4px 16px rgba(0,0,0,.06); }
+    .action-bar-left { flex: 1; display: flex; gap: 10px; flex-wrap: wrap; }
+    .doc-title-badge { font-size: 18px; font-weight: 800; color: var(--brand); }
+
+    /* Logs table */
+    .log-row { display: flex; gap: 12px; padding: 9px 0; border-bottom: 1px solid var(--line); font-size: 13px; }
+    .log-row:last-child { border-bottom: none; }
+    .log-time { color: var(--muted); font-size: 11px; white-space: nowrap; flex-shrink: 0; }
+    .log-action { font-weight: 700; min-width: 100px; }
+    .log-detail { color: var(--muted); }
+
+    /* Send modal */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(15,23,42,.5); z-index: 100; align-items: center; justify-content: center; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: #fff; border-radius: 16px; padding: 24px; max-width: 520px; width: 100%; margin: 16px; box-shadow: 0 20px 60px rgba(0,0,0,.2); }
+    .modal-title { font-size: 18px; font-weight: 800; margin-bottom: 16px; }
+    .modal .form-group { margin-bottom: 14px; }
+    .modal .form-group label { display: block; font-size: 12px; color: var(--muted); font-weight: 700; text-transform: uppercase; letter-spacing: .04em; margin-bottom: 4px; }
+
+    /* Status badge inline */
+    .status-badge { display: inline-flex; align-items: center; padding: 3px 10px; border-radius: 999px; font-size: 12px; font-weight: 800; }
+
+    @media (max-width: 800px) {
+      .form-row.cols-3, .form-row.cols-4 { grid-template-columns: 1fr 1fr; }
+      .form-row.cols-2 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 540px) {
+      .form-row.cols-3, .form-row.cols-4 { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="shell">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <div>
+      <div class="brand">Info<span>Experts</span> <span id="pageTitle" style="font-weight:400;color:var(--muted)">Nouveau document</span></div>
+    </div>
+    <div class="toolbar">
+      <a class="inline-link" href="/admin/billing">Facturation</a>
+      <a class="inline-link" href="/admin/billing-clients">Clients</a>
+      <a class="inline-link" href="/admin">Dashboard</a>
+    </div>
+  </div>
+
+  <div id="globalError" class="error"></div>
+  <div id="globalSuccess" class="success"></div>
+
+  <!-- Action bar -->
+  <div class="action-bar">
+    <div class="action-bar-left">
+      <span class="doc-title-badge" id="actionDocNum">Nouveau</span>
+      <span id="actionStatusBadge"></span>
+    </div>
+    <button type="button" class="secondary" onclick="saveDraft()">Enregistrer brouillon</button>
+    <button type="button" class="green" onclick="generatePdf()">Générer PDF</button>
+    <button type="button" class="amber" id="sendEmailBtn" onclick="openSendModal()">Envoyer email</button>
+    <button type="button" class="secondary sm" id="deleteBtn" onclick="confirmDelete()" style="display:none">Supprimer</button>
+  </div>
+
+  <!-- 1. Type selector (new only) -->
+  <div class="card panel" id="typeSelectorCard">
+    <div class="section-title">Type de document</div>
+    <div class="type-tabs">
+      <button type="button" class="type-tab active" data-type="invoice" onclick="selectType('invoice')">Facture</button>
+      <button type="button" class="type-tab" data-type="proforma" onclick="selectType('proforma')">Pro Forma</button>
+      <button type="button" class="type-tab" data-type="reminder" onclick="selectType('reminder')">Relance</button>
+    </div>
+    <div id="typeHint" class="muted" style="margin-top:8px">Document de facturation officiel.</div>
+  </div>
+
+  <!-- 2. Client section -->
+  <div class="card panel">
+    <div class="section-title">Client</div>
+    <div style="display:flex;gap:12px;align-items:center;margin-bottom:12px">
+      <label style="display:flex;gap:6px;align-items:center;cursor:pointer;font-size:13px;font-weight:700">
+        <input type="radio" name="clientMode" value="search" checked onchange="setClientMode('search')"> Rechercher client existant
+      </label>
+      <label style="display:flex;gap:6px;align-items:center;cursor:pointer;font-size:13px;font-weight:700">
+        <input type="radio" name="clientMode" value="manual" onchange="setClientMode('manual')"> Saisie manuelle
+      </label>
+    </div>
+    <div id="clientSearchSection">
+      <div class="autocomplete-wrap">
+        <input type="text" id="clientSearch" placeholder="Nom, email, société…" oninput="searchClients(this.value)" autocomplete="off">
+        <div class="autocomplete-list" id="clientAcList"></div>
+      </div>
+      <div id="selectedClientInfo" style="display:none;margin-top:10px;padding:12px 14px;background:#eff6ff;border:1px solid #dbeafe;border-radius:10px;font-size:13px"></div>
+    </div>
+    <div id="clientManualSection" class="hidden">
+      <div class="form-row cols-2">
+        <div class="form-group"><label>Nom affiché *</label><input type="text" id="clientName" placeholder="Nom complet ou société"></div>
+        <div class="form-group"><label>Société</label><input type="text" id="clientCompany" placeholder="Nom de la société"></div>
+      </div>
+      <div class="form-row cols-3">
+        <div class="form-group"><label>Email</label><input type="email" id="clientEmail" placeholder="email@client.com"></div>
+        <div class="form-group"><label>Téléphone</label><input type="tel" id="clientPhone" placeholder="+269 …"></div>
+        <div class="form-group"><label>Ville</label><input type="text" id="clientCity" placeholder="Moroni"></div>
+      </div>
+      <div class="form-row cols-2">
+        <div class="form-group"><label>Adresse</label><input type="text" id="clientAddress" placeholder="Adresse postale"></div>
+        <div class="form-group"><label>Pays</label><input type="text" id="clientCountry" value="Comores"></div>
+      </div>
+      <div style="margin-top:6px">
+        <label style="display:flex;gap:8px;align-items:center;cursor:pointer;font-size:13px">
+          <input type="checkbox" id="saveClientCheck"> Sauvegarder ce client dans la base
+        </label>
+      </div>
+    </div>
+    <input type="hidden" id="selectedClientId">
+  </div>
+
+  <!-- 3. Document details -->
+  <div class="card panel">
+    <div class="section-title">Détails du document</div>
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;padding:12px 16px;background:#eff6ff;border:1px solid #dbeafe;border-radius:10px">
+      <div>
+        <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:var(--muted)">N° Document</div>
+        <div id="docNumberDisplay" style="font-size:19px;font-weight:800;color:var(--brand);letter-spacing:.04em;margin-top:2px">Généré à l'enregistrement</div>
+      </div>
+    </div>
+    <div class="form-row cols-4">
+      <div class="form-group">
+        <label>Date d'émission</label>
+        <input type="date" id="issueDate">
+      </div>
+      <div class="form-group" id="dueDateGroup">
+        <label id="dueDateLabel">Échéance</label>
+        <input type="date" id="dueDate">
+      </div>
+      <div class="form-group">
+        <label>Mode de paiement</label>
+        <select id="paymentMethod">
+          <option value="">— Sélectionner —</option>
+          <option value="cash">Espèces</option>
+          <option value="mobile_money">Mobile Money</option>
+          <option value="virement">Virement bancaire</option>
+          <option value="cheque">Chèque</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Référence paiement</label>
+        <input type="text" id="paymentReference" placeholder="N° transaction…">
+      </div>
+    </div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Statut</label>
+        <select id="statusSelect">
+          <option value="draft">Brouillon</option>
+          <option value="ready">Prêt</option>
+          <option value="sent">Envoyé</option>
+          <option value="paid">Payé</option>
+          <option value="partial">Paiement partiel</option>
+          <option value="overdue">En retard</option>
+          <option value="cancelled">Annulé</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Montant déjà réglé (KMF)</label>
+        <input type="number" id="paidKmf" min="0" value="0" placeholder="0">
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. Reminder section (reminder type only) -->
+  <div class="card panel hidden" id="reminderSection">
+    <div class="section-title">Paramètres de relance</div>
+    <div class="form-row cols-3">
+      <div class="form-group">
+        <label>Niveau de relance</label>
+        <select id="reminderLevel">
+          <option value="friendly">Relance amiable</option>
+          <option value="firm">Rappel ferme</option>
+          <option value="final">Dernière relance</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Facture liée (N° ou ID)</label>
+        <input type="text" id="linkedDocumentId" placeholder="Rechercher ou coller UUID…">
+      </div>
+      <div class="form-group">
+        <label>Jours de retard</label>
+        <div id="overdueDisplay" style="padding:9px 12px;background:#fef2f2;border:1px solid #fecaca;border-radius:9px;font-weight:800;color:var(--red)">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. Items table (invoice + proforma) -->
+  <div class="card panel" id="itemsSection">
+    <div class="section-title">Lignes de facturation</div>
+    <div style="overflow-x:auto">
+      <table class="items-table">
+        <thead>
+          <tr>
+            <th style="width:35%">Description *</th>
+            <th style="width:20%">Détails</th>
+            <th style="width:8%">Qté</th>
+            <th style="width:18%">Prix unit. (KMF)</th>
+            <th style="width:14%;text-align:right">Total</th>
+            <th style="width:5%"></th>
+          </tr>
+        </thead>
+        <tbody id="itemsBody"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:10px">
+      <button type="button" class="secondary sm" onclick="addItem()">+ Ajouter une ligne</button>
+    </div>
+  </div>
+
+  <!-- 6. Totals -->
+  <div class="card panel" id="totalsSection">
+    <div class="section-title">Totaux</div>
+    <div style="max-width:400px;margin-left:auto">
+      <div class="totals-panel">
+        <div class="total-row">
+          <span>Sous-total HT</span>
+          <span id="displaySubtotal">0 KMF</span>
+        </div>
+        <div class="total-row" id="discountRow">
+          <span>
+            Remise (KMF) :
+            <input type="number" id="discountKmf" min="0" value="0" style="width:100px;display:inline-block;padding:4px 8px;font-size:13px" oninput="recalcTotals()">
+          </span>
+          <span id="displayDiscount" style="color:var(--amber)">0 KMF</span>
+        </div>
+        <div class="total-row">
+          <span>
+            TVA :
+            <select id="taxRate" style="width:80px;display:inline-block;padding:4px 8px;font-size:13px" onchange="recalcTotals()">
+              <option value="0">0%</option>
+              <option value="10">10%</option>
+              <option value="20">20%</option>
+            </select>
+          </span>
+          <span id="displayTax">0 KMF</span>
+        </div>
+        <div class="total-row grand">
+          <span>TOTAL TTC</span>
+          <span id="displayTotal">0 KMF</span>
+        </div>
+        <div class="total-row" id="paidRow" style="display:none">
+          <span>Réglé</span>
+          <span id="displayPaid" style="color:var(--green)">0 KMF</span>
+        </div>
+        <div class="total-row grand red" id="remainingRow" style="display:none">
+          <span>Reste à payer</span>
+          <span id="displayRemaining">0 KMF</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Notes / Message -->
+  <div class="card panel">
+    <div class="section-title">Notes et message</div>
+    <div class="form-row cols-2">
+      <div class="form-group">
+        <label>Notes internes (non visible par le client)</label>
+        <textarea id="notesInternal" placeholder="Notes de suivi, contexte…"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Message client (apparaît sur le document)</label>
+        <textarea id="messageClient" placeholder="Message personnalisé à afficher sur le PDF…"></textarea>
+      </div>
+    </div>
+  </div>
+
+  <!-- 8. History (existing doc only) -->
+  <div class="card panel hidden" id="historySection">
+    <div class="section-title">Historique</div>
+    <div id="historyList"><div class="muted">Chargement…</div></div>
+  </div>
+
+</div>
+
+<!-- Send Modal -->
+<div class="modal-overlay" id="sendModal">
+  <div class="modal">
+    <div class="modal-title">Envoyer par email</div>
+    <div class="form-group">
+      <label>Destinataire</label>
+      <input type="email" id="modalSendEmail" placeholder="email@client.com">
+    </div>
+    <div class="form-group">
+      <label>Objet</label>
+      <input type="text" id="modalSendSubject">
+    </div>
+    <div class="form-group">
+      <label>Message (optionnel)</label>
+      <textarea id="modalSendMessage" placeholder="Message personnalisé…" style="width:100%"></textarea>
+    </div>
+    <div id="sendModalError" class="error"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:4px">
+      <button type="button" class="secondary" onclick="closeSendModal()">Annuler</button>
+      <button type="button" id="sendModalBtn" onclick="confirmSend()">Envoyer</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ── State ────────────────────────────────────────────────────────────────────
+  const params = new URLSearchParams(location.search);
+  let docId = params.get('id') || null;
+  let docType = params.get('type') || 'invoice';
+  const duplicateId = params.get('duplicate') || null;
+
+  let currentDoc = null;
+  let items = [];
+  let clientMode = 'search';
+
+  // ── Helpers ──────────────────────────────────────────────────────────────────
+  function fmtKmf(v) { return Number(v || 0).toLocaleString('fr-FR') + ' KMF'; }
+  function esc(v) { return String(v ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  function showError(msg) {
+    const el = document.getElementById('globalError');
+    el.textContent = msg; el.style.display = 'block';
+    window.scrollTo(0, 0);
+  }
+  function showSuccess(msg) {
+    const el = document.getElementById('globalSuccess');
+    el.textContent = msg; el.style.display = 'block';
+    setTimeout(() => el.style.display = 'none', 4000);
+  }
+  function clearMessages() {
+    document.getElementById('globalError').style.display = 'none';
+    document.getElementById('globalSuccess').style.display = 'none';
+  }
+
+  // ── Référence auto ────────────────────────────────────────────────────────────
+  async function fetchNextNumber(type) {
+    if (docId) return; // déjà existant
+    try {
+      const resp = await fetch(`/api/admin/billing?action=next-number&type=${type}`);
+      const data = await resp.json();
+      if (data.success && data.number) {
+        document.getElementById('docNumberDisplay').textContent = data.number;
+      }
+    } catch { /* ignore */ }
+  }
+
+  // ── Type selector ────────────────────────────────────────────────────────────
+  function selectType(type) {
+    docType = type;
+    document.querySelectorAll('.type-tab').forEach((btn) => {
+      btn.classList.toggle('active', btn.dataset.type === type);
+    });
+    const hints = {
+      invoice: 'Document de facturation officiel.',
+      proforma: 'Estimation non contractuelle. Convertible en facture.',
+      reminder: 'Relance pour paiement en retard.',
+    };
+    document.getElementById('typeHint').textContent = hints[type] || '';
+    updateUIForType(type);
+    updateStatusOptions(type);
+    fetchNextNumber(type);
+  }
+
+  function updateUIForType(type) {
+    document.getElementById('reminderSection').classList.toggle('hidden', type !== 'reminder');
+    document.getElementById('itemsSection').classList.toggle('hidden', false);
+    if (type === 'reminder') {
+      document.getElementById('dueDateLabel').textContent = 'Date échéance facture';
+    } else if (type === 'proforma') {
+      document.getElementById('dueDateLabel').textContent = 'Validité jusqu\'au';
+    } else {
+      document.getElementById('dueDateLabel').textContent = 'Échéance';
+    }
+    updateOverdueDisplay();
+  }
+
+  function updateStatusOptions(type) {
+    const select = document.getElementById('statusSelect');
+    const options = {
+      invoice: [
+        ['draft','Brouillon'],['ready','Prêt'],['sent','Envoyé'],
+        ['paid','Payé'],['partial','Paiement partiel'],['overdue','En retard'],['cancelled','Annulé']
+      ],
+      proforma: [
+        ['draft','Brouillon'],['sent','Envoyé'],['accepted','Accepté'],['expired','Expiré'],['converted','Converti']
+      ],
+      reminder: [
+        ['draft','Brouillon'],['sent','Envoyé'],['paid','Payé'],['cancelled','Annulé']
+      ],
+    };
+    const current = select.value;
+    select.innerHTML = (options[type] || options.invoice)
+      .map(([v, l]) => `<option value="${v}"${v === current ? ' selected' : ''}>${l}</option>`)
+      .join('');
+  }
+
+  // ── Client mode ───────────────────────────────────────────────────────────────
+  function setClientMode(mode) {
+    clientMode = mode;
+    document.getElementById('clientSearchSection').classList.toggle('hidden', mode !== 'search');
+    document.getElementById('clientManualSection').classList.toggle('hidden', mode !== 'manual');
+  }
+
+  // ── Client autocomplete ───────────────────────────────────────────────────────
+  let acTimeout = null;
+  function searchClients(q) {
+    clearTimeout(acTimeout);
+    if (!q.trim()) { document.getElementById('clientAcList').classList.remove('open'); return; }
+    acTimeout = setTimeout(async () => {
+      try {
+        const resp = await fetch(`/api/admin/billing?action=list-clients&search=${encodeURIComponent(q)}&limit=20`);
+        const data = await resp.json();
+        renderAcList(data.clients || []);
+      } catch { /* ignore */ }
+    }, 280);
+  }
+
+  function renderAcList(clients) {
+    const list = document.getElementById('clientAcList');
+    if (!clients.length) { list.classList.remove('open'); return; }
+    list.innerHTML = clients.map((c) => `
+      <div class="autocomplete-item" onclick="selectClient(${JSON.stringify(c).replace(/"/g,'&quot;')})">
+        <div class="ac-name">${esc(c.display_name)}</div>
+        <div class="ac-detail">${[c.company, c.email, c.phone].filter(Boolean).join(' · ')}</div>
+      </div>`).join('');
+    list.classList.add('open');
+  }
+
+  function selectClient(c) {
+    document.getElementById('clientAcList').classList.remove('open');
+    document.getElementById('clientSearch').value = c.display_name || '';
+    document.getElementById('selectedClientId').value = c.id || '';
+    const info = document.getElementById('selectedClientInfo');
+    info.style.display = 'block';
+    info.innerHTML = `<strong>${esc(c.display_name)}</strong>` +
+      (c.company ? ` &nbsp;·&nbsp; ${esc(c.company)}` : '') +
+      (c.email ? `<br>Email : ${esc(c.email)}` : '') +
+      (c.phone ? `<br>Tél : ${esc(c.phone)}` : '') +
+      (c.city ? `<br>Ville : ${esc(c.city)}` : '') +
+      `&nbsp;&nbsp;<a href="#" onclick="clearSelectedClient();return false" style="color:var(--red);font-size:12px">Changer</a>`;
+    // Pre-fill manual fields hidden for later submission
+    document.getElementById('clientName').value = c.display_name || '';
+    document.getElementById('clientEmail').value = c.email || '';
+    document.getElementById('clientPhone').value = c.phone || '';
+    document.getElementById('clientCompany').value = c.company || '';
+    document.getElementById('clientCity').value = c.city || '';
+    document.getElementById('clientAddress').value = c.address || '';
+    document.getElementById('clientCountry').value = c.country || 'Comores';
+  }
+
+  function clearSelectedClient() {
+    document.getElementById('selectedClientId').value = '';
+    document.getElementById('clientSearch').value = '';
+    document.getElementById('selectedClientInfo').style.display = 'none';
+    document.getElementById('clientName').value = '';
+    document.getElementById('clientEmail').value = '';
+  }
+
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.autocomplete-wrap')) {
+      document.getElementById('clientAcList').classList.remove('open');
+    }
+  });
+
+  // ── Items ─────────────────────────────────────────────────────────────────────
+  let itemIndex = 0;
+
+  function addItem(desc = '', details = '', qty = 1, price = 0) {
+    const idx = itemIndex++;
+    const tr = document.createElement('tr');
+    tr.dataset.idx = idx;
+    tr.innerHTML = `
+      <td><input type="text" class="item-desc" placeholder="Description" value="${esc(desc)}" oninput="recalcTotals()"></td>
+      <td><input type="text" class="item-details" placeholder="Détails" value="${esc(details)}"></td>
+      <td><input type="number" class="item-qty" value="${qty}" min="0.01" step="any" style="width:60px" oninput="recalcRow(${idx})"></td>
+      <td><input type="number" class="item-price" value="${price}" min="0" step="1" oninput="recalcRow(${idx})"></td>
+      <td class="td-total" id="rowTotal-${idx}">${fmtKmf(qty * price)}</td>
+      <td class="td-del"><button type="button" onclick="removeItem(this)" title="Supprimer">×</button></td>`;
+    document.getElementById('itemsBody').appendChild(tr);
+    recalcTotals();
+  }
+
+  function removeItem(btn) {
+    btn.closest('tr').remove();
+    recalcTotals();
+  }
+
+  function recalcRow(idx) {
+    const tr = document.querySelector(`tr[data-idx="${idx}"]`);
+    if (!tr) return;
+    const qty = parseFloat(tr.querySelector('.item-qty').value) || 0;
+    const price = parseInt(tr.querySelector('.item-price').value, 10) || 0;
+    const total = Math.round(qty * price);
+    const el = document.getElementById(`rowTotal-${idx}`);
+    if (el) el.textContent = fmtKmf(total);
+    recalcTotals();
+  }
+
+  function getItemRows() {
+    return Array.from(document.getElementById('itemsBody').querySelectorAll('tr')).map((tr) => ({
+      description: tr.querySelector('.item-desc')?.value || '',
+      details: tr.querySelector('.item-details')?.value || '',
+      quantity: parseFloat(tr.querySelector('.item-qty')?.value) || 1,
+      unitPriceKmf: parseInt(tr.querySelector('.item-price')?.value, 10) || 0,
+    }));
+  }
+
+  function recalcTotals() {
+    const rows = getItemRows();
+    const subtotal = rows.reduce((s, r) => s + Math.round(r.quantity * r.unitPriceKmf), 0);
+    const discount = parseInt(document.getElementById('discountKmf').value, 10) || 0;
+    const taxRate = parseInt(document.getElementById('taxRate').value, 10) || 0;
+    const taxKmf = Math.round((subtotal - discount) * taxRate / 100);
+    const total = Math.max(0, subtotal - discount + taxKmf);
+    const paid = parseInt(document.getElementById('paidKmf').value, 10) || 0;
+    const remaining = Math.max(0, total - paid);
+
+    document.getElementById('displaySubtotal').textContent = fmtKmf(subtotal);
+    document.getElementById('displayDiscount').textContent = fmtKmf(discount);
+    document.getElementById('displayTax').textContent = fmtKmf(taxKmf);
+    document.getElementById('displayTotal').textContent = fmtKmf(total);
+
+    const hasPaid = paid > 0;
+    document.getElementById('paidRow').style.display = hasPaid ? 'flex' : 'none';
+    document.getElementById('remainingRow').style.display = hasPaid ? 'flex' : 'none';
+    if (hasPaid) {
+      document.getElementById('displayPaid').textContent = fmtKmf(paid);
+      document.getElementById('displayRemaining').textContent = fmtKmf(remaining);
+    }
+  }
+
+  // ── Overdue display ───────────────────────────────────────────────────────────
+  function updateOverdueDisplay() {
+    const dueDate = document.getElementById('dueDate').value;
+    if (!dueDate) { document.getElementById('overdueDisplay').textContent = '—'; return; }
+    const days = Math.max(0, Math.floor((Date.now() - new Date(dueDate)) / 86400000));
+    document.getElementById('overdueDisplay').textContent = days > 0 ? `${days} jour(s)` : 'Non échu';
+  }
+  document.getElementById('dueDate').addEventListener('change', updateOverdueDisplay);
+
+  // ── Build payload ─────────────────────────────────────────────────────────────
+  function buildPayload() {
+    const isSearchMode = clientMode === 'search';
+    const clientId = document.getElementById('selectedClientId').value || null;
+    const clientName = document.getElementById('clientName').value.trim();
+    const clientEmail = document.getElementById('clientEmail').value.trim();
+    const clientPhone = document.getElementById('clientPhone').value.trim();
+    const clientCompany = document.getElementById('clientCompany').value.trim();
+    const clientCity = document.getElementById('clientCity').value.trim();
+    const clientAddress = document.getElementById('clientAddress').value.trim();
+    const clientCountry = document.getElementById('clientCountry').value.trim();
+
+    const name = isSearchMode && clientId
+      ? (document.getElementById('clientSearch').value.trim() || clientName)
+      : clientName;
+
+    return {
+      docType,
+      status: document.getElementById('statusSelect').value,
+      clientId,
+      clientName: name,
+      clientEmail,
+      clientPhone,
+      clientCompany,
+      clientCity,
+      clientAddress,
+      clientCountry: clientCountry || 'Comores',
+      issueDate: document.getElementById('issueDate').value,
+      dueDate: document.getElementById('dueDate').value || null,
+      validityDate: docType === 'proforma' ? document.getElementById('dueDate').value : null,
+      paymentMethod: document.getElementById('paymentMethod').value,
+      paymentReference: document.getElementById('paymentReference').value.trim(),
+      discountKmf: parseInt(document.getElementById('discountKmf').value, 10) || 0,
+      taxRate: parseInt(document.getElementById('taxRate').value, 10) || 0,
+      paidKmf: parseInt(document.getElementById('paidKmf').value, 10) || 0,
+      notes: document.getElementById('notesInternal').value.trim(),
+      message: document.getElementById('messageClient').value.trim(),
+      reminderLevel: docType === 'reminder' ? document.getElementById('reminderLevel').value : null,
+      linkedDocumentId: docType === 'reminder' ? (document.getElementById('linkedDocumentId').value.trim() || null) : null,
+      items: getItemRows(),
+    };
+  }
+
+  // ── Save ──────────────────────────────────────────────────────────────────────
+  async function saveDraft() {
+    clearMessages();
+    const payload = buildPayload();
+
+    // Save new client if checkbox checked
+    if (clientMode === 'manual' && document.getElementById('saveClientCheck')?.checked) {
+      try {
+        const cr = await fetch('/api/admin/billing?action=save-client', {
+          method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            displayName: payload.clientName,
+            email: payload.clientEmail,
+            phone: payload.clientPhone,
+            company: payload.clientCompany,
+            city: payload.clientCity,
+            address: payload.clientAddress,
+            country: payload.clientCountry,
+          }),
+        });
+        const cd = await cr.json();
+        if (cd.success) payload.clientId = cd.client.id;
+      } catch { /* ignore client save errors */ }
+    }
+
+    try {
+      const action = docId ? 'update-document' : 'create-document';
+      if (docId) payload.id = docId;
+      const resp = await fetch(`/api/admin/billing?action=${action}`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await resp.json();
+      if (!data.success) throw new Error(data.error);
+
+      if (!docId) {
+        docId = data.document.id;
+        history.replaceState({}, '', `/admin/billing-edit?id=${docId}`);
+        document.getElementById('typeSelectorCard').classList.add('hidden');
+        document.getElementById('deleteBtn').style.display = 'inline-flex';
+        document.getElementById('historySection').classList.remove('hidden');
+      }
+
+      currentDoc = data.document;
+      updateActionBar(data.document);
+      if (data.document.doc_number) {
+        document.getElementById('docNumberDisplay').textContent = data.document.doc_number;
+      }
+      showSuccess('Document enregistré avec succès.');
+      loadHistory(docId);
+    } catch (err) {
+      showError(err.message);
+    }
+  }
+
+  // ── PDF ────────────────────────────────────────────────────────────────────────
+  function generatePdf() {
+    if (!docId) { showError('Enregistrez d\'abord le document avant de générer le PDF.'); return; }
+    window.open(`/api/admin/billing?action=generate-pdf&id=${docId}`, '_blank');
+  }
+
+  // ── Delete ─────────────────────────────────────────────────────────────────────
+  async function confirmDelete() {
+    if (!docId) return;
+    if (!confirm('Supprimer ce document définitivement ?')) return;
+    try {
+      const resp = await fetch('/api/admin/billing?action=delete-document', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: docId }),
+      });
+      const data = await resp.json();
+      if (!data.success) throw new Error(data.error);
+      location.href = '/admin/billing';
+    } catch (err) {
+      showError(err.message);
+    }
+  }
+
+  // ── Send modal ─────────────────────────────────────────────────────────────────
+  function openSendModal() {
+    if (!docId) { showError('Enregistrez d\'abord le document.'); return; }
+    const email = document.getElementById('clientEmail').value || '';
+    document.getElementById('modalSendEmail').value = email;
+    const subjects = {
+      invoice: `Votre facture — Info Experts`,
+      proforma: `Votre devis pro forma — Info Experts`,
+      reminder: `Relance de paiement — Info Experts`,
+    };
+    document.getElementById('modalSendSubject').value = subjects[docType] || 'Document — Info Experts';
+    document.getElementById('modalSendMessage').value = '';
+    document.getElementById('sendModalError').style.display = 'none';
+    document.getElementById('sendModal').classList.add('open');
+  }
+
+  function closeSendModal() {
+    document.getElementById('sendModal').classList.remove('open');
+  }
+
+  async function confirmSend() {
+    if (!docId) return;
+    const btn = document.getElementById('sendModalBtn');
+    const errEl = document.getElementById('sendModalError');
+    btn.disabled = true; btn.textContent = 'Envoi…';
+    errEl.style.display = 'none';
+    try {
+      const resp = await fetch('/api/admin/billing?action=send-document', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          id: docId,
+          emailSubject: document.getElementById('modalSendSubject').value,
+          emailMessage: document.getElementById('modalSendMessage').value,
+        }),
+      });
+      const data = await resp.json();
+      if (!data.success) throw new Error(data.error);
+      closeSendModal();
+      showSuccess(data.message || 'Email envoyé.');
+      loadHistory(docId);
+    } catch (err) {
+      errEl.textContent = err.message; errEl.style.display = 'block';
+    } finally {
+      btn.disabled = false; btn.textContent = 'Envoyer';
+    }
+  }
+
+  // ── History ────────────────────────────────────────────────────────────────────
+  async function loadHistory(id) {
+    try {
+      const resp = await fetch(`/api/admin/billing?action=get-document&id=${id}`);
+      const data = await resp.json();
+      if (!data.success) return;
+      const logs = data.document?.logs || [];
+      const container = document.getElementById('historyList');
+      if (!logs.length) { container.innerHTML = '<div class="muted" style="font-size:13px">Aucun événement.</div>'; return; }
+      container.innerHTML = logs.map((l) => `
+        <div class="log-row">
+          <div class="log-time">${new Date(l.created_at).toLocaleString('fr-FR', { timeZone: 'Indian/Comoro' })}</div>
+          <div class="log-action">${esc(l.action)}</div>
+          <div class="log-detail">${esc(l.detail || '')}</div>
+        </div>`).join('');
+    } catch { /* ignore */ }
+  }
+
+  // ── Action bar ─────────────────────────────────────────────────────────────────
+  function updateActionBar(doc) {
+    if (!doc) return;
+    document.getElementById('actionDocNum').textContent = doc.doc_number || 'Nouveau';
+    const statusColors = {
+      draft:'#94a3b8', ready:'#1d4ed8', sent:'#1d4ed8',
+      paid:'#16a34a', partial:'#a16207', overdue:'#dc2626',
+      cancelled:'#94a3b8', accepted:'#16a34a', expired:'#c2410c', converted:'#16a34a',
+    };
+    const statusLabels = {
+      draft:'Brouillon', ready:'Prêt', sent:'Envoyé', paid:'Payé', partial:'Partiel',
+      overdue:'En retard', cancelled:'Annulé', accepted:'Accepté', expired:'Expiré', converted:'Converti',
+    };
+    const color = statusColors[doc.status] || '#94a3b8';
+    document.getElementById('actionStatusBadge').innerHTML =
+      `<span class="status-badge" style="background:${color}20;color:${color}">${statusLabels[doc.status] || doc.status}</span>`;
+    document.getElementById('pageTitle').textContent = doc.doc_number || 'Édition';
+  }
+
+  // ── Populate from existing doc ─────────────────────────────────────────────────
+  function populateForm(doc, docItems) {
+    docType = doc.doc_type || 'invoice';
+
+    document.getElementById('typeSelectorCard').classList.add('hidden');
+    document.getElementById('deleteBtn').style.display = 'inline-flex';
+    document.getElementById('historySection').classList.remove('hidden');
+
+    selectType(docType);
+    updateStatusOptions(docType);
+
+    document.getElementById('statusSelect').value = doc.status || 'draft';
+    document.getElementById('issueDate').value = doc.issue_date || '';
+    document.getElementById('dueDate').value = doc.due_date || doc.validity_date || '';
+    document.getElementById('paymentMethod').value = doc.payment_method || '';
+    document.getElementById('paymentReference').value = doc.payment_reference || '';
+    document.getElementById('discountKmf').value = doc.discount_kmf || 0;
+    document.getElementById('taxRate').value = doc.tax_rate || 0;
+    document.getElementById('paidKmf').value = doc.paid_kmf || 0;
+    document.getElementById('notesInternal').value = doc.notes || '';
+    document.getElementById('messageClient').value = doc.message || '';
+
+    if (doc.reminder_level) document.getElementById('reminderLevel').value = doc.reminder_level;
+    if (doc.linked_document_id) document.getElementById('linkedDocumentId').value = doc.linked_document_id;
+
+    // Client
+    document.querySelector('input[name="clientMode"][value="manual"]').checked = true;
+    setClientMode('manual');
+    document.getElementById('clientName').value = doc.client_name || '';
+    document.getElementById('clientEmail').value = doc.client_email || '';
+    document.getElementById('clientPhone').value = doc.client_phone || '';
+    document.getElementById('clientCompany').value = doc.client_company || '';
+    document.getElementById('clientCity').value = doc.client_city || '';
+    document.getElementById('clientAddress').value = doc.client_address || '';
+    document.getElementById('clientCountry').value = doc.client_country || 'Comores';
+    document.getElementById('selectedClientId').value = doc.client_id || '';
+
+    // Items
+    document.getElementById('itemsBody').innerHTML = '';
+    itemIndex = 0;
+    (docItems || []).forEach((it) => addItem(it.description, it.details || '', it.quantity, it.unit_price_kmf));
+
+    recalcTotals();
+    updateActionBar(doc);
+    updateOverdueDisplay();
+    if (doc.doc_number) {
+      document.getElementById('docNumberDisplay').textContent = doc.doc_number;
+    }
+  }
+
+  // ── Init ───────────────────────────────────────────────────────────────────────
+  async function init() {
+    // Set default date
+    document.getElementById('issueDate').value = new Date().toISOString().slice(0, 10);
+
+    selectType(docType);
+    updateStatusOptions(docType);
+
+    // Add first item by default for new docs
+    if (!docId && !duplicateId) {
+      addItem();
+    }
+
+    if (docId) {
+      // Load existing
+      try {
+        const resp = await fetch(`/api/admin/billing?action=get-document&id=${docId}`);
+        const data = await resp.json();
+        if (resp.status === 401) { location.href = '/admin'; return; }
+        if (!data.success) throw new Error(data.error);
+        currentDoc = data.document;
+        populateForm(data.document, data.document.items || []);
+        loadHistory(docId);
+      } catch (err) {
+        showError(err.message);
+      }
+    } else if (duplicateId) {
+      try {
+        const resp = await fetch(`/api/admin/billing?action=get-document&id=${duplicateId}`);
+        const data = await resp.json();
+        if (!data.success) throw new Error(data.error);
+        const src = data.document;
+        docType = src.doc_type;
+        selectType(docType);
+        updateStatusOptions(docType);
+        document.getElementById('statusSelect').value = 'draft';
+        document.getElementById('issueDate').value = new Date().toISOString().slice(0, 10);
+        document.getElementById('paymentMethod').value = src.payment_method || '';
+        document.getElementById('discountKmf').value = src.discount_kmf || 0;
+        document.getElementById('taxRate').value = src.tax_rate || 0;
+        document.querySelector('input[name="clientMode"][value="manual"]').checked = true;
+        setClientMode('manual');
+        document.getElementById('clientName').value = src.client_name || '';
+        document.getElementById('clientEmail').value = src.client_email || '';
+        document.getElementById('clientPhone').value = src.client_phone || '';
+        document.getElementById('clientCompany').value = src.client_company || '';
+        document.getElementById('clientCity').value = src.client_city || '';
+        document.getElementById('notesInternal').value = src.notes || '';
+        document.getElementById('messageClient').value = src.message || '';
+        document.getElementById('itemsBody').innerHTML = '';
+        itemIndex = 0;
+        (src.items || []).forEach((it) => addItem(it.description, it.details || '', it.quantity, it.unit_price_kmf));
+        recalcTotals();
+      } catch (err) {
+        showError('Impossible de charger le document source: ' + err.message);
+      }
+    } else {
+      // check auth
+      const resp = await fetch('/api/admin/billing?action=list-documents&limit=1').catch(() => null);
+      if (resp?.status === 401) { location.href = '/admin'; return; }
+    }
+  }
+
+  document.getElementById('paidKmf').addEventListener('input', recalcTotals);
+
+  init();
+</script>
+</body>
+</html>
