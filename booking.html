@@ -5,8 +5,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Prendre rendez-vous | Info Experts – Informatique Moroni, Comores</title>
   <meta name="description" content="Réservez un rendez-vous avec un expert en informatique : diagnostic, consultation ou visite technique à Moroni, Comores.">
-  <meta name="robots" content="noindex, follow">
+  <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://info-experts.fr/booking.html">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Prendre rendez-vous | Info Experts – Informatique Moroni, Comores">
+  <meta property="og:description" content="Réservez en ligne votre intervention informatique à Moroni : diagnostic, consultation, installation réseau ou visite technique. Disponible 6j/7.">
+  <meta property="og:image" content="https://info-experts.fr/og-image.webp">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:url" content="https://info-experts.fr/booking.html">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Info Experts Moroni">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Réserver un rendez-vous informatique – Moroni, Comores">
+  <meta name="twitter:description" content="Diagnostic, consultation, installation réseau, visite technique à domicile ou en bureau à Moroni. Réservation en ligne rapide.">
+  <meta name="twitter:image" content="https://info-experts.fr/og-image.webp">
 
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
@@ -86,6 +99,67 @@
     /* Masquer les conflits éventuels Tailwind CDN / style.css sur la nav */
     header.bg-trust-blue-900 { background-color:#1e3a8a !important; }
   </style>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Accueil", "item": "https://info-experts.fr/" },
+      { "@type": "ListItem", "position": 2, "name": "Prendre rendez-vous", "item": "https://info-experts.fr/booking.html" }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": "Intervention informatique à domicile",
+    "name": "Réservation de rendez-vous informatique – Info Experts Moroni",
+    "description": "Réservez en ligne votre intervention informatique à Moroni : diagnostic PC, consultation technique, installation réseau, visite à domicile ou en entreprise aux Comores.",
+    "url": "https://info-experts.fr/booking.html",
+    "provider": {
+      "@type": "LocalBusiness",
+      "@id": "https://info-experts.fr/#business",
+      "name": "Info Experts",
+      "telephone": "+2693312722",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Moroni",
+        "addressRegion": "Grande Comore",
+        "addressCountry": "KM"
+      }
+    },
+    "areaServed": {
+      "@type": "City",
+      "name": "Moroni"
+    },
+    "availableChannel": {
+      "@type": "ServiceChannel",
+      "serviceUrl": "https://info-experts.fr/booking.html",
+      "servicePhone": "+2693312722",
+      "availableLanguage": "fr"
+    },
+    "hoursAvailable": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+      "opens": "08:00",
+      "closes": "18:00"
+    },
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Services informatiques à Moroni",
+      "itemListElement": [
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Diagnostic informatique Moroni" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Consultation technique" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Installation réseau Comores" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Visite technique à domicile" } },
+        { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Maintenance informatique entreprise" } }
+      ]
+    }
+  }
+  </script>
 </head>
 <body class="antialiased leading-relaxed font-sans bg-gray-50" style="color:#1f2937">
 
@@ -861,6 +935,15 @@ function renderPayment() {
   }
 }
 
+function toApiDate(date) {
+  return date.getFullYear() + '-' + _pad2(date.getMonth() + 1) + '-' + _pad2(date.getDate());
+}
+
+function toApiTime(slot) {
+  const parsed = _parseSlot(slot);
+  return _pad2(parsed.h) + ':' + _pad2(parsed.m) + ':00';
+}
+
 // ── Confirmation ────────────────────────────────────────
 async function confirmBooking() {
   const svc = services[state.service];
@@ -888,39 +971,52 @@ async function confirmBooking() {
   const nom      = (document.getElementById('fname').value + ' ' + document.getElementById('lname').value).trim();
   const telephone = document.getElementById('phone').value.trim();
   const dep      = Math.round(svc.price / 2);
+  const bookingType = svc.price === 0
+    ? 'free_booking'
+    : bkPayMode === 'mobile'
+      ? 'mobile_payment'
+      : 'cash_payment';
 
   let apiRef = null;
-  if (svc.price > 0) {
-    try {
-      const res = await fetch('/api/order', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          type:            bkPayMode === 'mobile' ? 'mobile_payment' : 'cash_payment',
-          nom,
-          telephone,
-          email:           document.getElementById('email')?.value.trim() || null,
-          produit:         svc.name,
-          montant:         dep,
-          operateur:       bkOpSelected || null,
-          referenceClient: document.getElementById('bk-tx-ref')?.value.trim() || null,
-          source:          'booking'
-        })
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        throw new Error(data.error || 'Erreur serveur');
-      }
-      apiRef = data.ref;
-    } catch(e) {
-      errEl.textContent = e.message && e.message !== 'Failed to fetch'
-        ? e.message
-        : 'Erreur réseau, veuillez réessayer.';
-      errEl.style.display = 'block';
-      btn.disabled = false;
-      btn.innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span id="payBtnLabel">Confirmer le rendez-vous</span>';
-      return;
+  try {
+    const res = await fetch('/api/order', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        type: bookingType,
+        nom,
+        telephone: telephone || null,
+        email: document.getElementById('email')?.value.trim() || null,
+        produit: svc.name,
+        montant: svc.price === 0 ? 0 : dep,
+        operateur: bkOpSelected || null,
+        referenceClient: document.getElementById('bk-tx-ref')?.value.trim() || null,
+        source: 'booking',
+        serviceName: svc.name,
+        serviceDuration: svc.duration,
+        serviceDurationMinutes: _durationMin(svc.duration),
+        servicePriceKmf: svc.price,
+        appointmentDate: toApiDate(state.date),
+        appointmentTime: toApiTime(state.slot),
+        appointmentTimezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'Indian/Comoro',
+        technicianName: members[state.member],
+        location: svc.location,
+        notes: document.getElementById('notes')?.value.trim() || null
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) {
+      throw new Error(data.error || 'Erreur serveur');
     }
+    apiRef = data.ref;
+  } catch(e) {
+    errEl.textContent = e.message && e.message !== 'Failed to fetch'
+      ? e.message
+      : 'Erreur réseau, veuillez réessayer.';
+    errEl.style.display = 'block';
+    btn.disabled = false;
+    btn.innerHTML = '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span id="payBtnLabel">Confirmer le rendez-vous</span>';
+    return;
   }
 
   const d = state.date;

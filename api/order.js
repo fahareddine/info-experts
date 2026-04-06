@@ -1,142 +1,361 @@
 /**
- * api/order.js — Vercel Serverless Function
- * Route : POST /api/order
- *
- * Gère deux types de demandes :
- *   type = "mobile_payment"  → paiement mobile money depuis la boutique ou la prise de RDV
- *   type = "cash_payment"    → choix de paiement en espèces
- *
- * Opérateurs mobiles acceptés : Huri Money | MVola
- *
- * Statuts du cycle de vie :
- *   mobile_payment_submitted → formulaire mobile soumis, en attente confirmation
- *   cash_selected            → client a choisi le paiement en espèces
- *   validated                → paiement confirmé (manuellement ou API future)
- *   rejected                 → paiement échoué ou annulé
+ * api/order.js — backend metier boutique + rendez-vous
  */
 
-import { sendAdminEmail, sendClientEmail } from './_email.js';
+import { sendAdminEmail, sendClientEmail } from '../lib/server/email.js';
+import { sendAppointmentSms, sendOrderSms } from '../lib/server/sms.js';
+import {
+  ApiError,
+  BOUTIQUE_OPERATORS,
+  applyCors,
+  assertOneOf,
+  durationToMinutes,
+  generateReference,
+  integerAmount,
+  normalizeDateInput,
+  normalizeTimeInput,
+  optionalEmail,
+  optionalPhone,
+  optionalString,
+  requiredString,
+  sendError,
+  splitFullName,
+} from '../lib/server/lib.js';
+import { buildCustomerKey, isTestRecord, touchCustomerProfile } from '../lib/server/customers.js';
+import { createCustomerInteraction } from '../lib/server/customer-interactions.js';
+import { insertRow, selectRows } from '../lib/server/supabase.js';
+import { checkRateLimit } from '../lib/server/rate-limit.js';
 
-const OPERATEURS_VALIDES = ['Huri Money', 'MVola'];
-const PHONE_RE = /^[+\d\s().-]{6,20}$/;
+const ACTIVE_APPOINTMENT_STATUSES = '(confirmed,payment_submitted,cash_reserved)';
 
 export default async function handler(req, res) {
-  // ── CORS ────────────────────────────────────────────────────────────────
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (applyCors(req, res)) return;
 
-  if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') {
     return res.status(405).json({ success: false, error: 'Méthode non autorisée. Utilisez POST.' });
   }
 
-  const {
-    type,            // 'mobile_payment' | 'cash_payment'
-    nom,
-    telephone,
-    email,           // email client (optionnel)
-    produit,         // nom du produit ou du service RDV
-    montant,
-    operateur,       // 'Huri Money' | 'MVola'  (mobile seulement)
-    referenceClient, // référence transaction mobile (optionnel)
-    source,          // 'boutique' | 'booking'
-  } = req.body ?? {};
+  try {
+    await checkRateLimit(req, 'order');
+    const body = req.body ?? {};
+    const source = assertOneOf(requiredString(body.source || 'boutique', 'source', 30), ['boutique', 'booking'], 'source');
 
-  // ── Validation commune ───────────────────────────────────────────────────
-  if (!type || !['mobile_payment', 'cash_payment'].includes(type)) {
-    return res.status(400).json({ success: false, error: 'type invalide. Valeurs acceptées : mobile_payment, cash_payment.' });
+    const record = source === 'booking'
+      ? await createAppointment(body)
+      : await createOrder(body);
+
+    await Promise.all([
+      sendAdminEmail(record),
+      sendClientEmail(record),
+      record.entityType === 'order' ? sendOrderSms(record) : sendAppointmentSms(record),
+    ]).catch((error) => console.error('[NOTIF] Erreur globale:', error.message));
+
+    return res.status(200).json({
+      success: true,
+      entity: record.entityType,
+      ref: record.reference,
+      status: record.status,
+      message: successMessage(record),
+    });
+  } catch (error) {
+    return sendError(res, error);
   }
-  if (!nom?.trim()) {
-    return res.status(400).json({ success: false, error: 'Le champ "nom" est requis.' });
-  }
-  if (!telephone?.trim()) {
-    return res.status(400).json({ success: false, error: 'Le champ "telephone" est requis.' });
-  }
-  if (!PHONE_RE.test(telephone.trim())) {
-    return res.status(400).json({ success: false, error: 'Numéro de téléphone invalide.' });
+}
+
+function successMessage(record) {
+  if (record.entityType === 'appointment') {
+    if (record.paymentType === 'free') {
+      return 'Votre rendez-vous est confirmé.';
+    }
+    if (record.paymentType === 'cash') {
+      return 'Votre rendez-vous est réservé. Le paiement en espèces sera finalisé lors du rendez-vous.';
+    }
+    return 'Votre rendez-vous est réservé. Notre équipe vérifie le paiement mobile.';
   }
 
-  // ── Validation spécifique mobile ─────────────────────────────────────────
-  if (type === 'mobile_payment') {
-    if (!operateur || !OPERATEURS_VALIDES.includes(operateur)) {
-      return res.status(400).json({ success: false, error: `Opérateur invalide. Valeurs acceptées : ${OPERATEURS_VALIDES.join(', ')}.` });
+  if (record.paymentType === 'cash') {
+    return 'Votre commande est enregistrée. Vous réglerez en espèces lors de la remise.';
+  }
+
+  return 'Votre commande est enregistrée. Notre équipe vérifie le paiement mobile.';
+}
+
+async function createOrder(body) {
+  const type = assertOneOf(requiredString(body.type, 'type', 40), ['mobile_payment', 'cash_payment'], 'type');
+  const customerName = requiredString(body.nom, 'nom', 160);
+  const customerPhone = optionalPhone(body.telephone, true);
+  const customerEmail = optionalEmail(body.email);
+  const productName = requiredString(body.produit, 'produit', 200);
+  const amountKmf = integerAmount(body.montant, 'montant');
+  const paymentType = type === 'mobile_payment' ? 'mobile_money' : 'cash';
+  const status = type === 'mobile_payment' ? 'payment_submitted' : 'cash_reserved';
+  const operator = type === 'mobile_payment'
+    ? assertOneOf(requiredString(body.operateur, 'operateur', 50), BOUTIQUE_OPERATORS, 'operateur')
+    : null;
+  const clientReference = optionalString(body.referenceClient, 120);
+  const reference = generateReference(type === 'mobile_payment' ? 'IE-ORD-MOB' : 'IE-ORD-CASH');
+  const isTest = isTestRecord({ customerName, customerEmail, customerPhone, label: productName, reference });
+  const customerKey = buildCustomerKey(customerEmail, customerPhone);
+
+  if (!isTest) {
+    const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+    const duplicateFilters = { created_at: `gte.${tenMinutesAgo}`, product_name: `eq.${productName}`, is_test: 'eq.false' };
+    if (customerEmail) duplicateFilters.customer_email = `eq.${customerEmail}`;
+    else if (customerPhone) duplicateFilters.customer_phone = `eq.${customerPhone}`;
+    const recent = await selectRows('orders', { select: 'id', filters: duplicateFilters, limit: 1 });
+    if (Array.isArray(recent) && recent.length > 0) {
+      throw new ApiError(409, 'Une commande identique a déjà été soumise récemment. Veuillez patienter avant de réessayer.');
     }
   }
 
-  // ── Référence unique ─────────────────────────────────────────────────────
-  const prefix    = type === 'cash_payment' ? 'IE-CASH' : 'IE-MOB';
-  const timestamp = Date.now().toString(36).toUpperCase();
-  const random    = Math.random().toString(36).substr(2, 4).toUpperCase();
-  const ref       = `${prefix}-${timestamp}-${random}`;
-
-  // ── Construction de la commande ──────────────────────────────────────────
-  const commande = {
-    ref,
-    type,
-    status:          type === 'cash_payment' ? 'cash_selected' : 'mobile_payment_submitted',
-    nom:             nom.trim(),
-    telephone:       telephone.trim(),
-    email:           email?.trim()           || null,
-    produit:         produit?.trim()         || 'non précisé',
-    montant:         Number(montant)         || 0,
-    operateur:       operateur?.trim()       || null,
-    referenceClient: referenceClient?.trim() || null,
-    source:          source?.trim()          || 'boutique',
-    createdAt:       new Date().toISOString(),
-  };
-
-  // ── Log (visible dans Vercel Dashboard > Logs) ───────────────────────────
-  console.log('[ORDER]', JSON.stringify(commande));
-
-  // ── Emails (admin + client) ───────────────────────────────────────────────
-  await Promise.all([
-    sendAdminEmail(commande),
-    sendClientEmail(commande),
-  ]).catch(e => console.error('[EMAIL] Erreur globale:', e.message));
-
-  // ── TODO : Stockage persistant ───────────────────────────────────────────
-  //
-  // Option A — Supabase :
-  //   const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
-  //   await supabase.from('orders').insert(commande);
-  //
-  // Option B — Airtable :
-  //   await fetch(`https://api.airtable.com/v0/${process.env.AIRTABLE_BASE}/Commandes`, {
-  //     method: 'POST',
-  //     headers: { Authorization: `Bearer ${process.env.AIRTABLE_KEY}`, 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ fields: commande }),
-  //   });
-  //
-  // Option C — Notification email admin (Resend) :
-  //   const subject = type === 'cash_payment'
-  //     ? `[Espèces] ${commande.produit} — ${commande.nom}`
-  //     : `[Mobile] ${commande.produit} — ${commande.nom}`;
-  //   await resend.emails.send({ from:'no-reply@info-experts.fr', to:'contact@info-experts.fr', subject, html: '...' });
-
-  // ── TODO : Validation automatique (API mobile money future) ─────────────
-  //
-  // if (type === 'mobile_payment' && process.env.KARTAPAY_KEY) {
-  //   const kp = await fetch('https://api.kartapay.com/v1/payments', {
-  //     method: 'POST',
-  //     headers: { Authorization: `Bearer ${process.env.KARTAPAY_KEY}`, 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ phone: commande.telephone, amount: commande.montant, currency: 'KMF', reference: ref, operator: operateur.toLowerCase() }),
-  //   });
-  //   const kpData = await kp.json();
-  //   commande.status      = kpData.status;        // 'validated' | 'pending' | 'rejected'
-  //   commande.externalRef = kpData.transaction_id;
-  // }
-
-  // ── Réponse ──────────────────────────────────────────────────────────────
-  const messages = {
-    mobile_payment: 'Votre demande est enregistrée. Notre équipe vérifie le paiement sous 15 minutes.',
-    cash_payment:   'Votre commande est enregistrée. Vous réglerez en espèces lors de la remise.',
-  };
-
-  return res.status(200).json({
-    success: true,
-    status:  commande.status,
-    ref:     commande.ref,
-    message: messages[type],
+  const order = await insertRow('orders', {
+    reference,
+    source: 'boutique',
+    status,
+    payment_type: paymentType,
+    product_name: productName,
+    amount_kmf: amountKmf,
+    customer_full_name: customerName,
+    customer_email: customerEmail,
+    customer_phone: customerPhone,
+    payment_operator: operator,
+    payment_reference: clientReference,
+    is_test: isTest,
+    metadata: {
+      channel: 'website',
+    },
   });
+
+  await insertRow('payments', {
+    reference: generateReference(type === 'mobile_payment' ? 'IE-PAY-MOB' : 'IE-PAY-CASH'),
+    source: 'boutique',
+    status: type === 'mobile_payment' ? 'pending_review' : 'cash_reserved',
+    payment_type: paymentType,
+    order_id: order.id,
+    label: productName,
+    amount_kmf: amountKmf,
+    customer_full_name: customerName,
+    customer_email: customerEmail,
+      customer_phone: customerPhone,
+      operator,
+      client_reference: clientReference,
+      is_test: isTest,
+      metadata: {
+        order_reference: reference,
+      },
+    });
+
+  await Promise.all([
+    touchCustomerProfile({
+      customerName,
+      customerEmail,
+      customerPhone,
+      kind: 'order',
+      isTest,
+    }),
+    touchCustomerProfile({
+      customerName,
+      customerEmail,
+      customerPhone,
+      kind: 'payment',
+      isTest,
+    }),
+    createCustomerInteraction({
+      customerKey,
+      channel: 'website',
+      direction: 'inbound',
+      summary: `Nouvelle commande boutique: ${productName}`,
+      content: `Mode de paiement: ${paymentType}. Montant: ${amountKmf} KMF.`,
+      relatedEntityType: 'order',
+      relatedEntityReference: reference,
+      createdByRole: 'system',
+      isTest,
+    }),
+  ]);
+
+  return {
+    entityType: 'order',
+    source: 'boutique',
+    reference,
+    status,
+    paymentType,
+    customerName,
+    customerEmail,
+    customerPhone,
+    label: productName,
+    amountKmf,
+    operator,
+    clientReference,
+    createdAt: order.created_at,
+  };
+}
+
+async function createAppointment(body) {
+  const type = assertOneOf(requiredString(body.type, 'type', 40), ['free_booking', 'mobile_payment', 'cash_payment'], 'type');
+
+  const customerName = requiredString(body.nom, 'nom', 160);
+  const customer = splitFullName(customerName);
+  const customerEmail = optionalEmail(body.email, true);
+  const customerPhone = optionalPhone(body.telephone, type !== 'free_booking');
+  const serviceName = requiredString(body.produit || body.serviceName, 'serviceName', 200);
+  const serviceDurationMinutes = durationToMinutes(body.serviceDurationMinutes ?? body.serviceDuration);
+  const servicePriceKmf = integerAmount(body.servicePriceKmf ?? body.totalMontant ?? body.servicePrice ?? 0, 'servicePriceKmf');
+  const depositAmountKmf = integerAmount(body.montant ?? body.depositAmount ?? 0, 'montant');
+  const appointmentDate = normalizeDateInput(body.appointmentDate);
+  const appointmentTime = normalizeTimeInput(body.appointmentTime);
+  const appointmentTimezone = optionalString(body.appointmentTimezone, 80) || 'Indian/Comoro';
+  const technicianName = requiredString(body.technicianName, 'technicianName', 120);
+  const location = requiredString(body.location, 'location', 200);
+  const notes = optionalString(body.notes, 4000);
+
+  const paymentType = type === 'free_booking'
+    ? 'free'
+    : type === 'mobile_payment'
+      ? 'mobile_money'
+      : 'cash';
+  const status = type === 'free_booking'
+    ? 'confirmed'
+    : type === 'mobile_payment'
+      ? 'payment_submitted'
+      : 'cash_reserved';
+  const operator = type === 'mobile_payment'
+    ? assertOneOf(requiredString(body.operateur, 'operateur', 50), BOUTIQUE_OPERATORS, 'operateur')
+    : null;
+  const clientReference = optionalString(body.referenceClient, 120);
+  const customerKey = buildCustomerKey(customerEmail, customerPhone);
+  const isTest = isTestRecord({
+    customerName: customer.fullName,
+    customerEmail,
+    customerPhone,
+    label: serviceName,
+    reference: clientReference,
+    notes,
+  });
+
+  const existing = await selectRows('appointments', {
+    select: 'id,reference,status',
+    filters: {
+      appointment_date: `eq.${appointmentDate}`,
+      appointment_time: `eq.${appointmentTime}`,
+      technician_name: `eq.${technicianName}`,
+      status: `in.${ACTIVE_APPOINTMENT_STATUSES}`,
+    },
+    limit: 1,
+  });
+
+  if (Array.isArray(existing) && existing.length > 0) {
+    throw new ApiError(409, 'Ce creneau vient d\'etre reserve. Merci de choisir un autre horaire.');
+  }
+
+  const reference = generateReference(type === 'free_booking' ? 'IE-RDV-FREE' : type === 'mobile_payment' ? 'IE-RDV-MOB' : 'IE-RDV-CASH');
+
+  let appointment;
+  try {
+    appointment = await insertRow('appointments', {
+      reference,
+      source: 'booking',
+      status,
+      payment_type: paymentType,
+      service_name: serviceName,
+      service_duration_minutes: serviceDurationMinutes,
+      service_price_kmf: servicePriceKmf,
+      deposit_amount_kmf: depositAmountKmf,
+      appointment_date: appointmentDate,
+      appointment_time: appointmentTime,
+      appointment_timezone: appointmentTimezone,
+      technician_name: technicianName,
+      location,
+      customer_first_name: customer.firstName,
+      customer_last_name: customer.lastName,
+      customer_full_name: customer.fullName,
+      customer_email: customerEmail,
+      customer_phone: customerPhone,
+      notes,
+      payment_operator: operator,
+      payment_reference: clientReference,
+      is_test: isTest,
+      metadata: {
+        channel: 'website',
+      },
+    });
+  } catch (error) {
+    if (error.code === '23505') {
+      throw new ApiError(409, 'Ce creneau vient d\'etre reserve. Merci de choisir un autre horaire.');
+    }
+    throw error;
+  }
+
+  if (paymentType !== 'free') {
+    await insertRow('payments', {
+      reference: generateReference(type === 'mobile_payment' ? 'IE-PAY-RDV-MOB' : 'IE-PAY-RDV-CASH'),
+      source: 'booking',
+      status: type === 'mobile_payment' ? 'pending_review' : 'cash_reserved',
+      payment_type: paymentType,
+      appointment_id: appointment.id,
+      label: serviceName,
+      amount_kmf: depositAmountKmf,
+      customer_full_name: customer.fullName,
+      customer_email: customerEmail,
+        customer_phone: customerPhone || null,
+        operator,
+        client_reference: clientReference,
+        is_test: isTest,
+        metadata: {
+          appointment_reference: reference,
+          total_service_price_kmf: servicePriceKmf,
+        },
+      });
+    }
+
+  await touchCustomerProfile({
+    customerName: customer.fullName,
+    customerEmail,
+    customerPhone,
+    kind: 'appointment',
+    isTest,
+  });
+
+  if (paymentType !== 'free') {
+    await touchCustomerProfile({
+      customerName: customer.fullName,
+      customerEmail,
+      customerPhone,
+      kind: 'payment',
+      isTest,
+    });
+  }
+
+  await createCustomerInteraction({
+    customerKey,
+    channel: 'website',
+    direction: 'inbound',
+    summary: `Nouveau rendez-vous: ${serviceName}`,
+    content: `Créneau: ${appointmentDate} ${appointmentTime}. Technicien: ${technicianName}. Paiement: ${paymentType}.`,
+    relatedEntityType: 'appointment',
+    relatedEntityReference: reference,
+    createdByRole: 'system',
+    isTest,
+  });
+
+  return {
+    entityType: 'appointment',
+    source: 'booking',
+    reference,
+    status,
+    paymentType,
+    customerName: customer.fullName,
+    customerEmail,
+    customerPhone,
+    label: serviceName,
+    amountKmf: depositAmountKmf,
+    operator,
+    clientReference,
+    appointmentDate,
+    appointmentTime,
+    appointmentTimezone,
+    technicianName,
+    location,
+    notes,
+    createdAt: appointment.created_at,
+  };
 }

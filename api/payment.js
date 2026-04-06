@@ -1,113 +1,129 @@
 /**
- * api/payment.js — Vercel Serverless Function
- * Route : POST /api/payment
- *
- * Reçoit une demande de paiement mobile money (Huri / MVola / Telma)
- * et retourne un statut "pending".
- *
- * Statuts possibles :
- *   pending   → demande reçue, vérification en cours (aujourd'hui)
- *   validated → paiement confirmé (à brancher manuellement ou via API future)
- *   failed    → paiement échoué ou non trouvé
+ * api/payment.js — paiement mobile standalone persiste en base
  */
 
+import { sendAdminEmail, sendClientEmail } from '../lib/server/email.js';
+import { sendPaymentSms } from '../lib/server/sms.js';
+import {
+  STANDALONE_PAYMENT_OPERATORS,
+  ApiError,
+  applyCors,
+  assertOneOf,
+  generateReference,
+  integerAmount,
+  optionalEmail,
+  optionalPhone,
+  optionalString,
+  requiredString,
+  sendError,
+} from '../lib/server/lib.js';
+import { buildCustomerKey, isTestRecord, touchCustomerProfile } from '../lib/server/customers.js';
+import { createCustomerInteraction } from '../lib/server/customer-interactions.js';
+import { insertRow, selectRows } from '../lib/server/supabase.js';
+import { checkRateLimit } from '../lib/server/rate-limit.js';
+
 export default async function handler(req, res) {
-  // ── CORS ────────────────────────────────────────────────────────────────
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (applyCors(req, res)) return;
 
-  if (req.method === 'OPTIONS') return res.status(200).end();
   if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Méthode non autorisée. Utilisez POST.' });
+    return res.status(405).json({ success: false, error: 'Méthode non autorisée. Utilisez POST.' });
   }
 
-  // ── Lecture du body ──────────────────────────────────────────────────────
-  const { nom, telephone, operateur, montant, service, referenceClient } = req.body ?? {};
+  try {
+    await checkRateLimit(req, 'payment');
+    const body = req.body ?? {};
+    const customerName = requiredString(body.nom, 'nom', 160);
+    const customerPhone = optionalPhone(body.telephone, true);
+    const customerEmail = optionalEmail(body.email);
+    const operator = assertOneOf(requiredString(body.operateur, 'operateur', 30), STANDALONE_PAYMENT_OPERATORS, 'operateur');
+    const amountKmf = integerAmount(body.montant, 'montant');
+    const label = requiredString(body.service || body.label || 'Prestation Info Experts', 'service', 200);
+    const clientReference = optionalString(body.referenceClient, 120);
+    const reference = generateReference('IE-PAY-WEB');
+    const isTest = isTestRecord({ customerName, customerEmail, customerPhone, label, reference, notes: clientReference });
+    const customerKey = buildCustomerKey(customerEmail, customerPhone);
 
-  // ── Validation ───────────────────────────────────────────────────────────
-  if (!nom?.trim()) {
-    return res.status(400).json({ error: 'Le champ "nom" est requis.' });
+    if (!isTest) {
+      const tenMinutesAgo = new Date(Date.now() - 10 * 60 * 1000).toISOString();
+      const dupFilters = { created_at: `gte.${tenMinutesAgo}`, source: 'eq.standalone', label: `eq.${label}`, is_test: 'eq.false' };
+      if (customerEmail) dupFilters.customer_email = `eq.${customerEmail}`;
+      else if (customerPhone) dupFilters.customer_phone = `eq.${customerPhone}`;
+      const recent = await selectRows('payments', { select: 'id', filters: dupFilters, limit: 1 });
+      if (Array.isArray(recent) && recent.length > 0) {
+        throw new ApiError(409, 'Une demande identique a déjà été soumise récemment. Veuillez patienter avant de réessayer.');
+      }
+    }
+
+    const payment = await insertRow('payments', {
+      reference,
+      source: 'standalone',
+      status: 'pending_review',
+      payment_type: 'mobile_money',
+      label,
+      amount_kmf: amountKmf,
+      customer_full_name: customerName,
+      customer_email: customerEmail,
+      customer_phone: customerPhone,
+      operator,
+      client_reference: clientReference,
+      is_test: isTest,
+      metadata: {
+        channel: 'payment_page',
+      },
+    });
+
+    await touchCustomerProfile({
+      customerName,
+      customerEmail,
+      customerPhone,
+      kind: 'payment',
+      isTest,
+    });
+
+    await createCustomerInteraction({
+      customerKey,
+      channel: 'website',
+      direction: 'inbound',
+      summary: `Nouveau paiement standalone: ${label}`,
+      content: `Opérateur: ${operator}. Montant: ${amountKmf} KMF.`,
+      relatedEntityType: 'payment',
+      relatedEntityReference: reference,
+      createdByRole: 'system',
+      isTest,
+    });
+
+    const record = {
+      entityType: 'payment',
+      source: 'standalone',
+      reference,
+      status: 'pending_review',
+      paymentType: 'mobile_money',
+      customerName,
+      customerEmail,
+      customerPhone,
+      label,
+      amountKmf,
+      operator,
+      clientReference,
+      createdAt: payment.created_at,
+    };
+
+    await Promise.all([
+      sendAdminEmail(record),
+      sendClientEmail(record),
+      sendPaymentSms(record),
+    ]).catch((error) => console.error('[NOTIF] Erreur globale:', error.message));
+
+    return res.status(200).json({
+      success: true,
+      status: 'pending_review',
+      ref: reference,
+      message: 'Votre demande est enregistrée. Notre équipe vérifie le paiement sous 15 minutes.',
+    });
+  } catch (error) {
+    if (error instanceof ApiError) {
+      return sendError(res, error);
+    }
+    return sendError(res, error);
   }
-  if (!telephone?.trim()) {
-    return res.status(400).json({ error: 'Le champ "telephone" est requis.' });
-  }
-  if (!operateur) {
-    return res.status(400).json({ error: 'L\'opérateur est requis (Huri, MVola, Telma).' });
-  }
-
-  // ── Génération de la référence ───────────────────────────────────────────
-  const timestamp = Date.now().toString(36).toUpperCase();
-  const random   = Math.random().toString(36).substr(2, 4).toUpperCase();
-  const ref      = `IE-${timestamp}-${random}`;
-
-  // ── Construction de la demande ───────────────────────────────────────────
-  const demande = {
-    ref,
-    status:           'pending',
-    nom:              nom.trim(),
-    telephone:        telephone.trim(),
-    operateur:        operateur.trim(),
-    montant:          Number(montant) || 0,
-    service:          service?.trim()          || 'non précisé',
-    referenceClient:  referenceClient?.trim()  || null,
-    createdAt:        new Date().toISOString(),
-  };
-
-  // ── Stockage temporaire ──────────────────────────────────────────────────
-  // Les logs sont visibles dans : Vercel Dashboard > projet > Logs (onglet Functions)
-  console.log('[PAYMENT_REQUEST]', JSON.stringify(demande));
-
-  // ── TODO : Stockage persistant (à brancher selon le besoin) ─────────────
-  //
-  // Option A — Supabase (recommandé, gratuit jusqu'à 500 MB) :
-  //   import { createClient } from '@supabase/supabase-js';
-  //   const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
-  //   await supabase.from('payments').insert(demande);
-  //
-  // Option B — Airtable (tableau de bord no-code) :
-  //   await fetch(`https://api.airtable.com/v0/${process.env.AIRTABLE_BASE}/Paiements`, {
-  //     method: 'POST',
-  //     headers: { Authorization: `Bearer ${process.env.AIRTABLE_KEY}`, 'Content-Type': 'application/json' },
-  //     body: JSON.stringify({ fields: demande }),
-  //   });
-  //
-  // Option C — Notification email admin via Resend :
-  //   import { Resend } from 'resend';
-  //   const resend = new Resend(process.env.RESEND_API_KEY);
-  //   await resend.emails.send({
-  //     from: 'no-reply@info-experts.fr',
-  //     to:   'contact@info-experts.fr',
-  //     subject: `[Info Experts] Nouveau paiement ${ref}`,
-  //     html: `<p>Nom : ${demande.nom}<br>Téléphone : ${demande.telephone}<br>Opérateur : ${demande.operateur}<br>Montant : ${demande.montant} KMF<br>Service : ${demande.service}</p>`,
-  //   });
-
-  // ── TODO : Intégration API mobile money (KartaPay ou autre) ─────────────
-  //
-  // if (process.env.KARTAPAY_KEY) {
-  //   const kp = await fetch('https://api.kartapay.com/v1/payments', {
-  //     method: 'POST',
-  //     headers: {
-  //       Authorization:  `Bearer ${process.env.KARTAPAY_KEY}`,
-  //       'Content-Type': 'application/json',
-  //     },
-  //     body: JSON.stringify({
-  //       phone:     demande.telephone,
-  //       amount:    demande.montant,
-  //       currency:  'KMF',
-  //       reference: ref,
-  //       operator:  demande.operateur, // 'huri' | 'mvola' | 'telma'
-  //     }),
-  //   });
-  //   const kpData = await kp.json();
-  //   demande.status      = kpData.status;           // 'pending' | 'validated' | 'failed'
-  //   demande.externalRef = kpData.transaction_id;
-  // }
-
-  // ── Réponse ──────────────────────────────────────────────────────────────
-  return res.status(200).json({
-    status:  'pending',
-    ref:     demande.ref,
-    message: 'Votre demande est enregistrée. Notre équipe vérifie le paiement sous 15 minutes.',
-  });
 }
