@@ -12,7 +12,7 @@
     .brand{font-size:28px;font-weight:800;color:var(--brand)} .brand span{color:#60a5fa}.card{background:#fff;border:1px solid var(--line);border-radius:18px;box-shadow:0 10px 30px rgba(15,23,42,.06)} .panel{padding:20px;margin-bottom:20px}
     input,select,button{font:inherit} input,select{padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#fff;color:var(--text)} button{border:0;border-radius:12px;padding:12px 16px;background:var(--brand);color:#fff;font-weight:700;cursor:pointer}
     button.secondary{background:#e2e8f0;color:#0f172a}.pill{display:inline-flex;padding:6px 10px;border-radius:999px;background:#dbeafe;color:#1d4ed8;font-size:12px;font-weight:800}.muted{color:var(--muted)}
-    .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}.day{border:1px solid var(--line);border-radius:16px;background:#f8fafc;min-height:320px;padding:12px}.day h4{margin:0 0 12px;font-size:14px}.slot{padding:10px;border-radius:12px;background:#fff;border:1px solid var(--line);margin-bottom:10px}.slot a{color:var(--brand2);text-decoration:none;font-weight:700}.slot .test{display:inline-flex;padding:2px 8px;border-radius:999px;background:#fee2e2;color:#b91c1c;font-size:11px;font-weight:800;margin-top:6px}
+    .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:12px}.day{border:1px solid var(--line);border-radius:16px;background:#f8fafc;min-height:320px;padding:12px}.day h4{margin:0 0 4px;font-size:14px}.day-count{font-size:11px;color:var(--muted);margin-bottom:10px}.slot{padding:10px;border-radius:12px;background:#fff;border:1px solid var(--line);margin-bottom:10px;border-left:4px solid var(--line)}.slot a{color:var(--brand2);text-decoration:none;font-weight:700}.slot .test{display:inline-flex;padding:2px 8px;border-radius:999px;background:#fee2e2;color:#b91c1c;font-size:11px;font-weight:800;margin-top:6px}.slot.confirmed{border-left-color:#16a34a;background:#f0fdf4}.slot.payment_submitted,.slot.cash_reserved{border-left-color:#d97706;background:#fffbeb}.slot.cancelled,.slot.failed{border-left-color:#dc2626;background:#fef2f2}.slot.completed{border-left-color:#2563eb;background:#eff6ff}.week-nav{display:flex;align-items:center;gap:10px}.week-nav button{padding:10px 16px;font-size:18px;line-height:1}.week-label{font-size:13px;color:var(--muted);font-weight:600;min-width:180px;text-align:center}
     .empty{padding:18px;border:1px dashed var(--line);border-radius:14px;color:var(--muted);background:#f8fafc;text-align:center}.error{padding:12px 14px;border-radius:12px;font-size:14px;margin-bottom:14px;display:none;background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
     @media(max-width:1100px){.calendar{grid-template-columns:1fr}}
   </style>
@@ -36,15 +36,27 @@
 
     <section class="card panel">
       <div class="filters">
-        <input id="weekStartInput" type="date">
+        <div class="week-nav">
+          <button id="prevWeek" type="button" class="secondary" title="Semaine précédente">‹</button>
+          <span id="weekLabel" class="week-label">—</span>
+          <button id="nextWeek" type="button" class="secondary" title="Semaine suivante">›</button>
+          <input id="weekStartInput" type="date" style="flex:1;min-width:140px">
+        </div>
         <input id="technicianInput" type="text" placeholder="Technicien">
-        <input id="statusInput" type="text" placeholder="Statut (optionnel)">
+        <select id="statusInput">
+          <option value="">Tous statuts</option>
+          <option value="payment_submitted">En attente paiement</option>
+          <option value="cash_reserved">Cash réservé</option>
+          <option value="confirmed">Confirmé</option>
+          <option value="completed">Terminé</option>
+          <option value="cancelled">Annulé</option>
+        </select>
         <select id="testInput">
           <option value="">Tous</option>
           <option value="false">Réels</option>
           <option value="true">Test</option>
         </select>
-        <button id="loadButton" type="button">Charger semaine</button>
+        <button id="loadButton" type="button">Charger</button>
       </div>
     </section>
 
@@ -60,9 +72,60 @@
     function fmtDate(value){ return value ? new Date(value).toLocaleDateString('fr-FR',{weekday:'short',day:'2-digit',month:'2-digit'}) : '—'; }
     function defaultWeekStart(){ const d=new Date(); const day=(d.getDay()+6)%7; d.setDate(d.getDate()-day); return d.toISOString().slice(0,10); }
     function plusDays(dateString, days){ const d=new Date(dateString+'T00:00:00'); d.setDate(d.getDate()+days); return d.toISOString().slice(0,10); }
+    function fmtShort(dateString){ return new Date(dateString+'T00:00:00').toLocaleDateString('fr-FR',{day:'2-digit',month:'short'}); }
+    function updateWeekLabel(start){ const end=plusDays(start,6); document.getElementById('weekLabel').textContent=fmtShort(start)+' – '+fmtShort(end); }
     async function ensureSession(){ const session=await request('/api/admin/auth?action=session',{method:'GET'}); document.getElementById('roleBadge').textContent=session.role||'manager'; }
-    async function loadCalendar(){ showError(''); const start=document.getElementById('weekStartInput').value||defaultWeekStart(); const end=plusDays(start,6); const params=new URLSearchParams({entity:'appointments',limit:'200',dateFrom:start,dateTo:end}); const tech=document.getElementById('technicianInput').value.trim(); const status=document.getElementById('statusInput').value.trim(); const isTest=document.getElementById('testInput').value; if(tech) params.set('technicianName',tech); if(status) params.set('status',status); if(isTest) params.set('isTest',isTest); const data=await request('/api/admin/records?'+params.toString(),{method:'GET'}); const rows=data.records||[]; const byDay={}; for(let i=0;i<7;i++){ const day=plusDays(start,i); byDay[day]=[]; } rows.forEach((row)=>{ if(byDay[row.appointment_date]) byDay[row.appointment_date].push(row); }); const wrap=document.getElementById('calendarWrap'); wrap.innerHTML='<div class="calendar">'+Object.keys(byDay).map((day)=>'<div class="day"><h4>'+fmtDate(day)+'</h4>'+(byDay[day].length?byDay[day].sort((a,b)=>String(a.appointment_time).localeCompare(String(b.appointment_time))).map((row)=>'<div class="slot"><a href="/admin/detail?entity=appointments&reference='+encodeURIComponent(row.reference)+'">'+row.reference+'</a><div><strong>'+row.service_name+'</strong></div><div>'+String(row.appointment_time||'').slice(0,5)+' · '+(row.technician_name||'—')+'</div><div class="muted">'+(row.customer_full_name||'—')+'</div>'+(row.is_test?'<div class="test">TEST</div>':'')+'</div>').join(''):'<div class="empty">Aucun rendez-vous</div>')+'</div>').join('')+'</div>'; }
+    async function loadCalendar(){
+      showError('');
+      const btn=document.getElementById('loadButton');
+      btn.disabled=true; btn.textContent='Chargement...';
+      try {
+        const start=document.getElementById('weekStartInput').value||defaultWeekStart();
+        updateWeekLabel(start);
+        const end=plusDays(start,6);
+        const params=new URLSearchParams({entity:'appointments',limit:'200',dateFrom:start,dateTo:end});
+        const tech=document.getElementById('technicianInput').value.trim();
+        const status=document.getElementById('statusInput').value;
+        const isTest=document.getElementById('testInput').value;
+        if(tech) params.set('technicianName',tech);
+        if(status) params.set('status',status);
+        if(isTest) params.set('isTest',isTest);
+        const data=await request('/api/admin/records?'+params.toString(),{method:'GET'});
+        const rows=data.records||[];
+        const byDay={};
+        for(let i=0;i<7;i++){ const day=plusDays(start,i); byDay[day]=[]; }
+        rows.forEach((r)=>{ if(byDay[r.appointment_date]) byDay[r.appointment_date].push(r); });
+        const wrap=document.getElementById('calendarWrap');
+        wrap.innerHTML='<div class="calendar">'+Object.keys(byDay).map((day)=>{
+          const rdvs=byDay[day].sort((a,b)=>String(a.appointment_time).localeCompare(String(b.appointment_time)));
+          const count=rdvs.length;
+          return '<div class="day">'
+            +'<h4>'+fmtDate(day)+'</h4>'
+            +'<div class="day-count">'+(count?count+' RDV':'—')+'</div>'
+            +(count?rdvs.map((r)=>'<div class="slot '+(r.status||'')+'">'
+              +'<a href="/admin/detail?entity=appointments&reference='+encodeURIComponent(r.reference)+'">'+r.reference+'</a>'
+              +'<div><strong>'+(r.service_name||'—')+'</strong></div>'
+              +'<div>'+String(r.appointment_time||'').slice(0,5)+' · '+(r.technician_name||'—')+'</div>'
+              +'<div class="muted">'+(r.customer_full_name||'—')+'</div>'
+              +(r.is_test?'<div class="test">TEST</div>':'')
+              +'</div>').join(''):'<div class="empty">Aucun rendez-vous</div>')
+            +'</div>';
+        }).join('')+'</div>';
+      } finally {
+        btn.disabled=false; btn.textContent='Charger';
+      }
+    }
     document.getElementById('loadButton').addEventListener('click',()=>loadCalendar().catch((e)=>showError(e.message||'Chargement impossible.')));
+    document.getElementById('prevWeek').addEventListener('click',()=>{
+      const inp=document.getElementById('weekStartInput');
+      inp.value=plusDays(inp.value||(defaultWeekStart()),-7);
+      loadCalendar().catch((e)=>showError(e.message||'Chargement impossible.'));
+    });
+    document.getElementById('nextWeek').addEventListener('click',()=>{
+      const inp=document.getElementById('weekStartInput');
+      inp.value=plusDays(inp.value||(defaultWeekStart()),7);
+      loadCalendar().catch((e)=>showError(e.message||'Chargement impossible.'));
+    });
     document.getElementById('weekStartInput').value=defaultWeekStart();
     ensureSession().then(loadCalendar).catch((e)=>showError(e.message||'Session invalide.'));
   </script>

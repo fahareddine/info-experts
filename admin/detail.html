@@ -567,48 +567,74 @@
       }
     });
 
+    const DESTRUCTIVE = ['cancel', 'reject'];
+    const CONFIRM_MESSAGES = {
+      'cancel': 'Confirmer l\'annulation ? Cette action est irréversible.',
+      'reject': 'Confirmer le rejet du paiement ? Cette action est irréversible.',
+      'fulfill': 'Confirmer la remise de la commande ?',
+      'complete': 'Confirmer que le rendez-vous est terminé ?',
+      'validate': 'Confirmer la validation ? Un email/SMS sera envoyé au client.',
+      'remind': 'Envoyer une relance au client ?'
+    };
+
+    function confirmAction(action) {
+      const msg = CONFIRM_MESSAGES[action];
+      if (!msg) return true;
+      if (DESTRUCTIVE.includes(action)) return window.confirm('⚠️ ' + msg);
+      return window.confirm(msg);
+    }
+
+    async function withButtonLoad(button, fn) {
+      const original = button.textContent;
+      button.disabled = true;
+      button.textContent = '⏳ En cours…';
+      try { await fn(); } finally { button.disabled = false; button.textContent = original; }
+    }
+
     document.getElementById('appointmentActionsPanel').addEventListener('click', async (event) => {
       const button = event.target.closest('button[data-appointment-action]');
       if (!button || !currentRecord) return;
+      const action = button.dataset.appointmentAction;
+      if (!confirmAction(action)) return;
 
       clearMessages();
-      button.disabled = true;
-      try {
-        await runAppointmentAction(button.dataset.appointmentAction);
-        await loadDetail();
-        clearNote();
-        showMessage(successBox,
-          button.dataset.appointmentAction === 'confirm' ? 'Rendez-vous confirmé.' :
-          button.dataset.appointmentAction === 'cancel' ? 'Rendez-vous annulé.' :
-          'Rendez-vous marqué comme terminé.'
-        );
-      } catch (error) {
-        showMessage(errorBox, error.message || 'Action impossible.');
-      } finally {
-        button.disabled = false;
-      }
+      await withButtonLoad(button, async () => {
+        try {
+          await runAppointmentAction(action);
+          await loadDetail();
+          clearNote();
+          showMessage(successBox,
+            action === 'confirm' ? 'Rendez-vous confirmé.' :
+            action === 'cancel' ? 'Rendez-vous annulé.' :
+            'Rendez-vous marqué comme terminé.'
+          );
+        } catch (error) {
+          showMessage(errorBox, error.message || 'Action impossible.');
+        }
+      });
     });
 
     document.getElementById('orderActionsPanel').addEventListener('click', async (event) => {
       const button = event.target.closest('button[data-order-action]');
       if (!button || !currentRecord) return;
+      const action = button.dataset.orderAction;
+      if (!confirmAction(action)) return;
 
       clearMessages();
-      button.disabled = true;
-      try {
-        await runOrderAction(button.dataset.orderAction);
-        await loadDetail();
-        clearNote();
-        showMessage(successBox,
-          button.dataset.orderAction === 'validate' ? 'Commande validée.' :
-          button.dataset.orderAction === 'cancel' ? 'Commande annulée.' :
-          'Commande marquée comme remise.'
-        );
-      } catch (error) {
-        showMessage(errorBox, error.message || 'Action impossible.');
-      } finally {
-        button.disabled = false;
-      }
+      await withButtonLoad(button, async () => {
+        try {
+          await runOrderAction(action);
+          await loadDetail();
+          clearNote();
+          showMessage(successBox,
+            action === 'validate' ? 'Commande validée.' :
+            action === 'cancel' ? 'Commande annulée.' :
+            'Commande marquée comme remise.'
+          );
+        } catch (error) {
+          showMessage(errorBox, error.message || 'Action impossible.');
+        }
+      });
     });
 
     document.getElementById('saveNoteButton').addEventListener('click', async () => {
@@ -644,23 +670,24 @@
     document.getElementById('paymentActionsPanel').addEventListener('click', async (event) => {
       const button = event.target.closest('button[data-payment-action]');
       if (!button || !currentRecord) return;
+      const action = button.dataset.paymentAction;
+      if (!confirmAction(action)) return;
 
       clearMessages();
-      button.disabled = true;
-      try {
-        await runPaymentAction(button.dataset.paymentAction);
-        await loadDetail();
-        clearNote();
-        showMessage(successBox,
-          button.dataset.paymentAction === 'validate' ? 'Paiement validé.' :
-          button.dataset.paymentAction === 'reject' ? 'Paiement rejeté.' :
-          'Relance envoyée.'
-        );
-      } catch (error) {
-        showMessage(errorBox, error.message || 'Action impossible.');
-      } finally {
-        button.disabled = false;
-      }
+      await withButtonLoad(button, async () => {
+        try {
+          await runPaymentAction(action);
+          await loadDetail();
+          clearNote();
+          showMessage(successBox,
+            action === 'validate' ? 'Paiement validé.' :
+            action === 'reject' ? 'Paiement rejeté.' :
+            'Relance envoyée.'
+          );
+        } catch (error) {
+          showMessage(errorBox, error.message || 'Action impossible.');
+        }
+      });
     });
 
     loadDetail().catch((error) => {
