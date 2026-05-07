@@ -477,12 +477,26 @@
 
     <!-- ══ BOUTIQUE ALKAMAR EMBED ════════════════════════════════════════ -->
     <iframe
-      src="https://alkamar-info.vercel.app"
+      id="boutique-iframe"
+      src="https://boutique.info-experts.fr"
       title="Boutique informatique Info Experts — Comores"
       style="width:100%;height:calc(100dvh - 56px - env(safe-area-inset-bottom, 0px));border:none;display:block"
-      loading="lazy"
+      loading="eager"
+      allow="payment"
       allowfullscreen>
     </iframe>
+
+    <!-- Relais postMessage : Stripe ouvre dans la page parente, pas dans l'iframe -->
+    <script>
+      window.addEventListener('message', function(e) {
+        // Accepter uniquement les messages provenant du domaine boutique
+        if (e.origin !== 'https://boutique.info-experts.fr') return;
+        var data = e.data;
+        if (data && data.type === 'stripe_redirect' && typeof data.url === 'string' && data.url.startsWith('https://checkout.stripe.com/')) {
+          window.location.href = data.url;
+        }
+      });
+    </script>
 
     <!-- ══ HERO ══════════════════════════════════════════════════════════ -->
     <!-- kept for SEO — hidden visually -->
@@ -907,7 +921,7 @@
 
             </div>
             <div style="text-align:center;margin-top:28px">
-                <a href="tel:002693775704" style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1e3a8a;padding:11px 24px;border-radius:10px;font-weight:700;font-size:0.87rem;text-decoration:none;margin-right:10px;transition:background .2s" onmouseover="this.style.background='#eff6ff'" onmouseout="this.style.background='#fff'">
+                <a href="tel:002697772722" style="display:inline-flex;align-items:center;gap:8px;background:#fff;color:#1e3a8a;padding:11px 24px;border-radius:10px;font-weight:700;font-size:0.87rem;text-decoration:none;margin-right:10px;transition:background .2s" onmouseover="this.style.background='#eff6ff'" onmouseout="this.style.background='#fff'">
                     <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.948V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                     Appeler le 377 57 04
                 </a>
@@ -925,7 +939,7 @@
     <footer class="bg-trust-blue-950 border-t border-trust-blue-900 py-6">
         <div class="max-w-4xl mx-auto px-6 text-center">
             <div class="flex flex-col sm:flex-row justify-center items-center mb-4">
-                <a href="tel:002693775704" class="text-white text-base font-semibold hover:text-trust-blue-400 transition py-2 px-6">📞 +269 377 57 04</a>
+                <a href="tel:002697772722" class="text-white text-base font-semibold hover:text-trust-blue-400 transition py-2 px-6">📞 +269 777 27 22</a>
                 <span class="text-trust-blue-600 hidden sm:inline px-2 text-lg">·</span>
                 <a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" class="text-white text-base font-semibold hover:text-trust-blue-400 transition py-2 px-6">💬 WhatsApp</a>
                 <a href="#" class="email-protect text-white text-base font-medium hover:text-trust-blue-400 transition py-2 px-6 hidden" data-u="contact" data-d="info-experts.fr">✉ contact@info-experts.fr</a>
@@ -966,9 +980,9 @@
             <div id="shop-num-huri" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:8px;border:1.5px solid #dbeafe;background:#fff;margin-bottom:5px;transition:.2s">
               <div style="display:flex;align-items:center;gap:7px">
                 <span style="font-size:10px;font-weight:700;color:#6b7280;min-width:68px">Huri Money</span>
-                <span id="shop-num-huri-val" style="font-size:14px;font-weight:800;color:#111827;letter-spacing:.02em">+269 377 57 04</span>
+                <span id="shop-num-huri-val" style="font-size:14px;font-weight:800;color:#111827;letter-spacing:.02em">+269 777 27 22</span>
               </div>
-              <button onclick="copyNumber('+269 377 57 04', this)" style="border:none;background:none;cursor:pointer;padding:3px 7px;border-radius:5px;font-size:12px;color:#9ca3af;font-family:inherit;transition:.15s" title="Copier">📋</button>
+              <button onclick="copyNumber('+269 777 27 22', this)" style="border:none;background:none;cursor:pointer;padding:3px 7px;border-radius:5px;font-size:12px;color:#9ca3af;font-family:inherit;transition:.15s" title="Copier">📋</button>
             </div>
             <div id="shop-num-mvola" style="display:flex;align-items:center;justify-content:space-between;padding:8px 10px;border-radius:8px;border:1.5px solid #dbeafe;background:#fff;transition:.2s">
               <div style="display:flex;align-items:center;gap:7px">
