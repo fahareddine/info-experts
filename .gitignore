@@ -4,3 +4,8 @@ package-lock.json
 .claude/
 
 .vercel
+
+# Performance reports (générés automatiquement)
+reports/*.json
+reports/*.md
+.lighthouseci/

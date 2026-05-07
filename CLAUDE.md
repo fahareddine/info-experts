@@ -222,3 +222,101 @@ npx playwright test
 - SEO intact : [OUI / NON]
 - Score 100% préservé : [OUI / compromis — détails]
 ```
+
+---
+
+## Workflow Performance Automatique
+
+### Description
+
+Système de surveillance et d'optimisation automatique des performances.
+Il couvre l'audit statique du code, les vérifications PageSpeed Insights
+et les rapports Lighthouse CI.
+
+### Fichiers du système
+
+| Fichier | Rôle |
+|---------|------|
+| `.github/workflows/performance-guard.yml` | CI GitHub Actions (Lighthouse CI + PageSpeed) |
+| `lighthouserc.json` | Config Lighthouse CI (URLs, seuils, stratégie) |
+| `performance-budget.json` | Budget ressources et timings |
+| `scripts/check-pagespeed.mjs` | Appel API PageSpeed Insights (mobile + desktop) |
+| `scripts/performance-audit.mjs` | Audit statique : images, HTML, CSS, vercel.json |
+| `scripts/auto-optimize-performance.mjs` | Boucle d'optimisation automatique (max 3 passes) |
+| `reports/` | Rapports générés (ignorés par git, sauf `.gitkeep`) |
+
+### Commandes disponibles
+
+```powershell
+# Audit statique complet (images, HTML, CSS, cache)
+npm run performance:audit
+
+# Vérification PageSpeed Insights (nécessite PAGESPEED_API_KEY)
+npm run performance:check
+
+# Auto-optimisation contrôlée (max 3 passes)
+npm run performance:auto
+
+# Lancer Lighthouse CI (nécessite lhci installé)
+npm run lighthouse
+```
+
+### Seuils de score
+
+| Métrique | Seuil erreur | Seuil warning |
+|----------|--------------|---------------|
+| Performance | < 90 (erreur CI) | — |
+| Accessibilité | — | < 90 |
+| Best Practices | — | < 90 |
+| SEO | — | < 90 |
+| LCP | > 2500 ms | — |
+| CLS | > 0.1 (erreur CI) | — |
+| TBT | > 300 ms | — |
+| FCP | > 2000 ms | — |
+| PageSpeed exit 1 | score < 80 | — |
+| PageSpeed warning | score 80-89 | — |
+
+### Corrections autorisées par auto-optimize
+
+- `decoding="sync"` → `decoding="async"` dans les HTML
+- `transition:all` → `transition:background-color .15s,color .15s,border-color .15s` dans style.css
+- Recompression images > 200 KB avec sharp
+- Création variantes WebP (q=80) et AVIF (q=65) pour images > 100 KB
+
+### Corrections INTERDITES par auto-optimize
+
+- Design, couleurs, textes visibles
+- Embed iframe boutique (src, allow, loading)
+- Stripe (postMessage, window.top.location.href)
+- SEO (balises meta, canonical, schema)
+- Cache-Control et headers vercel.json
+
+### Lancer manuellement (sans CI)
+
+```powershell
+# Audit + rapport
+cd C:\Users\defis\info-experts
+npm run performance:audit
+
+# Voir le rapport généré
+cat reports/performance-audit.md
+
+# Vérification PageSpeed (avec clé API)
+$env:PAGESPEED_API_KEY = "votre-clé"
+npm run performance:check
+
+# Voir le rapport PageSpeed
+cat reports/pagespeed-report.md
+```
+
+### CI GitHub Actions
+
+Le workflow `.github/workflows/performance-guard.yml` se déclenche :
+- À chaque push sur `main`
+- À chaque pull request vers `main`
+- Automatiquement chaque lundi à 03:00 UTC
+- Manuellement via `workflow_dispatch`
+
+Secrets requis dans GitHub :
+- `LHCI_GITHUB_APP_TOKEN` — pour afficher les résultats dans les PRs
+- `PAGESPEED_API_KEY` — optionnel, pour les vérifications PageSpeed
