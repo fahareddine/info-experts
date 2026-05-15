@@ -68,54 +68,76 @@
     @media(min-width:640px){.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}}
     @media(min-width:768px){.md\:flex{display:flex}.md\:hidden{display:none}}
     @media(min-width:1024px){.lg\:px-8{padding-left:2rem;padding-right:2rem}}
-    /* ── Carousel Hero ───────────────────────────────────────────────── */
-    .hero-carousel{position:relative;overflow:hidden;background:#1e3a8a;min-height:520px;height:85vh;max-height:760px}
+    /* ── Carousel Hero Premium ──────────────────────────────────────── */
+    .hero-carousel{position:relative;overflow:hidden;background:#172554;min-height:520px;height:85vh;max-height:760px}
     @media(max-width:640px){.hero-carousel{height:100svh;max-height:640px;min-height:500px}}
     .carousel-track{display:flex;height:100%;transition:transform .65s cubic-bezier(.25,.46,.45,.94);will-change:transform}
     @media(prefers-reduced-motion:reduce){.carousel-track{transition:none!important}}
     .carousel-slide{flex:0 0 100%;width:100%;position:relative;overflow:hidden}
     .carousel-bg{position:absolute;inset:0}
-    .carousel-bg img{width:100%;height:100%;object-fit:cover;object-position:center;aspect-ratio:3/2;min-height:350px}
+    .carousel-bg img{width:100%;height:100%;object-fit:cover;object-position:center right;aspect-ratio:3/2;min-height:350px}
     .product-card img,.category-card img{aspect-ratio:4/3}
-    /* Overlay identique à bg-trust-blue-900/90 utilisé sur le hero actuel */
-    .carousel-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(30,58,138,.95) 0%,rgba(30,58,138,.82) 55%,rgba(23,37,84,.93) 100%)}
-    .carousel-content{position:relative;z-index:10;max-width:80rem;margin:0 auto;padding:0 1.5rem;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
-    /* Animations d'entrée par slide active */
-    .carousel-tag{display:inline-block;background:rgba(96,165,250,.15);border:1px solid rgba(96,165,250,.35);color:#93c5fd;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.35rem 1rem;border-radius:9999px;margin-bottom:1.25rem;opacity:0;transition:opacity .5s .1s}
-    .carousel-slide.is-active .carousel-tag{opacity:1}
-    .carousel-heading{font-size:clamp(1.9rem,4.5vw,3.5rem);font-weight:900;line-height:1.1;color:#fff;margin-bottom:1.25rem;opacity:0;transition:opacity .55s .2s}
-    .carousel-slide.is-active .carousel-heading{opacity:1}
-    .carousel-heading span{color:#60a5fa}
-    .carousel-sub{font-size:1.075rem;color:#dbeafe;max-width:40rem;margin:0 auto 2rem;line-height:1.75;opacity:0;transition:opacity .55s .3s}
-    .carousel-slide.is-active .carousel-sub{opacity:1}
-    .carousel-actions{display:flex;flex-wrap:wrap;gap:1rem;justify-content:center;opacity:0;transition:opacity .5s .4s}
-    .carousel-slide.is-active .carousel-actions{opacity:1}
-    @media(prefers-reduced-motion:reduce){.carousel-tag,.carousel-heading,.carousel-sub,.carousel-actions{transition:opacity .2s!important}}
+    /* Overlay split: opaque gauche → transparent droite (image visible) */
+    .carousel-overlay{position:absolute;inset:0;background:linear-gradient(100deg,rgba(23,37,84,.99) 0%,rgba(23,37,84,.97) 35%,rgba(30,58,138,.82) 58%,rgba(23,37,84,.18) 100%)}
+    @media(max-width:768px){.carousel-overlay{background:linear-gradient(165deg,rgba(23,37,84,.96) 0%,rgba(30,58,138,.9) 60%,rgba(23,37,84,.96) 100%)}}
+    /* Ligne décorative verticale */
+    .carousel-deco{position:absolute;left:5.5%;top:12%;height:64%;width:2px;background:linear-gradient(to bottom,transparent 0%,#60a5fa 30%,#60a5fa 70%,transparent 100%);opacity:0;transition:opacity .6s .08s;z-index:8}
+    .carousel-slide.is-active .carousel-deco{opacity:.45}
+    @media(max-width:768px){.carousel-deco{display:none}}
+    /* Content — gauche aligné desktop, centré mobile */
+    .carousel-content{position:relative;z-index:10;width:100%;height:100%;display:flex;flex-direction:column;align-items:flex-start;justify-content:center;padding:0 7% 0 7%}
+    @media(min-width:769px){.carousel-content{max-width:56%;padding-left:8%}}
+    @media(max-width:768px){.carousel-content{align-items:center;text-align:center;max-width:100%;padding:0 1.5rem}}
+    /* Tag */
+    .carousel-tag{display:inline-flex;align-items:center;gap:.4rem;background:rgba(96,165,250,.1);border:1px solid rgba(96,165,250,.28);color:#93c5fd;font-size:.68rem;font-weight:700;letter-spacing:.13em;text-transform:uppercase;padding:.32rem .9rem;border-radius:9999px;margin-bottom:1rem;opacity:0;transform:translateY(14px);transition:opacity .45s .08s,transform .45s .08s cubic-bezier(.2,.8,.4,1)}
+    .carousel-tag::before{content:'';width:.42rem;height:.42rem;border-radius:50%;background:#60a5fa;flex-shrink:0;animation:pulse-dot 2s ease infinite}
+    @keyframes pulse-dot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.6;transform:scale(.8)}}
+    .carousel-slide.is-active .carousel-tag{opacity:1;transform:translateY(0)}
+    /* Heading */
+    .carousel-heading{font-size:clamp(2rem,4.2vw,3.5rem);font-weight:900;line-height:1.08;letter-spacing:-.025em;color:#fff;margin-bottom:1rem;opacity:0;transform:translateY(20px);transition:opacity .5s .18s,transform .5s .18s cubic-bezier(.2,.8,.4,1)}
+    .carousel-slide.is-active .carousel-heading{opacity:1;transform:translateY(0)}
+    .carousel-heading span{color:#60a5fa;display:block}
+    /* Sous-titre */
+    .carousel-sub{font-size:1.05rem;color:#bfdbfe;max-width:32rem;margin:0 0 1.75rem;line-height:1.72;opacity:0;transform:translateY(18px);transition:opacity .5s .28s,transform .5s .28s cubic-bezier(.2,.8,.4,1)}
+    @media(max-width:768px){.carousel-sub{margin:0 auto 1.75rem}}
+    .carousel-slide.is-active .carousel-sub{opacity:1;transform:translateY(0)}
+    /* Actions */
+    .carousel-actions{display:flex;flex-wrap:wrap;gap:.875rem;justify-content:flex-start;opacity:0;transform:translateY(14px);transition:opacity .45s .38s,transform .45s .38s cubic-bezier(.2,.8,.4,1)}
+    @media(max-width:768px){.carousel-actions{justify-content:center}}
+    .carousel-slide.is-active .carousel-actions{opacity:1;transform:translateY(0)}
+    /* Stats */
+    .carousel-stats{display:flex;gap:1.75rem;margin-top:1.875rem;opacity:0;transform:translateY(12px);transition:opacity .45s .48s,transform .45s .48s cubic-bezier(.2,.8,.4,1)}
+    .carousel-slide.is-active .carousel-stats{opacity:1;transform:translateY(0)}
+    .carousel-stat{border-left:2px solid rgba(96,165,250,.28);padding-left:.875rem}
+    .carousel-stat strong{display:block;font-size:1.45rem;font-weight:900;color:#60a5fa;line-height:1.1;letter-spacing:-.02em}
+    .carousel-stat span{font-size:.65rem;color:#93c5fd;text-transform:uppercase;letter-spacing:.09em;font-weight:600}
+    @media(max-width:768px){.carousel-stats{display:none}}
+    @media(prefers-reduced-motion:reduce){.carousel-tag,.carousel-heading,.carousel-sub,.carousel-actions,.carousel-stats,.carousel-deco{transition:opacity .2s!important;transform:none!important}}
     /* Boutons CTA */
-    .btn-hero-primary{display:inline-block;background:#2563eb;border:1px solid #3b82f6;color:#fff;font-weight:700;font-size:1rem;padding:.875rem 2rem;border-radius:9999px;text-decoration:none;transition:background .25s,transform .2s}
-    .btn-hero-primary:hover,.btn-hero-primary:focus-visible{background:#3b82f6;transform:translateY(-2px);outline:2px solid #60a5fa;outline-offset:3px}
-    .btn-hero-secondary{display:inline-block;background:transparent;border:1.5px solid rgba(255,255,255,.45);color:#fff;font-weight:700;font-size:1rem;padding:.875rem 2rem;border-radius:9999px;text-decoration:none;transition:background .25s,transform .2s}
-    .btn-hero-secondary:hover,.btn-hero-secondary:focus-visible{background:rgba(255,255,255,.1);transform:translateY(-2px);outline:2px solid rgba(255,255,255,.5);outline-offset:3px}
+    .btn-hero-primary{display:inline-flex;align-items:center;gap:.5rem;background:#2563eb;border:1px solid #3b82f6;color:#fff;font-weight:700;font-size:.9375rem;padding:.8rem 1.75rem;border-radius:9999px;text-decoration:none;transition:background .2s,transform .18s,box-shadow .2s;box-shadow:0 4px 20px rgba(37,99,235,.3)}
+    .btn-hero-primary:hover,.btn-hero-primary:focus-visible{background:#3b82f6;transform:translateY(-2px);box-shadow:0 8px 28px rgba(59,130,246,.4);outline:2px solid #60a5fa;outline-offset:3px}
+    .btn-hero-secondary{display:inline-flex;align-items:center;gap:.5rem;background:rgba(255,255,255,.07);border:1.5px solid rgba(255,255,255,.32);color:#fff;font-weight:700;font-size:.9375rem;padding:.8rem 1.75rem;border-radius:9999px;text-decoration:none;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .2s,transform .18s}
+    .btn-hero-secondary:hover,.btn-hero-secondary:focus-visible{background:rgba(255,255,255,.13);transform:translateY(-2px);outline:2px solid rgba(255,255,255,.45);outline-offset:3px}
     /* Barre de progression */
-    .carousel-progressbar{position:absolute;bottom:0;left:0;height:3px;background:#60a5fa;width:100%;transform:scaleX(0);transform-origin:left center;z-index:25;transition:none}
+    .carousel-progressbar{position:absolute;bottom:0;left:0;height:2px;background:linear-gradient(to right,#60a5fa,#3b82f6);width:100%;transform:scaleX(0);transform-origin:left center;z-index:25;transition:none}
     /* Flèches */
-    .carousel-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:20;background:rgba(30,58,138,.5);border:1px solid rgba(96,165,250,.25);color:#fff;width:3rem;height:3rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .25s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-    .carousel-arrow:hover,.carousel-arrow:focus-visible{background:rgba(30,58,138,.9);outline:2px solid #60a5fa;outline-offset:2px}
+    .carousel-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:20;background:rgba(23,37,84,.45);border:1px solid rgba(96,165,250,.18);color:#fff;width:3rem;height:3rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .2s;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px)}
+    .carousel-arrow:hover,.carousel-arrow:focus-visible{background:rgba(23,37,84,.95);outline:2px solid #60a5fa;outline-offset:2px}
     .carousel-prev{left:1.25rem}.carousel-next{right:1.25rem}
-    /* Bouton pause/play */
-    .carousel-playpause{position:absolute;bottom:1.5rem;right:1.25rem;z-index:25;background:rgba(30,58,138,.5);border:1px solid rgba(96,165,250,.25);color:#fff;width:2.25rem;height:2.25rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:background .2s;opacity:0;pointer-events:none}
+    /* Pause/play */
+    .carousel-playpause{position:absolute;bottom:1.5rem;right:1.25rem;z-index:25;background:rgba(23,37,84,.45);border:1px solid rgba(96,165,250,.18);color:#fff;width:2.25rem;height:2.25rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);transition:background .2s;opacity:0;pointer-events:none}
     .hero-carousel:hover .carousel-playpause,.hero-carousel:focus-within .carousel-playpause{opacity:1;pointer-events:auto}
-    .carousel-playpause:hover,.carousel-playpause:focus-visible{background:rgba(30,58,138,.9);outline:2px solid #60a5fa;outline-offset:2px}
-    /* Icône selon état */
+    .carousel-playpause:hover,.carousel-playpause:focus-visible{background:rgba(23,37,84,.95);outline:2px solid #60a5fa;outline-offset:2px}
     .icon-pause,.icon-play{display:block}
     .hero-carousel[data-paused] .icon-pause{display:none}
     .icon-play{display:none}
     .hero-carousel[data-paused] .icon-play{display:block}
-    /* Dots */
-    .carousel-dots{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);display:flex;gap:0;z-index:20;align-items:center}
+    /* Dots — alignés à gauche sur desktop */
+    .carousel-dots{position:absolute;bottom:1.375rem;left:8%;transform:none;display:flex;gap:0;z-index:20;align-items:center}
+    @media(max-width:768px){.carousel-dots{left:50%;transform:translateX(-50%)}}
     .carousel-dot{min-width:44px;min-height:44px;border-radius:9999px;background:transparent;border:none;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
-    .carousel-dot::before{content:'';height:.5rem;width:.5rem;border-radius:9999px;background:rgba(255,255,255,.35);flex-shrink:0;transition:background .3s,width .35s cubic-bezier(.4,0,.2,1)}
-    .carousel-dot.is-active::before{background:#60a5fa;width:2rem}
+    .carousel-dot::before{content:'';height:.375rem;width:.375rem;border-radius:9999px;background:rgba(255,255,255,.28);flex-shrink:0;transition:background .3s,width .35s cubic-bezier(.4,0,.2,1)}
+    .carousel-dot.is-active::before{background:#60a5fa;width:1.75rem}
     .carousel-dot:focus-visible{outline:2px solid #60a5fa;outline-offset:3px;border-radius:4px}
     @media(max-width:479px){.carousel-arrow{width:2.5rem;height:2.5rem}.carousel-prev{left:.75rem}.carousel-next{right:.75rem}}
     </style>
@@ -348,18 +370,27 @@
                     <img src="/carousel-1-sm.webp"
                          srcset="/carousel-1-sm.webp 640w, /carousel-1-md.webp 1024w, /carousel-1-lg.webp 1280w"
                          sizes="100vw"
-                         alt="Matériel informatique disponible chez Info Experts à Moroni, Comores"
+                         alt="Technicienne informatique chez Info Experts à Moroni, Comores"
                          width="640" height="427"
                          loading="eager" fetchpriority="high">
                     <div class="carousel-overlay"></div>
                 </div>
+                <div class="carousel-deco" aria-hidden="true"></div>
                 <div class="carousel-content">
                     <span class="carousel-tag">Boutique Informatique</span>
-                    <h1 class="carousel-heading">Matériel informatique<br><span>en stock à Moroni</span></h1>
-                    <p class="carousel-sub">PC, laptops, accessoires réseau et composants — sélectionnés pour tenir dans le temps. Disponibles en stock, retrait à Moroni ou livraison dans tout l'archipel.</p>
+                    <h1 class="carousel-heading">Matériel informatique<span>en stock à Moroni</span></h1>
+                    <p class="carousel-sub">PC, laptops, accessoires réseau et composants — sélectionnés pour tenir dans le temps. Retrait à Moroni ou livraison dans tout l'archipel.</p>
                     <div class="carousel-actions">
-                        <a href="boutique.html" class="btn-hero-primary">Voir la Boutique</a>
+                        <a href="boutique.html" class="btn-hero-primary">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+                            Voir la Boutique
+                        </a>
                         <a href="#formulaire" class="btn-hero-secondary">Nous contacter</a>
+                    </div>
+                    <div class="carousel-stats" aria-hidden="true">
+                        <div class="carousel-stat"><strong>10+</strong><span>ans d'expérience</span></div>
+                        <div class="carousel-stat"><strong>48h</strong><span>réponse garantie</span></div>
+                        <div class="carousel-stat"><strong>500+</strong><span>clients satisfaits</span></div>
                     </div>
                 </div>
             </div>
@@ -375,13 +406,19 @@
                          width="640" height="427" loading="lazy">
                     <div class="carousel-overlay"></div>
                 </div>
+                <div class="carousel-deco" aria-hidden="true"></div>
                 <div class="carousel-content">
                     <span class="carousel-tag">Maintenance &amp; Réparation</span>
-                    <p class="carousel-heading">Dépannage et réparation<br><span>sous 24 h</span></p>
+                    <p class="carousel-heading">Dépannage et réparation<span>sous 24 h</span></p>
                     <p class="carousel-sub">Votre ordinateur est en panne ? Nous diagnostiquons, réparons et rendons votre matériel opérationnel. Sans jargon, sans mauvaises surprises.</p>
                     <div class="carousel-actions">
                         <a href="services.html" class="btn-hero-primary">Nos Services</a>
                         <a href="tel:+2697772722" class="btn-hero-secondary">Appeler maintenant</a>
+                    </div>
+                    <div class="carousel-stats" aria-hidden="true">
+                        <div class="carousel-stat"><strong>10+</strong><span>ans d'expérience</span></div>
+                        <div class="carousel-stat"><strong>48h</strong><span>réponse garantie</span></div>
+                        <div class="carousel-stat"><strong>500+</strong><span>clients satisfaits</span></div>
                     </div>
                 </div>
             </div>
@@ -397,13 +434,19 @@
                          width="640" height="427" loading="lazy">
                     <div class="carousel-overlay"></div>
                 </div>
+                <div class="carousel-deco" aria-hidden="true"></div>
                 <div class="carousel-content">
                     <span class="carousel-tag">Création Web</span>
-                    <p class="carousel-heading">Votre site web<br><span>visible et professionnel</span></p>
-                    <p class="carousel-sub">Votre entreprise mérite une présence en ligne sérieuse. Nous concevons des sites clairs, rapides et trouvables sur Google — de A à Z, sans vous imposer la technique.</p>
+                    <p class="carousel-heading">Votre site web<span>visible et professionnel</span></p>
+                    <p class="carousel-sub">Votre entreprise mérite une présence en ligne sérieuse. Sites clairs, rapides et trouvables sur Google — de A à Z, sans vous imposer la technique.</p>
                     <div class="carousel-actions">
                         <a href="services.html" class="btn-hero-primary">Découvrir nos offres</a>
                         <a href="#formulaire" class="btn-hero-secondary">Demander un devis</a>
+                    </div>
+                    <div class="carousel-stats" aria-hidden="true">
+                        <div class="carousel-stat"><strong>10+</strong><span>ans d'expérience</span></div>
+                        <div class="carousel-stat"><strong>48h</strong><span>réponse garantie</span></div>
+                        <div class="carousel-stat"><strong>500+</strong><span>clients satisfaits</span></div>
                     </div>
                 </div>
             </div>
@@ -415,17 +458,23 @@
                          data-srcset="/carousel-4-sm.webp 640w, /carousel-4-md.webp 1024w, /carousel-4-lg.webp 1280w"
                          data-sizes="100vw"
                          src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
-                         alt="Conseil informatique et stratégie numérique pour entreprises aux Comores"
+                         alt="Technicien conseil informatique aux Comores"
                          width="640" height="427" loading="lazy">
                     <div class="carousel-overlay"></div>
                 </div>
+                <div class="carousel-deco" aria-hidden="true"></div>
                 <div class="carousel-content">
                     <span class="carousel-tag">Conseil Informatique</span>
-                    <p class="carousel-heading">Un partenaire<br><span>de confiance</span></p>
+                    <p class="carousel-heading">Un partenaire<span>de confiance</span></p>
                     <p class="carousel-sub">Vous avez un projet ou un parc informatique à structurer ? Nous vous aidons à faire les bons choix, adaptés à votre budget et à votre réalité locale.</p>
                     <div class="carousel-actions">
                         <a href="services.html" class="btn-hero-primary">Nos Services</a>
                         <a href="booking.html" class="btn-hero-secondary">Prendre rendez-vous</a>
+                    </div>
+                    <div class="carousel-stats" aria-hidden="true">
+                        <div class="carousel-stat"><strong>10+</strong><span>ans d'expérience</span></div>
+                        <div class="carousel-stat"><strong>48h</strong><span>réponse garantie</span></div>
+                        <div class="carousel-stat"><strong>500+</strong><span>clients satisfaits</span></div>
                     </div>
                 </div>
             </div>
@@ -437,17 +486,23 @@
                          data-srcset="/carousel-5-sm.webp 640w, /carousel-5-md.webp 1024w, /carousel-5-lg.webp 1280w"
                          data-sizes="100vw"
                          src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
-                         alt="Installation réseau et infrastructure informatique aux Comores"
+                         alt="Technicien réseau et infrastructure informatique aux Comores"
                          width="640" height="427" loading="lazy">
                     <div class="carousel-overlay"></div>
                 </div>
+                <div class="carousel-deco" aria-hidden="true"></div>
                 <div class="carousel-content">
                     <span class="carousel-tag">Réseau &amp; Infrastructure</span>
-                    <p class="carousel-heading">Réseau fiable<br><span>pour votre entreprise</span></p>
-                    <p class="carousel-sub">Installation Wi-Fi, câblage réseau, switches et routeurs — nous concevons et déployons votre infrastructure réseau pour une connexion stable et sécurisée.</p>
+                    <p class="carousel-heading">Réseau fiable<span>pour votre entreprise</span></p>
+                    <p class="carousel-sub">Wi-Fi, câblage réseau, switches et routeurs — nous concevons et déployons votre infrastructure réseau pour une connexion stable et sécurisée.</p>
                     <div class="carousel-actions">
                         <a href="services.html" class="btn-hero-primary">Voir nos offres réseau</a>
                         <a href="booking.html" class="btn-hero-secondary">Prendre rendez-vous</a>
+                    </div>
+                    <div class="carousel-stats" aria-hidden="true">
+                        <div class="carousel-stat"><strong>10+</strong><span>ans d'expérience</span></div>
+                        <div class="carousel-stat"><strong>48h</strong><span>réponse garantie</span></div>
+                        <div class="carousel-stat"><strong>500+</strong><span>clients satisfaits</span></div>
                     </div>
                 </div>
             </div>
@@ -459,17 +514,23 @@
                          data-srcset="/carousel-6-sm.webp 640w, /carousel-6-md.webp 1024w, /carousel-6-lg.webp 1280w"
                          data-sizes="100vw"
                          src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs="
-                         alt="Formation informatique pour particuliers et entreprises aux Comores"
+                         alt="Formatrice informatique aux Comores"
                          width="640" height="427" loading="lazy">
                     <div class="carousel-overlay"></div>
                 </div>
+                <div class="carousel-deco" aria-hidden="true"></div>
                 <div class="carousel-content">
                     <span class="carousel-tag">Formation &amp; Accompagnement</span>
-                    <p class="carousel-heading">Montez en compétence<br><span>avec nos formateurs</span></p>
-                    <p class="carousel-sub">Bureautique, gestion informatique, outils numériques — nos formations pratiques s'adaptent à votre niveau et à votre rythme, en présentiel à Moroni.</p>
+                    <p class="carousel-heading">Montez en compétence<span>avec nos formateurs</span></p>
+                    <p class="carousel-sub">Bureautique, outils numériques, gestion IT — formations pratiques adaptées à votre niveau et à votre rythme, en présentiel à Moroni.</p>
                     <div class="carousel-actions">
                         <a href="services.html" class="btn-hero-primary">Découvrir les formations</a>
                         <a href="#formulaire" class="btn-hero-secondary">Nous contacter</a>
+                    </div>
+                    <div class="carousel-stats" aria-hidden="true">
+                        <div class="carousel-stat"><strong>10+</strong><span>ans d'expérience</span></div>
+                        <div class="carousel-stat"><strong>48h</strong><span>réponse garantie</span></div>
+                        <div class="carousel-stat"><strong>500+</strong><span>clients satisfaits</span></div>
                     </div>
                 </div>
             </div>
