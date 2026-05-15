@@ -99,6 +99,15 @@
     .carousel-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:20;background:rgba(30,58,138,.5);border:1px solid rgba(96,165,250,.25);color:#fff;width:3rem;height:3rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:background .25s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
     .carousel-arrow:hover,.carousel-arrow:focus-visible{background:rgba(30,58,138,.9);outline:2px solid #60a5fa;outline-offset:2px}
     .carousel-prev{left:1.25rem}.carousel-next{right:1.25rem}
+    /* Bouton pause/play */
+    .carousel-playpause{position:absolute;bottom:1.5rem;right:1.25rem;z-index:25;background:rgba(30,58,138,.5);border:1px solid rgba(96,165,250,.25);color:#fff;width:2.25rem;height:2.25rem;border-radius:9999px;display:flex;align-items:center;justify-content:center;cursor:pointer;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);transition:background .2s;opacity:0;pointer-events:none}
+    .hero-carousel:hover .carousel-playpause,.hero-carousel:focus-within .carousel-playpause{opacity:1;pointer-events:auto}
+    .carousel-playpause:hover,.carousel-playpause:focus-visible{background:rgba(30,58,138,.9);outline:2px solid #60a5fa;outline-offset:2px}
+    /* Icône selon état */
+    .icon-pause,.icon-play{display:block}
+    .hero-carousel[data-paused] .icon-pause{display:none}
+    .icon-play{display:none}
+    .hero-carousel[data-paused] .icon-play{display:block}
     /* Dots */
     .carousel-dots{position:absolute;bottom:1rem;left:50%;transform:translateX(-50%);display:flex;gap:0;z-index:20;align-items:center}
     .carousel-dot{min-width:44px;min-height:44px;border-radius:9999px;background:transparent;border:none;padding:0;cursor:pointer;display:flex;align-items:center;justify-content:center}
@@ -482,6 +491,12 @@
             <button class="carousel-dot"            role="tab" aria-selected="false" aria-label="Diapositive 5 sur 6"></button>
             <button class="carousel-dot"            role="tab" aria-selected="false" aria-label="Diapositive 6 sur 6"></button>
         </div>
+
+        <!-- Bouton pause/play -->
+        <button class="carousel-playpause" id="carousel-playpause" aria-label="Mettre en pause le diaporama">
+            <svg class="icon-pause" width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
+            <svg class="icon-play"  width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><polygon points="5,3 19,12 5,21"/></svg>
+        </button>
 
         <!-- Barre de progression (durée de la slide active) -->
         <div class="carousel-progressbar" id="carousel-progressbar" aria-hidden="true"></div>
@@ -932,7 +947,7 @@
         var total   = slides.length;
         var current = 0;
         var timer   = null;
-        var DELAY   = 5500;
+        var DELAY   = 7500;
         var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
         /* Charge l'image d'une slide si elle attend encore (data-src) */
@@ -980,12 +995,19 @@
 
         function start() {
             if (reduced) return;
+            if (section) section.removeAttribute('data-paused');
             timer = setInterval(function () { activate(current + 1); }, DELAY);
             resetProgress();
         }
         function stop() {
             clearInterval(timer); timer = null;
-            if (bar) bar.style.transition = 'none';
+            if (bar) {
+                /* Geler la barre à sa position courante (pas de saut visuel) */
+                var computed = window.getComputedStyle(bar).transform;
+                bar.style.transition = 'none';
+                bar.style.transform = computed;
+            }
+            if (section) section.setAttribute('data-paused', 'true');
         }
 
         var btnPrev = document.querySelector('.carousel-prev');
@@ -995,15 +1017,27 @@
         dots.forEach(function (d, i) { d.addEventListener('click', function () { stop(); activate(i); start(); }); });
 
         var section = document.querySelector('.hero-carousel');
+        var manualPause = false;
         if (section) {
             section.addEventListener('keydown', function (e) {
-                if (e.key === 'ArrowLeft')  { stop(); activate(current - 1); start(); }
-                if (e.key === 'ArrowRight') { stop(); activate(current + 1); start(); }
+                if (e.key === 'ArrowLeft')  { stop(); activate(current - 1); if (!manualPause) start(); }
+                if (e.key === 'ArrowRight') { stop(); activate(current + 1); if (!manualPause) start(); }
             });
-            section.addEventListener('mouseenter', stop);
-            section.addEventListener('mouseleave', start);
-            section.addEventListener('focusin',  stop);
-            section.addEventListener('focusout', start);
+            section.addEventListener('mouseenter', function () { if (!manualPause) stop(); });
+            section.addEventListener('mouseleave', function () { if (!manualPause) start(); });
+            section.addEventListener('focusin',  function () { if (!manualPause) stop(); });
+            section.addEventListener('focusout', function () { if (!manualPause) start(); });
+        }
+
+        /* Bouton pause/play manuel */
+        var btnPP = document.getElementById('carousel-playpause');
+        if (btnPP) {
+            btnPP.addEventListener('click', function () {
+                manualPause = !manualPause;
+                btnPP.setAttribute('aria-label', manualPause ? 'Reprendre le diaporama' : 'Mettre en pause le diaporama');
+                if (manualPause) { stop(); }
+                else { start(); }
+            });
         }
 
         /* Pré-charge la slide 2 seulement après que l'image LCP (slide 1) est chargée
