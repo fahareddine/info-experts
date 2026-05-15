@@ -225,6 +225,95 @@ npx playwright test
 
 ---
 
+## Backend & API
+
+### Structure API (`/api/`)
+
+```
+api/
+├── admin/
+│   ├── accounting.js       # Comptabilité / revenus
+│   ├── actions.js          # Actions admin (confirmer, annuler, etc.)
+│   ├── auth.js             # Authentification admin
+│   ├── billing.js          # Facturation
+│   ├── dashboard.js        # Stats dashboard
+│   ├── detail.js           # Détail rendez-vous
+│   ├── export.js           # Export CSV/PDF
+│   ├── records.js          # Historique
+│   ├── timeline-export.js  # Export planning
+│   └── payment-reminders.js # Rappels paiement
+├── jobs/                   # Tâches cron Vercel
+├── order.js                # Création commande
+└── payment.js              # Traitement paiement Mobile Money
+```
+
+### Conventions API
+
+- Node.js ES Modules (`export default`)
+- Auth via `ADMIN_PASSWORD` (header ou session)
+- Rate limiting via `RATE_LIMIT_SECRET`
+- Emails via Resend (`RESEND_API_KEY`)
+- Toujours retourner JSON structuré
+- Valider les entrées — ne jamais faire confiance au client
+
+---
+
+## Base de données Supabase
+
+- **Projet ref** : `hochavewlwbmfhxsigzn`
+- **URL** : `https://hochavewlwbmfhxsigzn.supabase.co`
+- **Connexion DB** : pooler `aws-1-eu-west-2.pooler.supabase.com:5432` (le direct db.REF est bloqué réseau)
+
+### Tables principales
+
+| Table | Description |
+|-------|-------------|
+| `appointments` | Rendez-vous clients (référence, statut, paiement, technicien) |
+| Voir `supabase/schema.sql` | Schéma complet |
+
+### Migrations
+
+```
+supabase/migrations/
+├── 002_appointments_completed.sql
+├── 003_admin_events_and_order_statuses.sql
+├── 004_admin_upgrade.sql
+└── 005_customer_interactions.sql
+```
+
+**Règle** : Toujours créer une nouvelle migration — ne jamais modifier une migration existante.
+
+---
+
+## Variables d'environnement
+
+| Variable | Usage |
+|----------|-------|
+| `SUPABASE_URL` | URL API Supabase |
+| `SUPABASE_SERVICE_ROLE_KEY` | Accès admin DB (server-side uniquement) |
+| `SUPABASE_DB_URL` | Connexion PostgreSQL directe (pg_dump, pooler) |
+| `RESEND_API_KEY` | Envoi emails (confirmations, rappels) |
+| `ADMIN_PASSWORD` | Mot de passe panel admin |
+| `ADMIN_SESSION_SECRET` | Secret sessions admin |
+| `ADMIN_VIEWER_PASSWORD` | Accès lecture seule admin |
+| `EMAIL_FROM` | Adresse expéditeur (`noreply@info-experts.fr`) |
+| `RATE_LIMIT_SECRET` | Secret rate limiting API |
+
+**Règle** : Ne jamais exposer `SUPABASE_SERVICE_ROLE_KEY` côté client.
+
+---
+
+## Système de backup (actif depuis 2026-05-15)
+
+Voir `backup-system/README.md` pour le détail complet.
+
+- Snapshot quotidien à 03h00 UTC → GitHub + Drive + B2
+- Snapshot avant chaque push sur `main`
+- DB Supabase chiffrée GPG AES256
+- Repo backup : `fahareddine/info-experts-backups`
+
+---
+
 ## Workflow Performance Automatique
 
 ### Description
