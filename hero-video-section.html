@@ -1,0 +1,127 @@
+<!-- ═══════════════════════════════════════════════════════════════════
+     HERO VIDEO — Info Experts
+     Remplace la section <section id="accueil" class="hero-carousel"...>
+     dans index.html si tu veux passer à la vidéo background.
+     Sinon intégrer tel quel comme section alternative.
+════════════════════════════════════════════════════════════════════ -->
+
+<!-- PRELOAD — uniquement sur desktop (économie data mobile) -->
+<link rel="preload" as="image" href="/hero-poster.jpg" media="(max-width: 767px)">
+
+<section
+  id="accueil"
+  aria-label="Présentation des services Info Experts"
+  class="relative overflow-hidden bg-[#172554]"
+  style="min-height:520px;height:85vh;max-height:760px">
+
+  <!-- ── Vidéo background (desktop uniquement) ──────────────────── -->
+  <div class="absolute inset-0 hidden md:block" aria-hidden="true">
+    <video
+      autoplay
+      loop
+      muted
+      playsinline
+      preload="none"
+      poster="/hero-poster.jpg"
+      class="w-full h-full object-cover"
+      aria-hidden="true"
+      tabindex="-1">
+      <source src="/hero-video.webm" type="video/webm">
+      <source src="/hero-video.mp4"  type="video/mp4">
+    </video>
+  </div>
+
+  <!-- ── Image statique fallback mobile ─────────────────────────── -->
+  <div class="absolute inset-0 md:hidden" aria-hidden="true">
+    <img
+      src="/hero-poster.jpg"
+      alt=""
+      width="768" height="520"
+      class="w-full h-full object-cover object-center"
+      loading="eager"
+      fetchpriority="high"
+      decoding="auto">
+  </div>
+
+  <!-- ── Overlay gradient lisibilité ───────────────────────────── -->
+  <div
+    class="absolute inset-0"
+    style="background:linear-gradient(135deg,rgba(23,37,84,.96) 0%,rgba(30,58,138,.82) 55%,rgba(23,37,84,.94) 100%)"
+    aria-hidden="true">
+  </div>
+
+  <!-- ── Contenu hero ────────────────────────────────────────────── -->
+  <div class="relative z-10 h-full flex flex-col items-center justify-center text-center px-6 max-w-5xl mx-auto">
+
+    <!-- Tag -->
+    <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-widest text-blue-300 border border-blue-400/30 bg-blue-400/10 mb-6 animate-[fadeInDown_.6s_ease_both]">
+      <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+      Experts IT · France &amp; Comores · depuis 2014
+    </span>
+
+    <!-- Headline -->
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-black text-white leading-tight mb-5 animate-[fadeInUp_.65s_.1s_ease_both_both] opacity-0 [animation-fill-mode:forwards]">
+      Votre expert IT<br>
+      <span class="text-blue-400">en France et aux Comores</span>
+    </h1>
+
+    <!-- Sous-titre -->
+    <p class="text-lg sm:text-xl text-blue-100 max-w-2xl mb-8 leading-relaxed animate-[fadeInUp_.65s_.25s_ease_both] opacity-0 [animation-fill-mode:forwards]">
+      Vente, réparation et solutions numériques —<br class="hidden sm:block">
+      résultats garantis sous 48h ou remboursé.
+    </p>
+
+    <!-- CTAs -->
+    <div class="flex flex-wrap gap-4 justify-center animate-[fadeInUp_.6s_.4s_ease_both] opacity-0 [animation-fill-mode:forwards]">
+      <a
+        href="#formulaire"
+        class="inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-500 focus-visible:bg-blue-500 text-white font-bold text-base px-7 py-3.5 rounded-full border border-blue-500 transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-400 focus-visible:ring-offset-2 focus-visible:ring-offset-[#172554]">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+        Devis gratuit en 24h
+      </a>
+      <a
+        href="services.html"
+        class="inline-flex items-center gap-2 bg-transparent hover:bg-white/10 focus-visible:bg-white/10 text-white font-bold text-base px-7 py-3.5 rounded-full border border-white/40 transition-all duration-200 hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#172554]">
+        Découvrir nos services
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
+
+    <!-- Trust badges -->
+    <div class="flex flex-wrap gap-x-6 gap-y-2 justify-center mt-8 text-sm text-blue-200/70 animate-[fadeInUp_.6s_.55s_ease_both] opacity-0 [animation-fill-mode:forwards]">
+      <span class="flex items-center gap-1.5">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Garantie satisfait
+      </span>
+      <span class="flex items-center gap-1.5">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        Réponse sous 48h
+      </span>
+      <span class="flex items-center gap-1.5">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+        10 ans d'expérience
+      </span>
+    </div>
+  </div>
+
+  <!-- ── Indicateur scroll animé ────────────────────────────────── -->
+  <div
+    class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-blue-300/60 animate-bounce"
+    aria-hidden="true">
+    <span class="text-xs tracking-widest uppercase font-medium">Scroll</span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </div>
+
+</section>
+
+<!-- ── Animations CSS (ajouter dans <style> ou style.css) ─────── -->
+<!--
+@keyframes fadeInDown {
+  from { opacity:0; transform:translateY(-12px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@keyframes fadeInUp {
+  from { opacity:0; transform:translateY(16px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+-->
