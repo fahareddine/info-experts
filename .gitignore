@@ -21,6 +21,27 @@ backup-system/reports/*
 *.enc
 backup-system/config/rclone.conf
 .secrets-setup.env
+.secrets-setup.env.txt
 .env.local
-
 .env*.local
+.vercel
+
+# Fichiers temporaires et générés
+carousel-new-*.png
+hero-*-generated.png
+tmp_*
+*.tmp
+*.new
+lighthouse-report.json
+style.min.css
+email-banner.jpg
+tmp_screenshot.jpg
+
+# Dossiers clonés/tests locaux
+mon-clone/
+vfarcic.github.io/
+ai-website-cloner-template/
+ia-cash-system/
+skills/
+superpowers/
+backups/
