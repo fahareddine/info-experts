@@ -1,0 +1,148 @@
+name: Snapshot Pré-Déploiement — Info Experts
+
+on:
+  push:
+    branches:
+      - main
+    # Déclencher seulement si des fichiers importants changent
+    paths:
+      - 'api/**'
+      - 'supabase/migrations/**'
+      - '*.html'
+      - 'js/**'
+      - 'style.css'
+      - 'vercel.json'
+
+# Bloquer le déploiement si la sauvegarde échoue COMPLÈTEMENT
+concurrency:
+  group: deploy-${{ github.sha }}
+  cancel-in-progress: false
+
+jobs:
+  pre-deploy-snapshot:
+    name: Snapshot avant déploiement
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    # Output pour le job suivant
+    outputs:
+      snapshot_ok: ${{ steps.snapshot_result.outputs.ok }}
+      snapshot_ts: ${{ steps.snapshot_result.outputs.ts }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Installer rclone + psql
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash
+          sudo apt-get install -y postgresql-client --no-install-recommends
+
+      - name: Configurer rclone
+        env:
+          RCLONE_GDRIVE_TOKEN: ${{ secrets.RCLONE_GDRIVE_TOKEN }}
+          RCLONE_B2_ACCOUNT:   ${{ secrets.RCLONE_B2_ACCOUNT }}
+          RCLONE_B2_KEY:       ${{ secrets.RCLONE_B2_KEY }}
+        run: |
+          mkdir -p ~/.config/rclone
+          cat > ~/.config/rclone/rclone.conf <<EOF
+          [gdrive]
+          type = drive
+          scope = drive
+          token = ${RCLONE_GDRIVE_TOKEN}
+
+          [b2]
+          type = b2
+          account = ${RCLONE_B2_ACCOUNT}
+          key = ${RCLONE_B2_KEY}
+          EOF
+
+      - name: Rendre les scripts exécutables
+        run: chmod +x backup-system/scripts/*.sh
+
+      - name: Identifier les fichiers modifiés
+        id: changed
+        run: |
+          CHANGED=$(git diff --name-only HEAD~1 HEAD 2>/dev/null | head -20 || echo "initial-commit")
+          echo "files=${CHANGED}" >> "$GITHUB_OUTPUT"
+
+          # Vérifier si une migration SQL a changé
+          if echo "$CHANGED" | grep -q "supabase/migrations/"; then
+            echo "has_migration=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_migration=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Snapshot pré-déploiement (DB prioritaire si migration)
+        id: snapshot
+        env:
+          SUPABASE_DB_URL:           ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_URL:              ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          GPG_PASSPHRASE:            ${{ secrets.GPG_PASSPHRASE }}
+          BACKUP_REPO:               ${{ vars.BACKUP_REPO || 'fahareddine/info-experts-backups' }}
+          GDRIVE_FOLDER:             ${{ vars.GDRIVE_FOLDER || 'Backups/InfoExperts' }}
+          B2_BUCKET:                 ${{ vars.B2_BUCKET || 'info-experts-alkamar-backups' }}
+          GH_TOKEN:                  ${{ secrets.BACKUP_GH_TOKEN }}
+        run: |
+          REASON="pre-deploy-$(echo '${{ github.sha }}' | head -c 8)"
+
+          if [[ "${{ steps.changed.outputs.has_migration }}" == "true" ]]; then
+            echo "⚠️ Migration SQL détectée — snapshot DB complet en priorité"
+            ./backup-system/scripts/snapshot.sh "${REASON}-migration"
+          else
+            ./backup-system/scripts/snapshot.sh "${REASON}"
+          fi
+        continue-on-error: true
+
+      - name: Évaluer le résultat du snapshot
+        id: snapshot_result
+        run: |
+          TS="$(date +%Y-%m-%d-%H%M)"
+          echo "ts=${TS}" >> "$GITHUB_OUTPUT"
+
+          if [[ "${{ steps.snapshot.outcome }}" == "success" ]]; then
+            echo "ok=true" >> "$GITHUB_OUTPUT"
+            echo "✓ Snapshot pré-déploiement OK"
+          elif [[ "${{ steps.snapshot.outcome }}" == "failure" ]]; then
+            # Vérifier si c'est un échec partiel (exit 1) ou critique (exit 2)
+            echo "ok=partial" >> "$GITHUB_OUTPUT"
+            echo "⚠️ Snapshot partiel — déploiement autorisé avec avertissement"
+          fi
+
+      - name: Résumé pre-deploy
+        if: always()
+        run: |
+          echo "## Snapshot Pré-Déploiement" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Commit :** \`${{ github.sha }}\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Migration SQL :** ${{ steps.changed.outputs.has_migration }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Snapshot :** ${{ steps.snapshot.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Fichiers modifiés :" >> "$GITHUB_STEP_SUMMARY"
+          echo "\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+          echo "${{ steps.changed.outputs.files }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "\`\`\`" >> "$GITHUB_STEP_SUMMARY"
+
+  # ── VÉRIFICATION POST-SNAPSHOT ──────────────────────────────────────────────
+  # Si snapshot complètement échoué ET migration SQL → bloquer
+  check-before-deploy:
+    name: Vérification avant déploiement
+    needs: pre-deploy-snapshot
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Vérifier statut snapshot
+        run: |
+          SNAPSHOT_OK="${{ needs.pre-deploy-snapshot.outputs.snapshot_ok }}"
+
+          if [[ "$SNAPSHOT_OK" == "true" || "$SNAPSHOT_OK" == "partial" ]]; then
+            echo "✓ Snapshot OK ($SNAPSHOT_OK) — déploiement Vercel autorisé"
+          else
+            echo "✗ Snapshot CRITIQUE ÉCHOUÉ"
+            echo "Aucune sauvegarde disponible avant ce déploiement."
+            echo "Corriger le système de backup avant de déployer."
+            exit 1
+          fi

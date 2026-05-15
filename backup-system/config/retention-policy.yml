@@ -1,0 +1,65 @@
+# Politique de rétention des sauvegardes Info Experts
+# Appliquée par le script cleanup dans backup-daily.yml
+
+retention:
+  # Sauvegardes quotidiennes: garder 30 jours
+  daily:
+    keep_days: 30
+    pattern: "backup-daily-*"
+
+  # Sauvegardes hebdomadaires (chaque lundi): garder 12 semaines
+  weekly:
+    keep_weeks: 12
+    pattern: "backup-weekly-*"
+    day_of_week: "monday"
+
+  # Sauvegardes mensuelles (1er du mois): garder 12 mois
+  monthly:
+    keep_months: 12
+    pattern: "backup-monthly-*"
+    day_of_month: 1
+
+  # Sauvegardes annuelles (1er janvier): garder indéfiniment
+  yearly:
+    keep_forever: true
+    pattern: "backup-yearly-*"
+    month: 1
+    day: 1
+
+  # Snapshots manuels (snapshot.sh): garder 90 jours
+  manual:
+    keep_days: 90
+    pattern: "snapshot-*"
+
+  # Snapshots pré-déploiement: garder 60 jours
+  pre_deploy:
+    keep_days: 60
+    pattern: "pre-deploy-*"
+
+storage:
+  # Destinations pour chaque type
+  daily:
+    - gdrive:Backups/InfoExperts/daily/
+    - b2:info-experts-alkamar-backups/daily/
+    - github_releases: true
+
+  monthly:
+    - gdrive:Backups/InfoExperts/monthly/
+    - b2:info-experts-alkamar-backups/monthly/
+    - github_releases: true
+
+  yearly:
+    - gdrive:Backups/InfoExperts/yearly/
+    - b2:info-experts-alkamar-backups/yearly/
+    - github_releases: true
+
+  # Secrets: jamais sur GitHub
+  secrets:
+    - gdrive:Backups/InfoExperts/secrets/
+    - b2:info-experts-alkamar-backups/secrets/
+
+alerts:
+  # Email de notification en cas d'échec
+  notify_on_failure: true
+  email: defistylez@gmail.com
+  # Via Resend (voir backup-daily.yml pour le secret RESEND_API_KEY)

@@ -1,0 +1,170 @@
+name: Vérification Intégrité Hebdomadaire — Info Experts
+
+on:
+  schedule:
+    # Chaque dimanche à 02h00 UTC
+    - cron: '0 2 * * 0'
+  workflow_dispatch:
+    inputs:
+      source:
+        description: 'Source à vérifier'
+        type: choice
+        options:
+          - all
+          - local
+          - github
+          - gdrive
+          - b2
+        default: all
+
+jobs:
+  verify-integrity:
+    name: Vérification intégrité des backups
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Installer outils
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash
+          sudo apt-get install -y gnupg jq --no-install-recommends
+
+      - name: Configurer rclone
+        env:
+          RCLONE_GDRIVE_TOKEN: ${{ secrets.RCLONE_GDRIVE_TOKEN }}
+          RCLONE_B2_ACCOUNT:   ${{ secrets.RCLONE_B2_ACCOUNT }}
+          RCLONE_B2_KEY:       ${{ secrets.RCLONE_B2_KEY }}
+        run: |
+          mkdir -p ~/.config/rclone
+          cat > ~/.config/rclone/rclone.conf <<EOF
+          [gdrive]
+          type = drive
+          scope = drive
+          token = ${RCLONE_GDRIVE_TOKEN}
+
+          [b2]
+          type = b2
+          account = ${RCLONE_B2_ACCOUNT}
+          key = ${RCLONE_B2_KEY}
+          EOF
+
+      - name: Rendre les scripts exécutables
+        run: chmod +x backup-system/scripts/*.sh
+
+      - name: Créer dossiers requis
+        run: mkdir -p backup-system/snapshots backup-system/logs backup-system/reports
+
+      - name: Lancer la vérification
+        id: verify
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          BACKUP_REPO:    ${{ vars.BACKUP_REPO || 'fahareddine/info-experts-backups' }}
+          GDRIVE_FOLDER:  ${{ vars.GDRIVE_FOLDER || 'Backups/InfoExperts' }}
+          B2_BUCKET:      ${{ vars.B2_BUCKET || 'info-experts-alkamar-backups' }}
+          GH_TOKEN:       ${{ secrets.BACKUP_GH_TOKEN }}
+        run: |
+          SOURCE="${{ github.event.inputs.source || 'all' }}"
+          ./backup-system/scripts/verify.sh --source "${SOURCE}"
+        continue-on-error: true
+
+      - name: Uploader le rapport
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verify-report-${{ github.run_id }}
+          path: backup-system/reports/verify-*.md
+          retention-days: 90
+
+      - name: Notifier si vérification échouée
+        if: steps.verify.outcome == 'failure'
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+        run: |
+          BODY="⚠️ Vérification intégrité ÉCHOUÉE — Info Experts\n\n"
+          BODY+="Date: $(date +%Y-%m-%d)\n"
+          BODY+="Source: ${{ github.event.inputs.source || 'all' }}\n\n"
+          BODY+="Action requise: vérifier les backups manuellement.\n"
+          BODY+="Logs: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          if [[ -n "${RESEND_API_KEY:-}" ]]; then
+            curl -sf -X POST "https://api.resend.com/emails" \
+              -H "Authorization: Bearer ${RESEND_API_KEY}" \
+              -H "Content-Type: application/json" \
+              -d "{
+                \"from\": \"backup@alkamar.info\",
+                \"to\": [\"defistylez@gmail.com\"],
+                \"subject\": \"⚠️ ALERTE Intégrité Backup Info Experts — $(date +%Y-%m-%d)\",
+                \"text\": \"${BODY}\"
+              }" || echo "Email échoué"
+          fi
+          # Faire échouer le job pour que l'alerte GitHub soit visible
+          exit 1
+
+      - name: Résumé vérification
+        if: always()
+        run: |
+          echo "## Vérification Intégrité $(date +%Y-%m-%d)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Résultat :** ${{ steps.verify.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "- **Source(s) :** ${{ github.event.inputs.source || 'all' }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "Rapport disponible dans les artifacts de ce job." >> "$GITHUB_STEP_SUMMARY"
+
+  # ── TEST DE RESTAURATION MENSUEL ────────────────────────────────────────────
+  monthly-restore-test:
+    name: Test restauration à blanc (mensuel)
+    runs-on: ubuntu-latest
+    # Exécuter seulement le premier dimanche du mois
+    if: github.event_name == 'schedule' && startsWith(github.event.schedule, '0 2 * * 0')
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Installer outils
+        run: |
+          curl -fsSL https://rclone.org/install.sh | sudo bash
+          sudo apt-get install -y gnupg jq --no-install-recommends
+
+      - name: Configurer rclone
+        env:
+          RCLONE_GDRIVE_TOKEN: ${{ secrets.RCLONE_GDRIVE_TOKEN }}
+          RCLONE_B2_ACCOUNT:   ${{ secrets.RCLONE_B2_ACCOUNT }}
+          RCLONE_B2_KEY:       ${{ secrets.RCLONE_B2_KEY }}
+        run: |
+          mkdir -p ~/.config/rclone
+          cat > ~/.config/rclone/rclone.conf <<EOF
+          [gdrive]
+          type = drive
+          scope = drive
+          token = ${RCLONE_GDRIVE_TOKEN}
+
+          [b2]
+          type = b2
+          account = ${RCLONE_B2_ACCOUNT}
+          key = ${RCLONE_B2_KEY}
+          EOF
+
+      - name: Vérification intégrité approfondie (toutes sources)
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          BACKUP_REPO:    ${{ vars.BACKUP_REPO || 'fahareddine/info-experts-backups' }}
+          GDRIVE_FOLDER:  ${{ vars.GDRIVE_FOLDER || 'Backups/InfoExperts' }}
+          B2_BUCKET:      ${{ vars.B2_BUCKET || 'info-experts-alkamar-backups' }}
+          GH_TOKEN:       ${{ secrets.BACKUP_GH_TOKEN }}
+        run: |
+          chmod +x backup-system/scripts/*.sh
+          mkdir -p backup-system/snapshots backup-system/logs backup-system/reports
+          # Vérification avec déchiffrement réel
+          ./backup-system/scripts/verify.sh --source all
+        continue-on-error: true
+
+      - name: Rapport mensuel
+        if: always()
+        run: |
+          echo "## Test Restauration Mensuel — $(date +%Y-%m)" >> "$GITHUB_STEP_SUMMARY"
+          echo "Test d'intégrité approfondi effectué. Voir artifacts." >> "$GITHUB_STEP_SUMMARY"

@@ -9,3 +9,18 @@ package-lock.json
 reports/*.json
 reports/*.md
 .lighthouseci/
+
+# Backup system
+backup-system/snapshots/*
+!backup-system/snapshots/.gitkeep
+backup-system/logs/*
+!backup-system/logs/.gitkeep
+backup-system/reports/*
+!backup-system/reports/.gitkeep
+*.gpg
+*.enc
+backup-system/config/rclone.conf
+.secrets-setup.env
+.env.local
+
+.env*.local

@@ -1,0 +1,225 @@
+name: Backup Quotidien — Info Experts
+
+on:
+  schedule:
+    # Tous les jours à 03h00 UTC (05h00 heure des Comores GMT+3)
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+    inputs:
+      reason:
+        description: 'Raison du snapshot manuel'
+        required: false
+        default: 'manuel'
+      skip_storage:
+        description: 'Ignorer le backup Storage Supabase (plus rapide)'
+        type: boolean
+        default: false
+
+jobs:
+  backup:
+    name: Snapshot complet
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    steps:
+      # ── CHECKOUT ──────────────────────────────────────────────────────────
+      - name: Checkout du repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ── OUTILS ────────────────────────────────────────────────────────────
+      - name: Installer les outils (rclone, gh CLI, psql, gpg)
+        run: |
+          # rclone
+          curl -fsSL https://rclone.org/install.sh | sudo bash
+          # gpg (déjà disponible sur ubuntu-latest)
+          gpg --version
+          # jq (déjà disponible)
+          jq --version
+          # psql (PostgreSQL client)
+          sudo apt-get install -y postgresql-client --no-install-recommends
+          # gh CLI (déjà disponible sur ubuntu-latest)
+          gh --version
+
+      # ── CONFIG RCLONE ──────────────────────────────────────────────────────
+      - name: Configurer rclone
+        env:
+          RCLONE_GDRIVE_TOKEN: ${{ secrets.RCLONE_GDRIVE_TOKEN }}
+          RCLONE_B2_ACCOUNT:   ${{ secrets.RCLONE_B2_ACCOUNT }}
+          RCLONE_B2_KEY:       ${{ secrets.RCLONE_B2_KEY }}
+        run: |
+          mkdir -p ~/.config/rclone
+          cat > ~/.config/rclone/rclone.conf <<EOF
+          [gdrive]
+          type = drive
+          scope = drive
+          token = ${RCLONE_GDRIVE_TOKEN}
+
+          [b2]
+          type = b2
+          account = ${RCLONE_B2_ACCOUNT}
+          key = ${RCLONE_B2_KEY}
+          EOF
+          # Tester les connexions
+          rclone lsd gdrive: --max-depth 1 || echo "⚠ Google Drive inaccessible"
+          rclone lsd b2:${{ vars.B2_BUCKET || 'info-experts-alkamar-backups' }} || echo "⚠ B2 inaccessible"
+
+      # ── PERMISSIONS SCRIPTS ───────────────────────────────────────────────
+      - name: Rendre les scripts exécutables
+        run: chmod +x backup-system/scripts/*.sh
+
+      # ── LABEL DU SNAPSHOT ─────────────────────────────────────────────────
+      - name: Déterminer le label de rotation
+        id: label
+        run: |
+          DAY=$(date +%d)
+          MONTH=$(date +%m)
+          DOW=$(date +%u)  # 1=Lundi
+          REASON="${{ github.event.inputs.reason || 'quotidien' }}"
+
+          if [[ "$DAY" == "01" && "$MONTH" == "01" ]]; then
+            echo "tag=yearly-$(date +%Y)" >> "$GITHUB_OUTPUT"
+            echo "label=annuel-$(date +%Y)" >> "$GITHUB_OUTPUT"
+          elif [[ "$DAY" == "01" ]]; then
+            echo "tag=monthly-$(date +%Y-%m)" >> "$GITHUB_OUTPUT"
+            echo "label=mensuel-$(date +%Y-%m)" >> "$GITHUB_OUTPUT"
+          elif [[ "$DOW" == "1" ]]; then
+            echo "tag=weekly-$(date +%Y-W%V)" >> "$GITHUB_OUTPUT"
+            echo "label=hebdo-$(date +%Y-W%V)" >> "$GITHUB_OUTPUT"
+          else
+            echo "tag=daily-$(date +%Y-%m-%d)" >> "$GITHUB_OUTPUT"
+            echo "label=${REASON}" >> "$GITHUB_OUTPUT"
+          fi
+
+      # ── BACKUP CODE ───────────────────────────────────────────────────────
+      - name: Backup code source
+        id: backup_code
+        env:
+          BACKUP_REPO:  ${{ vars.BACKUP_REPO || 'fahareddine/info-experts-backups' }}
+          GDRIVE_FOLDER: ${{ vars.GDRIVE_FOLDER || 'Backups/InfoExperts' }}
+          B2_BUCKET:    ${{ vars.B2_BUCKET || 'info-experts-alkamar-backups' }}
+          GH_TOKEN:     ${{ secrets.BACKUP_GH_TOKEN }}
+        run: |
+          ./backup-system/scripts/backup-code.sh --tag "${{ steps.label.outputs.label }}"
+        continue-on-error: true
+
+      # ── BACKUP SUPABASE ───────────────────────────────────────────────────
+      - name: Backup Supabase (DB + Storage)
+        id: backup_supa
+        env:
+          SUPABASE_DB_URL:           ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_URL:              ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          GPG_PASSPHRASE:            ${{ secrets.GPG_PASSPHRASE }}
+          BACKUP_REPO:               ${{ vars.BACKUP_REPO || 'fahareddine/info-experts-backups' }}
+          GDRIVE_FOLDER:             ${{ vars.GDRIVE_FOLDER || 'Backups/InfoExperts' }}
+          B2_BUCKET:                 ${{ vars.B2_BUCKET || 'info-experts-alkamar-backups' }}
+          GH_TOKEN:                  ${{ secrets.BACKUP_GH_TOKEN }}
+        run: |
+          EXTRA=""
+          if [[ "${{ github.event.inputs.skip_storage }}" == "true" ]]; then
+            EXTRA="--no-storage"
+          fi
+          ./backup-system/scripts/backup-supabase.sh \
+            --tag "${{ steps.label.outputs.label }}" \
+            $EXTRA
+        continue-on-error: true
+
+      # ── BACKUP SECRETS ────────────────────────────────────────────────────
+      - name: Backup secrets
+        id: backup_secrets
+        env:
+          GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
+          VERCEL_TOKEN:   ${{ secrets.VERCEL_TOKEN }}
+          GDRIVE_FOLDER:  ${{ vars.GDRIVE_FOLDER || 'Backups/InfoExperts' }}
+          B2_BUCKET:      ${{ vars.B2_BUCKET || 'info-experts-alkamar-backups' }}
+        run: |
+          # Recréer .env.local depuis les secrets GitHub pour la sauvegarde
+          cat > .env.local <<EOF
+          SUPABASE_URL=${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_ROLE_KEY=${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          SUPABASE_DB_URL=${{ secrets.SUPABASE_DB_URL }}
+          STRIPE_SECRET_KEY=${{ secrets.STRIPE_SECRET_KEY }}
+          STRIPE_PUBLISHABLE_KEY=${{ secrets.STRIPE_PUBLISHABLE_KEY }}
+          EOF
+          ./backup-system/scripts/backup-secrets.sh --skip-vercel
+        continue-on-error: true
+
+      # ── NETTOYAGE SELON POLITIQUE DE RÉTENTION ───────────────────────────
+      - name: Appliquer la politique de rétention
+        env:
+          GDRIVE_FOLDER: ${{ vars.GDRIVE_FOLDER || 'Backups/InfoExperts' }}
+          B2_BUCKET:     ${{ vars.B2_BUCKET || 'info-experts-alkamar-backups' }}
+          GH_TOKEN:      ${{ secrets.BACKUP_GH_TOKEN }}
+          BACKUP_REPO:   ${{ vars.BACKUP_REPO || 'fahareddine/info-experts-backups' }}
+        run: |
+          # Supprimer les daily > 30 jours
+          CUTOFF=$(date -d "-30 days" +%Y-%m-%d)
+          rclone delete "gdrive:${GDRIVE_FOLDER}/code/" \
+            --min-age 30d \
+            --include "alkamar-code-*" \
+            --dry-run 2>/dev/null || true
+
+          # B2 : nettoyage identique
+          rclone delete "b2:${B2_BUCKET}/code/" \
+            --min-age 30d \
+            --include "alkamar-code-*" \
+            --dry-run 2>/dev/null || true
+
+          # GitHub : garder 30 releases max
+          RELEASES=$(gh release list --repo "${BACKUP_REPO}" --limit 100 --json tagName,createdAt \
+            2>/dev/null | jq -r '.[] | select(.tagName | startswith("code-daily")) | .tagName' \
+            | tail -n +31 || echo "")
+          for TAG in $RELEASES; do
+            echo "Suppression release : ${TAG}"
+            gh release delete "${TAG}" --repo "${BACKUP_REPO}" --yes 2>/dev/null || true
+          done
+        continue-on-error: true
+
+      # ── NOTIFICATION EN CAS D'ÉCHEC ───────────────────────────────────────
+      - name: Notifier en cas d'échec
+        if: |
+          steps.backup_code.outcome == 'failure' ||
+          steps.backup_supa.outcome == 'failure' ||
+          steps.backup_secrets.outcome == 'failure'
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+        run: |
+          CODE_STATUS="${{ steps.backup_code.outcome }}"
+          SUPA_STATUS="${{ steps.backup_supa.outcome }}"
+          SECRETS_STATUS="${{ steps.backup_secrets.outcome }}"
+
+          BODY="Backup Info Experts du $(date +%Y-%m-%d) a rencontré des erreurs:\n\n"
+          BODY+="- Code    : ${CODE_STATUS}\n"
+          BODY+="- Supabase: ${SUPA_STATUS}\n"
+          BODY+="- Secrets : ${SECRETS_STATUS}\n\n"
+          BODY+="Voir: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+
+          if [[ -n "${RESEND_API_KEY:-}" ]]; then
+            curl -sf -X POST "https://api.resend.com/emails" \
+              -H "Authorization: Bearer ${RESEND_API_KEY}" \
+              -H "Content-Type: application/json" \
+              -d "{
+                \"from\": \"backup@alkamar.info\",
+                \"to\": [\"defistylez@gmail.com\"],
+                \"subject\": \"⚠️ Backup Info Experts ÉCHOUÉ — $(date +%Y-%m-%d)\",
+                \"text\": \"${BODY}\"
+              }" || echo "Notification email échouée"
+          else
+            echo "RESEND_API_KEY non configuré — pas de notification email"
+            echo "Statuts : code=${CODE_STATUS} supa=${SUPA_STATUS} secrets=${SECRETS_STATUS}"
+          fi
+
+      # ── RÉSUMÉ DANS LE JOB ────────────────────────────────────────────────
+      - name: Résumé du backup
+        if: always()
+        run: |
+          echo "## Résumé Backup $(date +%Y-%m-%d)" >> "$GITHUB_STEP_SUMMARY"
+          echo "" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Module | Statut |" >> "$GITHUB_STEP_SUMMARY"
+          echo "|--------|--------|" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Code source | ${{ steps.backup_code.outcome }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Supabase DB | ${{ steps.backup_supa.outcome }} |" >> "$GITHUB_STEP_SUMMARY"
+          echo "| Secrets | ${{ steps.backup_secrets.outcome }} |" >> "$GITHUB_STEP_SUMMARY"

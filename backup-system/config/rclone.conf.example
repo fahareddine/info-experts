@@ -1,0 +1,50 @@
+# rclone.conf.example — copier vers ~/.config/rclone/rclone.conf
+# puis remplir les valeurs manquantes (token OAuth, etc.)
+#
+# JAMAIS committer rclone.conf (contient des tokens sensibles)
+#
+# Setup: rclone config  → suivre les assistants interactifs
+# Docs : https://rclone.org/docs/
+
+# ── GOOGLE DRIVE ─────────────────────────────────────────────────────────────
+[gdrive]
+type = drive
+client_id =
+client_secret =
+scope = drive
+token = {"access_token":"...","token_type":"Bearer","refresh_token":"...","expiry":"..."}
+# Obtenir via: rclone config → n → drive → suivre OAuth → copier token ici
+# ID du dossier racine des backups (optionnel, sinon racine Drive)
+root_folder_id =
+# Pour trouver l'ID: ouvrir le dossier dans Drive, copier l'ID de l'URL
+
+# ── BACKBLAZE B2 ──────────────────────────────────────────────────────────────
+[b2]
+type = b2
+account = XXXXXXXXXXXXXXXXXXXXXXXX
+# Application Key ID (pas la Master Key)
+key = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+# Créer une App Key dans B2 Console → Application Keys
+# Bucket recommandé: info-experts-alkamar-backups (private)
+# Région: eu-central-003 (Frankfurt, proche Comores)
+
+# ── CLOUDFLARE R2 (alternative à B2) ────────────────────────────────────────
+# Décommenter si vous préférez R2 à B2
+#[r2]
+#type = s3
+#provider = Cloudflare
+#access_key_id = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#secret_access_key = XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+#endpoint = https://ACCOUNT_ID.r2.cloudflarestorage.com
+#acl = private
+
+# ── VÉRIFICATION RCLONE ───────────────────────────────────────────────────────
+# Tester la connexion:
+#   rclone lsd gdrive:
+#   rclone lsd b2:info-experts-alkamar-backups
+#
+# Créer le bucket B2:
+#   rclone mkdir b2:info-experts-alkamar-backups
+#
+# Créer le dossier Drive:
+#   rclone mkdir gdrive:Backups/InfoExperts

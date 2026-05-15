@@ -1,0 +1,27 @@
+# Secrets chiffrés — jamais dans git
+*.gpg
+*.key
+*.pem
+*.p12
+*.asc
+*.enc
+
+# Fichiers d'environnement
+.env
+.env.*
+!.env.example
+
+# Snapshots locaux (trop volumineux)
+../snapshots/
+../logs/
+../reports/
+
+# Config rclone réelle (contient des tokens)
+rclone.conf
+!rclone.conf.example
+
+# Archives temporaires
+*.zip
+*.tar
+*.tar.gz
+*.tar.bz2
