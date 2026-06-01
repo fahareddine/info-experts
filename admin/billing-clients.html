@@ -228,7 +228,7 @@
 
     tbody.innerHTML = clients.map((c) => `<tr>
       <td>
-        <a href="#" class="inline-link" onclick="showDetail('${c.id}');return false">${esc(c.display_name)}</a>
+        <a href="#" class="inline-link" onclick="showDetail('${esc(c.id)}');return false">${esc(c.display_name)}</a>
       </td>
       <td>${esc(c.company || '—')}</td>
       <td>${c.email ? `<a href="mailto:${esc(c.email)}" style="color:var(--brand2)">${esc(c.email)}</a>` : '—'}</td>
@@ -236,7 +236,7 @@
       <td>${esc(c.city || '—')}</td>
       <td>
         <div class="actions">
-          <button class="sm secondary" onclick="openEditModal('${c.id}')">Modifier</button>
+          <button class="sm secondary" onclick="openEditModal('${esc(c.id)}')">Modifier</button>
           <a class="inline-link" href="/admin/billing?client=${c.id}" style="font-size:12px">Docs</a>
         </div>
       </td>
