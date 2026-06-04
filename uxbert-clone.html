@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Leading Design and Development Agency | UX & UI Experts — UXBERT LABS</title>
+<meta name="description" content="UXBERT LABS — We are a digital consultancy helping businesses grow globally through UX, design, development, and strategy.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;1,14..32,300&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:auto}
+body{
+  background:#0b042a;
+  color:#fff;
+  font-family:'Inter',sans-serif;
+  font-size:16px;
+  line-height:1.5;
+  overflow-x:hidden;
+}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+
+/* ── LENIS ── */
+html.lenis,html.lenis body{height:auto}
+.lenis.lenis-smooth{scroll-behavior:auto!important}
+.lenis.lenis-smooth [data-lenis-prevent]{overscroll-behavior:contain}
+
+/* ── NAV ── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:20px 40px;
+  transition:transform .4s cubic-bezier(.16,1,.3,1),background .4s;
+}
+nav.hidden{transform:translateY(-100%)}
+nav.scrolled{background:rgba(11,4,42,.85);backdrop-filter:blur(12px)}
+.nav-logo img{height:32px;width:auto}
+.nav-right{display:flex;align-items:center;gap:20px}
+.nav-grid-btn{
+  display:flex;align-items:center;gap:8px;
+  padding:8px 20px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.25);
+  font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;cursor:pointer;
+  transition:background .2s,border-color .2s;
+}
+.nav-grid-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.5)}
+.nav-grid-btn svg{opacity:.7}
+.nav-hamburger{
+  width:40px;height:40px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.25);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;
+  cursor:pointer;transition:background .2s;
+}
+.nav-hamburger:hover{background:rgba(255,255,255,.08)}
+.nav-hamburger span{display:block;width:16px;height:1.5px;background:#fff}
+
+/* ── HERO ── */
+#hero{
+  position:relative;width:100%;height:100vh;min-height:600px;
+  display:flex;align-items:flex-end;justify-content:flex-start;
+  overflow:hidden;
+  padding:48px 40px 64px;
+}
+.hero-video-wrap{
+  position:absolute;inset:0;z-index:0;
+}
+.hero-video-wrap video{
+  width:100%;height:100%;object-fit:cover;
+}
+.hero-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to bottom,rgba(11,4,42,.15) 0%,rgba(11,4,42,.3) 60%,rgba(11,4,42,.7) 100%);
+}
+/* corner brackets */
+.hero-corner{position:absolute;z-index:3;width:60px;height:60px}
+.hero-corner--tl{top:80px;left:40px}
+.hero-corner--tr{top:80px;right:40px;transform:scaleX(-1)}
+.hero-corner--bl{bottom:120px;left:40px;transform:scaleY(-1)}
+.hero-corner--br{bottom:120px;right:40px;transform:scale(-1)}
+.hero-corner svg{width:100%;height:100%;stroke:#fff;fill:none;opacity:.6}
+
+/* ambient numbers */
+.hero-ambient{position:absolute;z-index:2;pointer-events:none}
+.hero-ambient span{
+  font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:500;
+  letter-spacing:.2em;color:rgba(255,255,255,.35);
+}
+.amb-tl{top:88px;left:120px}
+.amb-tr{top:88px;right:120px}
+.amb-bl{bottom:160px;left:120px}
+.amb-br{bottom:160px;right:120px}
+
+/* THE PRESENT label */
+.hero-label{
+  position:absolute;top:40%;left:50%;transform:translateX(-50%);
+  z-index:3;text-align:center;
+}
+.hero-label-text{
+  font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:.35em;text-transform:uppercase;color:rgba(255,255,255,.5);
+  display:flex;align-items:center;gap:10px;
+}
+.hero-label-text::before,.hero-label-text::after{
+  content:'';display:block;width:40px;height:1px;background:rgba(255,255,255,.3);
+}
+
+/* main hero content */
+.hero-content{position:relative;z-index:4;max-width:860px}
+.hero-eyebrow{
+  font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.5);
+  margin-bottom:16px;
+}
+.hero-title{
+  font-family:'Rajdhani',sans-serif;
+  font-size:clamp(3.5rem,7vw,6rem);
+  font-weight:700;line-height:1;letter-spacing:-.01em;
+  text-transform:uppercase;
+  margin-bottom:24px;
+}
+.hero-title .char{display:inline-block;overflow:hidden;vertical-align:top}
+.hero-title .char span{display:inline-block}
+.hero-sub{
+  font-size:15px;font-weight:300;color:rgba(255,255,255,.6);
+  max-width:420px;line-height:1.7;
+}
+
+/* scroll indicator (rotating) */
+.hero-scroll{
+  position:absolute;right:40px;bottom:64px;z-index:4;
+  width:100px;height:100px;cursor:pointer;
+  animation:spinSlow 12s linear infinite;
+}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+.hero-scroll img{width:100%;height:100%}
+.hero-scroll-dot{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+}
+.hero-scroll-dot::after{
+  content:'';width:6px;height:6px;border-radius:50%;background:#fff;
+  display:block;
+}
+
+/* ── PORTFOLIO NAV ── */
+#portfolio-nav{
+  position:sticky;top:0;z-index:50;
+  background:rgba(11,4,42,.9);backdrop-filter:blur(16px);
+  border-bottom:1px solid rgba(255,255,255,.06);
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+#portfolio-nav::-webkit-scrollbar{display:none}
+.portfolio-nav-inner{
+  display:flex;align-items:stretch;min-width:max-content;
+  padding:0 40px;
+}
+.portfolio-tab{
+  padding:18px 24px;
+  font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);
+  border-bottom:2px solid transparent;
+  white-space:nowrap;cursor:pointer;
+  transition:color .2s,border-color .2s;
+}
+.portfolio-tab.active,.portfolio-tab:hover{color:#fff;border-color:#fff}
+
+/* ── PORTFOLIO SECTIONS ── */
+.art-section{
+  position:relative;width:100%;height:100vh;
+  display:flex;align-items:flex-end;
+  overflow:hidden;
+}
+.art-bg{
+  position:absolute;inset:0;z-index:0;
+}
+.art-bg img{width:100%;height:100%;object-fit:cover}
+.art-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(135deg,rgba(0,0,0,.3) 0%,rgba(0,0,0,.05) 60%,rgba(0,0,0,.0) 100%);
+}
+.art-work{
+  position:absolute;top:0;left:0;right:0;bottom:0;z-index:2;
+  display:flex;align-items:center;justify-content:center;
+}
+.art-section-img{
+  object-fit:contain;
+  transition:transform .4s ease;
+}
+/* heights per project */
+.art-section-img.wbk{height:85vh}
+.art-section-img.sagp{height:70vh}
+.art-section-img.alinma{height:50vh}
+.art-section-img.joy{height:55vh}
+.art-section-img.the-ring{height:50vh}
+.art-section-img.ewc{height:60vh}
+.art-section-img.dzrt{height:60vh}
+.art-section-img.golden-pen{height:50vh}
+.art-section-img.misk{height:50vh}
+.art-section-img.asaan{height:70vh}
+
+/* project info block */
+.p-info{
+  position:absolute;bottom:48px;left:48px;z-index:5;
+  max-width:360px;
+}
+.p-logo{height:40px;width:auto;object-fit:contain;margin-bottom:16px}
+.p-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px}
+.p-tag{
+  padding:4px 12px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.3);
+  font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(255,255,255,.7);
+}
+.p-title{
+  font-family:'Rajdhani',sans-serif;
+  font-size:clamp(1.8rem,3vw,2.8rem);
+  font-weight:700;line-height:1.1;
+  margin-bottom:12px;
+}
+.p-desc{
+  font-size:14px;font-weight:300;color:rgba(255,255,255,.6);
+  line-height:1.7;margin-bottom:20px;
+}
+.p-cta{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;
+  padding:10px 22px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.4);
+  transition:background .2s,border-color .2s;
+}
+.p-cta:hover{background:rgba(255,255,255,.12);border-color:#fff}
+.p-cta svg{width:14px;height:14px;stroke:currentColor;fill:none}
+
+/* ── SERVICES ── */
+#services{
+  padding:120px 40px;
+  background:#0b042a;
+}
+.services-header{
+  display:flex;align-items:flex-end;justify-content:space-between;
+  margin-bottom:80px;
+  gap:40px;
+  flex-wrap:wrap;
+}
+.services-eyebrow{
+  font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:.3em;text-transform:uppercase;
+  color:rgba(255,255,255,.4);margin-bottom:16px;
+}
+.services-title{
+  font-family:'Rajdhani',sans-serif;
+  font-size:clamp(2.2rem,4vw,3.5rem);
+  font-weight:700;line-height:1.1;
+  max-width:520px;
+}
+.services-desc{
+  font-size:14px;font-weight:300;color:rgba(255,255,255,.5);
+  max-width:280px;line-height:1.8;
+}
+.services-body{display:flex;gap:60px;align-items:flex-start;flex-wrap:wrap}
+.services-orb-wrap{
+  flex-shrink:0;width:220px;height:220px;
+  border-radius:50%;overflow:hidden;
+}
+.services-orb{width:100%;height:100%;object-fit:cover}
+.services-grid{
+  flex:1;min-width:280px;
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:1px;
+  border:1px solid rgba(255,255,255,.08);
+}
+.service-item{
+  padding:36px 28px;
+  border:1px solid rgba(255,255,255,.08);
+  transition:background .25s;
+}
+.service-item:hover{background:rgba(255,255,255,.04)}
+.service-num{
+  font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:.2em;color:rgba(255,255,255,.25);
+  margin-bottom:16px;
+}
+.service-name{
+  font-family:'Rajdhani',sans-serif;font-size:1.4rem;font-weight:700;
+  line-height:1.2;margin-bottom:10px;
+}
+.service-desc{
+  font-size:13px;font-weight:300;color:rgba(255,255,255,.5);
+  line-height:1.7;
+}
+
+/* ── COURSES ── */
+#courses{
+  padding:120px 0;
+  background:#0b042a;
+  overflow:hidden;
+}
+.courses-header{padding:0 40px;margin-bottom:48px}
+.courses-title{
+  font-family:'Rajdhani',sans-serif;
+  font-size:clamp(2rem,3.5vw,3rem);
+  font-weight:700;margin-bottom:12px;
+}
+.courses-sub{font-size:14px;color:rgba(255,255,255,.5)}
+.swiper-courses{padding:0 40px 20px!important}
+.course-card{
+  border-radius:16px;overflow:hidden;
+  height:420px;position:relative;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:28px;
+}
+.course-card-bg{
+  position:absolute;inset:0;z-index:0;
+}
+.course-card-overlay{
+  position:absolute;inset:0;z-index:1;
+  background:linear-gradient(to top,rgba(0,0,0,.7) 0%,rgba(0,0,0,.1) 60%);
+}
+.course-card-content{position:relative;z-index:2}
+.course-tag{
+  display:inline-block;padding:4px 12px;border-radius:999px;
+  background:rgba(255,255,255,.15);backdrop-filter:blur(8px);
+  font-family:'Rajdhani',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;margin-bottom:12px;
+}
+.course-title{
+  font-family:'Rajdhani',sans-serif;font-size:1.4rem;font-weight:700;
+  line-height:1.2;margin-bottom:8px;
+}
+.course-meta{font-size:12px;color:rgba(255,255,255,.6)}
+.swiper-courses .swiper-slide{width:320px}
+
+/* ── CASE STUDIES ── */
+#case-studies{
+  padding:120px 40px;
+  background:#0b042a;
+}
+.cs-header{margin-bottom:60px}
+.cs-title{
+  font-family:'Rajdhani',sans-serif;
+  font-size:clamp(2rem,3.5vw,3rem);
+  font-weight:700;
+}
+.cs-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+.cs-card{
+  position:relative;border-radius:12px;overflow:hidden;
+  aspect-ratio:16/10;cursor:pointer;
+  background:rgba(255,255,255,.04);
+}
+.cs-card img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .5s cubic-bezier(.16,1,.3,1);
+}
+.cs-card:hover img{transform:scale(1.05)}
+.cs-card-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(to top,rgba(11,4,42,.85) 0%,rgba(11,4,42,.1) 50%,transparent 100%);
+  opacity:0;transition:opacity .3s;
+  display:flex;flex-direction:column;justify-content:flex-end;
+  padding:20px;
+}
+.cs-card:hover .cs-card-overlay{opacity:1}
+.cs-card-title{
+  font-family:'Rajdhani',sans-serif;font-size:1rem;font-weight:700;
+  margin-bottom:6px;
+}
+.cs-card-tag{
+  font-size:12px;color:rgba(255,255,255,.5);
+  font-family:'Rajdhani',sans-serif;letter-spacing:.05em;
+}
+
+/* ── CTA ── */
+#cta-hire{
+  padding:120px 40px;
+  background:#0b042a;
+  text-align:center;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.cta-stamp{
+  width:80px;height:80px;margin:0 auto 32px;
+  border-radius:50%;
+  border:2px solid rgba(255,255,255,.2);
+  display:flex;align-items:center;justify-content:center;
+}
+.cta-stamp img{width:40px;height:40px;opacity:.7}
+.cta-title{
+  font-family:'Rajdhani',sans-serif;
+  font-size:clamp(2.5rem,5vw,4.5rem);
+  font-weight:700;line-height:1.05;
+  margin-bottom:32px;max-width:700px;margin-left:auto;margin-right:auto;
+}
+.cta-btn{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 40px;border-radius:999px;
+  background:#fff;color:#0b042a;
+  font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  transition:background .2s,transform .2s;
+}
+.cta-btn:hover{background:#e8e8ff;transform:translateY(-2px)}
+.cta-btn svg{width:16px;height:16px;stroke:currentColor;fill:none}
+
+/* ── FOOTER ── */
+footer{
+  padding:80px 40px 48px;
+  background:#080318;
+  border-top:1px solid rgba(255,255,255,.06);
+}
+.footer-top{
+  display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;
+  gap:60px;margin-bottom:64px;
+  flex-wrap:wrap;
+}
+.footer-brand img{height:28px;margin-bottom:20px}
+.footer-brand-tagline{
+  font-size:13px;color:rgba(255,255,255,.45);
+  max-width:200px;line-height:1.7;margin-bottom:24px;
+}
+.footer-social{display:flex;gap:12px}
+.footer-social a{
+  width:36px;height:36px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.15);
+  display:flex;align-items:center;justify-content:center;
+  transition:background .2s,border-color .2s;
+}
+.footer-social a:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.4)}
+.footer-social img{width:16px;height:16px;opacity:.7}
+.footer-col-title{
+  font-family:'Rajdhani',sans-serif;font-size:12px;font-weight:600;
+  letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.35);margin-bottom:20px;
+}
+.footer-col ul{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-col ul li a{
+  font-size:14px;color:rgba(255,255,255,.55);
+  transition:color .2s;
+}
+.footer-col ul li a:hover{color:#fff}
+.footer-address{
+  font-size:13px;color:rgba(255,255,255,.45);
+  line-height:1.9;
+}
+.footer-bottom{
+  display:flex;align-items:center;justify-content:space-between;
+  padding-top:32px;border-top:1px solid rgba(255,255,255,.06);
+  flex-wrap:wrap;gap:16px;
+}
+.footer-legal{font-size:12px;color:rgba(255,255,255,.3)}
+.footer-hire-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:10px 24px;border-radius:999px;
+  border:1px solid rgba(255,255,255,.2);
+  font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;
+  color:rgba(255,255,255,.7);
+  transition:background .2s,border-color .2s,color .2s;
+}
+.footer-hire-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.5);color:#fff}
+
+/* ── FADE-UP BASE ── */
+.fade-up{opacity:0;transform:translateY(32px)}
+
+/* ── RESPONSIVE ── */
+@media(max-width:1024px){
+  nav{padding:16px 24px}
+  #hero{padding:32px 24px 48px}
+  .hero-corner--tl,.hero-corner--tr{top:72px}
+  .hero-corner--tl{left:24px}.hero-corner--tr{right:24px}
+  .hero-corner--bl,.hero-corner--br{bottom:100px}
+  .hero-corner--bl{left:24px}.hero-corner--br{right:24px}
+  .amb-tl{left:90px}.amb-tr{right:90px}
+  .amb-bl{left:90px}.amb-br{right:90px}
+  .art-section-img{margin-left:10%;margin-right:10%}
+  .art-section-img.sagp{width:80%}
+  .art-section-img.alinma{width:min(60%,400px)}
+  #services{padding:80px 24px}
+  .services-grid{grid-template-columns:1fr}
+  #case-studies{padding:80px 24px}
+  .cs-grid{grid-template-columns:repeat(2,1fr)}
+  #courses{padding:80px 0}
+  .courses-header{padding:0 24px}
+  .swiper-courses{padding:0 24px 20px!important}
+  footer{padding:60px 24px 36px}
+  .footer-top{grid-template-columns:1fr 1fr;gap:40px}
+}
+@media(max-width:600px){
+  nav{padding:16px 20px}
+  .art-section{top:90vh}
+  .art-section-img{margin-left:0;margin-right:0}
+  .art-section-img.sagp{width:90%}
+  .art-section-img.alinma{width:min(76%,400px)}
+  .p-info{left:20px;bottom:32px;max-width:280px}
+  .p-title{font-size:1.6rem}
+  #services{padding:64px 20px}
+  .services-header{flex-direction:column;align-items:flex-start}
+  .services-body{flex-direction:column}
+  .services-orb-wrap{width:140px;height:140px}
+  .cs-grid{grid-template-columns:1fr}
+  #case-studies{padding:64px 20px}
+  footer{padding:48px 20px 32px}
+  .footer-top{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column;align-items:flex-start}
+  #cta-hire{padding:80px 20px}
+  .courses-header{padding:0 20px}
+  .swiper-courses{padding:0 20px 20px!important}
+}
+
+/* reduced motion */
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.01ms!important;transition-duration:.01ms!important}
+}
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══ -->
+<nav id="main-nav">
+  <a href="#" class="nav-logo">
+    <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/icons/logo.svg" alt="UXBERT LABS" width="120" height="32">
+  </a>
+  <div class="nav-right">
+    <button class="nav-grid-btn" aria-label="Menu">
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5">
+        <rect x="1" y="1" width="4" height="4"/><rect x="9" y="1" width="4" height="4"/>
+        <rect x="1" y="9" width="4" height="4"/><rect x="9" y="9" width="4" height="4"/>
+      </svg>
+      Our Work
+    </button>
+    <button class="nav-hamburger" aria-label="Open menu">
+      <span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <!-- Video background -->
+  <div class="hero-video-wrap">
+    <video autoplay muted loop playsinline preload="auto">
+      <source src="https://dxmdwxi6k7ogv.cloudfront.net/public/videos/present.mp4" type="video/mp4">
+    </video>
+  </div>
+  <div class="hero-overlay"></div>
+
+  <!-- Corner brackets -->
+  <div class="hero-corner hero-corner--tl">
+    <svg viewBox="0 0 60 60" stroke-width="1.5">
+      <path d="M60,1 H1 V60"/>
+    </svg>
+  </div>
+  <div class="hero-corner hero-corner--tr">
+    <svg viewBox="0 0 60 60" stroke-width="1.5">
+      <path d="M60,1 H1 V60"/>
+    </svg>
+  </div>
+  <div class="hero-corner hero-corner--bl">
+    <svg viewBox="0 0 60 60" stroke-width="1.5">
+      <path d="M60,1 H1 V60"/>
+    </svg>
+  </div>
+  <div class="hero-corner hero-corner--br">
+    <svg viewBox="0 0 60 60" stroke-width="1.5">
+      <path d="M60,1 H1 V60"/>
+    </svg>
+  </div>
+
+  <!-- Ambient numbers -->
+  <div class="hero-ambient amb-tl"><span id="amb-1">57</span></div>
+  <div class="hero-ambient amb-tr"><span id="amb-2">79</span></div>
+  <div class="hero-ambient amb-bl"><span id="amb-3">61</span></div>
+  <div class="hero-ambient amb-br"><span id="amb-4">71</span></div>
+
+  <!-- Center label -->
+  <div class="hero-label">
+    <div class="hero-label-text">THE PRESENT</div>
+  </div>
+
+  <!-- Main content -->
+  <div class="hero-content" id="hero-content">
+    <div class="hero-eyebrow">UXBERT LABS</div>
+    <h1 class="hero-title" id="hero-title">
+      <span class="line">We Build</span><br>
+      <span class="line">Digital</span><br>
+      <span class="line">Experiences</span>
+    </h1>
+    <p class="hero-sub">
+      A digital consultancy helping businesses grow globally through UX, design, development, and strategy.
+    </p>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="hero-scroll" id="hero-scroll" aria-label="Scroll to explore">
+    <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/icons/scroll-cir.svg" alt="" width="100" height="100">
+    <div class="hero-scroll-dot"></div>
+  </div>
+</section>
+
+<!-- ═══ PORTFOLIO NAV ═══ -->
+<div id="portfolio-nav">
+  <div class="portfolio-nav-inner">
+    <div class="portfolio-tab active" data-target="sec-wbk">WBK</div>
+    <div class="portfolio-tab" data-target="sec-sagp">SAGP</div>
+    <div class="portfolio-tab" data-target="sec-alinma">Alinma Pay</div>
+    <div class="portfolio-tab" data-target="sec-joy">Joy Awards</div>
+    <div class="portfolio-tab" data-target="sec-ring">The Ring</div>
+    <div class="portfolio-tab" data-target="sec-ewc">EWC</div>
+    <div class="portfolio-tab" data-target="sec-dzrt">DZRT</div>
+    <div class="portfolio-tab" data-target="sec-golden">Golden Pen</div>
+    <div class="portfolio-tab" data-target="sec-misk">Misk</div>
+    <div class="portfolio-tab" data-target="sec-asaan">Asaan</div>
+  </div>
+</div>
+
+<!-- ═══ PORTFOLIO SECTIONS ═══ -->
+<div id="portfolio">
+
+  <!-- WBK -->
+  <section class="art-section" id="sec-wbk">
+    <div class="art-bg">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/wbk.svg" alt="WBK" loading="lazy">
+    </div>
+    <div class="art-overlay"></div>
+    <div class="art-work">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/wbk-img.png"
+           alt="WBK" class="art-section-img wbk" loading="lazy">
+    </div>
+    <div class="p-info">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/wbk-logo.svg"
+           alt="WBK" class="p-logo" loading="lazy">
+      <div class="p-tags">
+        <span class="p-tag">UX Research</span>
+        <span class="p-tag">Interaction Design</span>
+        <span class="p-tag">Development</span>
+      </div>
+      <h2 class="p-title">WBK Banking Experience</h2>
+      <p class="p-desc">Redesigning the digital banking experience for one of Saudi Arabia's leading financial institutions.</p>
+      <a href="#" class="p-cta">
+        View Case Study
+        <svg viewBox="0 0 16 16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- SAGP -->
+  <section class="art-section" id="sec-sagp">
+    <div class="art-bg">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/sagp.svg" alt="SAGP" loading="lazy">
+    </div>
+    <div class="art-overlay"></div>
+    <div class="art-work">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/sagp.png"
+           alt="Saudi Arabian Grand Prix" class="art-section-img sagp" loading="lazy">
+    </div>
+    <div class="p-info">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/sagp-logo.svg"
+           alt="SAGP" class="p-logo" loading="lazy">
+      <div class="p-tags">
+        <span class="p-tag">UX Research</span>
+        <span class="p-tag">Interaction Design</span>
+      </div>
+      <h2 class="p-title">Saudi Arabian Grand Prix</h2>
+      <p class="p-desc">Digital experience design for the Formula 1 Saudi Arabian Grand Prix, elevating fan engagement.</p>
+      <a href="#" class="p-cta">
+        View Case Study
+        <svg viewBox="0 0 16 16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ALINMA PAY -->
+  <section class="art-section" id="sec-alinma">
+    <div class="art-bg">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/alinma.svg" alt="Alinma Pay" loading="lazy">
+    </div>
+    <div class="art-overlay"></div>
+    <div class="art-work">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/alinma-img.png"
+           alt="Alinma Pay" class="art-section-img alinma" loading="lazy">
+    </div>
+    <div class="p-info">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/alinma-logo.svg"
+           alt="Alinma Pay" class="p-logo" loading="lazy">
+      <div class="p-tags">
+        <span class="p-tag">UX Research</span>
+        <span class="p-tag">Interaction Design</span>
+        <span class="p-tag">Development</span>
+      </div>
+      <h2 class="p-title">Alinma Pay</h2>
+      <p class="p-desc">Crafting an intuitive mobile payment experience for Alinma Bank's digital wallet platform.</p>
+      <a href="#" class="p-cta">
+        View Case Study
+        <svg viewBox="0 0 16 16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- JOY AWARDS -->
+  <section class="art-section" id="sec-joy">
+    <div class="art-bg">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/joy-awards.svg" alt="Joy Awards" loading="lazy">
+    </div>
+    <div class="art-overlay"></div>
+    <div class="art-work">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/joy-awards-img.png"
+           alt="Joy Awards" class="art-section-img joy" loading="lazy">
+    </div>
+    <div class="p-info">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/joy-awards-logo.png"
+           alt="Joy Awards" class="p-logo" loading="lazy">
+      <div class="p-tags">
+        <span class="p-tag">Branding</span>
+        <span class="p-tag">UX Design</span>
+      </div>
+      <h2 class="p-title">Joy Awards</h2>
+      <p class="p-desc">Complete digital identity and experience design for Saudi Arabia's premier entertainment awards ceremony.</p>
+      <a href="#" class="p-cta">
+        View Case Study
+        <svg viewBox="0 0 16 16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- THE RING -->
+  <section class="art-section" id="sec-ring">
+    <div class="art-bg">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/the-ring.svg" alt="The Ring" loading="lazy">
+    </div>
+    <div class="art-overlay"></div>
+    <div class="art-work">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/the-ring-img.png"
+           alt="The Ring" class="art-section-img the-ring" loading="lazy">
+    </div>
+    <div class="p-info">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/the-ring-logo.svg"
+           alt="The Ring" class="p-logo" loading="lazy">
+      <div class="p-tags">
+        <span class="p-tag">Branding</span>
+        <span class="p-tag">UX Design</span>
+        <span class="p-tag">Development</span>
+      </div>
+      <h2 class="p-title">The Ring</h2>
+      <p class="p-desc">Digital platform and brand experience for Saudi Arabia's world-class sports and entertainment complex.</p>
+      <a href="#" class="p-cta">
+        View Case Study
+        <svg viewBox="0 0 16 16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- EWC -->
+  <section class="art-section" id="sec-ewc">
+    <div class="art-bg">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/ewc.svg" alt="EWC" loading="lazy">
+    </div>
+    <div class="art-overlay"></div>
+    <div class="art-work">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/ewc-img.png"
+           alt="EWC" class="art-section-img ewc" loading="lazy">
+    </div>
+    <div class="p-info">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/ewc-logo.svg"
+           alt="EWC" class="p-logo" loading="lazy">
+      <div class="p-tags">
+        <span class="p-tag">UX Research</span>
+        <span class="p-tag">Interaction Design</span>
+      </div>
+      <h2 class="p-title">EWC — Esports World Cup</h2>
+      <p class="p-desc">Designing the fan experience for the world's most prestigious esports tournament platform.</p>
+      <a href="#" class="p-cta">
+        View Case Study
+        <svg viewBox="0 0 16 16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- DZRT -->
+  <section class="art-section" id="sec-dzrt">
+    <div class="art-bg">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/dzrt.svg" alt="DZRT" loading="lazy">
+    </div>
+    <div class="art-overlay"></div>
+    <div class="art-work">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/dzrt-new-img.png"
+           alt="DZRT" class="art-section-img dzrt" loading="lazy">
+    </div>
+    <div class="p-info">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/dzrt-logo.svg"
+           alt="DZRT" class="p-logo" loading="lazy">
+      <div class="p-tags">
+        <span class="p-tag">Branding</span>
+        <span class="p-tag">UX Design</span>
+      </div>
+      <h2 class="p-title">DZRT</h2>
+      <p class="p-desc">Bold brand identity and e-commerce experience for Saudi Arabia's leading nicotine pouch brand.</p>
+      <a href="#" class="p-cta">
+        View Case Study
+        <svg viewBox="0 0 16 16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- GOLDEN PEN -->
+  <section class="art-section" id="sec-golden">
+    <div class="art-bg">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/golden-pen.svg" alt="Golden Pen" loading="lazy">
+    </div>
+    <div class="art-overlay"></div>
+    <div class="art-work">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/golden-pen-img.png"
+           alt="Golden Pen" class="art-section-img golden-pen" loading="lazy">
+    </div>
+    <div class="p-info">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/golden-pen-logo.svg"
+           alt="Golden Pen" class="p-logo" loading="lazy">
+      <div class="p-tags">
+        <span class="p-tag">Branding</span>
+        <span class="p-tag">UX Design</span>
+      </div>
+      <h2 class="p-title">Golden Pen Awards</h2>
+      <p class="p-desc">Digital platform celebrating journalistic excellence, connecting media professionals across the Arab world.</p>
+      <a href="#" class="p-cta">
+        View Case Study
+        <svg viewBox="0 0 16 16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- MISK -->
+  <section class="art-section" id="sec-misk">
+    <div class="art-bg">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/misk.svg" alt="Misk" loading="lazy">
+    </div>
+    <div class="art-overlay"></div>
+    <div class="art-work">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/misk-img-new-2.png"
+           alt="Misk" class="art-section-img misk" loading="lazy">
+    </div>
+    <div class="p-info">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/misk-logo.svg"
+           alt="Misk" class="p-logo" loading="lazy">
+      <div class="p-tags">
+        <span class="p-tag">UX Research</span>
+        <span class="p-tag">Interaction Design</span>
+      </div>
+      <h2 class="p-title">Misk Foundation</h2>
+      <p class="p-desc">Empowering Saudi youth through a reimagined digital platform for education and entrepreneurship opportunities.</p>
+      <a href="#" class="p-cta">
+        View Case Study
+        <svg viewBox="0 0 16 16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <!-- ASAAN -->
+  <section class="art-section" id="sec-asaan">
+    <div class="art-bg">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/asaan.svg" alt="Asaan" loading="lazy">
+    </div>
+    <div class="art-overlay"></div>
+    <div class="art-work">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/asaan-img.png"
+           alt="Asaan" class="art-section-img asaan" loading="lazy">
+    </div>
+    <div class="p-info">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/asaan-logo.svg"
+           alt="Asaan" class="p-logo" loading="lazy">
+      <div class="p-tags">
+        <span class="p-tag">UX Research</span>
+        <span class="p-tag">Interaction Design</span>
+        <span class="p-tag">Development</span>
+      </div>
+      <h2 class="p-title">Asaan</h2>
+      <p class="p-desc">Making financial services accessible with a streamlined BNPL experience designed for modern Saudi consumers.</p>
+      <a href="#" class="p-cta">
+        View Case Study
+        <svg viewBox="0 0 16 16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </a>
+    </div>
+  </section>
+
+</div><!-- /portfolio -->
+
+<!-- ═══ SERVICES ═══ -->
+<section id="services">
+  <div class="services-header">
+    <div>
+      <div class="services-eyebrow">What We Do</div>
+      <h2 class="services-title">Crafting Experiences That Move People</h2>
+    </div>
+    <p class="services-desc">From research to pixels to production — we handle the full spectrum of digital product creation.</p>
+  </div>
+
+  <div class="services-body">
+    <div class="services-orb-wrap">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/services-orb.gif"
+           alt="" class="services-orb" loading="lazy"
+           onerror="this.style.display='none';this.parentElement.style.background='linear-gradient(135deg,#6d28d9,#2563eb)'">
+    </div>
+
+    <div class="services-grid">
+      <div class="service-item fade-up">
+        <div class="service-num">01</div>
+        <div class="service-name">UX Research</div>
+        <p class="service-desc">Deep user research, usability testing, and data-driven insights to inform every design decision.</p>
+      </div>
+      <div class="service-item fade-up">
+        <div class="service-num">02</div>
+        <div class="service-name">UI Design</div>
+        <p class="service-desc">Pixel-perfect interfaces that balance aesthetics with usability across all devices and platforms.</p>
+      </div>
+      <div class="service-item fade-up">
+        <div class="service-num">03</div>
+        <div class="service-name">Product Strategy</div>
+        <p class="service-desc">Defining product vision, roadmaps, and go-to-market approaches that align with business goals.</p>
+      </div>
+      <div class="service-item fade-up">
+        <div class="service-num">04</div>
+        <div class="service-name">Branding</div>
+        <p class="service-desc">Building brand identities that resonate — from naming and logo to complete design systems.</p>
+      </div>
+      <div class="service-item fade-up">
+        <div class="service-num">05</div>
+        <div class="service-name">Development</div>
+        <p class="service-desc">Front-end and full-stack development that brings designs to life with precision and performance.</p>
+      </div>
+      <div class="service-item fade-up">
+        <div class="service-num">06</div>
+        <div class="service-name">Motion Design</div>
+        <p class="service-desc">Purposeful animation and interaction design that adds depth, delight, and clarity to products.</p>
+      </div>
+      <div class="service-item fade-up">
+        <div class="service-num">07</div>
+        <div class="service-name">Consultation</div>
+        <p class="service-desc">Expert advisory on digital transformation, product maturity, and design operations at scale.</p>
+      </div>
+      <div class="service-item fade-up">
+        <div class="service-num">08</div>
+        <div class="service-name">UX Training</div>
+        <p class="service-desc">Workshops and mentorship programs that elevate design teams and foster a culture of craft.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ COURSES (Swiper) ═══ -->
+<section id="courses">
+  <div class="courses-header">
+    <h2 class="courses-title">UX Courses</h2>
+    <p class="courses-sub">Level up your design skills with world-class instruction</p>
+  </div>
+  <div class="swiper swiper-courses">
+    <div class="swiper-wrapper">
+      <div class="swiper-slide">
+        <div class="course-card" style="background:linear-gradient(135deg,#ec4899,#8b5cf6)">
+          <div class="course-card-overlay"></div>
+          <div class="course-card-content">
+            <span class="course-tag">Beginner</span>
+            <div class="course-title">UX Fundamentals</div>
+            <div class="course-meta">12 lessons · 6 hours</div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="course-card" style="background:linear-gradient(135deg,#3b82f6,#06b6d4)">
+          <div class="course-card-overlay"></div>
+          <div class="course-card-content">
+            <span class="course-tag">Intermediate</span>
+            <div class="course-title">Interaction Design Mastery</div>
+            <div class="course-meta">18 lessons · 9 hours</div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="course-card" style="background:linear-gradient(135deg,#f59e0b,#ef4444)">
+          <div class="course-card-overlay"></div>
+          <div class="course-card-content">
+            <span class="course-tag">Advanced</span>
+            <div class="course-title">Design Systems at Scale</div>
+            <div class="course-meta">24 lessons · 12 hours</div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="course-card" style="background:linear-gradient(135deg,#10b981,#0891b2)">
+          <div class="course-card-overlay"></div>
+          <div class="course-card-content">
+            <span class="course-tag">Intermediate</span>
+            <div class="course-title">User Research Methods</div>
+            <div class="course-meta">15 lessons · 7 hours</div>
+          </div>
+        </div>
+      </div>
+      <div class="swiper-slide">
+        <div class="course-card" style="background:linear-gradient(135deg,#7c3aed,#ec4899)">
+          <div class="course-card-overlay"></div>
+          <div class="course-card-content">
+            <span class="course-tag">Advanced</span>
+            <div class="course-title">Motion in Product Design</div>
+            <div class="course-meta">10 lessons · 5 hours</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CASE STUDIES ═══ -->
+<section id="case-studies">
+  <div class="cs-header">
+    <h2 class="cs-title">Featured Work</h2>
+  </div>
+  <div class="cs-grid">
+    <div class="cs-card fade-up">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/case-studies/covers/wbk.png" alt="WBK"
+           onerror="this.src='https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/wbk.svg'" loading="lazy">
+      <div class="cs-card-overlay">
+        <div class="cs-card-title">WBK Bank</div>
+        <div class="cs-card-tag">UX Design · Development</div>
+      </div>
+    </div>
+    <div class="cs-card fade-up">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/case-studies/covers/alinma.png" alt="Alinma Pay"
+           onerror="this.src='https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/alinma.svg'" loading="lazy">
+      <div class="cs-card-overlay">
+        <div class="cs-card-title">Alinma Pay</div>
+        <div class="cs-card-tag">UX Design · Fintech</div>
+      </div>
+    </div>
+    <div class="cs-card fade-up">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/case-studies/covers/ewc.png" alt="EWC"
+           onerror="this.src='https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/ewc.svg'" loading="lazy">
+      <div class="cs-card-overlay">
+        <div class="cs-card-title">Esports World Cup</div>
+        <div class="cs-card-tag">UX Design · Gaming</div>
+      </div>
+    </div>
+    <div class="cs-card fade-up">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/case-studies/covers/misk.png" alt="Misk"
+           onerror="this.src='https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/misk.svg'" loading="lazy">
+      <div class="cs-card-overlay">
+        <div class="cs-card-title">Misk Foundation</div>
+        <div class="cs-card-tag">UX Research · Education</div>
+      </div>
+    </div>
+    <div class="cs-card fade-up">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/case-studies/covers/dzrt.png" alt="DZRT"
+           onerror="this.src='https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/dzrt.svg'" loading="lazy">
+      <div class="cs-card-overlay">
+        <div class="cs-card-title">DZRT</div>
+        <div class="cs-card-tag">Branding · E-commerce</div>
+      </div>
+    </div>
+    <div class="cs-card fade-up">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/images/case-studies/covers/the-ring.png" alt="The Ring"
+           onerror="this.src='https://dxmdwxi6k7ogv.cloudfront.net/public/images/work-images/the-ring.svg'" loading="lazy">
+      <div class="cs-card-overlay">
+        <div class="cs-card-title">The Ring</div>
+        <div class="cs-card-tag">Branding · Development</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ═══ -->
+<section id="cta-hire">
+  <div class="cta-stamp">
+    <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/icons/logo.svg" alt="" loading="lazy"
+         onerror="this.style.display='none'">
+  </div>
+  <h2 class="cta-title">Have a project in mind? Let's create something remarkable.</h2>
+  <a href="mailto:hello@uxbert.com" class="cta-btn">
+    Hire Us
+    <svg viewBox="0 0 16 16"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8h10M9 4l4 4-4 4"/></svg>
+  </a>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/icons/logo.svg" alt="UXBERT LABS" width="100" loading="lazy">
+      <p class="footer-brand-tagline">A digital consultancy helping businesses grow globally through design and technology.</p>
+      <div class="footer-social">
+        <a href="https://linkedin.com/company/uxbert" aria-label="LinkedIn" rel="noopener">
+          <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/icons/social-media/linkedin.svg" alt="LinkedIn" loading="lazy"
+               onerror="this.parentElement.innerHTML='<svg width=16 height=16 viewBox=\'0 0 24 24\' fill=\'currentColor\'><path d=\'M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z\'/><rect x=\'2\' y=\'9\' width=\'4\' height=\'12\'/><circle cx=\'4\' cy=\'4\' r=\'2\'/></svg>'">
+        </a>
+        <a href="https://twitter.com/uxbert" aria-label="Twitter" rel="noopener">
+          <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/icons/social-media/twitter.svg" alt="Twitter" loading="lazy"
+               onerror="this.parentElement.innerHTML='<svg width=16 height=16 viewBox=\'0 0 24 24\' fill=\'currentColor\'><path d=\'M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.4 5.5 4 9 4-.9-4.4 4-6.7 7-3.8 1.1 0 3-1.2 3-1.2z\'/></svg>'">
+        </a>
+        <a href="https://instagram.com/uxbert" aria-label="Instagram" rel="noopener">
+          <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/icons/social-media/instagram.svg" alt="Instagram" loading="lazy"
+               onerror="this.parentElement.innerHTML='<svg width=16 height=16 viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'2\'><rect x=\'2\' y=\'2\' width=\'20\' height=\'20\' rx=\'5\' ry=\'5\'/><path d=\'M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z\'/><line x1=\'17.5\' y1=\'6.5\' x2=\'17.51\' y2=\'6.5\'/></svg>'">
+        </a>
+        <a href="https://behance.net/uxbert" aria-label="Behance" rel="noopener">
+          <img src="https://dxmdwxi6k7ogv.cloudfront.net/public/icons/social-media/behance.svg" alt="Behance" loading="lazy"
+               onerror="this.parentElement.innerHTML='<svg width=16 height=16 viewBox=\'0 0 24 24\' fill=\'currentColor\'><path d=\'M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 3.211 3.483 3.312 4.588 2.029h3.168zm-7.686-4h4.965c-.105-1.547-1.136-2.219-2.477-2.219-1.466 0-2.277.768-2.488 2.219zm-9.574 6.988H0V5.021h6.953c5.476.081 5.58 5.444 2.72 6.906 3.461 1.26 3.577 8.061-2.207 8.061zm-3.466-8.988h3.584c2.508 0 2.906-3-.312-3H2.948v3h.018zm3.584 3H2.948v3.016h3.602c3.symb 0 3-3.016 0-3.016z\'/></svg>'">
+        </a>
+      </div>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-title">Services</div>
+      <ul>
+        <li><a href="#">UX Research</a></li>
+        <li><a href="#">UI Design</a></li>
+        <li><a href="#">Branding</a></li>
+        <li><a href="#">Development</a></li>
+        <li><a href="#">Consultation</a></li>
+        <li><a href="#">UX Training</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-title">Company</div>
+      <ul>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Portfolio</a></li>
+        <li><a href="#">Case Studies</a></li>
+        <li><a href="#">Blog</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+
+    <div class="footer-col">
+      <div class="footer-col-title">Contact</div>
+      <address class="footer-address" style="font-style:normal">
+        UXBERT LABS<br>
+        Riyadh, Saudi Arabia<br>
+        <br>
+        <a href="mailto:hello@uxbert.com" style="color:rgba(255,255,255,.55)">hello@uxbert.com</a><br>
+        <a href="tel:+966" style="color:rgba(255,255,255,.55)">+966 (0) 11 — — — —</a>
+      </address>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <span class="footer-legal">© 2024 UXBERT LABS. All rights reserved.</span>
+    <a href="mailto:hello@uxbert.com" class="footer-hire-btn">
+      Hire Us
+      <svg width="12" height="12" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 8h10M9 4l4 4-4 4"/>
+      </svg>
+    </a>
+  </div>
+</footer>
+
+<!-- ═══ SCRIPTS ═══ -->
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js" defer></script>
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  // ── Wait for GSAP ──
+  function waitForLibs(cb) {
+    if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined' && typeof Lenis !== 'undefined') {
+      cb();
+    } else {
+      setTimeout(() => waitForLibs(cb), 50);
+    }
+  }
+
+  waitForLibs(() => {
+    // ── LENIS ──
+    const lenis = new Lenis({ lerp: 0.08, smoothWheel: true });
+    gsap.registerPlugin(ScrollTrigger);
+    gsap.ticker.add((time) => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+    lenis.on('scroll', ScrollTrigger.update);
+
+    // ── NAV: hide/show on scroll ──
+    const nav = document.getElementById('main-nav');
+    let lastScrollY = 0;
+    lenis.on('scroll', ({ scroll }) => {
+      if (scroll > 80) nav.classList.add('scrolled'); else nav.classList.remove('scrolled');
+      if (scroll > lastScrollY + 10 && scroll > 200) nav.classList.add('hidden');
+      else if (scroll < lastScrollY - 5) nav.classList.remove('hidden');
+      lastScrollY = scroll;
+    });
+
+    // ── HERO entrance animation ──
+    const heroTl = gsap.timeline({ defaults: { ease: 'expo.out', duration: 1.2 } });
+    heroTl
+      .from('#hero-content .hero-eyebrow', { y: 20, opacity: 0, duration: 1 })
+      .from('#hero-title .line', { y: 60, opacity: 0, stagger: 0.12 }, '-=0.8')
+      .from('#hero-content .hero-sub', { y: 20, opacity: 0, duration: 0.9 }, '-=0.6')
+      .from('.hero-corner', { scale: 0.7, opacity: 0, stagger: 0.08, duration: 0.8 }, '-=1')
+      .from('#hero-scroll', { scale: 0, opacity: 0, duration: 1, ease: 'back.out(1.7)' }, '-=0.5')
+      .from('.hero-ambient', { opacity: 0, stagger: 0.1, duration: 0.8 }, '-=0.8');
+
+    // ── Ambient number randomizer ──
+    const ambEls = document.querySelectorAll('.hero-ambient span');
+    setInterval(() => {
+      ambEls.forEach(el => {
+        el.textContent = String(Math.floor(Math.random() * 99) + 1).padStart(2, '0');
+      });
+    }, 2200);
+
+    // ── Hero video parallax ──
+    gsap.to('.hero-video-wrap video', {
+      yPercent: 25,
+      ease: 'none',
+      scrollTrigger: { trigger: '#hero', start: 'top top', end: 'bottom top', scrub: true }
+    });
+
+    // ── Portfolio section: product image float parallax ──
+    document.querySelectorAll('.art-section').forEach(sec => {
+      const img = sec.querySelector('.art-section-img');
+      if (!img) return;
+      gsap.fromTo(img, { yPercent: -6 }, {
+        yPercent: 6,
+        ease: 'none',
+        scrollTrigger: { trigger: sec, start: 'top bottom', end: 'bottom top', scrub: 1.2 }
+      });
+    });
+
+    // ── Portfolio section: info block stagger entrance ──
+    document.querySelectorAll('.p-info').forEach(info => {
+      gsap.set(info, { opacity: 0 });
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: info, start: 'top 85%', toggleActions: 'play none none none' }
+      });
+      tl.to(info, { opacity: 1, duration: 0.3 })
+        .from(info.children, { y: 30, opacity: 0, stagger: 0.1, ease: 'expo.out', duration: 1 }, 0);
+    });
+
+    // ── Portfolio nav: active tab tracking ──
+    const tabs = document.querySelectorAll('.portfolio-tab');
+    document.querySelectorAll('.art-section').forEach((sec, i) => {
+      ScrollTrigger.create({
+        trigger: sec,
+        start: 'top center',
+        end: 'bottom center',
+        onToggle: ({ isActive }) => {
+          if (isActive) {
+            tabs.forEach(t => t.classList.remove('active'));
+            if (tabs[i]) {
+              tabs[i].classList.add('active');
+              // scroll tab into view
+              tabs[i].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+            }
+          }
+        }
+      });
+    });
+
+    // ── Tab click scroll ──
+    tabs.forEach(tab => {
+      tab.addEventListener('click', () => {
+        const target = document.getElementById(tab.dataset.target);
+        if (target) lenis.scrollTo(target, { offset: -60, duration: 1.8, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)) });
+      });
+    });
+
+    // ── Services: stagger items ──
+    gsap.from('.service-item', {
+      y: 40, opacity: 0, stagger: 0.06,
+      ease: 'expo.out', duration: 0.9,
+      scrollTrigger: { trigger: '.services-grid', start: 'top 80%' }
+    });
+
+    // ── Services orb ──
+    gsap.from('.services-orb-wrap', {
+      scale: 0.85, opacity: 0, duration: 1.2, ease: 'expo.out',
+      scrollTrigger: { trigger: '.services-body', start: 'top 80%' }
+    });
+
+    // ── Fade-up: generic ──
+    document.querySelectorAll('.fade-up').forEach(el => {
+      gsap.from(el, {
+        y: 40, opacity: 0, duration: 1, ease: 'expo.out',
+        scrollTrigger: { trigger: el, start: 'top 85%', toggleActions: 'play none none none' }
+      });
+    });
+
+    // ── Case studies stagger ──
+    gsap.from('.cs-card', {
+      y: 40, opacity: 0, stagger: 0.08, duration: 0.9, ease: 'expo.out',
+      scrollTrigger: { trigger: '.cs-grid', start: 'top 80%' }
+    });
+
+    // ── CTA section ──
+    gsap.from('#cta-hire .cta-stamp, #cta-hire .cta-title, #cta-hire .cta-btn', {
+      y: 30, opacity: 0, stagger: 0.15, duration: 1, ease: 'expo.out',
+      scrollTrigger: { trigger: '#cta-hire', start: 'top 75%' }
+    });
+
+    // ── Services header ──
+    gsap.from('.services-title, .services-eyebrow, .services-desc', {
+      y: 30, opacity: 0, stagger: 0.1, duration: 1, ease: 'expo.out',
+      scrollTrigger: { trigger: '#services', start: 'top 80%' }
+    });
+
+    // ── Swiper ──
+    if (typeof Swiper !== 'undefined') {
+      new Swiper('.swiper-courses', {
+        slidesPerView: 'auto',
+        spaceBetween: 16,
+        freeMode: true,
+        grabCursor: true,
+      });
+    }
+  });
+});
+</script>
+</body>
+</html>
