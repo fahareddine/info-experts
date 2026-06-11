@@ -36,8 +36,34 @@
     <script type="application/ld+json">
     {"@context":"https://schema.org","@type":"Article","headline":"PC qui ne démarre plus : diagnostic et solutions à Moroni","description":"Votre PC ne démarre plus aux Comores ? Guide complet pour diagnostiquer la panne et trouver la solution.","datePublished":"2026-03-12","dateModified":"2026-03-12","author":{"@type":"Organization","name":"Info Experts","url":"https://info-experts.fr"},"publisher":{"@type":"Organization","name":"Info Experts","url":"https://info-experts.fr"}}
     </script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MXQ2R1HRHJ"></script>
-    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-MXQ2R1HRHJ');</script>
+    <script>
+    /* Google Analytics — chargement différé (idle / 1re interaction) pour préserver
+       le score performance mobile. Les events sont mis en file immédiatement ;
+       seul le script lourd gtag.js est chargé après le rendu. */
+    (function () {
+      var GA_ID = 'G-MXQ2R1HRHJ';
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      window.gtag = gtag;
+      gtag('js', new Date());
+      gtag('config', GA_ID);
+
+      var loaded = false;
+      var events = ['scroll', 'mousemove', 'touchstart', 'keydown', 'click'];
+      function loadGA() {
+        if (loaded) return;
+        loaded = true;
+        events.forEach(function (e) { window.removeEventListener(e, loadGA); });
+        var s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + GA_ID;
+        document.head.appendChild(s);
+      }
+      events.forEach(function (e) { window.addEventListener(e, loadGA, { passive: true, once: true }); });
+      if ('requestIdleCallback' in window) { requestIdleCallback(loadGA, { timeout: 3500 }); }
+      else { setTimeout(loadGA, 3500); }
+    })();
+    </script>
 
 </head>
 <body class="bg-trust-blue-50 text-gray-800 font-sans antialiased leading-relaxed">
