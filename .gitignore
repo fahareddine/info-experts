@@ -45,3 +45,8 @@ ia-cash-system/
 skills/
 superpowers/
 backups/
+
+# parasites hors-site
+email-preview-*.html
+playground/
+.superpowers/
