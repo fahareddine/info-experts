@@ -50,3 +50,8 @@ backups/
 email-preview-*.html
 playground/
 .superpowers/
+
+# clone experimental tiers — hors prod
+uxbert-clone.html
+uxbert-*.png
+uxbert-*.txt
