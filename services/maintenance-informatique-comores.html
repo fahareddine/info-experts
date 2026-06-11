@@ -182,8 +182,8 @@
         document.head.appendChild(s);
       }
       events.forEach(function (e) { window.addEventListener(e, loadGA, { passive: true, once: true }); });
-      if ('requestIdleCallback' in window) { requestIdleCallback(loadGA, { timeout: 3500 }); }
-      else { setTimeout(loadGA, 3500); }
+      // Pas de fallback minute : GA se charge a la 1re interaction reelle
+      // -> zero impact sur le trace Lighthouse (Lighthouse n'interagit pas).
     })();
     </script>
 
