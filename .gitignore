@@ -26,6 +26,9 @@ backup-system/config/rclone.conf
 .env*.local
 .vercel
 
+# Supabase CLI (fichiers temporaires du link)
+supabase/.temp/
+
 # Fichiers temporaires et générés
 carousel-new-*.png
 hero-*-generated.png
