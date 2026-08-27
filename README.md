@@ -111,5 +111,5 @@ Les pages statiques peuvent etre publiees comme d'habitude, mais les parcours `b
 ## Contact
 
 - 📍 Moroni, Comores
-- 📞 +269 331 27 22
-- 💬 WhatsApp: +33 6 67 49 13 45
+- 📞 +269 477 78 65
+- 💬 WhatsApp: +269 477 78 65

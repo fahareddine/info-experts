@@ -90,13 +90,13 @@ function buildEmailHtml(document, customMessage) {
         </tr>` : ''}
       </table>
       <div style="padding:12px 16px;background:#f0fdf4;border-radius:8px;font-size:13px;color:#166534">
-        Le document PDF est joint à cet email. Pour toute question, contactez-nous au <strong>+269 331 27 22</strong>.
+        Le document PDF est joint à cet email. Pour toute question, contactez-nous au <strong>+269 477 78 65</strong>.
       </div>
     </div>
     <div style="padding:14px 28px;background:#f8fafc;border-top:1px solid #e5e7eb;font-size:11px;color:#9ca3af;text-align:center">
       Info Experts · Moroni, Comores ·
       <a href="https://info-experts.fr" style="color:#1e3a8a">info-experts.fr</a> ·
-      <a href="tel:+2693312722" style="color:#1e3a8a">+269 331 27 22</a>
+      <a href="tel:+2694777865" style="color:#1e3a8a">+269 477 78 65</a>
     </div>
   </div>
 </body></html>`;

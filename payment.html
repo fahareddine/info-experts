@@ -196,12 +196,13 @@
         <div style="margin-bottom: 20px;">
           <div class="pay-label">Choisissez votre opérateur *</div>
           <div style="display: flex; gap: 8px;" id="operatorBtns">
-            <button class="op-btn" data-op="Huri" data-color="var(--huri-color)" data-num="+269 321 00 00" onclick="selectOp(this)">
+            <!-- Huri masqué : numéro Comores Telecom pas encore disponible -->
+            <button class="op-btn" data-op="Huri" data-color="var(--huri-color)" data-num="+269 321 00 00" onclick="selectOp(this)" style="display:none">
               <span class="op-icon">🟣</span>
               <span class="op-name">Huri</span>
               <span style="font-size: 10px; color: #9ca3af;">Comores Telecom</span>
             </button>
-            <button class="op-btn" data-op="MVola" data-color="var(--mvola-color)" data-num="+269 362 00 00" onclick="selectOp(this)">
+            <button class="op-btn" data-op="MVola" data-color="var(--mvola-color)" data-num="+269 477 78 65" onclick="selectOp(this)">
               <span class="op-icon">🔴</span>
               <span class="op-name">MVola</span>
               <span style="font-size: 10px; color: #9ca3af;">Telma Comores</span>
@@ -251,7 +252,7 @@
 
           <p style="font-size: 11px; color: #9ca3af; text-align: center; margin: 4px 0 0;">
             Notre équipe vérifie le paiement sous 15 minutes.<br>
-            Questions ? <a href="tel:002697772722" style="color: #1e3a8a; font-weight: 600;">+269 777 27 22</a> ou <a href="https://wa.me/33667491345" style="color: #1e3a8a; font-weight: 600;">WhatsApp</a>
+            Questions ? <a href="tel:002694777865" style="color: #1e3a8a; font-weight: 600;">+269 477 78 65</a> ou <a href="https://wa.me/2694777865" style="color: #1e3a8a; font-weight: 600;">WhatsApp</a>
           </p>
         </div>
 
@@ -297,7 +298,7 @@
       </div>
 
       <div style="background: #fef9c3; border: 1px solid #fde047; border-radius: 12px; padding: 14px; font-size: 13px; color: #713f12; text-align: left; margin-bottom: 20px;">
-        <strong>📞 Prochaine étape :</strong> Notre équipe vous contacte au <strong id="successTel">—</strong> pour confirmer le paiement. Si vous ne recevez pas de réponse sous 15 min, appelez le <a href="tel:002697772722" style="color: #1e3a8a; font-weight: 700;">+269 777 27 22</a>.
+        <strong>📞 Prochaine étape :</strong> Notre équipe vous contacte au <strong id="successTel">—</strong> pour confirmer le paiement. Si vous ne recevez pas de réponse sous 15 min, appelez le <a href="tel:002694777865" style="color: #1e3a8a; font-weight: 700;">+269 477 78 65</a>.
       </div>
 
       <button onclick="resetForm()" style="width: 100%; border: 2px solid #1e3a8a; color: #1e3a8a; background: #fff; border-radius: 12px; padding: 12px; font-size: 14px; font-weight: 700; cursor: pointer; font-family: inherit;">
@@ -318,7 +319,7 @@
         ← Réessayer
       </button>
       <p style="font-size: 12px; color: #9ca3af; margin: 12px 0 0;">
-        Ou appelez-nous : <a href="tel:002697772722" style="color: #1e3a8a; font-weight: 600;">+269 777 27 22</a>
+        Ou appelez-nous : <a href="tel:002694777865" style="color: #1e3a8a; font-weight: 600;">+269 477 78 65</a>
       </p>
     </div>
   </div>
@@ -331,9 +332,9 @@
 <footer class="bg-trust-blue-950 border-t border-trust-blue-900 py-6">
   <div class="max-w-4xl mx-auto px-6 text-center">
     <div class="flex flex-col sm:flex-row justify-center items-center mb-4">
-      <a href="tel:002697772722" class="text-white text-base font-semibold hover:text-trust-blue-400 transition py-2 px-6">📞 +269 777 27 22</a>
+      <a href="tel:002694777865" class="text-white text-base font-semibold hover:text-trust-blue-400 transition py-2 px-6">📞 +269 477 78 65</a>
       <span class="text-trust-blue-600 hidden sm:inline px-2 text-lg">·</span>
-      <a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" class="text-white text-base font-semibold hover:text-trust-blue-400 transition py-2 px-6">💬 WhatsApp</a>
+      <a href="https://wa.me/2694777865" rel="noopener noreferrer" target="_blank" class="text-white text-base font-semibold hover:text-trust-blue-400 transition py-2 px-6">💬 WhatsApp</a>
     </div>
     <div class="border-t border-trust-blue-900" style="padding-top:20px">
       <div style="margin-bottom:8px">
@@ -353,7 +354,7 @@
 </footer>
 
 <!-- WhatsApp flottant -->
-<a href="https://wa.me/33667491345" rel="noopener noreferrer" target="_blank" aria-label="WhatsApp" style="position:fixed;bottom:24px;right:24px;background:#25D366;color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.2);z-index:50;transition:.2s" onmouseover="this.style.background='#128C7E'" onmouseout="this.style.background='#25D366'">
+<a href="https://wa.me/2694777865" rel="noopener noreferrer" target="_blank" aria-label="WhatsApp" style="position:fixed;bottom:24px;right:24px;background:#25D366;color:#fff;width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 16px rgba(0,0,0,.2);z-index:50;transition:.2s" onmouseover="this.style.background='#128C7E'" onmouseout="this.style.background='#25D366'">
   <svg width="26" height="26" fill="currentColor" viewBox="0 0 24 24"><path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 3.825 0 6.938 3.112 6.938 6.937 0 3.824-3.113 6.938-6.938 6.938z"/></svg>
 </a>
 
@@ -361,8 +362,8 @@
 // ── Configuration (à mettre à jour avec vos vrais numéros) ────────────────
 const CONFIG = {
   operators: {
-    Huri:  { number: '+269 321 00 00', color: '#e84393' }, // ← à remplacer
-    MVola: { number: '+269 362 00 00', color: '#e03131' }, // ← à remplacer
+    Huri:  { number: '+269 321 00 00', color: '#e84393' }, // ← à remplacer (masqué en attendant le numéro Huri)
+    MVola: { number: '+269 477 78 65', color: '#e03131' }, // MVola (Yas)
     Telma: { number: '+269 362 00 01', color: '#1971c2' }, // ← à remplacer
   }
 };
